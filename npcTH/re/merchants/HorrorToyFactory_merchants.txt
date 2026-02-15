@@ -1,0 +1,481 @@
+//===== rAthena Script =======================================
+//= Horror Toy Factory merchants
+//===== Description: =========================================
+//= [Official Conversion]
+//= Horror Toy Factory enchants / exchange in xmas
+//===== Changelogs: ==========================================
+//= 1.0 First version. Uses official script structure and text
+//=     from iRO. [Capuche]
+//============================================================
+
+xmas,240,291,3	script	Billy The Golden Hands#1	4_F_05,{
+	disable_items;
+	if (checkweight(1201,1) == 0) {
+		mes "ชนิดของไอเทมที่คุณมีมันหลากหลายเกินไป ลองใหม่อีกครั้งหลังจากลดจำนวนชนิดของไอเทมลง";
+		close;
+	}
+	if ((MaxWeight - Weight) < 10000) {
+		mes "น้ำหนักของคุณเกินขีดจำกัด ดังนั้นคุณไม่สามารถดำเนินการต่อได้ กรุณาลองใหม่อีกครั้งหลังจากลดน้ำหนักลง";
+		close;
+	}
+	mes "[Billy The Golden Hands]";
+	mes "หึหึ นำเหรียญมาด้วยหรือเปล่า? ฉันขายได้ทุกอย่างยกเว้นวิญญาณของฉันถ้าคุณมีเหรียญมาให้";
+	next;
+
+	setarray .@xm_item[0],
+		22534, 100,		// Closedmind_Box
+		18848, 500,		// Lush_Rose
+		19687, 1000,	// C_Lush_Rose
+		19686, 500,		// C_SantaHairband
+		19701, 500,		// C_Red_Bonnet
+		13442, 1000,	// Old_Parasol
+		11563, 7,		// Hot_Tee
+		11564, 5,		// Sweet_Canape
+		523,   1,		// Holy_Water
+		12020, 1;		// Water_Of_Darkness
+
+	.@s = ( select( "ยกเลิก", "Closed Mind Box (100 Coins)", "Lush Rose (500 Coins)", "C Lush Rose (1000 Coins)", "C Santa Hairband (500 Coins)", "C Red Bonnet (500 Coins)", "Old Parasol (1000 Coins)", "Hot Tea (7 Coins)", "Sweet Canape (5 Coins)", "Holy Water (1 Coin)", "Water Of Darkness (1 Coin)" ) -2 ) * 2;
+	if (.@s == -2) {
+		mes "[Billy The Golden Hands]";
+		mes "ก๊ากๆๆ คุณรู้สึกผิดหรืออะไรอย่างนั้นเหรอ? เอาล่ะ ไม่เป็นไร กลับมาใหม่ได้ทุกเมื่อที่คุณเปลี่ยนใจ";
+		close;
+	}
+	if (countitem(7642) >= .@xm_item[.@s+1]) {
+		mes "[Billy The Golden Hands]";
+		mes "คุณต้องใช้ ^0000ff" + .@xm_item[.@s+1] + "^000000 Bloody Coins เพื่อซื้อ ^0000ff" + getitemname(.@xm_item[.@s]) + "^000000. คุณยืนยันจะซื้อหรือไม่?";
+		next;
+		if (select( "ยกเลิก", "ซื้อสินค้า" ) == 1) {
+			mes "[Billy The Golden Hands]";
+			mes "ก๊ากๆๆ ช่างเป็นเพื่อนที่โลเลเสียจริง ถ้าคุณตัดสินใจจะซื้อจริงๆ ค่อยกลับมาใหม่ละกัน";
+			close;
+		}
+		if (countitem(7642) >= .@xm_item[.@s+1]) {
+			delitem 7642,.@xm_item[.@s+1];// Bloody_Coin
+			getitem .@xm_item[.@s], 1;
+			mes "[Billy The Golden Hands]";
+			mes "คุณจ่ายเงินเรียบร้อยแล้ว ฉันหวังว่าจะได้พบคุณอีกครั้ง!";
+			close;
+		}
+	}
+	mes "[Billy The Golden Hands]";
+	mes "คุณต้องใช้ ^0000ff" + .@xm_item[.@s+1] + "^000000 Bloody Coins เพื่อซื้อ ^0000ff" + getitemname(.@xm_item[.@s]) + "^000000. เหรียญของคุณไม่พอ";
+	close;
+}
+
+
+xmas,240,297,3	script	Vagrant Cain#1	4_M_06,{
+	disable_items;
+	if (checkweight(1201,1) == 0) {
+		mes "ชนิดของไอเทมที่คุณมีมันหลากหลายเกินไป ลองใหม่อีกครั้งหลังจากลดจำนวนชนิดของไอเทมลง";
+		close;
+	}
+	if ((MaxWeight - Weight) < 10000) {
+		mes "น้ำหนักของคุณเกินขีดจำกัด ดังนั้นคุณไม่สามารถดำเนินการต่อได้ กรุณาลองใหม่อีกครั้งหลังจากลดน้ำหนักลง";
+		close;
+	}
+	mes "[Vagrant Cain]";
+	mes "โอ้ ฉันมั่นใจว่าคุณมาที่นี่เพราะคุณไม่ชอบอะไรที่มันธรรมดาๆ แค่คุยกับฉันสิ ฉันจะสร้างอะไรก็ได้ถ้าคุณเตรียมค่าธรรมเนียมที่เหมาะสมและวัตถุดิบที่ถูกต้องมาให้";
+	next;
+	.@s = select( "ไม่มีอะไรที่ฉันต้องการ", "ฉันต้องการ Celine's Ribbon", "ฉันกำลังมองหา Noble Cross", "ฉันอยากได้ Evilspirit Gloves" );
+	switch(.@s) {
+	case 1:
+		mes "[Vagrant Cain]";
+		mes "ใช่ๆ ทุกคนก็พูดเหมือนคุณในตอนแรกนั่นแหละ ไว้เจอกันใหม่";
+		close;
+	case 2:
+		.@string$[0] = "โฮ่~ เพื่อนเอ๋ย คุณกำลังมองหาหมวกที่แสนพิเศษอยู่สินะ คุณนี่ตาถึงจริงๆ";
+		.@string$[1] = "ฉันต้องการ ^0000ff1000 ^000000Bloody Coins และ ^0000ffLush Rose ที่ตีบวก +9 ขึ้นไป^000000 สำหรับ ^0000ffCeline's Ribbon^000000. คุณมีวัตถุดิบพอไหม?";
+		.@string$[2] = "คุณควรเตรียม ^0000ff1000 ^000000Bloody Coins และ ^0000ff Lush Rose ที่ตีบวก +9 ขึ้นไป^000000 หนึ่งใบสำหรับ ^0000ffCeline's Ribbon^000000. อย่าลืมล่ะ!";
+		.@string$[3] = "คุณแน่ใจจริงๆ เหรอที่จะแลกมัน? ^ff0000ระดับการตีบวก, ออฟชั่น และการ์ดของไอเทมเดิมจะหายไป และคุณไม่สามารถขอคืนเงินได้^000000. โปรดพิจารณาให้ดี!";
+		break;
+	case 3:
+		.@string$[0] = "โฮ่~ เพื่อนเอ๋ย คุณกำลังมองหาอาวุธที่ล้ำค่ามากอยู่สินะ คุณนี่ตาถึงจริงๆ";
+		.@string$[1] = "ฉันต้องการ ^0000ff2000 ^000000Bloody Coins และ ^0000ffGrand Cross (แบบมีรู)^000000 หนึ่งเล่มสำหรับ ^0000ffNoble Cross^000000. คุณมีวัตถุดิบพอไหม?";
+		.@string$[2] = "คุณควรเตรียม ^0000ff 2000 ^000000Bloody Coins และ ^0000ff Grand Cross (แบบมีรู)^000000 หนึ่งเล่มสำหรับ ^0000ffNoble Cross^000000. อย่าลืมล่ะ!";
+		.@string$[3] = "คุณแน่ใจจริงๆ เหรอที่จะแลกมัน? ^ff0000ระดับการตีบวก, ออฟชั่น และการ์ดของไอเทมเดิมจะหายไป และคุณไม่สามารถขอคืนเงินได้^000000. โปรดพิจารณาให้ดี!";
+		break;
+	case 4:
+		.@string$[0] = "โฮ่~ เพื่อนเอ๋ย คุณกำลังมองหาเครื่องประดับที่หายากมากอยู่สินะ คุณนี่ตาถึงจริงๆ";
+		.@string$[1] = "ฉันต้องการ ^0000ff1000 ^000000Bloody Coins, ^0000ffHurt Mind, Kind Heart, และ Red Lantern ^000000อย่างละหนึ่งชิ้นสำหรับ ^0000ffEvilspirit Gloves^000000. คุณมีวัตถุดิบพอไหม?";
+		.@string$[2] = "คุณควรเตรียม ^0000ff1000 ^000000Bloody Coins, ^0000ffHurt Mind, Kind Heart, และ Red Lantern ^000000อย่างละหนึ่งชิ้นสำหรับ ^0000ffEvilspirit Gloves^000000. อย่าลืมล่ะ!";
+		.@string$[3] = "คุณแน่ใจจริงๆ เหรอที่จะแลกมัน? ^ff0000ออฟชั่น และการ์ดของไอเทมเดิมจะหายไป และคุณไม่สามารถขอคืนเงินได้^000000. นอกจากนี้ หากคุณมีของชนิดเดียวกันหลายชิ้น ฉันไม่รู้หรอกนะว่าชิ้นไหนจะถูกเลือกไป ลองคิดดูให้ดี";
+		break;
+	}
+	mes "[Vagrant Cain]";
+	mes .@string$[0];
+	next;
+	mes "[Vagrant Cain]";
+	mes .@string$[1];
+	next;
+	if (select( "ตอนนี้ฉันยังไม่มีของ", "ฉันจะแลกเปลี่ยนเดี๋ยวนี้เลย" ) == 1) {
+		mes "[Vagrant Cain]";
+		mes "กลับมาเมื่อคุณพร้อมนะ ให้ฉันเตือนความจำเรื่องวัตถุดิบอีกครั้งละกัน";
+		next;
+		mes "[Vagrant Cain]";
+		mes .@string$[2];
+		close;
+	}
+	mes "[Vagrant Cain]";
+	mes .@string$[3];
+	next;
+	if (select( "ไว้โอกาสหน้าละกัน", "แลกเปลี่ยนตอนนี้เลย" ) == 1) {
+		mes "[Vagrant Cain]";
+		mes "โอเค คุณตัดสินใจแล้ว หวังว่าเราจะได้พบกันใหม่ครั้งหน้านะ หึหึ";
+		close;
+	}
+	switch(.@s) {
+	case 2:
+		mes "[Vagrant Cain]";
+		if (getequipid(EQI_HEAD_TOP) != 18848)// Lush_Rose
+			mes "หมวกที่คุณใส่อยู่ไม่ใช่ Lush Rose นะ นำวัตถุดิบที่ถูกต้องมาให้ฉันตามที่บอกสิ คุคุคุ";
+		else if (getequiprefinerycnt(EQI_HEAD_TOP) < 9)
+			mes "หมวกที่คุณใส่อยู่ไม่ได้ตีบวกถึง +9 หรือมากกว่านั้น คุณไม่สามารถใช้มันแลกได้นะ";
+		else if (countitem(7642) < 1000)
+			mes "อืม คุณมี Bloody Coins ไม่พอ คุณต้องรวบรวมมาให้ครบ 1000 เหรียญพอดิบพอดี น้อยกว่านั้น... ก็ช่วยไม่ได้นะ";
+		else {
+			delitem 7642,1000;// Bloody_Coin
+			delequip EQI_HEAD_TOP;
+			getitem 18849,1;// Celines_Ribbon
+			mes "การแลกเปลี่ยนเสร็จสมบูรณ์ ลองดูผลงานสิ";// custom
+		}
+		close;
+	case 3:
+		mes "[Vagrant Cain]";
+		if (getequipid(EQI_HAND_R) != 1540)// Grand_Cross_
+			mes "สิ่งที่อยู่ในมือขวาของคุณไม่ใช่ Grand Cross (แบบมีรู) นะ นำของที่ถูกต้องมาให้ฉันตามที่บอกสิ คุคุ";
+		else if (countitem(7642) < 2000)
+			mes "อืม คุณมี Bloody Coins ไม่พอ คุณต้องรวบรวมมาให้ครบ 2000 เหรียญพอดิบพอดี น้อยกว่านั้น... ก็ช่วยไม่ได้นะ";
+		else {
+			delitem 7642,2000;// Bloody_Coin
+			delequip EQI_HAND_R;
+			getitem 16029,1;// Noble_Cross
+			mes "การแลกเปลี่ยนเสร็จสมบูรณ์ ลองดูผลงานสิ";// custom
+		}
+		close;
+	case 4:
+		mes "[Vagrant Cain]";
+		if (countitem(7642) > 999 && countitem(2977) > 0 && countitem(2978) > 0 && countitem(2976) > 0) {
+			delitem 7642,1000;// Bloody_Coin
+			delitem 2977,1;// Hurt_Mind
+			delitem 2978,1;// KindHeart
+			delitem 2976,1;// Red_Lantern
+			getitem 2980,1;// Evilspirit_Gloves
+			mes "การแลกเปลี่ยนเสร็จสมบูรณ์ ลองดูผลงานสิ";// custom
+		}
+		else {
+			mes "คุณมีวัตถุดิบไม่เพียงพอ";
+			next;
+			mes "[Vagrant Cain]";
+			mes "คุณควรเตรียม ^0000ff1000 ^000000Bloody Coins, ^0000ffHurt Mind, Kind Heart, และ Red Lantern ^000000อย่างละหนึ่งชิ้นสำหรับ ^0000ffEvilspirit Gloves^000000.";
+		}
+		close;
+	}
+}
+
+xmas,240,294,3	script	Black Beard Joe#pa0829	4_M_05,{
+	disable_items;
+	if (checkweight(1201,1) == 0) {
+		mes "ชนิดของไอเทมที่คุณมีมันหลากหลายเกินไป ลองใหม่อีกครั้งหลังจากลดจำนวนชนิดของไอเทมลง";
+		close;
+	}
+	if ((MaxWeight - Weight) < 10000) {
+		mes "น้ำหนักของคุณเกินขีดจำกัด ดังนั้นคุณไม่สามารถดำเนินการต่อได้ กรุณาลองใหม่อีกครั้งหลังจากลดน้ำหนักลง";
+		close;
+	}
+	mes "[Black Beard Joe]";
+	mes "หึหึ ความโลภของมนุษย์นั้นไม่มีที่สิ้นสุดโดยธรรมชาติอยู่แล้ว คุณอยากจะให้ฉันทำอะไรล่ะ?";
+	next;
+	switch( select( "คุณทำอะไรให้ฉันได้บ้าง?", "Enchant เครื่องประดับจาก Toy Factory", "Enchant อาวุธจาก Toy Factory", "Enchant หมวกจาก Toy Factory", "Enchant รองเท้าจาก Toy Factory" ) ) {
+	case 1:
+		mes "[Black Beard Joe]";
+		mes "ฉันทำอะไรน่ะเหรอ? ง่ายนิดเดียว แค่คุณนำ Bloody Coins มาให้ฉัน แล้วฉันจะรับมันไว้และทำการ Enchant เครื่องประดับให้คุณ";
+		next;
+		mes "[Black Beard Joe]";
+		mes "ฉันจะเก็บ 15 Bloody Coins สำหรับการพยายามแต่ละครั้ง ฉันจะ Enchant ให้หนึ่งช่องต่อ 15 เหรียญ แน่นอนว่าสูงสุดคือ 3 ช่อง";
+		next;
+		mes "[Black Beard Joe]";
+		mes "ก็นะ มันเป็นเรื่องธรรมชาติที่อัตราการทำลายจะสูงขึ้นเมื่อระดับการอัปเกรดเพิ่มขึ้น ฉันแนะนำให้คุณหยุดตั้งแต่ครั้งที่หนึ่งหรือสองนะ ฮี่ฮี่";
+		close;
+	case 2:
+		.@eq_num = EQI_ACC_R;
+		break;
+	case 3:
+		.@eq_num = EQI_HAND_R;
+		break;
+	case 4:
+		.@eq_num = EQI_HEAD_TOP;
+		break;
+	case 5:
+		.@eq_num = EQI_SHOES;
+		break;
+	}
+	.@item_id = getequipid(.@eq_num);
+	.@refine = getequiprefinerycnt(.@eq_num);
+	setarray .@card[0],
+		getequipcardid(.@eq_num,0),
+		getequipcardid(.@eq_num,1),
+		getequipcardid(.@eq_num,2),
+		getequipcardid(.@eq_num,3);
+
+	switch(.@item_id) {
+	case 2976:	// Red_Lantern
+	case 2977:	// Hurt_Mind
+	case 2978:	// KindHeart
+	case 2980:	// Evilspirit_Gloves
+		.@sc_type = 1;// acc
+		break;
+	case 2486:	// Shadow_Walk_
+	case 18848:	// Lush_Rose
+	case 18849:	// Celines_Ribbon
+		.@sc_type = 2;// armor
+		break;
+	case 13442:	// Old_Parasol
+		.@sc_type = 3;// weapon
+		break;
+	case 16029:	// Noble_Cross
+		mes "[Black Beard Joe]";// custom
+		mes "โอ้ คุณสวมใส่ ^0000ffNoble Cross^000000 อยู่นี่! เจ้านี่คุณต้องหาคนอื่นเพื่อ Enchant มันนะ";
+		next;
+		mes "[Black Beard Joe]";
+		mes "ฉันลองมาหลายครั้งแล้ว แต่ไม่มีดวงเอาเสียเลย";
+		next;
+		mes "[Black Beard Joe]";
+		mes "ถ้าคุณอยากจะ Enchant อาวุธชิ้นนี้ ไปหา ^0000ffMayomayo^000000 ที่เกาะ Malangdo สิ! เขาควรจะทำมันได้นะ";
+		close;
+	default:
+		break;
+	}
+	switch(.@eq_num) {
+	case EQI_ACC_R:
+		mes "[Black Beard Joe]";
+		mes "คุณสามารถเลือกได้ 1 ใน 2 ประเภท และค่าธรรมเนียมต่อครั้งคือ 15 Bloody Coins.. ฉันจะเก็บเหรียญก่อนทำการ Enchant นะ";
+		next;
+		.@enchant_type = select( "ออก", "สุ่มค่าสถานะระหว่าง STR/AGI/DEX", "สุ่มค่าสถานะระหว่าง INT/VIT/DEX" ) - 1;// enchant_type [1-2]
+		mes "[Black Beard Joe]";
+		if (.@enchant_type == 0) {
+			mes "โอเค ไว้กลับมาใหม่เมื่อคุณพร้อมละกัน คุคุ";
+			close;
+		}
+		if (.@sc_type < 1) {
+			mes "อุปกรณ์ชิ้นนี้ไม่ได้มาจาก Toy Factory นะ ฉันจัดการได้เฉพาะไอเทมจาก Toy Factory เท่านั้น";
+			close;
+		}
+		if (.@card[3] == 0) {
+			.@slot_num = 3;
+			mes "เอาล่ะ มาลองการ Enchant ครั้งแรกกัน โดยปกติแล้วมันไม่พังหรอก อัตราความสำเร็จประมาณ 95% ได้มั้ง?";
+			.@string$ = "คุณนี่เปลี่ยนใจง่ายจริงๆ เพื่อนเอ๋ย!";
+		}
+		else if (.@card[2] == 0) {
+			.@slot_num = 2;
+			mes "โฮ่~ การ Enchant ครั้งที่สอง ตอนนี้มันเริ่มอันตรายแล้วนะ อัตราความสำเร็จเหลือประมาณ 70% คุณยังอยากจะไปต่อไหม? เครื่องประดับทั้งชิ้นจะหายวับไปเลยถ้าพลาด";// custom
+			.@string$ = "คุณนี่เปลี่ยนใจง่ายจริงๆ เพื่อนเอ๋ย!";
+		}
+		else if (.@card[1] == 0) {
+			.@slot_num = 1;
+			mes "นี่คือการ Enchant ครั้งสุดท้ายแล้วนะ จะไปต่อไหม? คราวนี้ ^ff0000อัตราความสำเร็จต่ำกว่า 50%^000000 อีกนะ แน่นอนว่ามันจะสุดยอดมากถ้าสำเร็จ... อืม ฉันจะทำตามการตัดสินใจของคุณ แต่จำเรื่องนี้ไว้ให้ดีล่ะ";// custom
+			.@string$ = "ฉลาดมาก! การ Enchant ครั้งที่สามน่ะมันโลภเกินไปหน่อย";// custom translation
+		}
+		else {
+			mes "โฮ่~ ชิ้นนี้มาถึงจุดสูงสุดแล้วล่ะ ไม่สามารถ Enchant ได้สูงกว่านี้แล้ว พอใจกับมันแล้วใช้ให้คุ้มเถอะ";// custom
+			close;
+		}
+		break;
+	case EQI_HAND_R:
+		mes "[Black Beard Joe]";
+		if (.@sc_type < 1) {
+			mes "อุปกรณ์ชิ้นนี้ไม่ได้มาจาก Toy Factory นะ ฉันจัดการได้เฉพาะไอเทมจาก Toy Factory เท่านั้น";
+			close;
+		}
+		.@enchant_type = 3;
+		.@slot_num = 3;
+		mes "ฉัน Enchant อาวุธได้แค่ครั้งเดียวเท่านั้นนะ มันไม่มีความล้มเหลวหรอก ดังนั้นคิดซะว่าเป็นผลโบนัสละกันนะ ฮี่ฮี่";
+		.@string$ = "คุณนี่เปลี่ยนใจง่ายจริงๆ เพื่อนเอ๋ย!";
+		break;
+	case EQI_HEAD_TOP:
+	case EQI_SHOES:
+		mes "[Black Beard Joe]";
+		if (.@sc_type < 1) {
+			mes "อุปกรณ์ชิ้นนี้ไม่ได้มาจาก Toy Factory นะ ฉันจัดการได้เฉพาะไอเทมจาก Toy Factory เท่านั้น";
+			close;
+		}
+		if (.@card[3] == 0) {
+			.@slot_num = 3;
+			.@enchant_type = 4;
+			mes "ดีมาก มาเริ่มการ Enchant ครั้งแรกกัน ฉันจะเพิ่มเอฟเฟกต์การต่อสู้พิเศษให้หนึ่งอย่าง แน่นอนว่าไม่ต้องกลัวไปหรอกเพราะมันไม่มีความล้มเหลว คุคุ";
+		}
+		else if (.@card[2] == 0) {
+			.@slot_num = 2;
+			.@enchant_type = 5;
+			mes "การ Enchant ครั้งที่สอง ฉันจะบัฟค่าสถานะก่อนหน้าให้หนึ่งอย่าง ตรงนี้ก็ไม่มีความล้มเหลวเหมือนกัน ไม่ต้องห่วงไป คุคุคุ";// custom
+		}
+		else {
+			mes "โฮ่~ ชิ้นนี้มาถึงจุดสูงสุดแล้วล่ะ ไม่สามารถ Enchant ได้สูงกว่านี้แล้ว พอใจกับมันแล้วใช้ให้คุ้มเถอะ";// custom
+			close;
+		}
+		.@string$ = "คุณนี่เปลี่ยนใจง่ายจริงๆ เพื่อนเอ๋ย!";
+		break;
+	default:
+		mes "[Black Beard Joe]";
+		mes "ฉันไม่ Enchant ของชิ้นนี้นะ!";// custom
+		close;
+	}
+	next;
+	if (select( "เดี๋ยวฉันกลับมาใหม่", "ช่วยทำทีเถอะ" ) == 1) {
+		mes "[Black Beard Joe]";
+		mes .@string$;
+		close;
+	}
+	mes "[Black Beard Joe]";
+	if (.@slot_num == 3)
+		setarray .@range[0],550,1050;
+	else if (.@slot_num == 2)
+		setarray .@range[0],450,1125;
+	else if (.@slot_num == 1)
+		setarray .@range[0],1,1161;
+	else {
+		mes "มีปัญหาบางอย่าง กรุณากลับมาใหม่อีกครั้ง!";// custom
+		close;
+	}
+	.@enchant = 9;
+	switch(.@enchant_type) {
+	case 1:
+		.@r = rand(.@range[0],.@range[1]);
+			 if (.@r < 601)  .@enchant = 0;
+		else if (.@r < 701)  .@enchant = 4700;	// Strength1
+		else if (.@r < 801)  .@enchant = 4730;	// Agility1
+		else if (.@r < 901)  .@enchant = 4720;	// Dexterity1
+		else if (.@r < 951)  .@enchant = 4701;	// Strength2
+		else if (.@r < 1001) .@enchant = 4731;	// Agility2
+		else if (.@r < 1051) .@enchant = 4721;	// Dexterity2
+		else if (.@r < 1076) .@enchant = 4702;	// Strength3
+		else if (.@r < 1101) .@enchant = 4732;	// Agility3
+		else if (.@r < 1126) .@enchant = 4722;	// Dexterity3
+		else if (.@r < 1138) .@enchant = 4703;	// Strength4
+		else if (.@r < 1150) .@enchant = 4733;	// Agility4
+		else if (.@r < 1162) .@enchant = 4723;	// Dexterity4
+		else .@enchant = 9;
+		break;
+	case 2:
+		.@r = rand(.@range[0],.@range[1]);
+			 if (.@r < 601)  .@enchant = 0;
+		else if (.@r < 701)  .@enchant = 4710;	// Inteligence1
+		else if (.@r < 801)  .@enchant = 4740;	// Vitality1
+		else if (.@r < 901)  .@enchant = 4720;	// Dexterity1
+		else if (.@r < 951)  .@enchant = 4711;	// Inteligence2
+		else if (.@r < 1001) .@enchant = 4741;	// Vitality2
+		else if (.@r < 1051) .@enchant = 4721;	// Dexterity2
+		else if (.@r < 1076) .@enchant = 4712;	// Inteligence3
+		else if (.@r < 1101) .@enchant = 4742;	// Vitality3
+		else if (.@r < 1126) .@enchant = 4722;	// Dexterity3
+		else if (.@r < 1138) .@enchant = 4713;	// Inteligence4
+		else if (.@r < 1150) .@enchant = 4743;	// Vitality4
+		else if (.@r < 1162) .@enchant = 4723;	// Dexterity4
+		else .@enchant = 9;
+		break;
+	case 3:
+		.@r = rand(1,2555);
+			 if (.@r < 301)  .@enchant = 4820;	// Fighting_Spirit5
+		else if (.@r < 501)  .@enchant = 4821;	// Fighting_Spirit6
+		else if (.@r < 601)  .@enchant = 4822;	// Fighting_Spirit7
+		else if (.@r < 651)  .@enchant = 4823;	// Fighting_Spirit8
+		else if (.@r < 676)  .@enchant = 4824;	// Fighting_Spirit9
+		else if (.@r < 686)  .@enchant = 4825;	// Fighting_Spirit10
+		else if (.@r < 986)  .@enchant = 4816;	// Sharp3
+		else if (.@r < 1086) .@enchant = 4843;	// Sharp4
+		else if (.@r < 1096) .@enchant = 4844;	// Sharp5
+		else if (.@r < 1396) .@enchant = 4760;	// Matk1
+		else if (.@r < 1496) .@enchant = 4761;	// Matk2
+		else if (.@r < 1506) .@enchant = 4806;	// Matk3
+		else if (.@r < 1806) .@enchant = 4872;	// Attack_Delay_2
+		else if (.@r < 2006) .@enchant = 4873;	// Attack_Delay_3
+		else if (.@r < 2106) .@enchant = 4881;	// Attack_Delay_4
+		else if (.@r < 2116) .@enchant = 4807;	// Atk_Speed1
+		else if (.@r < 2416) .@enchant = 4827;	// Spell6
+		else if (.@r < 2516) .@enchant = 4828;	// Spell7
+		else if (.@r < 2546) .@enchant = 4829;	// Spell8
+		else if (.@r < 2556) .@enchant = 4830;	// Spell9
+		else .@enchant = 9;
+		break;
+	case 4:
+		.@r = rand(1,1950);
+			 if (.@r < 301)  .@enchant = 4810;	// Fighting_Spirit2
+		else if (.@r < 401)  .@enchant = 4809;	// Fighting_Spirit3
+		else if (.@r < 451)  .@enchant = 4808;	// Fighting_Spirit4
+		else if (.@r < 471)  .@enchant = 4820;	// Fighting_Spirit5
+		else if (.@r < 771)  .@enchant = 4818;	// Sharp1
+		else if (.@r < 871)  .@enchant = 4817;	// Sharp2
+		else if (.@r < 891)  .@enchant = 4816;	// Sharp3
+		else if (.@r < 991)  .@enchant = 4760;	// Matk1
+		else if (.@r < 1011) .@enchant = 4761;	// Matk2
+		else if (.@r < 1311) .@enchant = 4869;	// Attack_Delay_1
+		else if (.@r < 1411) .@enchant = 4872;	// Attack_Delay_2
+		else if (.@r < 1461) .@enchant = 4873;	// Attack_Delay_3
+		else if (.@r < 1481) .@enchant = 4881;	// Attack_Delay_4
+		else if (.@r < 1781) .@enchant = 4813;	// Spell3
+		else if (.@r < 1881) .@enchant = 4812;	// Spell4
+		else if (.@r < 1931) .@enchant = 4826;	// Spell5
+		else if (.@r < 1951) .@enchant = 4827;	// Spell6
+		else .@enchant = 9;
+		break;
+	case 5:
+		.@r = rand(1,1970);
+			 if (.@r < 301)  .@enchant = 4700;	// Strength1
+		else if (.@r < 401)  .@enchant = 4701;	// Strength2
+		else if (.@r < 451)  .@enchant = 4702;	// Strength3
+		else if (.@r < 471)  .@enchant = 4730;	// Agility1
+		else if (.@r < 771)  .@enchant = 4731;	// Agility2
+		else if (.@r < 871)  .@enchant = 4732;	// Agility3
+		else if (.@r < 891)  .@enchant = 4710;	// Inteligence1
+		else if (.@r < 991)  .@enchant = 4711;	// Inteligence2
+		else if (.@r < 1011) .@enchant = 4712;	// Inteligence3
+		else if (.@r < 1311) .@enchant = 4720;	// Dexterity1
+		else if (.@r < 1411) .@enchant = 4721;	// Dexterity2
+		else if (.@r < 1461) .@enchant = 4722;	// Dexterity3
+		else if (.@r < 1481) .@enchant = 4740;	// Vitality1
+		else if (.@r < 1781) .@enchant = 4741;	// Vitality2
+		else if (.@r < 1881) .@enchant = 4742;	// Vitality3
+		else if (.@r < 1931) .@enchant = 4750;	// Luck1
+		else if (.@r < 1951) .@enchant = 4751;	// Luck2
+		else if (.@r < 1971) .@enchant = 4752;	// Luck3
+		else .@enchant = 9;
+		break;
+	default:
+		break;
+	}
+	if (.@enchant == 9) {
+		mes "มีปัญหาบางอย่าง กรุณากลับมาใหม่อีกครั้ง!";// custom
+		close;
+	}
+	if (.@card[3] == 0 && .@sc_type < 4)
+		.@index_slot = 3;
+	else if (.@card[2] == 0 && .@sc_type < 3)
+		.@index_slot = 2;
+	else if (.@card[1] == 0 && .@sc_type < 2)
+		.@index_slot = 1;
+	else {
+		mes "ฉันไม่รู้หรอกว่านี่คืออะไร แต่ฉันคิดว่ามันไม่ใช่สิ่งที่ฉันจะจัดการได้นะ";// custom
+		close;
+	}
+	if (countitem(7642) > 14) {// Bloody_Coin
+		delitem 7642,15;// Bloody_Coin
+
+		// anti-hack
+		if (callfunc("F_IsEquipIDHack", .@eq_num, .@item_id) || callfunc("F_IsEquipCardHack", .@eq_num, .@card[0], .@card[1], .@card[2], .@card[3]) || callfunc("F_IsEquipRefineHack", .@eq_num, .@refine))
+			close;
+
+		delequip .@eq_num;
+		if (.@enchant == 0) {
+			mes "โอ๊ย! น่าสงสารจัง การ Enchant ล้มเหลวและอุปกรณ์ของคุณก็พังไปซะแล้ว พับผ่าสิ!";
+			close2;
+			specialeffect2 EF_LORD;
+			end;
+		}
+		.@card[ .@index_slot ] = .@enchant;
+		getitem2 .@item_id,1,1,.@refine,0,.@card[0],.@card[1],.@card[2],.@card[3];
+		mes "หืม.. มันสำเร็จนะเนี่ย ลองดูผลงานสิ";
+		specialeffect2 EF_REPAIRWEAPON;
+		close;
+	}
+	mes "หืม.. จะว่าไป คุณต้องไปเก็บสะสม Bloody Coins มาให้ครบก่อนนะ คุณไม่มีเงินแม้แต่จะจ่ายค่าธรรมเนียมเลยด้วยซ้ำ";
+	close;
+}

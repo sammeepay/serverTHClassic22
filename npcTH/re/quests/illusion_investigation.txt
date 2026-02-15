@@ -1,0 +1,1555 @@
+//===== rAthena Script =======================================
+//= Illusion Investigation
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//= NPCs that give hunting quests in Illusion dungeons in exchange for experience.
+//===== Changelog: ===========================================
+//= 1.0 First version. [Capuche]
+//============================================================
+
+prt_in,136,34,3	script	Commander Joel#joel	1_M_ORIENT01,{
+	if (BaseLevel < 100) {
+		mes "[Commander Joel]";
+		mes "สวัสดี มีธุระอะไรกับข้าหรือเปล่า?";
+		next;
+		mes "[Commander Joel]";
+		mes "หากเจ้าปรารถนาจะเข้าร่วมหน่วยสำรวจภาพลวงตา (Illusion Investigation Corps) ทักษะของเจ้าในตอนนี้ยังไม่เพียงพอ";
+		next;
+		mes "[Commander Joel]";
+		mes "กรุณากลับมาใหม่อีกครั้งเมื่อเจ้ามีระดับเลเวลถึงเกณฑ์ที่กำหนด";
+		next;
+		mes "^4d4dff== คุณต้องมีเลเวล 100 ขึ้นไปจึงจะเข้าร่วมได้ ==^000000";
+		close;
+	}
+	if (isbegin_quest(3470) == 0) {
+		mes "[Commander Joel]";
+		mes "สวัสดี ข้าคือ Joel ผู้บัญชาการหน่วยสำรวจภาพลวงตา";
+		next;
+		mes "[Commander Joel]";
+		mes "เจ้าเคยได้ยินหรือเคยสัมผัสกับสิ่งที่เรียกว่า 'ภาพลวงตา' (Illusions) บ้างหรือไม่?";
+		next;
+		mes "[Commander Joel]";
+		mes "จนถึงขณะนี้ ภาพลวงตาได้ถูกค้นพบไปทั่วทุกมุมโลกและเริ่มเป็นที่รู้จักในหมู่สาธารณชนบ้างแล้ว";
+		next;
+		mes "[Commander Joel]";
+		mes "มันยังถูกใช้เป็นแหล่งล่าสำหรับเหล่านักผจญภัยจำนวนมาก เพราะสามารถหาวัตถุดิบหายากได้ง่าย";
+		next;
+		mes "[Commander Joel]";
+		mes "นอกจากนี้ มอนสเตอร์ใน Illusion ยังเป็นมอนสเตอร์สายพันธุ์ใหม่ที่ไม่เคยถูกค้นพบมาก่อน และมอนสเตอร์เหล่านี้กำลังขยายพันธุ์อย่างผิดปกติ";
+		next;
+		mes "[Commander Joel]";
+		mes "แม้ว่าจะมีนักผจญภัยจำนวนมากเข้าไปล่ามอนสเตอร์ใน Illusion เพื่อหาวัตถุดิบ แต่เหตุผลที่ประชากรของพวกมันฟื้นตัวกลับมาได้อย่างรวดเร็วนั้นยังไม่สามารถระบุได้";
+		next;
+		mes "[Commander Joel]";
+		mes "ทีมสำรวจ Illusion ของเราถูกจัดตั้งขึ้นเพื่อเปิดเผยความลับของภาพลวงตา และอันดับแรกเราตัดสินใจที่จะทำความเข้าใจระบบนิเวศของมอนสเตอร์ภายในนั้น";
+		next;
+		mes "[Commander Joel]";
+		mes "สิ่งที่เราค้นพบคือ ภาพลวงตาทั้งหมดได้รับผลกระทบจากรอยแยกมิติ (Dimensional Rifts)";
+		next;
+		mes "[Commander Joel]";
+		mes "ข้าคาดการณ์มานานแล้วว่ามันอาจจะเกี่ยวข้องกับรอยแยกมิติ และด้วยผลการสืบสวนนี้ มันก็ชัดเจนยิ่งขึ้น";
+		next;
+		mes "[Commander Joel]";
+		mes "ยังมีนักผจญภัยจำนวนมากมาเยือน Illusion ด้วยจุดประสงค์ต่างๆ ดังนั้นจำนวนประชากรมอนสเตอร์จึงยังอยู่ในระดับที่ควบคุมได้";
+		next;
+		mes "[Commander Joel]";
+		mes "หากไม่มีใครย่างกรายเข้าไปที่นั่นเลย มันจะอันตรายมาก เพราะมอนสเตอร์อาจเพิ่มขึ้นจนเกินจุดอิ่มตัวและออกไปรุกรานพื้นที่อื่นๆ";
+		next;
+		mes "[Commander Joel]";
+		mes "ด้วยเหตุนี้ จำนวนของพวกมันจึงยังต้องได้รับการตรวจสอบ และปัจจุบันมีเจ้าหน้าที่สอบสวนหนึ่งคนถูกส่งไปประจำการในแต่ละจุดของ Illusion";
+		next;
+		mes "[Commander Joel]";
+		mes "และเรากำลังรับสมัครสมาชิกที่มีความสามารถในการควบคุมจำนวนมอนสเตอร์ภายใน Illusion";
+		next;
+		mes "[Commander Joel]";
+		mes "และถ้าเจ้าเป็นนักผจญภัย เจ้าดูเหมือนจะแข็งแกร่งพอสำหรับบทบาทนั้นนะ...";
+		next;
+		mes "[Commander Joel]";
+		mes "เจ้าสนใจจะเข้าร่วมทีมสำรวจ Illusion และร่วมสำรวจภาพลวงตาไปพร้อมกับเราไหม?";
+		next;
+		if (select( "ตกลง ข้าขอเข้าร่วม", "ข้าขอคิดดูก่อน" ) == 2) {
+			mes "[Commander Joel]";
+			mes "มันเป็นเรื่องที่สำคัญมากนะ";
+			next;
+			mes "[Commander Joel]";
+			mes "ได้โปรดลองกลับไปคิดดูให้ดีก่อนจะมาให้คำตอบข้า";
+			close;
+		}
+		mes "[Commander Joel]";
+		mes "ยอดเยี่ยม เจ้าได้รับความยินดีเป็นอย่างยิ่ง!!";
+		next;
+		mes "[Commander Joel]";
+		mes "ขั้นตอนนั้นง่ายมาก โปรดกรอกคำปฏิญาณตรงนี้...";
+		next;
+		mes "[Commander Joel]";
+		mes "ตรงนี้... ช่วยเซ็นชื่อลงไปที";
+		next;
+		mes "[Commander Joel]";
+		mes ".";
+		next;
+		mes "[Commander Joel]";
+		mes "..";
+		next;
+		mes "[Commander Joel]";
+		mes "...";
+		next;
+		mes "[Commander Joel]";
+		mes "เรียบร้อย ด้วยสิ่งนี้เจ้าได้กลายเป็นสมาชิกของหน่วยสำรวจภาพลวงตาแล้ว ยินดีต้อนรับอีกครั้ง!";
+		next;
+		mes "[Commander Joel]";
+		mes "หากเจ้ามีเวลาระหว่างการผจญภัย ข้าอยากให้เจ้าแวะไปที่ Illusion ตามสถานที่ต่างๆ และช่วยข้าในการสำรวจ";
+		next;
+		mes "[Commander Joel]";
+		mes "เจ้าหน้าที่สอบสวนที่ถูกส่งไปประจำการจะคอยให้คำแนะนำแก่เจ้าเอง";
+		next;
+		mes "[Commander Joel]";
+		mes "ถ้าอย่างนั้น ข้าขอให้เจ้ามีวันที่ดี";
+		close2;
+		setquest 3470;
+		completequest 3470;
+		end;
+	}
+	mes "[Commander Joel]";
+	mes "ข้าคิดว่าการสำรวจจะง่ายขึ้นมากขอบคุณในความช่วยเหลือของเจ้า นักผจญภัย";
+	next;
+	mes "[Commander Joel]";
+	mes "ภาพลวงตาใหม่ๆ จะปรากฏขึ้นมาอีก";
+	next;
+	mes "[Commander Joel]";
+	mes "ทุกการค้นพบใหม่ต้องใช้เวลาอย่างมากสำหรับเราในการปรับตัวเข้ากับมัน";
+	next;
+	mes "[Commander Joel]";
+	mes "การสำรวจนี้จะช่วยลดเวลานั้นลงได้อย่างน้อยก็ส่วนหนึ่ง";
+	next;
+	mes "[Commander Joel]";
+	mes "ขอบคุณเจ้ามาก และข้ารอคอยที่จะได้เห็นผลงานของเจ้าต่อไปในอนาคต";
+	close;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "isbegin_quest(3470) == 0" );
+	end;
+}
+
+prt_in,136,29,3	script	Member Zenhi#zenhi	4_F_KHELLY,{
+	mes "[Member Zenhi]";
+	mes "สวัสดีจ้า~~!!";
+	next;
+	mes "[Member Zenhi]";
+	mes "หน่วยสำรวจภาพลวงตากำลังขยายใหญ่ขึ้นทีละนิดแล้วล่ะ";
+	next;
+	mes "[Member Zenhi]";
+	mes "ยิ่งสมาชิกเยอะขึ้น เราก็ยิ่งทำอะไรได้มากขึ้นจริงไหมล่ะ?";
+	close;
+}
+
+prt_in,121,36,6	script	Member Zenian#zenian	4_F_HUWOMAN,{
+	mes "[Member Zenian]";
+	mes "สวัสดี ฉัน Zenian สมาชิกใหม่ของทีมค่ะ";
+	next;
+	mes "[Member Zenian]";
+	mes "ฉันให้ความสนใจกับปรากฏการณ์รอยแยกมิติมานานแล้ว เห็นได้ชัดว่าแม้จะมีการปราบปรามไปมากเท่าไหร่ มอนสเตอร์ก็ยังคงปรากฏตัวออกมาไม่หยุดหย่อน";
+	next;
+	mes "[Member Zenian]";
+	mes "มันได้รับการพิสูจน์แล้วว่าปรากฏการณ์นี้เกิดขึ้นในภาพลวงตาด้วยเช่นกัน ดังนั้นฉันจึงตัดสินใจเข้าร่วมทีมสำรวจ Illusion ค่ะ";
+	next;
+	mes "[Member Zenian]";
+	mes "ขอให้โชคดีในอนาคตนะคะ!!";
+	close;
+}
+
+prt_in,124,21,1	script	 Member link#yeonsu	4_M_DEWWOMAN,{
+	mes "[Member link]";
+	mes "ยินดีที่ได้รู้จักครับ ที่นี่คือทีมต้อนรับของหน่วยสำรวจ";
+	next;
+	mes "[Member link]";
+	mes "การสำรวจระบบนิเวศของมอนสเตอร์ใน Illusion...";
+	next;
+	mes "[Member link]";
+	mes "แล้วก็... ผมคิดว่ามันน่าจะเกี่ยวข้องกับรอยแยกมิติด้วยนะครับ";
+	next;
+	mes "[Member link]";
+	mes "ผมหวังว่าทุกคนที่กำลังทำงานอย่างหนักในตอนนี้จะกลับมาอย่างปลอดภัยโดยไม่มีเหตุร้ายใดๆ";
+	close;
+}
+
+pay_d03_i,149,34,5	script	Girocker#ziroker	4_M_ORIENT02,{
+	if (BaseLevel < 100)
+		end;
+	if (isbegin_quest(3470) == 0) {
+		mes "[Girocker]";
+		mes "สวัสดีครับ!!";
+		next;
+		mes "[Girocker]";
+		mes "ผมคือ J-Girocker จากหน่วยสำรวจภาพลวงตาครับ";
+		next;
+		mes "[Girocker]";
+		mes "เฮ้อ... การที่ต้องมาอยู่ในที่แบบนี้จริงๆ... ผมหวังว่าจะมีนักผจญภัยมาช่วยผมบ้างจัง...";
+		next;
+		mes "[Girocker]";
+		mes "ดูเหมือนว่าคุณจะยังไม่ได้เข้าร่วมทีมสำรวจเลยนะครับ";
+		next;
+		mes "[Girocker]";
+		mes "สนใจจะมาสำรวจมอนสเตอร์ที่นี่กับผมไหม? มันจะต้องมีความหมายมากแน่ๆ!!";
+		next;
+		mes "[Girocker]";
+		mes "โปรดไปสมัครสมาชิกกับ <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ผู้บัญชาการที่ Prontera ก่อน แล้วค่อยกลับมานะครับ!!";
+		close;
+	}
+	if (isbegin_quest(3446) == 0) {
+		mes "[Girocker]";
+		mes "สวัสดีครับ!!";
+		next;
+		mes "[Girocker]";
+		mes "ผมคือ J-Girocker จากหน่วยสำรวจภาพลวงตาครับ";
+		next;
+		mes "[Girocker]";
+		mes "เฮ้อ... การที่ต้องมาอยู่ในที่แบบนี้...";
+		next;
+		mes "[Girocker]";
+		mes "ปกติผมก็แกล้งทำเป็นกล้าหาญไปอย่างนั้นแหละครับ แต่ผมคิดว่าผมคงแค่อยากดูดีในสายตาของ Elysia สมาชิกทีมที่ผมแอบชอบน่ะ";
+		next;
+		mes "[Girocker]";
+		mes "จริงๆ แล้วผมเนี่ยแหละเป็นคนที่ขี้ขลาดกว่าใครเพื่อนเลย... แฮะๆ";
+		next;
+		mes "[Girocker]";
+		mes "ช่างเถอะ... ผมมีหน้าที่รับผิดชอบสำรวจสถานที่แห่งนี้ครับ";
+		next;
+		mes "[Girocker]";
+		mes "คุณได้ฟังเรื่องการสำรวจจากกัปตัน Joel มาแล้วใช่ไหม? นักผจญภัย คุณต้องล่ามอนสเตอร์ให้ครบ 100 ตัวด้วยตัวของคุณเองครับ";
+		next;
+		mes "[Girocker]";
+		mes "คุณต้องการจะเข้าร่วมการสำรวจของที่นี่ไหมครับ?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Girocker]";
+			mes "ถ้าอย่างนั้นผมคงต้องไปถามนักผจญภัยคนอื่น...";
+			close;
+		}
+		mes "[Girocker]";
+		mes "เยี่ยมเลย!!";
+		next;
+		mes "[Girocker]";
+		mes "แค่กำจัดมอนสเตอร์ชนิดใดก็ได้ในที่แห่งนี้ให้ครบ 100 ตัวครับ";
+		next;
+		mes "[Girocker]";
+		mes "ถ้าอย่างนั้น ระวังตัวด้วยนะครับ!";
+		close2;
+		setquest 3446;
+		completequest 3446;
+		setquest 3447;
+		end;
+	}
+	switch( checkquest(3448,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Girocker]";
+		mes "อา สำหรับวันนี้การสำรวจเพียงพอแล้วครับ";
+		next;
+		mes "[Girocker]";
+		mes "พรุ่งนี้มันจะฟื้นตัวกลับมาใหม่ ดังนั้นถ้าคุณสะดวก ผมจะขอบคุณมากถ้าคุณสามารถกลับมาช่วยผมสำรวจอีกครั้ง!!";
+		close;
+	case 2:
+		erasequest 3448;
+		break;
+	}
+	switch( checkquest(3447,HUNTING) ) {
+	case -1:
+		mes "[Girocker]";
+		mes "สวัสดีครับ วันนี้คุณมาเพื่อช่วยสำรวจใช่ไหม?";
+		next;
+		mes "[Girocker]";
+		mes "เนื้อหาการสำรวจเหมือนกับคราวที่แล้วเลยครับ";
+		next;
+		mes "[Girocker]";
+		mes "ถ้าคุณกำจัดมอนสเตอร์ชนิดใดก็ได้ครบ 100 ตัว คุณสนใจจะเข้าร่วมไหมครับ?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Girocker]";
+			mes "คงจะดีถ้าคุณสามารถช่วยผมในวันนี้ได้...";
+			close;
+		}
+		mes "[Girocker]";
+		mes "เยี่ยมเลย!!";
+		next;
+		mes "[Girocker]";
+		mes "แค่กำจัดมอนสเตอร์ชนิดใดก็ได้ที่นี่ให้ครบ 100 ตัวครับ";
+		next;
+		mes "[Girocker]";
+		mes "ถ้าอย่างนั้น ระวังตัวด้วยนะครับ!";
+		close2;
+		setquest 3447;
+		end;
+	case 0:
+	case 1:
+		mes "[Girocker]";
+		mes "กำจัดมอนสเตอร์ชนิดใดก็ได้ให้ครบ 100 ตัวครับ";
+		close;
+	case 2:
+		mes "[Girocker]";
+		mes "คุณกลับมาอย่างปลอดภัยแล้ว!";
+		next;
+		mes "[Girocker]";
+		mes "โอเค... ถ้าอย่างนั้น อืม... ผมคงต้องรอดูว่ามอนสเตอร์จะเกิดใหม่มากแค่ไหนในอีกสักพักครับ";
+		next;
+		mes "[Girocker]";
+		mes "ที่เหลือปล่อยให้เป็นหน้าที่ของผมเอง!! ขอบคุณมากครับ!!";
+		close2;
+		erasequest 3447;
+		setquest 3448;
+		getexp 2500000,2500000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 100 && isbegin_quest(3470) == 2 && isbegin_quest(3446) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3447,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3446) == 2 && checkquest(3448,PLAYTIME) == -1 && checkquest(3447,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3448,PLAYTIME) == 2" );
+	end;
+}
+
+ice_dun02,142,18,5	script	Elysia#elisia	4_F_OPERATION,{
+	if (BaseLevel < 120) {
+		mes "[Elysia]";
+		mes "โอ้ การทนกับความหนาวเหน็บที่นี่คงลำบากสำหรับคุณมากเลยใช่ไหมคะ?";
+		next;
+		mes "[Elysia]";
+		mes "ไว้กลับมาใหม่ตอนที่คุณดู 'เร่าร้อน' กว่านี้อีกหน่อยนะคะ";
+		next;
+		mes "^4d4dff== เควสนี้สำหรับเลเวล 120 ขึ้นไปเท่านั้น ==^000000";
+		close;
+	}
+	if (isbegin_quest(3470) == 0) {
+		mes "[Elysia]";
+		mes "สวัสดีค่ะ~";
+		next;
+		mes "[Elysia]";
+		mes "ฉัน Elysia จากทีมสำรวจภาพลวงตาค่ะ~";
+		next;
+		mes "[Elysia]";
+		mes "ที่นี่หนาวจริงๆ เลยนะคะ...";
+		next;
+		mes "[Elysia]";
+		mes "ฉันอยากจะขอความช่วยเหลือจากนักผจญภัยจัง...";
+		next;
+		mes "[Elysia]";
+		mes "แต่ดูเหมือนคุณจะยังไม่ได้เข้าร่วมทีมสำรวจเลยนะคะ";
+		next;
+		mes "[Elysia]";
+		mes "ถ้าไม่รังเกียจ ทำไมไม่ลองเข้าร่วมหน่วยสำรวจภาพลวงตาดูละคะ? แล้วคุณจะได้มาช่วยฉันไง!!!";
+		next;
+		mes "[Elysia]";
+		mes "โปรดไปสมัครสมาชิกกับ <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ผู้บัญชาการที่ Prontera ก่อน แล้วค่อยกลับมานะคะ!!";
+		close;
+	}
+	if (isbegin_quest(3449) == 0) {
+		mes "[Elysia]";
+		mes "สวัสดีค่ะ~";
+		next;
+		mes "[Elysia]";
+		mes "ฉัน Elysia จากทีมสำรวจภาพลวงตาค่ะ~";
+		next;
+		mes "[Elysia]";
+		mes "ที่นี่หนาวจริงๆ เลยนะคะ...";
+		next;
+		mes "[Elysia]";
+		mes "ฉันไม่เคยคิดเลยว่าจะถูกส่งมายังที่ที่อันตรายแบบนี้คนเดียว... ฉันอยากจะมากับ Jirocker จัง...";
+		next;
+		mes "[Elysia]";
+		mes "อืม ถึงจะมี Jirocker อยู่ด้วย เขาก็ขี้ขลาดเกินไปจนฉันคงต้องเป็นฝ่ายปกป้องเขาซะมากกว่า...";
+		next;
+		mes "[Elysia]";
+		mes "เขาก็แค่แกล้งทำเป็นกล้าหาญไปงั้น... แต่ฉันดูออกนานแล้วล่ะค่ะ";
+		next;
+		mes "[Elysia]";
+		mes "ไม่รู้ว่าตอนนี้ Jirocker จะสำรวจอยู่ในหมู่บ้านร้างอย่างปลอดภัยไหมนะ? ฉันเป็นห่วงจัง";
+		next;
+		mes "[Elysia]";
+		mes "อืม... จริงๆ แล้วตอนนี้ไม่ใช่เวลาจะมามัวห่วง Jirocker หรอกค่ะ นักผจญภัย คุณช่วยฉันหน่อยได้ไหมคะ?";
+		next;
+		mes "[Elysia]";
+		mes "คุณคงเคยได้ยินมาแล้วใช่ไหมว่านี่คือการสำรวจว่าจำนวนประชากรมอนสเตอร์คงอยู่ได้อย่างไร? มีนักผจญภัยมากมายมาล่าที่นี่ แต่มันก็ยังไม่ค่อยเพียงพอเท่าไหร่ค่ะ";
+		next;
+		mes "[Elysia]";
+		mes "มันง่ายกว่าที่จะคำนวณจำนวนมอนสเตอร์เมื่อคุณจัดการพวกมันอย่างเร่าร้อน แล้วคุณล่ะคะ? สนใจจะเข้าร่วมการสำรวจของที่นี่ไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Elysia]";
+			mes "เข้าใจแล้วค่ะ เป็นอย่างนั้นสินะ...";
+			next;
+			mes "[Elysia]";
+			mes "ถ้าอย่างนั้นฉันคงต้องยืนหนาวสั่นที่นี่ต่อไปอีกสักพัก...";
+			close;
+		}
+		mes "[Elysia]";
+		mes "โอ้ ใช่เลย!! ขอบคุณมากค่ะ!!";
+		next;
+		mes "[Elysia]";
+		mes "หลังจากเข้าไปแล้ว ช่วยกำจัดมอนสเตอร์ชนิดใดก็ได้ให้ครบ 100 ตัวนะคะ";
+		next;
+		mes "[Elysia]";
+		mes "ฉันเฝ้ารอชมทักษะการล่าที่เร่าร้อนของคุณอยู่นะคะ~~!!";
+		close2;
+		setquest 3449;
+		completequest 3449;
+		setquest 3450;
+		end;
+	}
+	switch( checkquest(3451,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Elysia]";
+		mes "อา ฉันคิดว่าแค่นี้น่าจะพอแล้วสำหรับวันนี้นะคะ!!";
+		next;
+		mes "[Elysia]";
+		mes "ถ้าคุณมาหลังจากวันพรุ่งนี้ คุณจะมีงานอื่นให้ทำอีกค่ะ~";
+		close;
+	case 2:
+		erasequest 3451;
+		break;
+	}
+	switch( checkquest(3450,HUNTING) ) {
+	case -1:
+		mes "[Elysia]";
+		mes "อา ยินดีที่ได้พบคุณค่ะ!! วันนี้คุณมาเพื่อช่วยสำรวจใช่ไหมคะ??";
+		next;
+		mes "[Elysia]";
+		mes "ความช่วยเหลือของคุณยังคงเหมือนคราวที่แล้วเลยค่ะ~";
+		next;
+		mes "[Elysia]";
+		mes "ถ้าคุณกำจัดมอนสเตอร์ชนิดใดก็ได้ครบ 100 ตัว คุณสนใจจะเข้าร่วมไหมคะ?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Elysia]";
+			mes "ตกลงค่ะ... ฉันจะยืนหนาวสั่นต่อไปแล้วกันค่ะ...";
+			close;
+		}
+		mes "[Elysia]";
+		mes "ขอบคุณนะคะ";
+		next;
+		mes "[Elysia]";
+		mes "หลังจากเข้าไปแล้ว ช่วยกำจัดมอนสเตอร์ชนิดใดก็ได้ให้ครบ 100 ตัวนะคะ";
+		next;
+		mes "[Elysia]";
+		mes "ถ้าอย่างนั้น ระวังตัวด้วยนะคะ!";
+		close2;
+		setquest 3450;
+		end;
+	case 0:
+	case 1:
+		mes "[Elysia]";
+		mes "กำจัดมอนสเตอร์ 100 ตัว โดยไม่เกี่ยงว่าเป็นชนิดไหนค่ะ";
+		close;
+	case 2:
+		mes "[Elysia]";
+		mes "เสร็จเรียบร้อยแล้วเหรอคะ? จัดการได้เร่าร้อนอย่างที่คาดไว้เลยค่ะ~";
+		next;
+		mes "[Elysia]";
+		mes "ถ้าอย่างนั้นที่เหลือฉันจะจัดการวิจัยต่อให้เองค่ะ~";
+		next;
+		mes "[Elysia]";
+		mes "ขอบคุณสำหรับความเหนื่อยยากนะคะ หวังว่าเราจะได้พบกันใหม่ค่ะ!!";
+		close2;
+		erasequest 3450;
+		setquest 3451;
+		getexp 6000000,6000000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 120 && isbegin_quest(3470) == 2 && isbegin_quest(3449) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3450,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3449) == 2 && checkquest(3451,PLAYTIME) == -1 && checkquest(3450,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3451,PLAYTIME) == 2" );
+	end;
+}
+
+gef_d01_i,122,237,3	script	Radimir#ridimir	8_F,{
+	if (BaseLevel < 130)
+		end;
+	if (isbegin_quest(3470) == 0) {
+		mes "[Radimir]";
+		mes "สวัสดี นักผจญภัย";
+		next;
+		mes "[Radimir]";
+		mes "ข้าคือ Radimir จากหน่วยสำรวจภาพลวงตา";
+		next;
+		mes "[Radimir]";
+		mes "ข้าถูกส่งมายังที่ที่เงียบเหงาวังเวงแบบนี้ และบอกตามตรง ข้ากลัวมากเลยล่ะ";
+		next;
+		mes "[Radimir]";
+		mes "ข้าอยากให้เจ้ามาร่วมสำรวจด้วยกัน แต่... เจ้ายังไม่ได้เข้าร่วมทีมสำรวจเลยนะ";
+		next;
+		mes "[Radimir]";
+		mes "เจ้าสนใจจะทำสิ่งที่สำคัญร่วมกับข้าไหม?";
+		next;
+		mes "[Radimir]";
+		mes "หากเจ้าสนใจ โปรดไปพบ <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ผู้บัญชาการที่ Prontera เพื่อเข้าร่วมทีมสำรวจแล้วค่อยกลับมานะ";
+		close;
+	}
+	if (isbegin_quest(3452) == 0) {
+		mes "[Radimir]";
+		mes "สวัสดี นักผจญภัย";
+		next;
+		mes "[Radimir]";
+		mes "ข้าคือ Radimir จากหน่วยสำรวจภาพลวงตา";
+		next;
+		mes "[Radimir]";
+		mes "ข้าถูกส่งมายังที่ที่เงียบเหงาวังเวงแบบนี้ และบอกตามตรง ข้ากลัวมากเลยล่ะ";
+		next;
+		mes "[Radimir]";
+		mes "แต่ข้าสนใจในปรากฏการณ์ภาพลวงตามาโดยตลอด และเมื่อมีการก่อตั้งทีมสำรวจ ข้าจึงรีบสมัครเข้าร่วมทันที";
+		next;
+		mes "[Radimir]";
+		mes "นั่นก็เพราะยังไม่มีใครสามารถไขความลับของมันได้";
+		next;
+		mes "[Radimir]";
+		mes "มันเป็นเพียงจุดเริ่มต้นของการสำรวจในปัจจุบัน แต่มันจะเป็นก้าวแรกที่ยิ่งใหญ่อย่างแน่นอน";
+		next;
+		mes "[Radimir]";
+		mes "ดังนั้น ความกลัวสามารถเอาชนะได้ด้วยจิตใจที่แน่วแน่";
+		next;
+		mes "[Radimir]";
+		mes "การเตรียมการสำรวจเสร็จสิ้นแล้ว ตอนนี้ข้ากำลังรอใครสักคนที่สามารถมาปรับสมดุลระดับมอนสเตอร์ได้อยู่";
+		next;
+		mes "[Radimir]";
+		mes "แล้วเจ้าล่ะ ทำไมไม่ลองมาร่วมสำรวจดูล่ะ? เจ้าเข้าร่วมทีมสำรวจมาเพื่อการนี้อยู่แล้วไม่ใช่หรือ?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Radimir]";
+			mes "ข้าจะรออยู่ที่นี่แหละ";
+			close;
+		}
+		mes "[Radimir]";
+		mes "ดีมาก";
+		next;
+		mes "[Radimir]";
+		mes "แค่กำจัดมอนสเตอร์ชนิดใดก็ได้ที่นี่ให้ครบ 100 ตัว";
+		next;
+		mes "[Radimir]";
+		mes "ยิ่งเร็วยิ่งดีนะ";
+		next;
+		mes "[Radimir]";
+		mes "ข้าจะรอเจ้าอยู่ที่นี่";
+		close2;
+		setquest 3452;
+		completequest 3452;
+		setquest 3453;
+		end;
+	}
+	switch( checkquest(3454,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Radimir]";
+		mes "สำหรับวันนี้แค่นี้พอแล้ว";
+		next;
+		mes "[Radimir]";
+		mes "หากดูจากสถานการณ์ปัจจุบัน ข้าคิดว่าเราจะสำรวจต่อได้ในอีกประมาณหนึ่งวัน กรุณากลับมาตอนนั้นนะ";
+		close;
+	case 2:
+		erasequest 3454;
+		break;
+	}
+	switch( checkquest(3453,HUNTING) ) {
+	case -1:
+		mes "[Radimir]";
+		mes "สวัสดี วันนี้เจ้ามาเพื่อช่วยสำรวจใช่ไหม?";
+		next;
+		mes "[Radimir]";
+		mes "โปรดดำเนินภารกิจเหมือนครั้งที่แล้วเลย";
+		next;
+		mes "[Radimir]";
+		mes "เจ้าสนใจจะเข้าร่วมภารกิจกำจัดมอนสเตอร์ชนิดใดก็ได้ให้ครบ 100 ตัวไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Radimir]";
+			mes "เจ้าทำตัวไร้จุดหมายเสียจริง ข้าผิดหวังในตัวเจ้า";
+			close;
+		}
+		mes "[Radimir]";
+		mes "ขอบคุณมาก";
+		next;
+		mes "[Radimir]";
+		mes "กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว";
+		next;
+		mes "[Radimir]";
+		mes "ข้าจะรอเจ้าอยู่ที่นี่";
+		close2;
+		setquest 3453;
+		end;
+	case 0:
+	case 1:
+		mes "[Radimir]";
+		mes "กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว";
+		close;
+	case 2:
+		mes "[Radimir]";
+		mes "เจ้าจัดการได้รวดเร็วมาก ขอบใจนะ";
+		next;
+		mes "[Radimir]";
+		mes "นั่นทำให้การคำนวณจำนวนง่ายขึ้นมาก";
+		next;
+		mes "[Radimir]";
+		mes "ข้าจะทำงานส่วนที่เหลือให้เสร็จโดยเร็วและจะรายงานต่อทีมสำรวจ ขอบคุณสำหรับความเหนื่อยยากนะ";
+		close2;
+		erasequest 3453;
+		setquest 3454;
+		getexp 10000000,10000000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 130 && isbegin_quest(3470) == 2 && isbegin_quest(3452) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3453,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3452) == 2 && checkquest(3454,PLAYTIME) == -1 && checkquest(3453,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3454,PLAYTIME) == 2" );
+	end;
+}
+
+ein_d02_i,161,180,5	script	Machoko#machoco	8_F_GIRL,{
+	if (BaseLevel < 150)
+		end;
+	if (isbegin_quest(3470) == 0) {
+		mes "[Machoko]";
+		mes "สวัสดีจ้า!!!";
+		next;
+		mes "[Machoko]";
+		mes "ฉัน Machoko จากทีมสำรวจภาพลวงตาค่ะ~";
+		next;
+		mes "[Machoko]";
+		mes "ฉันอยากถูกส่งมาประจำการที่นี่มากเลย แล้วฉันก็โชคดีจริงๆ";
+		next;
+		mes "[Machoko]";
+		mes "ไอ้เจ้าตุ๊กตาหมีพวกนี้~~ ไอ้พวกตุ๊กตาหมี...";
+		next;
+		mes "[Machoko]";
+		mes "แต่สำหรับฉันมันเป็นไปไม่ได้เลย... ฉันไม่มีกำลังพอ... แต่คุณยังไม่ได้เข้าร่วมทีมสำรวจนี่นา...";
+		next;
+		mes "[Machoko]";
+		mes "คุณไปสมัครได้ที่ <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ผู้บัญชาการที่ Prontera นะ สมัครแล้วค่อยมาที่นี่นะจ๊ะ~";
+		close;
+	}
+	if (isbegin_quest(3455) == 0) {
+		mes "[Machoko]";
+		mes "สวัสดีจ้า!!!";
+		next;
+		mes "[Machoko]";
+		mes "ฉัน Machoko จากทีมสำรวจภาพลวงตาค่ะ~";
+		next;
+		mes "[Machoko]";
+		mes "ฉันอยากถูกส่งมาประจำการที่นี่มากเลย แล้วฉันก็โชคดีจริงๆ";
+		next;
+		mes "[Machoko]";
+		mes "ไอ้เจ้าตุ๊กตาหมีพวกนี้~~ ไอ้พวกตุ๊กตาหมี...";
+		next;
+		mes "[Machoko]";
+		mes "แต่สำหรับฉันมันเป็นไปไม่ได้เลย... ฉันไม่มีกำลังพอ... พวกมันดูเหมือนจะจัดการง่าย... แต่จริงๆ แข็งแกร่งชะมัด...";
+		next;
+		mes "[Machoko]";
+		mes "ฉันเคยคิดว่าทำเองคนเดียวได้... ฉันประเมินพวกมันต่ำไป... เฮ้อ...";
+		next;
+		mes "[Machoko]";
+		mes "ฉันเผลอเข้าไปโจมตีอย่างบ้าคลั่งแล้วก็ต้องกลับมาแบบสะบักสะบอม... เกือบตายแน่ะค่ะ...";
+		next;
+		mes "[Machoko]";
+		mes "ตอนนี้เกือบจะหายดีแล้ว... ฉันว่าการสำรวจน่ะเป็นไปได้นะ แต่คุณดูจะแข็งแกร่งไม่เบาเลยนี่?";
+		next;
+		mes "[Machoko]";
+		mes "ถ้าอย่างนั้นช่วยฉันที... ฉันต้องการใครสักคนที่สามารถกำราบไอ้พวกตุ๊กตาหมีดุร้ายพวกนั้นได้...";
+		next;
+		mes "[Machoko]";
+		mes "ว่าไงคะ? สนใจเข้าร่วมการสำรวจไหม??";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Machoko]";
+			mes "ใช่สิ... ฉันกำลังจะล้มทั้งยืนอยู่แล้วหลังจากมาอยู่ที่นี่... ช่างเป็นคนที่ไม่มีหัวจิตหัวใจเอาเสียเลย...";
+			close;
+		}
+		mes "[Machoko]";
+		mes "โอเค! ไปลุยกันเลย!!";
+		next;
+		mes "[Machoko]";
+		mes "ไปอัดพวกมันให้ได้สัก 100 ตัวแล้วค่อยกลับมานะ ไม่เกี่ยงว่าเป็นชนิดไหน เจอที่ไหนก็ซัดให้กระเด็นไปเลย!!";
+		next;
+		mes "[Machoko]";
+		mes "ฉัน... ขยับตัวไม่ไหวแล้ว... จะรออยู่... ตรงนี้นะคะ...";
+		close2;
+		setquest 3455;
+		completequest 3455;
+		setquest 3456;
+		end;
+	}
+	switch( checkquest(3457,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Machoko]";
+		mes "เอาล่ะ วันนี้พอแค่นี้ก่อน";
+		next;
+		mes "[Machoko]";
+		mes "กลับมาใหม่พรุ่งนี้นะ!";
+		close;
+	case 2:
+		erasequest 3457;
+		break;
+	}
+	switch( checkquest(3456,HUNTING) ) {
+	case -1:
+		mes "[Machoko]";
+		mes "โอ้ ยินดีที่ได้พบกัน! ยินดีต้อนรับกลับมาค่ะ!";
+		next;
+		mes "[Machoko]";
+		mes "คุณต้องมาที่นี่เพราะร่างกายมันอยากปะทะแน่ๆ เลย";
+		next;
+		mes "[Machoko]";
+		mes "วันนี้สนใจจะเข้าร่วมงานสำรวจที่นี่อีกครั้งไหมคะ??";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Machoko]";
+			mes "อะไรกัน... งั้นคุณมาที่นี่ทำไมล่ะ??";
+			close;
+		}
+		mes "[Machoko]";
+		mes "แน่นอน มันต้องอย่างนี้สิ";
+		next;
+		mes "[Machoko]";
+		mes "ไม่เกี่ยงชนิด แค่อัดพวกมันให้ได้ 100 ตัวแล้วกลับมานะคะ";
+		next;
+		mes "[Machoko]";
+		mes "ฉันจะรออยู่นี่ รีบๆ หน่อยนะคะ!!";
+		close2;
+		setquest 3456;
+		end;
+	case 0:
+	case 1:
+		mes "[Machoko]";
+		mes "ไปอัดพวกมันให้ได้สัก 100 ตัวแล้วค่อยกลับมานะ ไม่เกี่ยงว่าเป็นชนิดไหน เจอที่ไหนก็ซัดให้กระเด็นไปเลย!!";
+		close;
+	case 2:
+		mes "[Machoko]";
+		mes "ฉันรอคุณอยู่นะ... จัดการให้เสร็จไวๆ แล้วกลับมานะคะ...";
+		next;
+		mes "[Machoko]";
+		mes "อืม... แต่มันก็แค่นั้นแหละ... อืม... ใช่!! ดีมากค่ะ!!";
+		next;
+		mes "[Machoko]";
+		mes "ที่เหลือปล่อยให้เป็นหน้าที่ฉันเอง!! ฉันจะรายงานผลต่อทีมสำรวจ ตอนนี้คุณไปพักผ่อนเถอะค่ะ";
+		next;
+		mes "[Machoko]";
+		mes "ขอบคุณมากนะคะ~~";
+		close2;
+		erasequest 3456;
+		setquest 3457;
+		getexp 17500000,12500000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 150 && isbegin_quest(3470) == 2 && isbegin_quest(3455) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3456,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3455) == 2 && checkquest(3457,PLAYTIME) == -1 && checkquest(3456,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3457,PLAYTIME) == 2" );
+	end;
+}
+
+tur_d03_i,125,186,5	script	Orian#orian	4_M_LGTPOOR,{
+	if (BaseLevel < 150)
+		end;
+	if (isbegin_quest(3470) == 0) {
+		mes "[Orian]";
+		mes "สวัสดี!";
+		next;
+		mes "[Orian]";
+		mes "ข้าชื่อ Orian เป็นพนักงานสัญญาจ้างในหน่วยสำรวจภาพลวงตา";
+		next;
+		mes "[Orian]";
+		mes "จริงๆ แล้วมันไม่ใช่สิ่งที่ข้าสนใจหรอก... แต่ข้าต้องการเงินน่ะ...";
+		next;
+		mes "[Orian]";
+		mes "มันจะดีมากถ้าเจ้าช่วยข้า... พอจะเป็นไปได้ไหม?";
+		next;
+		mes "[Orian]";
+		mes "เอ่อ แต่เจ้ายังไม่ได้เข้าร่วมทีมสำรวจเลยนี่นา";
+		next;
+		mes "[Orian]";
+		mes "โปรดไปสมัครสมาชิกกับ <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ผู้บัญชาการที่ Prontera ก่อน แล้วค่อยกลับมานะ!!";
+		close;
+	}
+	if (isbegin_quest(3458) == 0) {
+		mes "[Orian]";
+		mes "สวัสดี!";
+		next;
+		mes "[Orian]";
+		mes "ข้าชื่อ Orian เป็นพนักงานสัญญาจ้างในหน่วยสำรวจภาพลวงตา";
+		next;
+		mes "[Orian]";
+		mes "ทีมสำรวจภาพลวงตาเป็นองค์กรที่เพิ่งก่อตั้งใหม่ ดังนั้นคงจะขาดแคลนบุคลากรอยู่บ้าง ข้าเลยเห็นประกาศรับสมัครพนักงานพาร์ทไทม์แบบสัญญาจ้างน่ะ";
+		next;
+		mes "[Orian]";
+		mes "จริงๆ ข้าไม่สนใจเรื่องภาพลวงตาอะไรนี่หรอก... ข้ายุ่งอยู่กับการหาเลี้ยงชีพ";
+		next;
+		mes "[Orian]";
+		mes "เหอะ... มันเป็นเรื่องของเงินทั้งนั้นแหละ ข้ากะว่าจะซื้อเสื้อผ้าชุดใหม่ตอนได้ค่าจ้างด้วย";
+		next;
+		mes "[Orian]";
+		mes "แต่ขนาดนั้นมันก็ยังไม่ง่ายเลย... ข้ารอเจ้าหน้าที่สำรวจอย่างเจ้ามานานแล้ว เพราะข้าคิดว่าถ้าทำคนเดียวมันคงลำบากน่าดู";
+		next;
+		mes "[Orian]";
+		mes "มันจะดีมากถ้าเจ้าช่วยข้า... พอจะเป็นไปได้ไหม?";
+		next;
+		mes "[Orian]";
+		mes "เจ้าสนใจเข้าร่วมการสำรวจภาพลวงตาครั้งนี้ไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Orian]";
+			mes "โธ่... ในที่สุดข้าก็เจอเจ้าหน้าที่สำรวจแท้ๆ... อ่า... ข้าอยากได้เงินจัง...";
+			close;
+		}
+		mes "[Orian]";
+		mes "โอ้ ขอบใจเจ้ามาก";
+		next;
+		mes "[Orian]";
+		mes "โปรดขึ้นไปหนึ่งชั้นจากที่นี่ แล้วไปยังปราสาท Guyang ที่อ้างว้าง (bleak Guyang Palace)";
+		next;
+		mes "[Orian]";
+		mes "แล้วช่วยกำจัดมอนสเตอร์ที่นั่น 100 ตัว ไม่เกี่ยงชนิดนะ";
+		next;
+		mes "[Orian]";
+		mes "ข้าจะรอเจ้าอยู่ที่นี่ ขอให้เดินทางปลอดภัยนะ!!";
+		close2;
+		setquest 3458;
+		completequest 3458;
+		setquest 3459;
+		end;
+	}
+	switch( checkquest(3460,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Orian]";
+		mes "ตอนนี้เจ้ายังไม่พร้อมที่จะทำการวิจัยหรอก";
+		next;
+		mes "[Orian]";
+		mes "ข้าว่าพรุ่งนี้น่าจะโอเคแล้ว เจ้าค่อยกลับมาใหม่หลังจากวันพรุ่งนี้ได้ไหม?";
+		close;
+	case 2:
+		erasequest 3460;
+		break;
+	}
+	switch( checkquest(3459,HUNTING) ) {
+	case -1:
+		mes "[Orian]";
+		mes "สวัสดี เจ้าเป็นเพียงคนเดียวที่จะช่วยข้าได้...";
+		next;
+		mes "[Orian]";
+		mes "สิ่งที่เราต้องทำก็เหมือนครั้งที่แล้วเลย...";
+		next;
+		mes "[Orian]";
+		mes "เจ้าจะช่วยข้าสำรวจภาพลวงตาอีกครั้งไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Orian]";
+			mes "โถ่เอ๊ย...";
+			next;
+			mes "[Orian]";
+			mes "ฮือๆ.....";
+			close;
+		}
+		mes "[Orian]";
+		mes "อุ๊ย... ขอบใจเจ้ามากนะ...";
+		next;
+		mes "[Orian]";
+		mes "ไปที่ลานยิงธนูที่อ้างว้าง (bleak archery) แล้วกำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัวนะ";
+		next;
+		mes "[Orian]";
+		mes "ถ้าอย่างนั้น ระวังตัวด้วยล่ะ...";
+		close2;
+		setquest 3459;
+		end;
+	case 0:
+	case 1:
+		mes "[Orian]";
+		mes "ทำลายมอนสเตอร์ชนิดใดก็ได้ 100 ตัวในลานยิงธนูที่อ้างว้าง (bleak Archery)";
+		close;
+	case 2:
+		mes "[Orian]";
+		mes "เจ้ากลับบ้านมาอย่างปลอดภัยแล้วนะ";
+		next;
+		mes "[Orian]";
+		mes "เอ่อ... เจ้าจัดการพวกมันได้เร็วกว่าที่ข้าคิดไว้อีกนะเนี่ย.. เจ้า... เจ้าเป็นยอดฝีมือเหรอ??";
+		next;
+		mes "[Orian]";
+		mes "นั่นน่าจะทำให้งานส่วนที่เหลือของข้าดำเนินไปได้ง่ายขึ้นเยอะเลย";
+		next;
+		mes "[Orian]";
+		mes "ขอบใจนะ~ ขอบใจสำหรับความเหนื่อยยากของเจ้าด้วย!!";
+		close2;
+		erasequest 3459;
+		setquest 3460;
+		getexp 22500000,16000000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 150 && isbegin_quest(3470) == 2 && isbegin_quest(3458) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3459,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3458) == 2 && checkquest(3460,PLAYTIME) == -1 && checkquest(3459,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3460,PLAYTIME) == 2" );
+	end;
+}
+
+ant_d02_i,167,184,5	script	Sheshin#sesin	1_M_MOC_LORD,{
+	if (BaseLevel < 160)
+		end;
+	if (isbegin_quest(3470) == 0) {
+		mes "[Sheshin]";
+		mes "ยินดีที่ได้รู้จัก";
+		next;
+		mes "[Sheshin]";
+		mes "ฉันคือ Sheshin สังกัดหน่วยสำรวจ Illusion Investigation Corps";
+		next;
+		mes "[Sheshin]";
+		mes "ฉันเคยคิดว่าพลังการต่อสู้ของฉันเพียงพอที่จะสำรวจที่นี่แล้ว... แต่ดูเหมือนฉันจะคิดผิดไป";
+		next;
+		mes "[Sheshin]";
+		mes "พวกมอนสเตอร์ที่นี่แข็งแกร่งกว่าที่ฉันคาดไว้มาก";
+		next;
+		mes "[Sheshin]";
+		mes "อา... ฉันล่ะภูมิใจในตัวเองจริงๆ... แต่ฉันต้องการความช่วยเหลือ... อื้ม...";
+		next;
+		mes "[Sheshin]";
+		mes "นักผจญภัยยังไม่ได้เข้าร่วมกับทีม Illusion Investigation เลยนี่นา";
+		next;
+		mes "[Sheshin]";
+		mes "คุณอยากจะเข้าร่วมทีม Illusionary Investigation กับเราไหม? มันน่าตื่นเต้นไม่ใช่เหรอที่จะได้สำรวจปรากฏการณ์ที่ไม่รู้จัก?";
+		next;
+		mes "[Sheshin]";
+		mes "หากคุณต้องการสมัคร โปรดไปพบ Commander <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ที่เมือง Prontera นะ";
+		close;
+	}
+	if (isbegin_quest(3507) == 0) {
+		mes "[Sheshin]";
+		mes "ยินดีที่ได้รู้จัก";
+		next;
+		mes "[Sheshin]";
+		mes "ฉันคือ Sheshin สังกัดหน่วยสำรวจ Illusion Investigation Corps";
+		next;
+		mes "[Sheshin]";
+		mes "ในอดีตฉันเคยปฏิบัติหน้าที่ในฐานะสมาชิกของ Continental Guard ในตอนนั้นฉันได้รับมอบหมายให้สำรวจรอยแยกมิติที่สร้างขึ้นโดยพลังของจอมปีศาจ Morocc";
+		next;
+		mes "[Sheshin]";
+		mes "ฉันสันนิษฐานได้ในระดับหนึ่งว่าภาพมายา (Illusion) ที่ปรากฏขึ้นทุกแห่งนั้น มีบางอย่างเกี่ยวข้องกับพลังของรอยแยกมิติ";
+		next;
+		mes "[Sheshin]";
+		mes "มันได้รับการประกาศอย่างเป็นทางการจาก Commander Joel แล้วว่า Illusion เป็นปรากฏการณ์ที่เกิดจากรอยแยกมิติ";
+		next;
+		mes "[Sheshin]";
+		mes "และในไม่ช้าภาพมายาแห่งใหม่ก็ถูกค้นพบ ใช่แล้ว... ตรงนี้แหละ";
+		next;
+		mes "[Sheshin]";
+		mes "ฉันเข้าร่วมทีม Illusion Investigation เพราะอยากเห็นมันด้วยตาตัวเอง และตอนนี้ฉันก็มาอยู่ที่นี่แล้ว";
+		next;
+		mes "[Sheshin]";
+		mes "แต่ฉันดันเจอปัญหาเล็กน้อยเข้าให้...";
+		next;
+		mes "[Sheshin]";
+		mes "ฉันเคยคิดว่าพลังการต่อสู้ของฉันเพียงพอที่จะสำรวจที่นี่แล้ว... แต่ดูเหมือนฉันจะคิดผิดไป";
+		next;
+		mes "[Sheshin]";
+		mes "พวกมอนสเตอร์ที่นี่แข็งแกร่งกว่าที่ฉันคาดไว้มาก";
+		next;
+		mes "[Sheshin]";
+		mes "อา... ศักดิ์ศรีของฉันมันเจ็บช้ำจริงๆ... แต่ฉันต้องการความช่วยเหลือ...";
+		next;
+		mes "[Sheshin]";
+		mes "อืม... ฉันคิดว่าสำหรับคุณที่เป็นนักผจญภัยมันน่าจะพอเป็นไปได้...";
+		next;
+		mes "[Sheshin]";
+		mes "ฉันรู้สึกได้ว่าคุณมีพลังมากกว่าฉันมาก";
+		next;
+		mes "[Sheshin]";
+		mes "คุณอยากจะช่วยฉันสำรวจภาพมายาในเขตนี้ไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Sheshin]";
+			mes "นี่น่าจะเป็นโอกาสที่ดีสำหรับนักผจญภัยแท้ๆ...";
+			close;
+		}
+		mes "[Sheshin]";
+		mes "ดีมาก";
+		next;
+		mes "[Sheshin]";
+		mes "โปรดกำจัดมอนสเตอร์ชนิดใดก็ได้ที่อยู่ข้างในนี้จำนวน 100 ตัว";
+		next;
+		mes "[Sheshin]";
+		mes "ถ้าอย่างนั้น โปรดเดินทางอย่างระมัดระวังอย่าให้ได้รับบาดเจ็บนะ";
+		close2;
+		setquest 3507;
+		completequest 3507;
+		setquest 3508;
+		end;
+	}
+	switch( checkquest(3509,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Sheshin]";
+		mes "วันนี้คุณไม่ต้องทำวิจัยเพิ่มแล้วล่ะ";
+		next;
+		mes "[Sheshin]";
+		mes "พรุ่งนี้ค่อยกลับมาใหม่ถ้าคุณต้องการนะ?";
+		close;
+	case 2:
+		erasequest 3509;
+		break;
+	}
+	switch( checkquest(3508,HUNTING) ) {
+	case -1:
+		mes "[Sheshin]";
+		mes "ยินดีต้อนรับ คุณมาที่นี่เพื่อช่วยสำรวจภาพมายาใช่ไหม?";
+		next;
+		mes "[Sheshin]";
+		mes "คุณสามารถทำเหมือนครั้งที่แล้วได้เลย";
+		next;
+		mes "[Sheshin]";
+		mes "ถ้าคุณกำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว คุณสนใจจะเข้าร่วมไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Sheshin]";
+			mes "น่าเสียดายจัง มันน่าเศร้าที่ฉันยังขาดพละกำลังอยู่";
+			close;
+		}
+		mes "[Sheshin]";
+		mes "ดีมาก";
+		next;
+		mes "[Sheshin]";
+		mes "ถ้าอย่างนั้น โปรดเดินทางอย่างระมัดระวังอย่าให้ได้รับบาดเจ็บนะ";
+		close2;
+		setquest 3508;
+		end;
+	case 0:
+	case 1:
+		mes "[Sheshin]";
+		mes "กำจัดมอนสเตอร์ชนิดใดก็ได้จำนวน 100 ตัว";
+		close;
+	case 2:
+		mes "[Sheshin]";
+		mes "ฉันเห็นแล้ว... คุณทำเสร็จเร็วมากและกลับมาแล้ว";
+		next;
+		mes "[Sheshin]";
+		mes "ฉันจำเป็นต้องตรวจสอบเพิ่มเติมเพื่อดูว่าปรากฏการณ์ที่นี่ได้รับผลกระทบจากรอยแยกมิติด้วยหรือไม่";
+		next;
+		mes "[Sheshin]";
+		mes "จากนี้ไปฉันจะจัดการงานที่เหลือเอง";
+		next;
+		mes "[Sheshin]";
+		mes "ขอบคุณมากสำหรับความช่วยเหลือของคุณ";
+		close2;
+		erasequest 3508;
+		setquest 3509;
+		getexp 27000000,18000000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 160 && isbegin_quest(3470) == 2 && isbegin_quest(3507) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3508,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3507) == 2 && checkquest(3509,PLAYTIME) == -1 && checkquest(3508,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3509,PLAYTIME) == 2" );
+	end;
+}
+
+com_d02_i,253,232,3	script	Cassis#kesis	4_M_KHBOY,{
+	if (BaseLevel < 160)
+		end;
+	if (isbegin_quest(3470) == 0) {
+		mes "[Cassis]";
+		mes "สวัสดี";
+		next;
+		mes "[Cassis]";
+		mes "นี่คือ Cassis จากทีม Illusion Investigation Corps";
+		next;
+		mes "[Cassis]";
+		mes "ถึงแม้ที่นี่จะเต็มไปด้วยมอนสเตอร์ แต่ฉันก็ยังรู้สึกสบายใจเมื่ออยู่ที่นี่";
+		next;
+		mes "[Cassis]";
+		mes "ฉันได้ยินมาว่าหนึ่งในนักสำรวจกำลังมาช่วย... ใช่คุณหรือเปล่า?";
+		next;
+		mes "[Cassis]";
+		mes "โอ้ ไม่ใช่แฮะ คุณไม่ใช่สมาชิกของทีมสำรวจ... อื้ม";
+		next;
+		mes "[Cassis]";
+		mes "คุณอยากเข้าร่วมทีม Illusionary Investigation ด้วยไหม? คุณอยากจะสำรวจปรากฏการณ์ประหลาดๆ หรือเปล่า?";
+		next;
+		mes "[Cassis]";
+		mes "ถ้าคุณไม่รังเกียจ โปรดไปสมัครสมาชิกกับ Commander <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ที่เมือง Prontera แล้วค่อยกลับมานะ!";
+		close;
+	}
+	if (isbegin_quest(3461) == 0) {
+		mes "[Cassis]";
+		mes "สวัสดี";
+		next;
+		mes "[Cassis]";
+		mes "นี่คือ Cassis จากทีม Illusion Investigation Corps";
+		next;
+		mes "[Cassis]";
+		mes "ถึงแม้ที่นี่จะเต็มไปด้วยมอนสเตอร์ แต่ฉันก็ยังรู้สึกสบายใจเมื่ออยู่ที่นี่";
+		next;
+		mes "[Cassis]";
+		mes "ฉันไม่ค่อยชอบยุ่งเกี่ยวกับผู้คนเท่าไหร่ ก่อนที่ฉันจะเข้าร่วมทีมสำรวจ ฉันเคยเปิดร้านอยู่ใน Prontera...";
+		next;
+		mes "[Cassis]";
+		mes "ฉันไม่ชอบความรู้สึกที่ต้องอยู่ท่ามกลางฝูงชน มันยากที่จะทนได้... ฉันเดาว่าการเจอผู้คนจำนวนมากมันทำให้บุคลิกของฉันเครียดน่ะ";
+		next;
+		mes "[Cassis]";
+		mes "ถึงแม้ที่นี่จะเต็มไปด้วยมอนสเตอร์ แต่ฉันยังรู้สึกสบายใจ อย่างน้อยพวกมอนสเตอร์มันก็ไม่คุยกับฉันล่ะนะ";
+		next;
+		mes "[Cassis]";
+		mes "เอ่อ อีกอย่าง ฉันได้ยินมาว่าหนึ่งในนักสำรวจกำลังมาช่วย... ฉันเดาว่าเป็นคุณนะ?";
+		next;
+		mes "[Cassis]";
+		mes "คุณได้รับข้อมูลทั่วไปจาก Captain Joel มาหรือยัง? คุณแค่ต้องแสดงพลังการต่อสู้ของคุณออกมาโดยไม่ต้องลังเล!!";
+		next;
+		mes "[Cassis]";
+		mes "คุณอยากจะมีส่วนร่วมในการสำรวจสถานที่แห่งนี้ไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Cassis]";
+			mes "อ้าว แล้วตกลงใครกันแน่ที่ทีมสำรวจจะส่งมา...?";
+			close;
+		}
+		mes "[Cassis]";
+		mes "ตกลง ขอบคุณนะ";
+		next;
+		mes "[Cassis]";
+		mes "แค่กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัวที่มีอยู่ที่นี่";
+		next;
+		mes "[Cassis]";
+		mes "ถ้าอย่างนั้นก็ขอให้โชคดี";
+		close2;
+		setquest 3461;
+		completequest 3461;
+		setquest 3462;
+		end;
+	}
+	switch( checkquest(3463,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Cassis]";
+		mes "การสำรวจของวันนี้เสร็จสิ้นแล้ว";
+		next;
+		mes "[Cassis]";
+		mes "มันจะดีมากถ้าคุณมาในพรุ่งนี้ด้วย... โปรดแวะมาหากคุณมีเวลานะ";
+		close;
+	case 2:
+		erasequest 3463;
+		break;
+	}
+	switch( checkquest(3462,HUNTING) ) {
+	case -1:
+		mes "[Cassis]";
+		mes "สวัสดี วันนี้คุณมาเพื่อช่วยสำรวจใช่ไหม?";
+		next;
+		mes "[Cassis]";
+		mes "เนื้อหาเหมือนกับครั้งที่แล้วเลย";
+		next;
+		mes "[Cassis]";
+		mes "ถ้าคุณกำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว คุณอยากจะมีส่วนร่วมไหม";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Cassis]";
+			mes "คงจะดีถ้าคุณช่วยฉันได้ในวันนี้...";
+			close;
+		}
+		mes "[Cassis]";
+		mes "ฉันชอบนะ!!";
+		next;
+		mes "[Cassis]";
+		mes "หลังจากเข้าไปแล้ว ให้กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว";
+		next;
+		mes "[Cassis]";
+		mes "ถ้าอย่างนั้นก็ระวังตัวด้วย!";
+		close2;
+		setquest 3462;
+		end;
+	case 0:
+	case 1:
+		mes "[Cassis]";
+		mes "กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว";
+		close;
+	case 2:
+		mes "[Cassis]";
+		mes "ยินดีต้อนรับ คุณทำเสร็จแล้ว!!";
+		next;
+		mes "[Cassis]";
+		mes "คุณทำงานหนักมากจริงๆ มีบาดแผลตรงไหนหรือเปล่า?";
+		next;
+		mes "[Cassis]";
+		mes "ทิ้งส่วนที่เหลือให้ฉันจัดการเอง ขอบใจนะ";
+		close2;
+		erasequest 3462;
+		setquest 3463;
+		getexp 29000000,19600000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 160 && isbegin_quest(3470) == 2 && isbegin_quest(3461) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3462,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3461) == 2 && checkquest(3463,PLAYTIME) == -1 && checkquest(3462,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3463,PLAYTIME) == 2" );
+	end;
+}
+
+/*
+prt_fild01,131,364,5	script	Terrian#terian	4W_M_02,{
+	if (BaseLevel < 170) {
+		mes "[Terrian]";
+		mes "อากาศดีจังเลยนะ";
+		next;
+		mes "[Terrian]";
+		mes "อากาศดีก็จริง แต่เลเวลของคุณยังต่ำไปหน่อยนะ";
+		next;
+		mes "^4d4dff== นี่คือเควสต์สำหรับเลเวล 170 ขึ้นไป ==^000000";
+		close;
+	}
+	if (isbegin_quest(3470) == 0) {
+		mes "[Terrian]";
+		mes "อากาศดีจริงๆ";
+		next;
+		mes "[Terrian]";
+		mes "ฉัน Terrian จากทีม Illusion Investigation Corps";
+		next;
+		mes "[Terrian]";
+		mes "คุณคิดอย่างไรกับทฤษฎีการกลับชาติมาเกิดล่ะ นักผจญภัย?";
+		next;
+		mes "[Terrian]";
+		mes "ดูเหมือนว่าปรากฏการณ์ที่ใกล้เคียงกับทฤษฎีการกลับชาติมาเกิดที่ฉันเชื่อนั้น กำลังปรากฏขึ้นในภาพมายา (Illusion)";
+		next;
+		mes "[Terrian]";
+		mes "เพื่อที่จะตรวจสอบเรื่องนี้ ฉันจึงเข้าเป็นสมาชิกของทีม Illusion Investigation";
+		next;
+		mes "[Terrian]";
+		mes "คุณอยากจะเข้าร่วมกับฉันด้วยไหม นักผจญภัย? เอ้อ... แต่คุณยังไม่ได้เป็นสมาชิกของ Illusion Investigation Corps เลยนี่นา";
+		next;
+		mes "[Terrian]";
+		mes "ถ้าคุณไม่รังเกียจ โปรดไปสมัครสมาชิกกับ Commander <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ที่เมือง Prontera นะ";
+		close;
+	}
+	if (isbegin_quest(3467) == 0) {
+		mes "[Terrian]";
+		mes "อากาศดีจริงๆ";
+		next;
+		mes "[Terrian]";
+		mes "ฉัน Terrian จากทีม Illusion Investigation Corps";
+		next;
+		mes "[Terrian]";
+		mes "คุณคิดอย่างไรกับทฤษฎีการกลับชาติมาเกิดล่ะ นักผจญภัย?";
+		next;
+		mes "[Terrian]";
+		mes "ดูเหมือนว่าปรากฏการณ์ที่ใกล้เคียงกับทฤษฎีการกลับชาติมาเกิดที่ฉันเชื่อนั้น กำลังปรากฏขึ้นในภาพมายา (Illusion)";
+		next;
+		mes "[Terrian]";
+		mes "เพื่อที่จะตรวจสอบเรื่องนี้ ฉันจึงเข้าเป็นสมาชิกของทีม Illusion Investigation";
+		next;
+		mes "[Terrian]";
+		mes "หลังจากที่ดอกไม้เหี่ยวเฉาในฤดูหนาว พวกมันจะผลิบานอีกครั้งในฤดูใบไม้ผลิ พวกมันมักจะผลิบานในจุดที่ดอกไม้ร่วงโรยและหลุดจากกิ่งเสมอ";
+		next;
+		mes "[Terrian]";
+		mes "มันเหมือนกันกับพวกสัตว์ รูปลักษณ์ของแต่ละตัวนั้นแปรเปลี่ยนไปนับไม่ถ้วน แต่เป็นเวลาหลายร้อยปีมาแล้วที่ถูกค้นพบว่ามันจะมีรูปลักษณ์ที่เหมือนกันทุกประการปรากฏขึ้นมาเสมอ";
+		next;
+		mes "[Terrian]";
+		mes "นี่คือแกนหลักของทฤษฎีการกลับชาติมาเกิด และมันต้องใช้เวลานานมากในการสังเกตและตรวจสอบมัน";
+		next;
+		mes "[Terrian]";
+		mes "แต่ในสถานที่อย่าง Illusion พวกมอนสเตอร์กำลังทวีคูณในอัตราที่ผิดปกติ";
+		next;
+		mes "[Terrian]";
+		mes "ไม่สิ พูดให้แม่นยำก็คือ เมื่อจำนวนมอนสเตอร์ใน Illusion ลดลง จำนวนของพวกมันจะฟื้นกลับมาเร็วมาก";
+		next;
+		mes "[Terrian]";
+		mes "เนื่องจากความเร็วในการฟื้นตัวของวัตถุมอนสเตอร์นั้นเร็วมาก มันจึงเป็นโอกาสที่ดีสำหรับฉันที่จะตรวจสอบ 'ความคงอยู่ของวัตถุ' ที่ทีม Illusion Investigation ต้องการ และดูว่าพวกมันกลับชาติมาเกิดหรือไม่";
+		next;
+		mes "[Terrian]";
+		mes "คุณอยากจะเข้าร่วมการสำรวจที่มีความหมายนี้กับเราไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Terrian]";
+			mes "เราคงต้องรอให้นักสำรวจคนอื่นมาแทนล่ะนะ...";
+			close;
+		}
+		mes "[Terrian]";
+		mes "ขอบคุณนะ";
+		next;
+		mes "[Terrian]";
+		mes "เพื่อที่จะกำหนดอัตราการฟื้นตัวของแต่ละตัว เราจำเป็นต้องลดจำนวนมอนสเตอร์ให้เร็วที่สุดเท่าที่จะทำได้";
+		next;
+		mes "[Terrian]";
+		mes "โปรดกลับมาหลังจากที่กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัวในดันเจี้ยน Twisted Labyrinth Forest ที่เข้าได้จากทางเข้าด้านหน้านี้";
+		next;
+		mes "[Terrian]";
+		mes "ถ้าอย่างนั้นฉันจะรอคุณนะ";
+		close2;
+		setquest 3464;
+		completequest 3464;
+		setquest 3465;
+		end;
+	}
+	switch( checkquest(3466,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Terrian]";
+		mes "สำหรับการสำรวจวันนี้แค่นี้ก็เพียงพอแล้ว";
+		next;
+		mes "[Terrian]";
+		mes "ประชากรพวกมันจะฟื้นตัวเต็มที่ในวันพรุ่งนี้ ดังนั้นหากคุณไหว ฉันจะขอบคุณมากถ้าคุณสามารถมาช่วยฉันสำรวจได้อีก";
+		close;
+	case 2:
+		erasequest 3466;
+		break;
+	}
+	switch( checkquest(3465,HUNTING) ) {
+	case -1:
+		mes "[Terrian]";
+		mes "สวัสดี วันนี้คุณมาเพื่อช่วยสำรวจใช่ไหม?";
+		next;
+		mes "[Terrian]";
+		mes "เนื้อหาที่จะต้องทำเหมือนกับครั้งที่แล้วเลย";
+		next;
+		mes "[Terrian]";
+		mes "ถ้าคุณกำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว คุณอยากจะมีส่วนร่วมไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Terrian]";
+			mes "ขออภัย บางทีฉันควรจะไปขอความช่วยเหลือจากคนอื่น...";
+			close;
+		}
+		mes "[Terrian]";
+		mes "ขอบคุณนะ";
+		next;
+		mes "[Terrian]";
+		mes "เพื่อที่จะกำหนดอัตราการฟื้นตัวของแต่ละตัว เราจำเป็นต้องลดจำนวนมอนสเตอร์ให้เร็วที่สุดเท่าที่จะทำได้";
+		next;
+		mes "[Terrian]";
+		mes "โปรดกลับมาหลังจากที่กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัวในดันเจี้ยน Twisted Labyrinth Forest ที่เข้าได้จากทางเข้าด้านหน้านี้";
+		close2;
+		setquest 3465;
+		end;
+	case 0:
+	case 1:
+		mes "[Terrian]";
+		mes "กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว";
+		close;
+	case 2:
+		mes "[Terrian]";
+		mes "ขอบคุณที่คุณกลับมาเร็วขนาดนี้";
+		next;
+		mes "[Terrian]";
+		mes "ต้องขอบคุณการทำงานของคุณ การเก็บรวบรวมข้อมูลจึงง่ายขึ้นอย่างที่ไม่เคยเป็นมาก่อน";
+		next;
+		mes "[Terrian]";
+		mes "ฉันจะส่งผลลัพธ์ไปให้ทีมสำรวจในเร็วๆ นี้ ขอบคุณมาก!!";
+		close2;
+		erasequest 3465;
+		setquest 3466;
+		getexp 35000000,22750000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 170 && isbegin_quest(3470) == 2 && isbegin_quest(3464) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3465,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3464) == 2 && checkquest(3466,PLAYTIME) == -1 && checkquest(3465,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3466,PLAYTIME) == 2" );
+	end;
+}
+*/
+
+iz_d04_i,127,224,5	script	Lister#ristar	4_F_01,{
+	if (BaseLevel < 180) {
+		mes "[Lister]";
+		mes "สวัสดี";
+		next;
+		mes "[Lister]";
+		mes "ฉันต้องการความช่วยเหลือในงานวิจัย ฉันจึงกำลังมองหาผู้ช่วยที่เหมาะสมอยู่";
+		next;
+		mes "[Lister]";
+		mes "คุณยังไม่ใช่คนที่ใช่ในตอนนี้ ขอโทษด้วยนะ";
+		next;
+		mes "^4d4dff== นี่คือเควสต์สำหรับเลเวล 180 ขึ้นไป ==^000000";
+		close;
+	}
+	if (isbegin_quest(3470) == 0) {
+		mes "[Lister]";
+		mes "สวัสดีจ้า~";
+		next;
+		mes "[Lister]";
+		mes "ฉันคือ Lista ผู้ปฏิบัติหน้าที่ในทีม Illusion Investigation Team";
+		next;
+		mes "[Lister]";
+		mes "ก็นานพอสมควรแล้วนะตั้งแต่ฉันลงมาที่ใต้ทะเลลึกพร้อมกับท่านอาจารย์";
+		next;
+		mes "[Lister]";
+		mes "ฉันทำงานหนักอยู่เสมอ แต่ฉันคิดว่าท่านอาจารย์ยังคงไม่ยอมรับในตัวฉัน";
+		next;
+		mes "[Lister]";
+		mes "พอดีเลย ทีม Illusion Investigation บอกว่าพวกเขาจำเป็นต้องสำรวจใต้ทะเลลึกที่นี่ ฉันเลยรีบสมัครทันที";
+		next;
+		mes "[Lister]";
+		mes "ฉันมั่นใจว่าท่านอาจารย์คงจะดีใจถ้าเราได้ข้อมูลเกี่ยวกับใต้ทะเลลึกที่นี่เพิ่มขึ้นแม้เพียงเล็กน้อยในฐานะส่วนหนึ่งของทีมสำรวจ!!!";
+		next;
+		mes "[Lister]";
+		mes "คุณอยากจะมากับฉันไหม?";
+		next;
+		mes "[Lister]";
+		mes "เอ้อ แต่คุณยังไม่ได้เข้าร่วมทีมสำรวจเลยนี่นา";
+		next;
+		mes "[Lister]";
+		mes "โปรดไปสมัครสมาชิกกับ Commander <NAVI>[Joel]<INFO>prt_in,136,34,</INFO></NAVI> ที่เมือง Prontera แล้วค่อยมานะ!!";
+		close;
+	}
+	if (isbegin_quest(3467) == 0) {
+		mes "[Lister]";
+		mes "สวัสดีจ้า~";
+		next;
+		mes "[Lister]";
+		mes "ฉันคือ Lista ผู้ปฏิบัติหน้าที่ในทีม Illusion Investigation Team";
+		next;
+		mes "[Lister]";
+		mes "ก็นานพอสมควรแล้วนะตั้งแต่ฉันลงมาที่ใต้ทะเลลึกพร้อมกับท่านอาจารย์";
+		next;
+		mes "[Lister]";
+		mes "ฉันทำงานหนักอยู่เสมอ แต่ฉันคิดว่าท่านอาจารย์ยังคงไม่ยอมรับในตัวฉัน";
+		next;
+		mes "[Lister]";
+		mes "พอดีเลย ทีม Illusion Investigation บอกว่าพวกเขาจำเป็นต้องสำรวจใต้ทะเลลึกที่นี่ ฉันเลยรีบสมัครทันที";
+		next;
+		mes "[Lister]";
+		mes "ฉันมั่นใจว่าท่านอาจารย์คงจะดีใจถ้าเราได้ข้อมูลเกี่ยวกับใต้ทะเลลึกที่นี่เพิ่มขึ้นแม้เพียงเล็กน้อยในฐานะส่วนหนึ่งของทีมสำรวจ!!!";
+		next;
+		mes "[Lister]";
+		mes "ฉันกำลังรอสมาชิกที่จะมาช่วยฉันสำรวจอย่างใจจดใจจ่อ และมันก็ไปได้สวยเลยล่ะ~";
+		next;
+		mes "[Lister]";
+		mes "คุณอยากจะมีส่วนร่วมในการสำรวจใต้ทะเลลึกครั้งนี้ไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Lister]";
+			mes "ฉันถูกทอดทิ้งแบบนี้... มันคงผิดที่ฉันเองที่อยากให้ท่านอาจารย์ยอมรับ...";
+			close;
+		}
+		mes "[Lister]";
+		mes "โอ้ ขอบคุณนะ!";
+		next;
+		mes "[Lister]";
+		mes "ลงไปที่ดันเจี้ยนชั้นล่างของ Abyssal Undersea Cave แล้วกำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว";
+		next;
+		mes "[Lister]";
+		mes "ถ้าอย่างนั้นก็ระวังตัวด้วย!";
+		close2;
+		setquest 3467;
+		completequest 3467;
+		setquest 3468;
+		end;
+	}
+	switch( checkquest(3469,PLAYTIME) ) {
+	case -1:
+		break;
+	case 0:
+	case 1:
+		mes "[Lister]";
+		mes "วันนี้พอแค่นี้ก่อนเถอะ";
+		next;
+		mes "[Lister]";
+		mes "ฉันน่าจะกลับไปทำงานต่อได้ในวันพรุ่งนี้ คุณช่วยมาคุยกับฉันอีกครั้งในตอนนั้นได้ไหม??";
+		close;
+	case 2:
+		erasequest 3469;
+		break;
+	}
+	switch( checkquest(3468,HUNTING) ) {
+	case -1:
+		mes "[Lister]";
+		mes "สวัสดี วันนี้คุณอยากจะมาทำวิจัยกับฉันไหม??";
+		next;
+		mes "[Lister]";
+		mes "แค่ทำเหมือนครั้งที่แล้วนั่นแหละ!";
+		next;
+		mes "[Lister]";
+		mes "ถ้าคุณกำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว คุณอยากจะมีส่วนร่วมไหม?";
+		next;
+		if (select( "เข้าร่วม", "ไม่เข้าร่วม" ) == 2) {
+			mes "[Lister]";
+			mes "วันนี้... ฉัน... ศิษย์... ผู้ไร้ความสามารถ...";
+			close;
+		}
+		mes "[Lister]";
+		mes "ดีเลย! รับทราบ";
+		next;
+		mes "[Lister]";
+		mes "ลงไปที่ชั้นล่างของ Abyssal Undersea Cave และกำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว";
+		next;
+		mes "[Lister]";
+		mes "ถ้าอย่างนั้นก็ระวังตัวด้วย!";
+		close2;
+		setquest 3468;
+		end;
+	case 0:
+	case 1:
+		mes "[Lister]";
+		mes "กำจัดมอนสเตอร์ชนิดใดก็ได้ 100 ตัว";
+		close;
+	case 2:
+		mes "[Lister]";
+		mes "เป็นยังไงบ้าง? พวกมอนสเตอร์ที่ชั้นล่างแข็งแกร่งมากเลยใช่ไหม??";
+		next;
+		mes "[Lister]";
+		mes "คุณทำงานหนักมาก... ถ้าอย่างนั้นฉันคงต้องลงไปอย่างระมัดระวังแล้วล่ะ";
+		next;
+		mes "[Lister]";
+		mes "ส่วนที่เหลือฉันจะจัดการเอง ขอบคุณมากจริงๆ นะ!!";
+		close2;
+		erasequest 3468;
+		setquest 3469;
+		getexp 65000000,45000000;
+		end;
+	}
+	end;
+
+OnInit:
+	questinfo( QTYPE_QUEST, QMARK_YELLOW, "BaseLevel >= 180 && isbegin_quest(3470) == 2 && isbegin_quest(3467) == 0" );
+
+	questinfo( QTYPE_QUEST2, QMARK_YELLOW, "checkquest(3468,HUNTING) == 2" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "isbegin_quest(3467) == 2 && checkquest(3469,PLAYTIME) == -1 && checkquest(3468,HUNTING) == -1" );
+	questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(3469,PLAYTIME) == 2" );
+	end;
+}

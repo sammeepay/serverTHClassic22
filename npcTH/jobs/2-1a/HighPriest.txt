@@ -1,0 +1,82 @@
+//===== rAthena Script ======================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== By: ==================================================
+//= Nana
+//= finished, optimized and tested by Lupus
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== Additional Comments: ================================= 
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//============================================================ 
+
+valkyrie,44,42,5	script	High Priest#Valkyrie	60,{
+	if (ADVJOB == 0 || Upper != 1) {
+		set .@karma_d,rand(1,10);
+		if (.@karma_d > 4) {
+			mes "[High Priest]";
+			mes "ขอแสดงความยินดีด้วย";
+			mes "เกียรติยศแด่เหล่านักรบ!";
+			close;
+		}
+		mes "[High Priest]";
+		mes "ด้วยอำนาจแห่ง";
+		mes "ความศักดิ์สิทธิ์ ขอให้พวกเรา";
+		mes "จงพบกับความสงบ พละกำลัง";
+		mes "และการคุ้มครอง โปรดปลดปล่อย";
+		mes "พวกเราจากอำนาจแห่งความชั่วร้าย...";
+		close;
+	}
+	else if (ADVJOB == Job_High_Priest && Class == Job_Acolyte_High && JobLevel > 39) {
+		mes "[High Priest]";
+		mes "โลกของเรากำลัง";
+		mes "ต้องการผู้ที่มี";
+		mes "ความสามารถและความเชื่อมั่น";
+		mes "โปรดดำเนินงาน";
+		mes "อันดีงามของเจ้าต่อไปในฐานะ";
+		mes "วีรบุรุษแห่งความศักดิ์สิทธิ์ที่ยิ่งใหญ่กว่าเดิม...";
+		next;
+		mes "[High Priest]";
+		mes "เจ้าต้องการที่จะ";
+		mes "กลายเป็น High Priest หรือไม่?";
+		next;
+		if (select("ไม่:ตกลง") == 1) {
+			mes "[High Priest]";
+			mes "เมื่อเจ้าพร้อมแล้ว";
+			mes "เชิญกลับมาได้ทุกเมื่อ";
+			mes "เกียรติยศแด่เหล่านักรบ!";
+			close;
+		}
+		if (SkillPoint) {
+			mes "[High Priest]";
+			mes "เจ้ายังสามารถเรียนรู้ทักษะเพิ่มเติมได้อีก โปรดใช้";
+			mes "Skill Points ที่เหลืออยู่ทั้งหมดของเจ้าก่อนที่จะกลับมาหาข้า";
+			close;
+		}
+		jobchange Job_High_Priest;
+		set ADVJOB,0;
+		mes "[High Priest]";
+		mes "ขอแสดงความยินดีด้วย";
+		mes "ในฐานะ High Priest";
+		mes "ข้าหวังว่าเจ้าจะชี้นำ";
+		mes "ผู้อื่นไปบนเส้นทาง";
+		mes "แห่งความศักดิ์สิทธิ์...";
+		close;
+	}
+	mes "[High Priest]";
+	mes "ยินดีต้อนรับ";
+	mes "สู่ Valhalla";
+	mes "วิหารแห่งเกียรติยศ";
+	next;
+	mes "[High Priest]";
+	mes "โปรดทำตัว";
+	mes "ตามสบาย";
+	mes "ในระหว่างที่เจ้าอยู่ที่นี่";
+	mes "เกียรติยศแด่เหล่านักรบ!";
+	close;
+}

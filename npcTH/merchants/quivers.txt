@@ -1,0 +1,172 @@
+//===== rAthena Script =======================================
+//= Arrow Quiver Event
+//===== By: ==================================================
+//= Muad_Dib (Prometheus Project); L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Turns arrows into Arrow Quivers.
+//= Breakdown of Subroutine "S_BuyQuiver"
+//= arg(0): Type of Arrow to be packaged (item ID).
+//= arg(1): How many of each 'getarg(0)' arrow per quiver.
+//= arg(2): The cost of making a 'getarg(0)' quiver.
+//= arg(3): The quiver given by the NPC (item ID).
+//===== Additional Comments: =================================
+//= 07/06/05 : Added 1st Version. [Muad_Dib]
+//= Converted to rAthena format by Dr.Evil
+//= added prize to quest - 500 Zeny
+//= Fixed a few spelling errors. [Nexon]
+//= 1.1 Added Holy Arrow Quivers [Playtester]
+//= 1.2 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
+//=     Removed "Holy Arrows" from the list.
+//============================================================
+
+payon_in01,5,134,5	script	Inventor Jaax	89,{
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 2000) {
+		mes "[Inventor Jaax]";
+		mes "เฮ้ เจ้าแบกของติดตัว";
+		mes "เยอะเกินไปแล้วนะ ทำไมไม่เอาไปเก็บไว้ใน Kafra Storage ก่อนล่ะ? เราค่อยมาคุยกันหลังจากเจ้าจัดการเรื่องนั้นเสร็จแล้ว ตกลงไหม?";
+		close;
+	}
+	mes "[Inventor Jaax]";
+	mes "ข้าชื่อว่า Jaax";
+	mes "ข้าสามารถพูดได้โดยไม่หลงตัวเองเลยว่า";
+	mes "ข้าน่าจะเป็น ^663300นักประดิษฐ์ที่ยิ่งใหญ่ที่สุดในยุคของเรา^000000";
+	next;
+	mes "[Inventor Jaax]";
+	mes "ในครั้งนี้ ข้าได้";
+	mes "สร้างบางสิ่งที่";
+	mes "พิเศษสุดๆ ขึ้นมา ข้าเรียกมันว่า... ^663300Magic Quivers^000000 !! สิ่งนี้จะถูกจารึกไว้ในประวัติศาสตร์ว่าเป็น";
+	mes "การปฏิวัติวงการลูกธนู!";
+	emotion ET_BEST;
+	next;
+	mes "[Inventor Jaax]";
+	mes "ข้าศึกษาเรื่องเวทมนตร์และซองใส่ธนูมานานหลายปี ทำงานทั้งวันทั้งคืนจนในที่สุดข้าก็ค้นพบวิธีบีบอัดลูกธนูด้วยเวทมนตร์! ด้วย Magic Quiver นี้ เจ้าจะพกพาลูกธนูได้มากขึ้น แต่ด้วยน้ำหนักที่น้อยลง!";
+	next;
+	mes "[Inventor Jaax]";
+	mes "เจ้าอยากจะลองใช้ซองใส่ธนูของข้าดูสักหน่อยไหมล่ะ? ข้าไม่สงสัยเลยว่าคนอย่างเจ้าจะสามารถเข้าถึงความอัจฉริยะของข้าได้!";
+	next;
+	switch(select("Quiver:Iron Arrow Quiver:Steel Arrow Quiver:Oridecon Arrow Quiver:Fire Arrow Quiver:Silver Arrow Quiver:Wind Arrow Quiver:Stone Arrow Quiver:Crystal Arrow Quiver:Shadow Arrow Quiver:Immaterial Arrow Quiver:Rusty Arrow Quiver")) {
+	case 1: callsub S_BuyQuiver,1750,500,500,12004;
+	case 2: callsub S_BuyQuiver,1770,500,500,12005;
+	case 3: callsub S_BuyQuiver,1753,500,500,12006;
+	case 4: callsub S_BuyQuiver,1765,500,500,12007;
+	case 5: callsub S_BuyQuiver,1752,500,500,12008;
+	case 6: callsub S_BuyQuiver,1751,500,500,12009;
+	case 7: callsub S_BuyQuiver,1755,500,500,12010;
+	case 8: callsub S_BuyQuiver,1756,500,500,12011;
+	case 9: callsub S_BuyQuiver,1754,500,500,12012;
+	case 10: callsub S_BuyQuiver,1767,500,500,12013;
+	case 11: callsub S_BuyQuiver,1757,500,500,12014;
+	case 12: callsub S_BuyQuiver,1762,500,500,12015;
+	}
+	//ส่วนนี้ดูเหมือนจะเข้าถึงไม่ได้... (This doesn't seem to be accessable...)
+	//mes "[Inventor Jaax]";
+	//mes "มีอะไร";
+	//mes "ที่คุณต้องการอีกไหม?";
+	//close;
+
+S_BuyQuiver:
+	.@item_id = getarg(0);
+	.@amount = getarg(1);
+	.@zeny_req = getarg(2);
+
+	if (countitem(.@item_id) >= .@amount) {
+		mes "[Inventor Jaax]";
+		mes "ยอดเยี่ยม!";
+		mes "เจ้าพกลูกธนูมาด้วยใช่ไหม? ข้าจะมอบซองใส่ธนูที่บรรจุลูกธนู "+ getitemname(.@item_id) +" ของเจ้าได้ถึง "+ .@amount +" ดอก โดยคิดค่าบริการเพียง ^FF3131"+ .@zeny_req +" Zeny^000000 เท่านั้น";
+		next;
+		switch(select("รวมลูกธนูเข้าซองให้ได้มากที่สุดเท่าที่จะทำได้:ซื้อ 1 ซอง:ยกเลิก")) {
+		case 1:
+			.@arrows = countitem(.@item_id);
+			set .@quiver,.@arrows / .@amount;
+			set .@arrows_used,.@quiver * .@amount;
+			.@arrow_zeny01 = .@quiver * .@zeny_req;
+			mes "จำนวน";
+			mes "ลูกธนูที่มี: ^3131FF"+.@arrows+" ^000000";
+			mes "จำนวนซองธนูสูงสุด";
+			mes "ที่สามารถ";
+			mes "แลกซื้อได้: ^3131FF"+.@quiver+" ^000000";
+			mes "เงิน Zeny ที่ต้องใช้: ^3131FF"+.@arrow_zeny01+" Zeny^000000";
+			next;
+			mes "[Inventor Jaax]";
+			mes "เจ้าต้องการจะ";
+			mes "ซื้อซองธนูให้ได้มากที่สุดเท่าที่จะทำได้";
+			mes "ตามจำนวนลูกธนูที่เจ้า";
+			mes "พกอยู่ในตอนนี้เลยใช่ไหม?";
+			next;
+			if (select("ใช่:ยกเลิก") == 1) {
+				if (.@arrow_zeny01 < Zeny) {
+					mes "[Inventor Jaax]";
+					mes "เรียบร้อย นี่ของเจ้า!";
+					mes "จำไว้นะ ^FF0000เจ้าจะไม่สามารถเปิดใช้งาน Quiver ได้เมื่อน้ำหนักตัวของเจ้าสูงถึง 90% ของขีดจำกัดน้ำหนักสูงสุด^000000";
+					set Zeny, Zeny-.@arrow_zeny01;
+					delitem .@item_id,.@arrows_used;// ลูกธนู (Arrow)
+					getitem getarg(3),.@quiver; //ซองธนู (Quiver)
+					next;
+					mes "[Inventor Jaax]";
+					mes "เอาล่ะ...";
+					mes "คอยหมั่นตรวจสอบ";
+					mes "น้ำหนักที่เจ้าแบกอยู่";
+					mes "เป็นระยะๆ ด้วยล่ะ";
+					mes "แล้วเจ้าจะไม่ประสบปัญหาอะไร";
+					close;
+				}
+				else {
+					mes "[Inventor Jaax]";
+					mes "ข้าเสียใจด้วยนะ แต่เจ้ามี Zeny ไม่พอ ข้าคงให้สิ่งนี้ไปฟรีๆ ไม่ได้หรอกนะ หลังจากที่ข้าทุ่มเททำงานมานานหลายปี";
+					mes "เพื่อพัฒนาเทคโนโลยีที่ปฏิวัติวงการขนาดนี้!";
+					close;
+				}
+			}
+			mes "[Inventor Jaax]";
+			mes "เจ้าเปลี่ยนใจงั้นเหรอ?";
+			mes "ทั้งที่เกียรติยศในการเป็นเจ้าของ";
+			mes "ซองใส่ธนูอยู่ใกล้แค่เอื้อมเนี่ยนะ?";
+			close;
+		case 2:
+			if (Zeny > .@zeny_req) {
+				mes "[Inventor Jaax]";
+				mes "เรียบร้อย นี่ของเจ้า!";
+				mes "จำไว้นะ ^FF0000เจ้าจะไม่สามารถเปิดใช้งาน Quiver ได้เมื่อน้ำหนักตัวของเจ้าสูงถึง 90% ของขีดจำกัดน้ำหนักสูงสุด^000000";
+				Zeny = Zeny -.@zeny_req;
+				delitem .@item_id,.@amount;// ลูกธนู (Arrow)
+				getitem getarg(3),1; //ซองธนู (Quiver)
+				next;
+				mes "[Inventor Jaax]";
+				mes "เอาล่ะ...";
+				mes "คอยหมั่นตรวจสอบ";
+				mes "น้ำหนักที่เจ้าแบกอยู่";
+				mes "เป็นระยะๆ ด้วยล่ะ";
+				mes "แล้วเจ้าจะไม่ประสบปัญหาอะไร";
+				close;
+			}
+			else {
+				mes "[Inventor Jaax]";
+				mes "เจ้าไม่มีเงินแม้แต่";
+				mes .@zeny_req +" Zeny อย่างงั้นเหรอ?";
+				mes "ข้าเสียใจจริงๆ ข้าไม่";
+				mes "เคยรู้เลยว่าเจ้าจะ...";
+				mes "^333333ขัดสน^000000 ขนาดนี้";
+				close;
+			}
+		case 3:
+			mes "[Inventor Jaax]";
+			mes "อะไรนะ...?";
+			mes "เจ้าไม่เห็นหรือว่าสิ่งประดิษฐ์นี้จะเปลี่ยนวิธีการพกพาลูกธนูไปตลอดกาล?! อนาคตมาถึงแล้วนะ!";
+			close;
+		}
+	}
+	else {
+		mes "[Inventor Jaax]";
+		mes "เจ้าสามารถบรรจุลูกธนูได้สูงสุด "+ .@amount +" ดอกภายในซองใส่ธนูนี้ มันถูกสร้างขึ้นโดยใช้วิธีลับของข้า";
+		mes "ดังนั้นน้ำหนักรวมของลูกธนูและซองใส่ธนูจะน้อยกว่าการพกลูกธนูแยกเป็นดอกๆ";
+		next;
+		mes "[Inventor Jaax]";
+		mes "มันคือปาฏิหาริย์ทางวิทยาศาสตร์! สิ่งที่เจ้าสามารถสัมผัสได้ด้วยตัวเองเพียงแค่นำลูกธนูมาให้ข้าอย่างน้อย "+ .@amount +" ดอก และเงิน "+ .@zeny_req +" Zeny สำหรับแต่ละซอง";
+		close;
+	}
+}

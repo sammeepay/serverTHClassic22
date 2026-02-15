@@ -1,0 +1,169 @@
+//===== rAthena Script =======================================
+//= Mage Skill Quest
+//===== By: ==================================================
+//= kobra_k88
+//===== Current Version: =====================================
+//= 1.8
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Quest for skills: Energy Coat
+//===== Additional Comments: ================================= 
+//= 1.5 Rescripted to Aegis 10.3 stadards. [L0ne_W0lf]
+//= 1.6 Fixed a typo in job check. (Bugreport:1531) [L0ne_W0lf]
+//= 1.7 Updated to latest available official file. [Masao]
+//= 1.8 Fixed JobLevel requirements. [Euphy]
+//============================================================
+
+geffen_in,151,119,4	script	Great Wizard	64,{
+	mes "[BLIZZARDRISS]";
+	mes "เฮ้ ! เพื่อนรัก !";
+	mes "ข้าเห็นว่าเจ้าเป็นนักเวทย์";
+	mes "ลองสำรวจเข้าไปในตัวเจ้าดูสิเพื่อค้นหา";
+	mes "ความสามารถที่ซ่อนอยู่ของเจ้า !";
+	next;
+	switch (select("เกี่ยวกับความสามารถที่ซ่อนอยู่ของ Mage :เกี่ยวกับสกิล ^3355FF' Energy Coat '^000000 :จบการสนทนา")) {
+	case 1:
+		mes "[BLIZZARDRISS]";
+		mes "เป็นเวลาหลายปี";
+		mes "ที่ข้าได้ศึกษาศาสตร์เวทมนตร์";
+		mes "โบราณของ Geffen";
+		mes "เมื่อไม่นานมานี้ ข้าได้ค้นพบ";
+		mes "สกิลที่ถูกลืมเลือนไปซึ่งมันดีมากๆ ! ! !";
+		mes "มันช่างโชคดีใช่ไหมล่ะ?";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "สกิลนี้จะใช้พลังงานทางจิตของเจ้า";
+		mes "เพื่อป้องกันการโจมตีที่เข้ามาหาเจ้า";
+		mes "มันเหมือนกับโล่เวทมนตร์ หรือชุดเกราะ";
+		mes "เฉพาะบุคคลที่พิเศษที่สุดเท่านั้นที่จะสามารถ";
+		mes "ใช้สกิลที่น่าทึ่งนี้ได้";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "แต่ส่วนที่น่าทึ่งที่สุดก็คือข้า";
+		mes "สามารถใช้สกิลนี้ได้ ! ! !";
+		mes "ข้าสามารถใช้สิ่งนี้เพื่อปกป้องตัวเอง !";
+		mes "พู ฮ่า ฮ่า ฮ่า !!";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "โอเค โอเค อย่าเพิ่งตื่นเต้นไป";
+		mes "ฟังสิ่งที่ข้าจะบอกเจ้าให้ดี";
+		mes "ผู้ที่ใช้เวทมนตร์นี้จะต้องดึง";
+		mes "พลังงานและความสามารถที่ซ่อนอยู่";
+		mes "ซึ่งถูกล็อคไว้ภายในตัวเองออกมา !";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "หากเจ้าปรารถนาจะเรียนรู้สกิลนี้ เจ้า";
+		mes "จะต้องมีไอเทมสองสามอย่างก่อน";
+		mes "เพื่อใช้ในระหว่างกระบวนการ";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "^3355FFGlass Bead^000000 3 อัน";
+		mes "^3355FF1 carat Diamond^000000 1 อัน";
+		mes "^3355FFShell^000000 5 อัน";
+		mes "^3355FFSolid Shell^000000 1 อัน";
+		mes "นำไอเทมเหล่านี้มาให้ข้า";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "อ้อ อีกอย่างหนึ่ง. . .";
+		mes "เจ้าต้องมีประสบการณ์ที่เพียงพอ";
+		mes "ในศาสตร์เวทมนตร์ นี่หมายความว่าเจ้า";
+		mes "ต้องเป็น Wizard หรือ Mage ที่มี Job Level 35 ขึ้นไป";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "พวก Wizard นั้นได้ผ่าน";
+		mes "ประสบการณ์ในบทบาทของ Mage มาแล้ว";
+		mes "จึงไม่จำเป็นต้องตรวจสอบ Job Level";
+		mes "ไม่ว่าในกรณีใด ผู้ที่ปรารถนาจะ";
+		mes "รับการฝึกฝนในศาสตร์นี้จะต้องอยู่ทาง";
+		mes "สภาวะจิตใจที่สมบูรณ์และแข็งแกร่ง";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "เอาล่ะ . .";
+		mes "ไม่มีอะไรจะพูดแล้ว เจ้าสนใจไหมล่ะ?";
+		close;
+	case 2:
+		if (getskilllv("MG_ENERGYCOAT") == 1) {
+			mes "[BLIZZARDRISS]";
+			mes "ดูเหมือนว่าเจ้าจะ";
+			mes "เชี่ยวชาญสกิลนี้อยู่แล้ว";
+			mes "ทักษะของเจ้าใน 'Energy Coat'";
+			mes "นั้นชัดเจนมาก";
+			mes "ข้าขอโทษด้วยนะ";
+			mes "ข้าไม่มีอะไรจะสอนเจ้าเพิ่มแล้ว ...";
+			close;
+		}
+		if ((countitem(746) > 2) && (countitem(730) > 0) && (countitem(935) > 4) && (countitem(943) > 0) && (JobLevel > 34 || (BaseJob == Job_Wizard || BaseJob == Job_Sage)) && (BaseClass == Job_Mage)) {
+			mes "[BLIZZARDRISS]";
+			mes "โอเค ข้าได้รับคำขอของเจ้าแล้ว";
+			mes "ข้าจะปลุกพลังงานที่ซ่อนอยู่ของเจ้า ณ บัดนี้ . .";
+			mes ". . . . . .";
+			mes ". . . . . . . . . . . . .";
+			mes ". . . . . . . . . . . . . . . . . . . . . . . . . .";
+			next;
+			mes "[BLIZZARDRISS]";
+			mes "พลังอำนาจโบราณแห่ง";
+			mes "Geffen! ข้าขอรับการชี้แนะ";
+			mes "และเกียรติจากการมาถึงของท่าน";
+			mes "ข้าน้อมรับด้วยความอ่อนน้อมต่อหน้าท่าน!";
+			mes " ...";
+			next;
+			mes "[BLIZZARDRISS]";
+			mes "มอบพลังของท่านให้แก่ข้า!";
+			mes "ปลดปล่อยจิตวิญญาณออกมา";
+			mes "Mana Shield! Metal Armor!";
+			mes ". . . . . . . . . . . .";
+			mes "ENERGY COAT! ! !";
+			next;
+			delitem 746,3; //Glass_Bead
+			delitem 730,1; //Crystal_Jewel
+			delitem 935,5; //Shell
+			delitem 943,1; //Solid_Shell
+			skill "MG_ENERGYCOAT",1,SKILL_PERM;
+			mes "[BLIZZARDRISS]";
+			mes ". . . . .";
+			mes "มันเสร็จสมบูรณ์แล้ว. . .";
+			mes "ตอนนี้เจ้าได้ครอบครอง";
+			mes "สกิลชั้นสูงอย่าง ^3355FF' Energy Coat '^000000 แล้ว";
+			mes "จงใช้มันให้ดีล่ะ";
+			next;
+			mes "[BLIZZARDRISS]";
+			mes "อย่าได้ทำให้สายอาชีพ";
+			mes "ของเราต้องอับอายด้วยการใช้";
+			mes "สกิลนี้หรือสกิลใดๆ อย่างไม่เหมาะสม";
+			mes "พลังใหม่ของเจ้ามาพร้อมกับความรับผิดชอบใหม่";
+			close;
+		}
+		mes "[BLIZZARDRISS]";
+		mes "ดูนี่สิ!!";
+		mes "เจ้าไม่ได้ฟังคำอธิบายของข้ารึไง ? !";
+		mes "เจ้ายังเตรียมตัวมาไม่พร้อม";
+		mes "ที่จะให้ข้าช่วยเหลือ";
+		mes "ตรวจสอบดูอีกทีว่าเจ้ามีครบตามเงื่อนไขหรือไม่";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "หากเจ้าต้องการให้ข้าอธิบาย";
+		mes "ทั้งหมดนี้อีกรอบ ก็จงถามข้ามา";
+		mes "ข้ายินดีจะอธิบายใหม่อีกครั้ง";
+		mes "ถ้าเจ้าจะยอมฟังกันบ้างน่ะนะ. . .";
+		close;
+	case 3:
+		mes "[BLIZZARDRISS]";
+		mes "ผู้รอบรู้จะต้องมีความอดทน !";
+		mes "เตรียมตัวใหม่อีกครั้ง";
+		mes "แล้วกลับมาเมื่อเจ้าพร้อม";
+		close;
+	}
+}
+
+//============================================================ 
+// Old changelog
+//============================================================ 
+//= 1.0a Now using functions found in "Global_Functions.txt"
+//=     for class checks.[kobra_k88]
+//= 1.2 Added Baby Class Support [Lupus]
+//= 1.3 Removed callfunc Is_####_Class in favor of baseClass [Silentdragon]
+//= 1.4 Fixed exploit [Lupus]
+//= 1.4a Fixed some typos [IVBela]
+//= 1.4b changed perm. variables to temp ones [Lupus]
+//============================================================

@@ -1,0 +1,269 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2022 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Map Drop Database
+###########################################################################
+#
+# Map Drop Settings
+#
+###########################################################################
+# - Map                             Name of the map (use ANY for all maps [Hyroshima]).
+#   GlobalDrops                     Drops for all monsters on this map. (Default: empty)
+#                                   These drops are unaffected by server drop rate and cannot be stolen.
+#     - Index                       Unique index of the drop.
+#       Item                        Item name.
+#       Rate                        Drop rate of item, n/100000.
+#       RandomOptionGroup           Random Option Group applied to item on drop. (Default: None)
+#       DirectInventory             Item will be sent directly to the player's inventory. (Default: false) [Hyroshima]
+#   SpecificDrops                   Drops for specific monsters on this map. (Default: empty)
+#     - Monster                     Monster name.
+#       Drops                       Drops for this specific monster. (Default: empty)
+#                                   These drops are unaffected by server drop rate and cannot be stolen.
+#         - Index                   Unique index of the drop.
+#           Item                    Item name.
+#           Rate                    Drop rate of item, n/100000.
+#           RandomOptionGroup       Random Option Group applied to item on drop. (Default: None)
+#           DirectInventory         Item will be sent directly to the player's inventory. (Default: false) [Hyroshima]
+###########################################################################
+
+Header:
+  Type: MAP_DROP_DB
+  Version: 2
+
+Body:
+  - Map: ANY
+    GlobalDrops:
+      - Index: 0
+        Item: Poring_Coin
+        Rate: 5000
+    SpecificDrops:
+      - Monster: BOTARING
+        Drops:
+          - Index: 0
+            Item: Cash_Coin
+            Rate: 8000
+###########################################################################
+##          EP.20
+###########################################################################
+##  - Map: 1@slug
+##    SpecificDrops:
+##      - Monster: MD_EP20_FALLENANGEL
+##        Drops:
+##          - Index: 0
+##            Item: EP19_S_F_1_Extract # 1001034
+##            Rate: 10000
+##          - Index: 1
+##            Item: EP19_Gla_Extract # 1001037
+##            Rate: 10000
+##          - Index: 2
+##            Item: EP20_D_P_Crystal # 1001249
+##            Rate: 10000
+##          - Index: 3
+##            Item: EP19_N_P_Ore # 1001030
+##            Rate: 50000
+##          - Index: 4
+##            Item: EP19_D_P_Crystal   # 1001031
+##            Rate: 50000
+##          - Index: 5
+##            Item: EP19_N_P_Crystal   # 1001032
+##            Rate: 10000
+##          - Index: 6
+##            Item: Ep20_Angels_Tail   # 1001237
+##            Rate: 10000
+##          - Index: 7
+##            Item: EP19_D_P_Ore   # 1001029
+##            Rate: 10000
+##          - Index: 8
+##            Item: EP19_D_P_Ore   # 1001029
+##            Rate: 10000
+##          - Index: 9
+##            Item: EP20_D_P_Extract # 1001250
+##            Rate: 5000
+##          - Index: 10
+##            Item: EP20_D_P_Ore # 1001248
+##            Rate: 90000
+##          - Index: 11
+##            Item: EP20_D_P_Ore # 1001248
+##            Rate: 90000
+##          - Index: 12   # note: x2
+##            Item: EP20_D_P_Crystal # 1001249
+##            Rate: 10000
+## 
+### Immortal daily instance
+##  - Map: 1@twbs
+##    SpecificDrops:
+##      - Monster: MD_EP20_BOSS_LASGAND
+##        Drops:
+##          - Index: 0
+##            Item: EP19_S_F_1_Extract # 1001034
+##            Rate: 10000
+##          - Index: 1
+##            Item: EP19_Gla_Extract # 1001037
+##            Rate: 10000
+##          - Index: 2
+##            Item: EP20_D_P_Crystal # 1001249
+##            Rate: 10000
+##          - Index: 3
+##            Item: EP19_N_P_Ore # 1001030
+##            Rate: 50000
+##          - Index: 4
+##            Item: EP19_D_P_Crystal   # 1001031
+##            Rate: 50000
+##          - Index: 5
+##            Item: EP19_N_P_Crystal   # 1001032
+##            Rate: 10000
+##          - Index: 6
+##            Item: Ep20_Angels_Tail   # 1001237
+##            Rate: 10000
+##          - Index: 7
+##            Item: EP19_D_P_Ore   # 1001029
+##            Rate: 10000
+##          - Index: 8
+##            Item: EP19_D_P_Ore   # 1001029
+##            Rate: 10000
+##          - Index: 9
+##            Item: EP20_D_P_Extract # 1001250
+##            Rate: 5000
+##          - Index: 10
+##            Item: EP20_D_P_Ore # 1001248
+##            Rate: 90000
+##          - Index: 11
+##            Item: EP20_D_P_Ore # 1001248
+##            Rate: 90000
+##
+### Immortal daily instance normal
+##      - Monster: EP20_MD_BOX1
+##        Drops:
+##          - Index: 0
+##            Item: EP19_S_F_1_Extract # 1001034
+##            Rate: 10000
+##          - Index: 1
+##            Item: EP19_Gla_Extract # 1001037
+##            Rate: 10000
+##          - Index: 2
+##            Item: EP20_D_P_Crystal # 1001249
+##            Rate: 10000
+##          - Index: 3
+##            Item: EP19_N_P_Ore # 1001030
+##            Rate: 50000
+##          - Index: 4
+##            Item: EP19_D_P_Crystal   # 1001031
+##            Rate: 50000
+##          - Index: 5
+##            Item: EP19_N_P_Crystal   # 1001032
+##            Rate: 10000
+##          - Index: 6
+##            Item: Ep20_Angels_Tail   # 1001237
+##            Rate: 10000
+##          - Index: 7
+##            Item: EP19_D_P_Ore   # 1001029
+##            Rate: 10000
+##          - Index: 8
+##            Item: EP19_D_P_Ore   # 1001029
+##            Rate: 10000
+##          - Index: 9
+##            Item: EP20_D_P_Extract # 1001250
+##            Rate: 5000
+##          - Index: 10
+##            Item: EP20_D_P_Ore # 1001248
+##            Rate: 90000
+##          - Index: 11
+##            Item: EP20_D_P_Ore # 1001248
+##            Rate: 90000
+##          - Index: 12
+##            Item: C_Serpent_Shadow   # (costume)
+##            Rate: 10
+##          - Index: 13
+##            Item: D_Glacier_Armor # 450270
+##            Rate: 1000
+##          - Index: 14
+##            Item: D_Glacier_Boots # 470197
+##            Rate: 1000
+##          - Index: 15
+##            Item: D_Glacier_Manteau # 480283
+##            Rate: 1000
+##          - Index: 16
+##            Item: D_Glacier_Robe # 450271
+##            Rate: 1000
+##          - Index: 17
+##            Item: D_Glacier_Shoes # 470198
+##            Rate: 1000
+##          - Index: 18
+##            Item: D_Glacier_Muffler # 480284
+##            Rate: 1000
+##
+### Immortal daily instance hard (unknown drops)
+##      - Monster: EP20_MD_BOX2
+##        Drops:
+##          - Index: 0
+##            Item: EP19_S_F_1_Extract # 1001034
+##            Rate: 10000
+##          - Index: 1
+##            Item: EP19_Gla_Extract # 1001037
+##            Rate: 10000
+##          - Index: 2
+##            Item: EP20_D_P_Crystal # 1001249
+##            Rate: 10000
+##          - Index: 3
+##            Item: EP19_N_P_Ore # 1001030
+##            Rate: 50000
+##          - Index: 4
+##            Item: EP19_D_P_Crystal   # 1001031
+##            Rate: 50000
+##          - Index: 5
+##            Item: EP19_N_P_Crystal   # 1001032
+##            Rate: 10000
+##          - Index: 6
+##            Item: Ep20_Angels_Tail   # 1001237
+##            Rate: 10000
+##          - Index: 7
+##            Item: EP19_D_P_Ore   # 1001029
+##            Rate: 10000
+##          - Index: 8
+##            Item: EP19_D_P_Ore   # 1001029
+##            Rate: 10000
+##          - Index: 9
+##            Item: EP20_D_P_Extract # 1001250
+##            Rate: 5000
+##          - Index: 10
+##            Item: EP20_D_P_Ore # 1001248
+##            Rate: 90000
+##          - Index: 11
+##            Item: EP20_D_P_Ore # 1001248
+##            Rate: 90000
+##          - Index: 12
+##            Item: C_Serpent_Shadow   # (costume)
+##            Rate: 10
+##          - Index: 13
+##            Item: D_Glacier_Armor # 450270
+##            Rate: 1000
+##          - Index: 14
+##            Item: D_Glacier_Boots # 470197
+##            Rate: 1000
+##          - Index: 15
+##            Item: D_Glacier_Manteau # 480283
+##            Rate: 1000
+##          - Index: 16
+##            Item: D_Glacier_Robe # 450271
+##            Rate: 1000
+##          - Index: 17
+##            Item: D_Glacier_Shoes # 470198
+##            Rate: 1000
+##          - Index: 18
+##            Item: D_Glacier_Muffler # 480284
+##            Rate: 1000

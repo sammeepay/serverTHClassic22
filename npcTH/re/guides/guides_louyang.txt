@@ -1,0 +1,127 @@
+//===== rAthena Script ======================================= 
+//= Luoyang Guide
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guide for the city of Luoyang.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guide.
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+louyang,224,104,4	script	Luoyang Guide#01louyang	818,{
+	mes "[Representative]";
+	mes "ยินดีต้อนรับสู่ ^8B4513Luoyang^000000,";
+	mes "ดินแดนโบราณที่มีประวัติศาสตร์";
+	mes "อันเต็มไปด้วยเรื่องเล่า";
+	mes "แห่งความกล้าหาญ";
+	next;
+	mes "[Representative]";
+	mes "ตอนนี้เราได้เปิดเส้นทางเดินเรือเพื่ออำนวยความสะดวกแก่เหล่านักเดินทางจากต่างแดน และเพื่อแลกเปลี่ยนวัฒนธรรมซึ่งกันและกันเพื่อประโยชน์ของทุกฝ่าย";
+	next;
+	mes "[Representative]";
+	mes "^8B4513Luoyang^000000 มีชื่อเสียงในด้าน";
+	mes "ประวัติศาสตร์ที่วิจิตรบรรจง รวมถึงของขึ้นชื่อที่เป็นเอกลักษณ์เฉพาะตัวของชาตินี้ โปรดใช้เวลาตามสบายและขอให้มีความสุขกับการพักผ่อนนะ";
+	F_Navi("[Representative]");
+	set .@str$,"มีอะไรอย่างอื่นที่ฉันพอจะช่วยได้อีกไหม?";
+	while (1) {
+		next;
+		switch(select("[ ปราสาทมังกร ]:[ คลินิกคุณหมอ ]:[ ศาลาว่าการเมือง ]:[ ร้านอาวุธ ]:[ ร้านขายของชำ ]:[ โรงเตี๊ยม ]:[ หอชมวิว ]:[ กลับไปยัง Alberta ]:ลบเครื่องหมายออกจาก Mini-Map:ยกเลิก")) {
+		case 1:
+			mes "[Representative]";
+			mes " "+F_Navi("Dragon Castle","louyang,218,253")+" ตั้งอยู่ที่ตำแหน่ง ^0A82FF+^000000 ซึ่งเป็นที่พำนักของเหล่าขุนนาง รวมถึงท่านเจ้าเมืองของเราด้วย";
+			mes "เนื่องจากคุณเป็นคนนอก ฉันคิดว่ามันเป็นการเหมาะสมที่คุณควรจะไปเข้าพบท่านเจ้าเมืองของเราก่อนนะ";
+			mes .@str$;
+			viewpoint 1,218,253,0,0x0A82FF;
+			break;
+		case 2:
+			mes "[Representative]";
+			mes "นั่นคือ "+F_Navi("Doctor's Office","louyang,261,93","^AAFF00")+" ที่มีชื่อเสียง";
+			mes "ตามคำเล่าลือบอกว่าที่นั่นสามารถรักษาได้ทุกโรค แต่ฉันก็ไม่แน่ใจเหมือนกันว่ามันจะเป็นเรื่องจริงหรือไม่";
+			mes .@str$;
+			viewpoint 1,261,93,1,0xAAFF00;
+			break;
+		case 3:
+			mes "[Representative]";
+			mes "เรามี "+F_Navi("City Hall","louyang,309,78")+" ซึ่งเป็นที่ทำการของรัฐบาลส่วนกลาง";
+			mes "มันตั้งอยู่ที่ตำแหน่ง ^008080+^000000";
+			next;
+			mes "[Representative]";
+			mes "หากคุณมีปัญหาใดๆ";
+			mes "คุณควรจะไปปรึกษากับ";
+			mes "เจ้าหน้าที่ที่นั่นนะ";
+			mes .@str$;
+			viewpoint 1,309,78,2,0x20B2AA;
+			break;
+		case 4:
+			mes "[Representative]";
+			mes " "+F_Navi("Weapon Shop","louyang,145,172")+" ตั้งอยู่ที่ตำแหน่ง ^55FF33+^000000";
+			next;
+			mes "[Representative]";
+			mes "คุณจะได้เห็น";
+			mes "อาวุธที่น่าอัศจรรย์ซึ่งตีขึ้น";
+			mes "โดยเหล่าช่างตีเหล็กผู้มากประสบการณ์";
+			mes "แห่ง Luoyang";
+			mes .@str$;
+			viewpoint 1,145,172,3,0xFF1493;
+			break;
+		case 5:
+			mes "[Representative]";
+			mes " "+F_Navi("Tool Shop","louyang,138,99")+" ตั้งอยู่ที่ตำแหน่ง ^3355FF+^000000";
+			next;
+			mes "[Representative]";
+			mes "รู้เขารู้เรา";
+			mes "รบร้อยครั้งชนะร้อยครั้ง!";
+			mes "การเตรียมตัวให้พร้อมย่อมดีกว่ามาเสียใจภายหลังนะ ทำไมคุณไม่ลองไปเช็คอุปกรณ์ของพวกเขาล่ะ?";
+			mes .@str$;
+			viewpoint 1,138,99,4,0xFF0000;
+			break;
+		case 6:
+			mes "[Representative]";
+			mes "เมื่อคุณรู้สึกเหนื่อยล้าในระหว่างการเดินทาง ฉันขอแนะนำให้คุณไปแวะที่ "+F_Navi("Tavern","louyang,280,165")+" มันตั้งอยู่ที่ตำแหน่ง ^00FF00+^000000";
+			next;
+			mes "[Representative]";
+			mes "โรงเตี๊ยมเป็นสถานที่ที่ดี";
+			mes "ในการพบปะกับนักท่องเที่ยวคนอื่นๆ รวมถึงรับฟังข่าวสารที่อาจจะเป็นประโยชน์ต่อคุณ";
+			mes .@str$;
+			viewpoint 1,280,165,5,0xDAA520;
+			break;
+		case 7:
+			mes "[Representative]";
+			mes "คุณจะไม่สามารถหาที่ชมวิวโลกใบนี้ได้ดีไปกว่าที่ "+F_Navi("Observatory","louyang,136,245")+" อีกแล้ว";
+			mes "มันคือสถานที่ที่ต้องมาดูให้ได้เลยล่ะ";
+			mes .@str$;
+			viewpoint 1,136,245,6,0xD8BFD8;
+			break;
+		case 8:
+			mes "[Representative]";
+			mes "หากคุณต้องการจะกลับไปยัง Alberta";
+			mes "ให้ไปหา "+F_Navi("Girl","louyang,218,22","^00BFFF")+" ที่อยู่ด้านนอกเมืองตรงบริเวณท่าเรือนะ";
+			mes .@str$;
+			viewpoint 1,218,22,7,0x00BFFF;
+			break;
+		case 9:
+			mes "[Representative]";
+			mes "ฉันจะลบเครื่องหมายทั้งหมดออกจาก mini-map ของคุณให้";
+			mes .@str$;
+			viewpoint 2,1,1,0,0xFFFFFF;
+			viewpoint 2,1,1,1,0xFFFFFF;
+			viewpoint 2,1,1,2,0xFFFFFF;
+			viewpoint 2,1,1,3,0xFFFFFF;
+			viewpoint 2,1,1,4,0xFFFFFF;
+			viewpoint 2,1,1,5,0xFFFFFF;
+			viewpoint 2,1,1,6,0xFFFFFF;
+			viewpoint 2,1,1,7,0xFFFFFF;
+			break;
+		case 10:
+			mes "[Representative]";
+			mes "ขอให้สนุกกับการเดินทางนะ~!";
+			close;
+		}
+	}
+}

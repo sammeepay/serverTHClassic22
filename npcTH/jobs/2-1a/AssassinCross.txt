@@ -1,0 +1,100 @@
+//===== rAthena Script ======================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== By: ==================================================
+//= Nana
+//= finished, optimized and tested by Lupus
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== Additional Comments: ================================= 
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//============================================================ 
+
+valkyrie,44,58,5	script	Assassin Cross#Valkyrie	725,{
+	if (ADVJOB == 0 || Upper != 1) {
+		set .@karma_d,rand(1,10);
+		if (.@karma_d > 4) {
+			mes "[Assassin Cross]";
+			mes "ขอแสดงความยินดีด้วย...";
+			next;
+			mes "[Assassin Cross]";
+			mes "...";
+			next;
+			mes "[Assassin Cross]";
+			mes "...";
+			mes "......";
+			next;
+			mes "[Assassin Cross]";
+			mes "...";
+			mes "......";
+			mes "เกียรติยศแด่";
+			mes "เหล่าบัลลังก์นักรบ";
+			close;
+		}
+		mes "[Assassin Cross]";
+		mes "พวกเราคือเหล่านักรบ";
+		mes "แห่งทะเลทราย ไม่มีใคร";
+		mes "กล้าดูถูกพวกเราได้";
+		mes "ไม่มีใคร...";
+		close;
+	}
+	else if (ADVJOB == Job_Assassin_Cross && Class == Job_Thief_High && JobLevel > 39) {
+		mes "[Assassin Cross]";
+		mes "เวลาได้มาถึงแล้ว";
+		mes "โลกใบนี้ต้องการเจ้า...";
+		mes "มากกว่าที่เคยเป็นมา";
+		next;
+		mes "[Assassin Cross]";
+		mes "ข้าขอให้เจ้าใช้ชีวิตในเงามืดต่อไป แต่ในฐานะ Assassin ที่ยิ่งใหญ่กว่าเดิมด้วยรูปลักษณ์ใหม่";
+		next;
+		mes "[Assassin Cross]";
+		mes "เจ้าต้องการจะกลายเป็น";
+		mes "Assassin Cross หรือไม่?";
+		next;
+		if (select("ไม่:ตกลง") == 1) {
+			mes "[Assassin Cross]";
+			mes "เมื่อเจ้า";
+			mes "พร้อมแล้ว จงกลับมา";
+			next;
+			mes "[Assassin Cross]";
+			mes "เกียรติยศแด่";
+			mes "เหล่าบัลลังก์นักรบ";
+			close;
+		}
+		if (SkillPoint) {
+			mes "[Assassin Cross]";
+			mes "เจ้ายัง";
+			mes "เรียนรู้ทุกสิ่งที่เจ้าทำได้";
+			mes "ไม่ครบถ้วนนะ";
+			next;
+			mes "[Assassin Cross]";
+			mes "จงใช้";
+			mes "Skill Points";
+			mes "ให้หมดแล้วค่อยกลับมาใหม่";
+			close;
+		}
+		jobchange Job_Assassin_Cross;
+		set ADVJOB,0;
+		mes "[Assassin Cross]";
+		mes "ขอแสดงความยินดีด้วย";
+		mes "ในฐานะ Assassin Cross";
+		mes "ข้าหวังว่าเจ้าจะต่อสู้เพื่ออนาคตที่สดใสภายใต้ความมืดมิดนี้";
+		close;
+	}
+	mes "[Assassin Cross]";
+	mes "ยินดีต้อนรับ";
+	mes "สู่ Valhalla";
+	mes "วิหารแห่งเกียรติยศ";
+	next;
+	mes "[Assassin Cross]";
+	mes "โปรดทำตัว";
+	mes "ตามสบาย";
+	mes "ในระหว่างที่เจ้าอยู่ที่นี่";
+	mes "เกียรติยศแด่เหล่าบัลลังก์นักรบ";
+	close;
+}

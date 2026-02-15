@@ -1,0 +1,213 @@
+//===== rAthena Script =======================================
+//= Advanced Refiner
+//===== Description: =========================================
+//= [Official Conversion]
+//= Refiner that uses Enriched ores to increase upgrade success.
+//= - Dialog is only partly official to iRO.
+//= - Uses the iRO position for this NPC.
+//===== Changelog: ===========================================
+//= 1.0 First Version. [L0ne_W0lf]
+//= 1.1 Fixed a weird carriage return. o_o [L0ne_W0lf]
+//= 1.2 Optimizing refine method [Zephyrus]
+//= 1.3 Typo fixes [Yommy]
+//= 1.4 Removed unnecessary dialogs [Zephyrus]
+//= 1.4a Added 'disable_items' command. [Euphy]
+//= 1.4b Fixed coordinates. [Euphy]
+//= 1.5 Some official script updates. [Euphy]
+//= 1.6 Added VIP features. [Euphy]
+//= 1.7 Removed re-roll behavior. [Secret]
+//============================================================
+
+payon,157,146,6	script	Suhnbi#cash	85,{
+	disable_items;
+	mes "[Suhnbi]";
+	mes "ข้าคือช่างตีเหล็กผู้สร้างอาวุธ";
+	mes "ข้าสามารถตีบวกอาวุธ, ชุดเกราะ";
+	mes "และอุปกรณ์ได้ทุกชนิดเลยล่ะ บอกข้ามาสิ";
+	mes "ว่าเจ้าต้องการจะตีบวกชิ้นไหน";
+	next;
+
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+	for(set .@i,1; .@i<=10; set .@i,.@i+1) {
+		if (getequipisequiped(.@indices[.@i])) {
+			set .@menu$, .@menu$ + F_getpositionname(.@indices[.@i]) + "-[" + getequipname(.@indices[.@i]) + "]";
+			set .@equipped,1;
+		}
+		set .@menu$, .@menu$ + ":";
+	}
+	if (.@equipped == 0) {
+		mes "[Suhnbi]";
+		mes "ข้าไม่คิดว่าข้าจะสามารถตีบวกไอเทมชิ้นไหนที่เจ้ามีอยู่ได้เลยนะ...";
+		close;
+	}
+	set .@part, .@indices[ select(.@menu$) ];
+
+	if (!getequipisequiped(.@part)) // ตรวจสอบเพิ่มเติม (custom check)
+		close;
+	if (!getequipisenableref(.@part)) {
+		mes "[Suhnbi]";
+		mes "ไปหาช่างตีเหล็กคนอื่นซะ เจ้าไม่สามารถตีบวกของสิ่งนี้ได้";
+		close;
+	}
+	if (getequiprefinerycnt(.@part) >= 10) {
+		mes "[Suhnbi]";
+		mes "หืม... มีคนทำให้มันสมบูรณ์แบบไปแล้ว ข้าไม่คิดว่าจะสามารถทำอะไรกับมันได้มากไปกว่านี้อีก";
+		close;
+	}
+
+	.@refineitemid = getequipid(.@part); // บันทึก id ของไอเทม
+	.@refinerycnt = getequiprefinerycnt(.@part); // บันทึกจำนวนการตีบวก
+	.@price = getequiprefinecost(.@part, REFINE_COST_ENRICHED, REFINE_ZENY_COST);
+	.@material = getequiprefinecost(.@part, REFINE_COST_ENRICHED, REFINE_MATERIAL_ID);
+	.@itemtype = getiteminfo( .@refineitemid, ITEMINFO_TYPE );
+
+	// ตรวจสอบให้แน่ใจว่าเจ้ามีไอเทมที่จำเป็นและ Zeny ในการตีบวกไอเทมของเจ้า
+	// กำหนดโอกาสของความล้มเหลวและยืนยันว่าเจ้าต้องการจะดำเนินการต่อหรือไม่
+	callsub S_RefineValidate,.@itemtype,.@material,.@price,.@part,.@refineitemid,.@refinerycnt;
+
+	mes "[Suhnbi]";
+	mes "เคร้ง! เคร้ง! เคร้ง!";
+	if (getequippercentrefinery(.@part, true) > rand(100)) {
+		successrefitem .@part;
+		next;
+		emotion ET_BEST;
+		mes "[Suhnbi]";
+		mes "เรียบร้อย! มันเสร็จแล้วล่ะ";
+		mes "นานมากแล้วที่ข้าไม่ได้สร้าง "+((.@itemtype == IT_WEAPON)?"อาวุธ":"ชุดเกราะ")+" ที่ยอดเยี่ยมขนาดนี้ เจ้าคงจะมีความสุขเพราะมันแข็งแกร่งขึ้นแล้ว!";
+		close;
+	}
+	failedrefitem .@part;
+	next;
+	emotion (!rand(5))?ET_MONEY:ET_HUK;
+	mes "[Suhnbi]";
+	mes "อึ๊บบบบบบบบบบบ!!!";
+	next;
+	mes "[Suhnbi]";
+	mes "...";
+	mes ".....";
+	mes ".......หึหึหึหึหึ~";
+	mes "........มันคือการเลือกของเจ้าและความสามารถของข้า ห้ามเสียใจภายหลังล่ะ";
+	close;
+
+S_RefineValidate:
+	.@itemtype = getarg(0);
+	.@item_req = getarg(1);
+	.@price = getarg(2);
+	.@part = getarg(3);
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+
+	if( .@itemtype == IT_ARMOR ){
+		.@equip_lv = getequiparmorlv( .@part );
+
+		// หากเปิดใช้งานระบบ VIP ราคาสำหรับผู้เล่นที่ไม่ใช่ VIP จะสูงกว่ามาก
+		if (VIP_SCRIPT && !vip_status(VIP_STATUS_ACTIVE)) {
+			switch(.@equip_lv) {
+				case 1:
+					set .@price, .@price * 10;
+					break;
+				default:
+					// TODO:
+					close;
+			}
+		}
+	}else if( .@itemtype == IT_WEAPON ){
+		.@equip_lv = getequipweaponlv( .@part );
+
+		// หากเปิดใช้งานระบบ VIP ราคาสำหรับผู้เล่นที่ไม่ใช่ VIP จะสูงกว่ามาก
+		if (VIP_SCRIPT && !vip_status(VIP_STATUS_ACTIVE)) {
+			switch( .@equip_lv ){
+				case 1:
+					set .@price, .@price * 40;
+					break;
+				case 2:
+					set .@price, .@price * 50;
+					break;
+				case 3:
+					set .@price, .@price * 2;
+					break;
+				case 4:
+					set .@price, .@price * 2;
+					break;
+				default:
+					// TODO:
+					close;
+			}
+		}
+	}else{
+		// TODO:
+		close;
+	}
+
+	mes "[Suhnbi]";
+	if (.@itemtype == IT_WEAPON)
+		mes "เจ้าต้องการจะตีบวกอาวุธเลเวล "+ .@equip_lv +" งั้นรึ?";
+	mes "ในการตีบวกสิ่งนี้ เจ้าจำเป็นต้องมี ^ff9999"+ getitemname(.@item_req) +"^000000 หนึ่งชิ้น และเงินจำนวน "+ .@price +" zeny";
+	mes "เจ้าต้องการจะดำเนินการต่อไหม?";
+	next;
+	if(select("ใช่:ไม่") == 1) {
+		if (getequippercentrefinery(.@part) < 100) {
+			if (.@itemtype == IT_WEAPON) {
+				mes "[Suhnbi]";
+				mes "ว้าว!!";
+				mes "อาวุธชิ้นนี้ดูเหมือนว่ามันจะ";
+				mes "ผ่านการตีบวกมาแล้ว...";
+				mes "หลายครั้งเลยนะ...";
+				mes "มันอาจจะแตกได้ถ้า";
+				mes "เจ้าตีบวมมันอีกครั้ง";
+				next;
+				mes "และถ้ามันแตก";
+				mes "เจ้าก็จะไม่สามารถใช้มันได้อีก!";
+				mes "การ์ดทั้งหมดในนั้นและคุณสมบัติ ^ff0000จะสูญหายไป^000000!";
+				mes "^ff0000นอกจากนี้ อุปกรณ์จะแตกสลายไปด้วย!^000000";
+				mes "เจ้าแน่ใจนะว่ายังต้องการจะไปต่อ?";
+				next;
+				if(select("ใช่:ไม่") == 2) {
+					mes "[Suhnbi]";
+					mes "ดีแล้วล่ะ";
+					mes "เพราะถ้าอาวุธแตกจากการตีบวกที่เกินตัว ข้าเองก็อารมณ์เสียไปด้วยเหมือนกัน";
+					close;
+				}
+			} else {
+				mes "[Suhnbi]";
+				mes "คิกๆๆ โอ้ เจ้าช่างมีความกล้าเหลือเกินนะที่บังอาจตีบวกของสิ่งนี้";
+				mes "เจ้ารู้ใช่ไหมว่ามันค่อนข้างเสี่ยง?";
+				next;
+				mes "หากอุปกรณ์ป้องกันของเจ้าแตก เจ้าจะไม่สามารถใช้มันได้อีกเลย";
+				mes "แม้แต่การ์ดและการปรับแต่งของเจ้าก็จะ ^ff0000หายไปโดยสิ้นเชิง^000000";
+				//mes "ทุกอย่างจะหายไป เหมือนกับ... อันตรธานไปเลย!";
+				mes "เจ้าปรารถนาจะไปต่อจริงๆ หรือ?";
+				next;
+				if(select("ใช่:ไม่") == 2) {
+					mes "[Suhnbi]";
+					mes "ช่างไร้สาระเสียนี่กะไร เจ้าทำให้ข้าเสียเวลาอันมีค่า";
+					mes "ไปให้พ้นเลยไป๊ เจ้าหนู";
+					close;
+				}
+			}
+		}
+		if (countitem(.@item_req) > 0 && Zeny > .@price) {
+			delitem .@item_req,1;
+			set Zeny, Zeny - .@price;
+
+			// ระบบป้องกันการโกง (anti-hack)
+			if (callfunc("F_IsEquipIDHack", .@part, getarg(4)) ||
+				callfunc("F_IsEquipRefineHack", .@part, getarg(5)) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3])) {
+				mes "[Suhnbi]";
+				emotion ET_FRET;
+				mes "เดี๋ยวก่อนนะ...";
+				mes "เจ้าคิดว่าข้าโง่หรือไง?!";
+				mes "เจ้าแอบสลับไอเทมตอนข้าเผลอสิทะ! ออกไปจากที่นี่เลยนะ!";
+				close;
+			}
+
+			return;
+		}
+		mes "[Suhnbi]";
+		mes "เจ้ามีของอยู่แค่นี้เองรึ?";
+		mes "ข้าเสียใจด้วยจริงๆ แต่ข้าไม่สามารถทำอะไรได้เลยหากปราศจากวัตถุดิบครบถ้วน อีกอย่าง ข้าก็ควรจะได้รับค่าตอบแทนจากการทำงานของข้าด้วย ไม่ใช่รึไง?";
+		close;
+	}
+	mes "[Suhnbi]";
+	mes "ข้าก็ช่วยไม่ได้หรอกนะ ต่อให้เจ้าจะไม่พอใจกับมันก็ตาม...";
+	close;
+}

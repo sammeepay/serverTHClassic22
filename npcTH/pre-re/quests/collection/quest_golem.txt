@@ -1,0 +1,232 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Added Monster Killing quests.
+//= Repeatable EXP Quest (Stone Hearts)
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+moc_fild11,57,138,0	script	Private Jeremy#hunt	707,{
+	if (checkquest(60140) != -1) { // ตรวจสอบเควสต์ล่า 50 ตัว
+		if (checkquest(60140,HUNTING) != 2 ) {
+			mes "[Private Jeremy]";
+			mes "คุณล่า Golem ครบ 50 ตัวหรือยัง?";
+			next;
+			switch(select("ใช่:ไม่:ฉันต้องการยกเลิก")) {
+			case 1:
+				mes "[Private Jeremy]";
+				mes "หืม ฉันยังไม่คิดว่าคุณล่าครบ 50 ตัวนะ...";
+				close;
+			case 2:
+				mes "[Private Jeremy]";
+				mes "จำไว้นะ ฉันต้องการความช่วยเหลือในการล่า Golem เพราะฉะนั้นไปล่าพวกมันมา 50 ตัว";
+				close;
+			case 3:
+				mes "[Private Jeremy]";
+				mes "คุณแน่ใจนะว่าต้องการหยุดการล่า?";
+				mes "ความคืบหน้าใดๆ ที่คุณทำมาจะถูกลบทิ้งทั้งหมด";
+				next;
+				switch(select("ใช่:ไม่")) {
+				case 1:
+					mes "[Private Jeremy]";
+					mes "ตกลง ถ้าอย่างนั้นก็กลับมาที่นี่ถ้าคุณเปลี่ยนใจ";
+					erasequest 60140;
+					close;
+				case 2:
+					mes "[Private Jeremy]";
+					mes "โปรดไปกำจัด Golem 50 ตัว";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Private Jeremy]";
+			mes "มหัศจรรย์มาก คุณทำได้รวดเร็วเหลือเกิน";
+			getexp 14000,9000;
+			erasequest 60140;
+			close;
+		}
+	}
+	if (checkquest(60141) != -1) { // ตรวจสอบเควสต์ล่า 100 ตัว
+		if (checkquest(60141,HUNTING) != 2 ) {
+			mes "[Private Jeremy]";
+			mes "คุณล่า Golem ครบ 50 ตัวหรือยัง?"; // หมายเหตุ: ต้นฉบับเขียน 50 ทั้งที่เป็นเควสต์ 100
+			next;
+			switch(select("ใช่:ไม่:ฉันต้องการยกเลิก")) {
+			case 1:
+				mes "[Private Jeremy]";
+				mes "หืม ฉันยังไม่คิดว่าคุณล่าครบ 100 ตัวนะ...";
+				close;
+			case 2:
+				mes "[Private Jeremy]";
+				mes "จำไว้นะ ฉันต้องการความช่วยเหลือในการล่า Golem เพราะฉะนั้นไปล่าพวกมันมา 100 ตัว";
+				close;
+			case 3:
+				mes "[Private Jeremy]";
+				mes "คุณแน่ใจนะว่าต้องการหยุดการล่า?";
+				mes "ความคืบหน้าใดๆ ที่คุณทำมาจะถูกลบทิ้งทั้งหมด";
+				next;
+				switch(select("ใช่:ไม่")) {
+				case 1:
+					mes "[Private Jeremy]";
+					mes "ตกลง ถ้าอย่างนั้นก็กลับมาที่นี่ถ้าคุณเปลี่ยนใจ";
+					erasequest 60141;
+					close;
+				case 2:
+					mes "[Private Jeremy]";
+					mes "โปรดไปกำจัด Golem 100 ตัว";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Private Jeremy]";
+			mes "มหัศจรรย์มาก คุณทำได้รวดเร็วเหลือเกิน";
+			getexp 14000,9000;
+			getexp 14000,9000;
+			erasequest 60141;
+			close;
+		}
+	}
+	if (checkquest(60142) != -1) { // ตรวจสอบเควสต์ล่า 150 ตัว
+		if (checkquest(60142,HUNTING) != 2 ) {
+			mes "[Private Jeremy]";
+			mes "คุณล่า Golem ครบ 150 ตัวหรือยัง?";
+			next;
+			switch(select("ใช่:ไม่:ฉันต้องการยกเลิก")) {
+			case 1:
+				mes "[Private Jeremy]";
+				mes "หืม ฉันยังไม่คิดว่าคุณล่าครบ 150 ตัวนะ...";
+				close;
+			case 2:
+				mes "[Private Jeremy]";
+				mes "จำไว้นะ ฉันต้องการความช่วยเหลือในการล่า Golem เพราะฉะนั้นไปล่าพวกมันมา 150 ตัว";
+				close;
+			case 3:
+				mes "[Private Jeremy]";
+				mes "คุณแน่ใจนะว่าต้องการหยุดการล่า?";
+				mes "ความคืบหน้าใดๆ ที่คุณทำมาจะถูกลบทิ้งทั้งหมด";
+				next;
+				switch(select("ใช่:ไม่")) {
+				case 1:
+					mes "[Private Jeremy]";
+					mes "ตกลง ถ้าอย่างนั้นก็กลับมาที่นี่ถ้าคุณเปลี่ยนใจ";
+					erasequest 60142;
+					close;
+				case 2:
+					mes "[Private Jeremy]";
+					mes "โปรดไปกำจัด Golem 150 ตัว";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Private Jeremy]";
+			mes "มหัศจรรย์มาก คุณทำได้รวดเร็วเหลือเกิน";
+			getexp 14000,9000;
+			getexp 14000,9000;
+			getexp 14000,9000;
+			erasequest 60142;
+			close;
+		}
+	}
+	// สำหรับเลเวลขั้นต่ำ
+	if (BaseLevel > 24) {
+		// สำหรับเลเวลสูงสุด
+		if (BaseLevel < 61) {
+			mes "[Private Jeremy]";
+			mes "ยินดีที่ได้พบ พลเมือง!";
+			mes "บอกหน่อยสิ คุณอยากจะช่วยฉันหน่อยไหม?";
+			next;
+			switch(select("แน่นอน:ไม่")) {
+			case 1:
+				mes "[Private Jeremy]";
+				mes "ขอบใจ! ฉันซึ้งใจจริงๆ";
+				next;
+				switch(select("รวบรวมไอเทม:ล่า Golem:ยกเลิก")) {
+				case 1:
+					// ส่งมอบไอเทม
+					mes "[Private Jeremy]";
+					mes "กองกำลังรักษาการณ์ Morocc ต้องการ ^FF0000Stone Heart^000000 สำหรับใช้ในแผนการฝึกซ้อมของเรา";
+					next;
+					switch(select("ฉันมี Stone Heart:คุณต้องการอะไรนะ?")) {
+					case 1:
+						if (countitem(953) > 24) {
+							mes "[Private Jeremy]";
+							mes "กองกำลังรักษาการณ์ Morocc ขอขอบคุณท่าน พลเมือง";
+							delitem 953,25; //Stone_Heart
+							getexp 14000,9000;
+							close;
+						}
+						else {
+							mes "[Private Jeremy]";
+							mes "ดูเหมือนว่าคุณจะยังมีไม่พอนะ";
+							next;
+							mes "[Private Jeremy]";
+							mes "กองกำลังรักษาการณ์ Morocc ต้องการ ^FF0000Stone Heart 25 อัน^000000 สำหรับแผนการฝึกซ้อมของเรา";
+							close;
+						}
+					case 2:
+						mes "[Private Jeremy]";
+						mes "กองกำลังรักษาการณ์ Morocc ต้องการ ^FF0000Stone Heart 25 อัน^000000 สำหรับแผนการฝึกซ้อมของเรา";
+						close;
+					}
+				case 2:
+					// เควสต์นับจำนวนการกำจัด (Kill Count)
+					mes "[Private Jeremy]";
+					mes "อา ตกลง ฉันคิดว่าคุณสามารถช่วยฉันได้โดยการไปล่า Golem สักหน่อย";
+					mes "คุณต้องการจะล่ากี่ตัวดีล่ะ?";
+					next;
+					switch(select("50 Golem:100 Golem:150 Golem")) {
+					case 1:
+						mes "[Private Jeremy]";
+						mes "กลับมาเมื่อคุณทำภารกิจเสร็จแล้ว แล้วฉันจะให้รางวัลเล็กๆ น้อยๆ";
+						setquest 60140;
+						close;
+					case 2:
+						mes "[Private Jeremy]";
+						mes "กลับมาเมื่อคุณทำภารกิจเสร็จแล้ว แล้วฉันจะให้รางวัลเล็กๆ น้อยๆ";
+						setquest 60141;
+						close;
+					case 3:
+						mes "[Private Jeremy]";
+						mes "กลับมาเมื่อคุณทำภารกิจเสร็จแล้ว แล้วฉันจะให้รางวัลเล็กๆ น้อยๆ";
+						setquest 60142;
+						close;
+					}
+				case 3:
+					mes "[Private Jeremy]";
+					mes "ถ้าคุณเปลี่ยนใจ โปรดกลับมาใหม่นะ";
+					close;
+				}
+			case 2:
+				mes "[Private Jeremy]";
+				mes "ถ้าคุณเปลี่ยนใจ โปรดกลับมาใหม่นะ";
+				close;
+			}
+		}
+		else {
+			mes "[Private Jeremy]";
+			mes "ยินดีที่ได้พบ พลเมือง!";
+			next;
+			mes "[Private Jeremy]";
+			mes "ได้โปรดอย่าขัดขวางการปฏิบัติภารกิจของฉันเพื่อกองกำลังรักษาการณ์ Morocc";
+			close;
+		}
+	}
+	else {
+		mes "[Private Jeremy]";
+		mes "ที่นี่มันอันตรายนะ พลเมือง";
+		close;
+	}
+}
+
+

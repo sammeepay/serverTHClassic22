@@ -1,0 +1,1220 @@
+//===== rAthena Script =======================================
+//= War of Emperium TE - Template File
+//===== Description: =========================================
+//= [Official Conversion]
+//= Like agit_main, this file is required
+//= for TE castles to function.
+//= - Enables AGIT Manager.
+//= - Enables Stewards to invest.
+//= - Enables Kafra Services inside Guild.
+//= - Treasure Chest spawning.
+//= - Flag Template.
+//= - GM NPC.
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+-	script	Manager_TE	-1,{
+OnAgitInit3:
+	.@map$ = strnpcinfo(4);
+	if (.@map$ == "") end;
+	.@npc_name$ = strnpcinfo(0);
+	.@guild_id = getcastledata(.@map$,CD_GUILD_ID);
+	if (.@guild_id == 0) {
+		killmonster .@map$, .@npc_name$ +"::OnMyMobDead";
+		donpcevent strnpcinfo(0)+"::OnEmpSpawn";
+		if (compare(.@map$,"te_aldecas")) {
+			monster .@map$,0,0,"Evil Druid",1117,10,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Khalitzburg",1132,4,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Abysmal Knight",1219,2,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Executioner",1205,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Penomena",1216,10,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Alarm",1193,18,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Clock",1269,9,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Raydric Archer",1276,7,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Wanderer",1208,3,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Alice",1275,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Bloody Knight",1268,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Dark Lord",1272,1,.@npc_name$ +"::OnMyMobDead";
+			if (.@map$ == "te_aldecas1") { setarray .@emproom[0],216,23; }
+			else if (.@map$ == "te_aldecas2") { setarray .@emproom[0],213,23; }
+			else if (.@map$ == "te_aldecas3") { setarray .@emproom[0],205,31; }
+			else if (.@map$ == "te_aldecas4") { setarray .@emproom[0],36,217; }
+			else if (.@map$ == "te_aldecas5") { setarray .@emproom[0],27,101; }
+			monster .@map$,.@emproom[0],.@emproom[1],"Dark Lord",1272,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,.@emproom[0],.@emproom[1],"Tower Keeper",1270,4,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,.@emproom[0],.@emproom[1],"Bloody Knight",1268,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,.@emproom[0],.@emproom[1],"Abysmal Knight",1219,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,.@emproom[0],.@emproom[1],"Raydric Archer",1276,5,.@npc_name$ +"::OnMyMobDead";
+		}
+		else if (compare(.@map$,"te_prtcas")) {
+			monster .@map$,0,0,"Raydric",1163,10,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Khalitzburg",1132,10,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Abysmal Knight",1219,5,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Bloody Knight",1268,5,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Stormy Knight",1251,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Hatii",1252,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Raydric Archer",1276,5,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Gryphon",1259,2,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Chimera",1283,2,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Alice",1275,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,0,0,"Zealotus",1200,1,.@npc_name$ +"::OnMyMobDead";
+			if (.@map$ == "te_prtcas01") { setarray .@emproom[0],197,197; }
+			else if (.@map$ == "te_prtcas02") { setarray .@emproom[0],157,174; }
+			else if (.@map$ == "te_prtcas03") { setarray .@emproom[0],16,220; }
+			else if (.@map$ == "te_prtcas04") { setarray .@emproom[0],291,14; }
+			else if (.@map$ == "te_prtcas05") { setarray .@emproom[0],266,266; }
+			monster .@map$,.@emproom[0],.@emproom[1],"Guardian Knight of Emperium",1268,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,.@emproom[0],.@emproom[1],"Chief Guardian Knight of Emperium",1251,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,.@emproom[0],.@emproom[1],"Hatii",1252,1,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,.@emproom[0],.@emproom[1],"Guardian Knight of Emperium",1219,2,.@npc_name$ +"::OnMyMobDead";
+			monster .@map$,.@emproom[0],.@emproom[1],"Raydric Archer",1276,5,.@npc_name$ +"::OnMyMobDead";
+		}
+		disablenpc "Kafra Employee#"+ replacestr(.@map$, "cas", "");
+	}
+	else {
+		requestguildinfo .@guild_id;
+		donpcevent "::OnFlagTE" + strnpcinfo(2);// Guild emblem on flags.
+		if (getcastledata(.@map$,CD_ENABLED_KAFRA)  == 0)
+			disablenpc "Kafra Employee#"+ replacestr(.@map$, "cas", "");
+
+		// Load purchased Guardian in castles.
+		if (.@map$ == "te_aldecas1") donpcevent "Clode::OnSpawnGuardians";
+		else if (.@map$ == "te_aldecas2") donpcevent "Lares::OnSpawnGuardians";
+		else if (.@map$ == "te_aldecas3") donpcevent "Valerian::OnSpawnGuardians";
+		else if (.@map$ == "te_aldecas4") donpcevent "Alpores::OnSpawnGuardians";
+		else if (.@map$ == "te_aldecas5") donpcevent "Anpere::OnSpawnGuardians";
+		else if (.@map$ == "te_prtcas01") donpcevent "Kurbe::OnSpawnGuardians";
+		else if (.@map$ == "te_prtcas02") donpcevent "Kamiyu::OnSpawnGuardians";
+		else if (.@map$ == "te_prtcas03") donpcevent "Eduare::OnSpawnGuardians";
+		else if (.@map$ == "te_prtcas04") donpcevent "Casate::OnSpawnGuardians";
+		else if (.@map$ == "te_prtcas05") donpcevent "Pisaro::OnSpawnGuardians";
+	}
+	end;
+
+OnEmpSpawn:
+	.@map$ = strnpcinfo(4);
+	if (!mobcount( .@map$, strnpcinfo(0) +"::OnAgitBreak" )) {
+		if (.@map$ == "te_aldecas1") { setarray .@emproom[0],216,23; }
+		else if (.@map$ == "te_aldecas2") { setarray .@emproom[0],213,23; }
+		else if (.@map$ == "te_aldecas3") { setarray .@emproom[0],205,31; }
+		else if (.@map$ == "te_aldecas4") { setarray .@emproom[0],36,217; }
+		else if (.@map$ == "te_aldecas5") { setarray .@emproom[0],27,101; }
+		else if (.@map$ == "te_prtcas01") { setarray .@emproom[0],197,197; }
+		else if (.@map$ == "te_prtcas02") { setarray .@emproom[0],157,174; }
+		else if (.@map$ == "te_prtcas03") { setarray .@emproom[0],16,220; }
+		else if (.@map$ == "te_prtcas04") { setarray .@emproom[0],291,14; }
+		else if (.@map$ == "te_prtcas05") { setarray .@emproom[0],266,266; }
+		monster .@map$,.@emproom[0],.@emproom[1],"Emperium",1288,1, strnpcinfo(0) +"::OnAgitBreak";
+	}
+	end;
+
+OnAgitStart3:
+	.@map$ = strnpcinfo(4);
+	if (.@map$ == "") end;
+	if (agitcheck3()) {
+		maprespawnguildid .@map$, getcastledata(.@map$,CD_GUILD_ID),2;// warp all non-guild members
+		gvgon3 .@map$;
+		donpcevent strnpcinfo(0)+"::OnEmpSpawn";
+		callsub S_Message,"OnCommandOn";
+	}
+	end;
+
+OnAgitEnd3:
+	.@map$ = strnpcinfo(4);
+	if (.@map$ == "") end;
+	gvgoff3 .@map$;
+	if (getcastledata(.@map$,CD_GUILD_ID))
+		killmonster .@map$, strnpcinfo(0) +"::OnAgitBreak";
+	callsub S_Message,"OnReset";
+	end;
+
+OnAgitBreak:
+	.@guild_id = getcharid(2);
+	.@map$ = strnpcinfo(4);
+
+	.@economy = getcastledata(.@map$,CD_CURRENT_ECONOMY) - 5;// ปรับระดับการลงทุนด้านเศรษฐกิจ (Economy Invest Level) สำหรับปราสาท
+	if (.@economy < 1)
+		setcastledata .@map$, CD_CURRENT_ECONOMY,1;
+	else
+		setcastledata .@map$, CD_CURRENT_ECONOMY,.@economy;
+	.@defense = getcastledata(.@map$,CD_CURRENT_DEFENSE) - 5;// ปรับระดับการลงทุนด้านการป้องกัน (Defense Invest Level) สำหรับปราสาท
+	if (.@defense < 1)
+		setcastledata .@map$, CD_CURRENT_DEFENSE,1;
+	else
+		setcastledata .@map$, CD_CURRENT_DEFENSE,.@defense;
+	setcastledata .@map$,CD_GUILD_ID,.@guild_id;
+
+	// รีเซ็ตข้อมูลการลงทุนและรีเฟรชข้อมูลปราสาท
+	for ( .@i = CD_INVESTED_ECONOMY; .@i < CD_ENABLED_GUARDIAN00; .@i++ )
+		setcastledata .@map$,.@i,0;
+	donpcevent strnpcinfo(0) +"::OnAgitInit3";// อัญเชิญ Guardian / มอนสเตอร์
+
+	// ลบข้อมูลฐานข้อมูล Guardian หากเจ้าของปราสาทรายใหม่ไม่มีสกิล Guardian Research
+	if (getgdskilllv(.@guild_id,10002) == 0) {
+		for ( .@i = CD_ENABLED_GUARDIAN00; .@i < CD_MAX; .@i++ )
+			setcastledata .@map$,.@i,0;
+	}
+
+	mapannounce .@map$,"Emperium ถูกทำลายลงแล้ว",bc_map,"0x00FF00",FW_BOLD,20,0,40;
+	maprespawnguildid .@map$,.@guild_id,2;// ส่งผู้เล่นที่ไม่ใช่สมาชิกกิลด์เจ้าของปราสาทใหม่ออกไปที่จุดเซฟ โดยไม่ลบมอนสเตอร์
+
+	sleep 500;
+	if (agitcheck3())
+		donpcevent strnpcinfo(0) +"::OnEmpSpawn";
+	sleep 7000;
+	announce "ปราสาท [" + getcastlename(.@map$) + "] ถูกยึดครองโดยกิลด์ [" + getguildName(.@guild_id) + "] เรียบร้อยแล้ว",bc_all|bc_woe;
+	end;
+
+OnGuildBreak:
+	.@map$ = strnpcinfo(4);
+	if (.@map$ == "") end;
+	.@tmp$ = replacestr(.@map$, "cas", "");
+	killmonster .@map$, "Kafra Employee#"+ .@tmp$ +"::OnGuardianDied";
+	disablenpc "Kafra Employee#"+ .@tmp$;
+	setcastledata .@map$,CD_GUILD_ID,0;
+	sleep 7000;
+	announce "ฐานทัพกิลด์ [" + getcastlename(.@map$) + "] ถูกละทิ้งแล้ว",bc_all;
+	donpcevent strnpcinfo(0) +"::OnAgitInit3";
+	end;
+
+S_Message:
+	.@map$ = strnpcinfo(4);
+	.@guild_id = getcastledata(.@map$,CD_GUILD_ID);
+	
+	if (.@guild_id)
+		announce "ปราสาท [" + getcastlename(.@map$) + "] ถูกครอบครองโดยกิลด์ [" + getguildname(.@guild_id) + "]",bc_all,"0xFF0000",FW_NORMAL,10;
+	else
+		announce "ปราสาท [" + getcastlename(.@map$) + "] ยังไม่มีผู้ครอบครองในขณะนี้", bc_all,"0xFF0000",FW_NORMAL,10;
+	if (compare( .@map$,"te_alde" ))
+		.@string$ = "alde0"+ charat( .@map$,getstrlen(.@map$)-1 );
+	else
+		.@string$ = "prt0"+ charat( .@map$,getstrlen(.@map$)-1 );
+	donpcevent "#popswitch_"+ .@string$ +"::"+ getarg(0);// มอนสเตอร์สำหรับภารกิจ TE
+
+	if (.@map$ == "te_aldecas1") {
+		donpcevent "Blacksmith Cano#tegod01::OnInit";// ไอเทมเทพ (God item) TE
+		$2012_tegod_kafra = 0;
+		$@2012_tegirls_alde01 = 0;
+	}
+	else if (.@map$ == "te_prtcas01") {
+		$2012_tegod_gloria = 0;
+		$@2012_tegirls_prt01 = 0;
+		donpcevent "Blacksmith Kai#tegod01::OnInit";
+	}
+	return;
+
+OnMyMobDead:
+	end;
+}
+
+// Guild Kafras
+//============================================================
+-	script	Kafra_Staff_TE	-1,{
+	.@guild_id = getcastledata( strnpcinfo(4),CD_GUILD_ID );
+	.@guildname$ = getguildname(.@guild_id);
+
+	cutin "kafra_01",2;
+	mes "[Kafra Employee]";
+	if (.@guild_id == getcharid(2)) {
+		mes "ยินดีต้อนรับ สมาชิกกิลด์ ^ff0000" + .@guildname$ + "^000000";
+		mes "Kafra Corporation จะอยู่เคียงข้างคุณในทุกที่ที่คุณไป";
+		next;
+		switch( select( "ใช้งานคลังฝากของ", "ใช้งานบริการวาร์ป", "เช่ารถเข็น (Pushcart)", "ยกเลิก" ) ) {
+		case 1:
+			if (getskilllv("NV_BASIC") > 5) {
+				mes "[Kafra Employee]";
+				mes "ได้ค่ะ เดี๋ยวฉันจะเปิด";
+				mes "คลังฝากของให้คุณนะคะ";
+				mes "ขอบคุณที่ใช้บริการ";
+				mes "ของ Kafra ค่ะ";
+				close2;
+				openstorage;
+			} else {
+				mes "[Kafra Employee]";
+				mes "ขออภัยด้วยค่ะ แต่คุณ";
+				mes "จำเป็นต้องมีสกิลพื้นฐาน";
+				mes "Novice Basic Skill เลเวล 6";
+				mes "เพื่อใช้งานบริการคลังฝากของค่ะ";
+				close2;
+			}
+			break;
+		case 2:
+			if (compare( strnpcinfo(4),"alde" ) == 1)
+				callsub( S_Warp, "Aldebaran", "aldebaran",132,103 );
+			else
+				callsub( S_Warp, "Prontera", "prontera",278,211 );
+		case 3:
+			mes "[Kafra Employee]";
+			if (BaseClass != Job_Merchant) {
+				mes "ขออภัยด้วยค่ะ แต่บริการ";
+				mes "เช่ารถเข็น Pushcart นี้";
+				mes "ให้บริการเฉพาะ Merchant,";
+				mes "Blacksmith และ Alchemist เท่านั้นค่ะ";
+				close2;
+			}
+			else if (checkcart()) {
+				mes "คุณมีรถเข็น Pushcart";
+				mes "ติดตั้งอยู่แล้วค่ะ";
+				mes "น่าเสียดายที่เราไม่สามารถ";
+				mes "ให้ลูกค้าเช่ามากกว่าหนึ่งคัน";
+				mes "ในเวลาเดียวกันได้ค่ะ";
+				close2;
+			}
+			else {
+				mes "ค่าธรรมเนียมการเช่า";
+				mes "รถเข็นคือ 800 Zeny";
+				mes "คุณต้องการเช่ารถเข็นไหมคะ?";
+				next;
+				if (select( "เช่ารถเข็น","ยกเลิก" ) == 1) {
+					if (Zeny < 800) {
+						mes "[Kafra Employee]";
+						mes "ขออภัยด้วยค่ะ แต่คุณ";
+						mes "มีเงินไม่เพียงพอสำหรับ";
+						mes "จ่ายค่าเช่ารถเข็น";
+						mes "จำนวน 800 Zeny ค่ะ";
+						close2;
+					}
+					else {
+						RESRVPTS = RESRVPTS + 80;
+						Zeny = Zeny - 800;
+						setcart();
+					}
+				}
+			}
+			break;
+		case 4:
+			mes "[Kafra Employee]";
+			mes "พวกเราที่ Kafra Corporation";
+			mes "มุ่งมั่นที่จะมอบบริการที่ดีที่สุดให้แก่คุณเสมอ เราหวังว่าเราจะตอบสนองความต้องการและมาตรฐานความเป็นเลิศในการผจญภัยของคุณได้ค่ะ";
+			close2;
+			break;
+		}
+	}
+	else {
+		mes "ฉันได้รับคำสั่งให้ให้บริการเฉพาะกิลด์ ^ff0000"+ .@guildname$ +"^000000 เท่านั้นค่ะ โปรดลองติดต่อพนักงาน Kafra คนอื่นในบริเวณนี้นะคะ ต้องขออภัยในความไม่สะดวกด้วยค่ะ";
+		close2;
+	}
+	cutin "",255;
+	end;
+
+S_Warp:
+	mes "[Kafra Employee]";
+	mes "โปรดเลือก";
+	mes "จุดหมายปลายทางของคุณค่ะ";
+	next;
+	switch( select( getarg(0) + " -> 200 z", "ยกเลิก" ) ) {
+	case 1:
+		if (Zeny < 200) {
+			mes "[Kafra Employee]";
+			mes "ขออภัยด้วยค่ะ แต่คุณมี";
+			mes "เงินไม่พอสำหรับบริการวาร์ป";
+			mes "ค่าธรรมเนียมการวาร์ปไปยัง";
+			mes ""+getarg(0)+" คือ 200 Zeny ค่ะ";
+			close2;
+			cutin "",255;
+			end;
+		}
+		Zeny = Zeny - 200;
+		RESRVPTS = RESRVPTS + 20;
+		warp getarg(1), getarg(2),getarg(3);
+		end;
+	case 2:
+		cutin "",255;
+		end;
+	}
+
+OnGuardianDied:
+	end;
+}
+
+// Castle Managers (Invest) (ผู้จัดการปราสาท - การลงทุน)
+//============================================================
+-	script	invest_TE	-1,{
+function GuardianData;
+
+	.@map$ = strnpcinfo(4);
+	.@npc_name$ = "[ Butler "+ strnpcinfo(1) +"]";
+	.@guild_id = getcastledata(.@map$,CD_GUILD_ID);
+	.@guildmaster$ = getguildmaster(.@guild_id);
+
+	mes .@npc_name$;
+	if (.@guild_id == 0) {
+		mes "ข้ากำลังเฝ้ารอนายเหนือหัวเพื่อมาเติมเต็มโชคชะตาของข้า";
+		mes "ผู้กล้าเอ๋ย... โชคชะตาจะนำทางคุณไปสู่อนาคตเอง...";
+		close;
+	}
+	if (strcharinfo(0) != .@guildmaster$) {
+		mes "ไม่ว่าเจ้าจะรบเร้าข้าแค่ไหน ข้าก็จะยังภักดีต่อเจ้านายของข้า ^ff0000"+.@guildmaster$+"^000000 เท่านั้น พวก Guardian อยู่ไหนกันหมด?! ส่งคนเกเรพวกนี้ออกไปเดี๋ยวนี้!";
+		close;
+	}
+	mes "ยินดีต้อนรับ นายเหนือหัวผู้ทรงเกียรติของข้า ^ff0000"+strcharinfo(0)+"^000000...";
+	mes "คนรับใช้ผู้ซื่อสัตย์ของท่าน "+strnpcinfo(1)+" พร้อมรับใช้ท่านแล้วครับ";
+	next;
+	switch( select( "รายงานสถานะปราสาท", "ลงทุนเพื่อการเติบโตทางพาณิชย์", "ลงทุนเพื่อการป้องกันปราสาท", "อัญเชิญ Guardian", "จ้าง / ไล่ออก พนักงาน Kafra", "ไปยังห้องพักของนายท่าน" ) ) {
+	case 1:
+		.@economy_today = getcastledata(.@map$,CD_INVESTED_ECONOMY);
+		.@defense_today = getcastledata(.@map$,CD_INVESTED_DEFENSE);
+		mes .@npc_name$;
+		mes "ข้าจะรายงานสถานะของปราสาทครับ นายท่าน";
+		mes " ";
+		mes "^0000ffขณะนี้ ระดับการเติบโตทางพาณิชย์คือ "+GetCastleData(.@map$,CD_CURRENT_ECONOMY)+".";
+		if (.@economy_today > 0)
+			mes " ท่านได้ลงทุนไปแล้ว "+.@economy_today+" ครั้งในรอบ 1 วันที่ผ่านมา";
+		mes " ขณะนี้ ระดับการป้องกันปราสาทคือ "+GetCastleData(.@map$,CD_CURRENT_DEFENSE)+".^000000";
+		if (.@defense_today > 0)
+			mes " ^0000ff- ท่านได้ลงทุนไปแล้ว "+.@defense_today+" ครั้งในรอบ 1 วันที่ผ่านมา^000000";
+		mes " ";
+		mes "นั่นคือทั้งหมดที่ข้าต้องรายงานครับ นายท่าน";
+		close;
+
+	case 2:
+		.@economy = getcastledata(.@map$,CD_CURRENT_ECONOMY);
+		setarray .@eco_invest[0], 5,5000, 10,10000, 15,20000, 20,35000, 25,55000, 30,80000, 35,110000, 40,145000, 45,185000, 50,230000,
+			55,280000, 60,335000, 65,395000, 70,460000, 75,530000, 80,605000, 85,685000, 90,770000, 95,860000, 100,955000;
+		for ( .@i = 0; .@i < getarraysize(.@eco_invest); .@i += 2 )
+			if (.@economy <= .@eco_invest[.@i]) break;
+		callsub( S_Invest, 4, .@eco_invest[.@i+1], getcastledata(.@map$,CD_INVESTED_ECONOMY), "การเติบโตทางพาณิชย์", "จำนวนสินค้าที่ผลิตโดยกิลด์จะเพิ่มมากขึ้น", "อนาคต", "นักเศรษฐศาสตร์", "ความมั่งคั่ง" );
+
+	case 3:
+		.@defense = getcastledata(.@map$,CD_CURRENT_DEFENSE);
+		setarray .@def_invest[0], 5,10000, 10,20000, 15,40000, 20,70000, 25,110000, 30,160000, 35,220000, 40,290000, 45,370000, 50,460000,
+			55,560000, 60,670000, 65,790000, 70,920000, 75,1060000, 80,1210000, 85,1370000, 90,1540000, 95,1720000, 100,1910000;
+		for ( .@i = 0; .@i < getarraysize(.@def_invest); .@i += 2 )
+			if (.@defense <= .@def_invest[.@i]) break;
+		callsub( S_Invest, 5, .@def_invest[.@i+1], getcastledata(.@map$,CD_INVESTED_DEFENSE), "การป้องกันปราสาท", "ความทนทานของ Guardian และ Emperium จะเพิ่มมากขึ้น", "การต่อสู้ที่กำลังจะมาถึง", "นักวางยุทธศาสตร์", "การป้องกัน" );
+
+	case 4:
+		mes .@npc_name$;
+		mes "ท่านต้องการอัญเชิญ Guardian หรือไม่? พวกมันจะเป็นผู้พิทักษ์ที่ปกป้องเราอย่างจงรักภักดี";
+		mes "โปรดเลือก Guardian ที่จะมาปกป้องเราครับ";
+		next;
+		GuardianData( .@mob_id, .@x, .@y, .@name$ );
+		for ( .@i = 0; .@i < MAX_GUARDIANS ; .@i++ ) {
+			if (guardianinfo(.@map$,.@i,0))
+				.@menu$ = .@menu$ + getmonsterinfo(.@mob_id[.@i],MOB_NAME) + " - ติดตั้งแล้ว (" + guardianinfo(.@map$,.@i,2) + "/" + guardianinfo(.@map$,.@i,1) + "):";// hp/hpmax
+			else
+				.@menu$ = .@menu$ + getmonsterinfo(.@mob_id[.@i],MOB_NAME) + " - ยังไม่ได้ติดตั้ง:";
+		}
+		.@s = select(.@menu$) -1;
+		mes .@npc_name$;
+		mes "ท่านต้องการอัญเชิญ Guardian ที่เลือกไว้หรือไม่? ต้องใช้เงิน 10,000 Zeny เพื่ออัญเชิญ Guardian ครับ";
+		next;
+		if (select( "อัญเชิญ","ยกเลิก" ) == 2) {
+			mes .@npc_name$;
+			mes "ข้าทำตามที่ท่านสั่งครับ แต่โปรดจำไว้ว่าถ้าท่านมีเงินเหลือเฟือ การติดตั้งพวกมันไว้จะดีกว่านะครับ";
+			close;
+		}
+		mes .@npc_name$;
+		if (getgdskilllv(.@guild_id,10002) == 0) {
+			mes "นายท่าน เราไม่มีทรัพยากรเพียงพอที่จะอัญเชิญ Guardian ครับ หากท่านต้องการสะสมทรัพยากรเหล่านี้ ท่านต้องเรียนรู้สกิลกิลด์เสียก่อน การอัญเชิญ Guardian ล้มเหลวครับ";
+		}
+		else if (getcastledata( .@map$,(.@s + CD_ENABLED_GUARDIAN00) ) == 1)
+			mes "นายท่าน ท่านได้อัญเชิญ Guardian ตนนั้นไปแล้ว เราไม่สามารถอัญเชิญเพิ่มได้อีกครับ";
+		else if (Zeny <  10000)
+			mes "เอ่อ... ข้าขออภัยด้วยแต่เราไม่มีทุนทรัพย์เพียงพอที่จะอัญเชิญ Guardian ครับ การอัญเชิญ Guardian ล้มเหลวครับ";
+		else {
+			Zeny = Zeny - 10000;
+			setcastledata .@map$,(.@s + CD_ENABLED_GUARDIAN00),1;
+			guardian .@map$, .@x[.@s], .@y[.@s], .@name$[.@s], .@mob_id[.@s], "Kafra Employee#"+ replacestr(.@map$, "cas", "") +"::OnGuardianDied", .@s;
+			mes "เราดำเนินการอัญเชิญ Guardian เสร็จสิ้นแล้ว การป้องกันของเราเพิ่มขึ้นเมื่อมีพวกมันประจำการอยู่ครับ";
+		}
+		close;
+
+	case 5:
+		mes .@npc_name$;
+		if (getcastledata(.@map$,CD_ENABLED_KAFRA) == 1) {
+			mes "ขณะนี้เรากำลังจ้างพนักงาน Kafra อยู่... ท่านต้องการไล่พนักงาน Kafra ออกหรือไม่?";
+			next;
+			if (select( "ไล่ออก","ยกเลิก" ) == 2) {
+				mes .@npc_name$;
+				mes "ในความเห็นของข้า เธอทำงานหนักมากครับ เป็นการตัดสินใจที่ดีแล้วที่รักษานางไว้";
+				close;
+			}
+			cutin "kafra_01",2;
+			mes "[ พนักงาน Kafra ที่ถูกจ้าง ]";
+			mes "ฉันทำงานหนักมากเลยนะ... นายท่านทำแบบนี้ได้อย่างไรคะ?... ได้โปรด... ได้โปรดทบทวนอีกครั้ง... ตรวจสอบดูอีกทีเถอะค่ะนายท่าน... ได้โปรด...";
+			next;
+			if (select( "ไล่ออก","ยกเลิก" ) == 2) {
+				mes "[ พนักงาน Kafra ที่ถูกจ้าง ]";
+				mes "ฉันจะตั้งใจทำงานเพื่อท่านค่ะ... ขอบคุณมากค่ะ!";
+				close3;
+			}
+			mes "[ พนักงาน Kafra ที่ถูกจ้าง ]";
+			mes "โอ้ คุณพระช่วย! นี่มันไร้สาระที่สุด!";
+			next;
+			cutin "",255;
+			disablenpc "Kafra Employee#" + replacestr(.@map$, "cas", "");
+			setcastledata .@map$,CD_ENABLED_KAFRA,0;
+			mes .@npc_name$;
+			mes "....";
+			mes "ข้าได้เลิกจ้างพนักงาน Kafra แล้วครับ... แต่... ท่านไม่พอใจอะไรหรือเปล่าครับ?";
+			close;
+		}
+		mes "ท่านต้องการติดต่อสำนักงานใหญ่ Kafra เพื่อจ้างพนักงานมาประจำที่ปราสาทของเราหรือไม่?";
+		mes "^ff0000 ต้องใช้เงิน 10,000 Zeny สำหรับค่าบริการของพวกเขาครับ ";
+		next;
+		if (select( "จ้าง","ยกเลิก" ) == 2) {
+			mes .@npc_name$;
+			mes "ข้าทำตามที่ท่านสั่งครับ แต่อาจมีสมาชิกบางคนไม่พอใจได้นะ จะเป็นการดีกว่าหากรีบจ้างพนักงาน Kafra โดยเร็วครับ";
+			close;
+		}
+		mes .@npc_name$;
+		if (getgdskilllv(.@guild_id,10001) == 0) {
+			mes "นายท่าน เราไม่สามารถจ้างพนักงาน Kafra ได้เพราะเรายังไม่มีสัญญากับสำนักงานใหญ่ Kafra ครับ หากท่านต้องการทำสัญญากับสำนักงานใหญ่ ท่านต้องเรียนรู้สกิลกิลด์ก่อนครับ";
+			close;
+		}
+		if (Zeny <  10000) {
+			mes "เอ่อ... ข้าขออภัยแต่เรามีทุนทรัพย์ไม่เพียงพอที่จะจ้างพนักงาน Kafra ครับ";
+			close;
+		}
+		Zeny = Zeny - 10000;
+		enablenpc "Kafra Employee#" + replacestr(.@map$, "cas", "");
+		setcastledata .@map$,CD_ENABLED_KAFRA,1;
+
+		mes "เราได้ทำสัญญากับสำนักงานใหญ่ Kafra และจ้างพนักงาน Kafra เรียบร้อยแล้วครับ";
+		next;
+		cutin "kafra_01",2;
+		mes "[ พนักงาน Kafra ที่ถูกจ้าง ]";
+		mes "สวัสดีค่ะ ฉันถูกส่งตัวมาจากสำนักงานใหญ่ค่ะ";
+		mes "ฉันจะทำให้ดีที่สุดเพื่อไม่ให้เสียชื่อเสียงของกิลด์ค่ะ";
+		next;
+		cutin "",255;
+		mes .@npc_name$;
+		mes "เงื่อนไขสัญญาของพนักงาน Kafra ที่จ้างมาคือ 1 เดือน และหลังจากครบกำหนด ท่านจะต้องจ่ายค่าธรรมเนียมเพิ่มเติมครับ";
+		mes "มันจะเป็นประโยชน์ต่อสมาชิกของเรามากครับ";
+		close;
+
+	case 6:
+		mes .@npc_name$;
+		mes "ท่านต้องการไปยังห้องเก็บของมีค่าของเราหรือไม่?";
+		mes "ห้องนั้นถูกจำกัดไว้สำหรับท่าน... ท่านเป็นเพียงคนเดียวที่มีสิทธิ์เข้าถึงครับ";
+		next;
+		mes .@npc_name$;
+		mes "หากท่านไม่เปิดหีบสมบัติภายในเวลาที่กำหนด มีความเป็นไปได้ที่จะสูญเสียมันไปเมื่อเกิดเหตุการณ์ไม่คาดคิดขึ้น";
+		mes "โปรดระลึกไว้เสมอครับ นายท่าน";
+		mes "ดังนั้น เพื่อการพัฒนากิลด์ของเรา ท่านต้องหาเวลาไปเก็บรวบรวมมันนะครับ";
+		next;
+		switch( select( "เข้าไปในห้องของนายท่าน","ยกเลิก" ) ) {
+		case 1:
+			mes .@npc_name$;
+			mes "ข้าจะแสดงทางลับให้ดู ตามข้ามา...ได้โปรด";
+			mes "เมื่อท่านต้องการกลับมาที่นี่ โปรดกดสวิตช์ลับนะครับ";
+			close2;
+			if (.@map$ == "te_aldecas1") warp "te_aldecas1",113,223;
+			else if (.@map$ == "te_aldecas2") warp "te_aldecas2",134,225;
+			else if (.@map$ == "te_aldecas3") warp "te_aldecas3",229,267;
+			else if (.@map$ == "te_aldecas4") warp "te_aldecas4",83,17;
+			else if (.@map$ == "te_aldecas5") warp "te_aldecas5",64,8;
+			else if (.@map$ == "te_prtcas01") warp "te_prtcas01",15,209;
+			else if (.@map$ == "te_prtcas02") warp "te_prtcas02",207,229;
+			else if (.@map$ == "te_prtcas03") warp "te_prtcas03",190,130;
+			else if (.@map$ == "te_prtcas04") warp "te_prtcas04",275,160;
+			else if (.@map$ == "te_prtcas05") warp "te_prtcas05",281,176;
+			end;
+		case 2:
+			mes .@npc_name$;
+			mes "สินค้าจะถูกผลิตวันละครั้ง... หากท่านไม่นำมันออกไปตามเวลา สินค้าจะไม่ถูกผลิตเพิ่มอีกครับ";
+			mes "ดังนั้น จะเป็นการดีกว่าหากท่านแวะไปตรวจสอบพวกมันเป็นระยะๆ ครับ";
+			close;
+		}
+	}
+
+S_Invest:
+	.@cost_invest = getarg(1);
+	.@num_invest_today = getarg(2);
+	.@npc_name$ = "[ Butler "+ strnpcinfo(1) +"]";
+	if (.@num_invest_today)// เพิ่มต้นทุนการลงทุนเป็นสี่เท่าหากท่านได้ลงทุนไปแล้วครั้งหนึ่ง
+		.@cost_invest = .@cost_invest * 4;
+
+	mes .@npc_name$;
+	mes "หากท่านลงทุนใน "+ getarg(3) +", จะทำให้ "+ getarg(4) +" ดังนั้น หากท่านพิจารณาถึง "+ getarg(5) +" ของเรา การลงทุนย่อมเป็นสิ่งจำเป็นครับ";
+	mes " ";
+	mes "ในตอนแรก ท่านจะลงทุนได้เพียงครั้งเดียว แต่หากท่านจ่ายเงินเพิ่ม ท่านจะสามารถลงทุนได้เป็นครั้งที่สองครับ";
+	mes " ";
+	if (getcastledata(strnpcinfo(4),CD_CURRENT_ECONOMY) >= 100) {
+		mes "^ff0000ระดับ "+ getarg(3) +" ของปราสาทเราอยู่ที่ระดับสูงสุด 100% แล้ว ไม่จำเป็นต้องลงทุนเพิ่มอีกครับ สมกับที่ข้าคาดหวังจาก "+ getarg(6) +" ผู้ยิ่งใหญ่อย่างท่านจริงๆ ครับ นายท่าน^000000";
+		close;
+	}
+	if (.@num_invest_today >= 2) {
+		mes "^ff0000ท่านได้ลงทุนไปสองครั้งแล้วในวันนี้ ไม่สามารถลงทุนเพิ่มได้อีกครับ^000000 ข้าคาดหวังว่า "+ getarg(7) +" ของกิลด์จะเติบโตในอัตราที่สูงครับ";
+		close;
+	}
+	if (.@num_invest_today == 0)
+		mes "จำนวนเงินลงทุนที่ต้องการในขณะนี้คือ ^ff0000"+.@cost_invest+"^000000 Zeny ท่านจะลงทุนหรือไม่ครับ?";
+	else
+		mes "ท่านลงทุนไปแล้วครั้งหนึ่งในวันนี้... หากท่านต้องการลงทุนอีกครั้ง จะต้องใช้เงินเพิ่มอีก ^ff0000"+.@cost_invest+"^000000 Zeny ครับ";
+	next;
+	switch( select( "ลงทุนใน "+ getarg(3) +".","ยกเลิก" ) ) {
+	case 1:
+		mes .@npc_name$;
+		if (Zeny < .@cost_invest) {
+			mes "ข้าขออภัยแต่เงิน Zeny ไม่เพียงพอสำหรับการลงทุนครับ ท่านต้องลองใหม่อีกครั้งเมื่อท่านมีทุนทรัพย์ครับ นายท่าน";
+			close;
+		}
+		Zeny = Zeny - .@cost_invest;
+		setcastledata strnpcinfo(4), getarg(0), (.@num_invest_today +1);
+		mes "เราดำเนินการลงทุนเสร็จสิ้นอย่างปลอดภัย ข้าคาดว่าระดับ "+ getarg(3) +" ของเราจะเพิ่มขึ้นภายในวันพรุ่งนี้ครับ";
+		close;
+	case 2:
+		mes .@npc_name$;
+		mes "ข้าจะทำตามความประสงค์ของท่านครับ นายท่าน... ไม่ต้องรีบร้อน เราจะทำให้ดีที่สุดครับ";
+		close;
+	}
+
+function GuardianData {
+	.@map$ = strnpcinfo(4);
+	if (.@map$ == "te_aldecas1") {
+		setarray .@data$[0],
+			1287, 17, 218, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 39, 205, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 38, 196, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 21, 194, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 218, 24, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 213, 24, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 73, 70, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1285, 45, 228, "Outer Castle Archer Guardian";// ARCHER_GUARDIAN
+	}
+	else if (.@map$ == "te_aldecas2") {
+		setarray .@data$[0],
+			1287, 51, 183, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1286, 27, 184, "Outer Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 88, 43, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1285, 210, 7, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1287, 60, 203, "Outer Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 21, 177, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 117, 46, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1285, 36, 183, "Outer Castle Archer Guardian";// ARCHER_GUARDIAN
+	}
+	else if (.@map$ == "te_aldecas3") {
+		setarray .@data$[0],
+			1285, 110, 217, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 90, 112, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1287, 86, 120, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 195, 151, "Inner Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 116, 112, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1287, 116, 76, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 64, 103, "Outer Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 212, 160, "Inner Castle Archer Guardian";// ARCHER_GUARDIAN
+	}
+	else if (.@map$ == "te_aldecas4") {
+		setarray .@data$[0],
+			1285, 187, 100, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 192, 42, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 55, 88, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1287, 145, 209, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 169, 53, "Outer Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 198, 77, "Outer Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 148, 88, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 48, 72, "Inner Castle Knight Guardian";// KNIGHT_GUARDIAN
+	}
+	else if (.@map$ == "te_aldecas5") {
+		setarray .@data$[0],
+			1285, 51, 202, "Inner Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 27, 221, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 145, 78, "Outer Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1287, 157, 192, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 157, 74, "Outer Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 188, 79, "Inner Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 156, 73, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 41, 112, "Inner Castle Knight Guardian";// KNIGHT_GUARDIAN
+	}
+	else if (.@map$ == "te_prtcas01") {
+		setarray .@data$[0],
+			1287, 182, 68, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 182, 116, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 153, 86, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 59, 28, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 50, 36, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1286, 184, 183, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 196, 189, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 107, 179, "Inner Castle Knight Guardian";// KNIGHT_GUARDIAN
+	}
+	else if (.@map$ == "te_prtcas02") {
+		setarray .@data$[0],
+			1286, 162, 161, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 153, 161, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 178, 44, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1287, 71, 75, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 49, 28, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 64, 186, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 76, 196, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 75, 175, "Outer Castle Archer Guardian";// ARCHER_GUARDIAN
+	}
+	else if (.@map$ == "te_prtcas03") {
+		setarray .@data$[0],
+			1286, 191, 190, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 137, 190, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 45, 99, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1287, 50, 87, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 41, 87, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 191, 42, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 179, 43, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 191, 72, "Outer Castle Archer Guardian";// ARCHER_GUARDIAN
+	}
+	else if (.@map$ == "te_prtcas04") {
+		setarray .@data$[0],
+			1286, 276, 14, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 274, 35, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 246, 246, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1287, 38, 240, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 29, 240, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 33, 258, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 78, 48, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 36, 61, "Outer Castle Archer Guardian";// ARCHER_GUARDIAN
+	}
+	else if (.@map$ == "te_prtcas05") {
+		setarray .@data$[0],
+			1286, 266, 262, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 287, 280, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1286, 245, 250, "Inner Castle Knight Guardian",// KNIGHT_GUARDIAN
+			1287, 236, 63, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 251, 63, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1287, 278, 71, "Inner Castle Soldier Guardian",// SOLDIER_GUARDIAN
+			1285, 32, 253, "Outer Castle Archer Guardian",// ARCHER_GUARDIAN
+			1285, 44, 248, "Outer Castle Archer Guardian";// ARCHER_GUARDIAN
+	}
+	for ( .@i = 0; .@i < getarraysize(.@data$); .@i += 4 ) {
+		set getelementofarray( getarg(0),.@index ), .@data$[.@i];
+		set getelementofarray( getarg(1),.@index ), .@data$[.@i+1];
+		set getelementofarray( getarg(2),.@index ), .@data$[.@i+2];
+		set getelementofarray( getarg(3),.@index ), .@data$[.@i+3];
+		.@index++;
+	}
+}
+
+OnSpawnGuardians:
+	GuardianData( .@mob_id, .@x, .@y, .@name$ );
+	.@map$ = strnpcinfo(4);
+	.@tmp$ = replacestr(.@map$, "cas", "");
+	killmonster .@map$, "Kafra Employee#"+ .@tmp$ +"::OnGuardianDied";
+	for ( .@i = 0; .@i < MAX_GUARDIANS; .@i++ ) {
+		if (getcastledata( .@map$,(.@i + CD_ENABLED_GUARDIAN00) ))
+			guardian .@map$, .@x[.@i], .@y[.@i], .@name$[.@i], .@mob_id[.@i], "Kafra Employee#"+ .@tmp$ +"::OnGuardianDied",.@i;
+	}
+}
+
+// Guild Dungeon Entrances
+//============================================================
+-	script	lever2_TE	-1,{
+	.@guild_id = getcastledata( strnpcinfo(4),CD_GUILD_ID );
+	if (.@guild_id == 0) {
+		mes "[Ringing Voice]";
+		mes "'เหล่าผู้ที่ก้าวข้ามบททดสอบได้ ย่อมแสดงถึงความกล้าหาญอันยิ่งใหญ่... และจะได้พบหนทางไปสู่บททดสอบถัดไป'";
+		close;
+	}
+	mes "[Ringing Voice]";
+	mes "'มีเพียงผู้ที่กล้าหาญอย่างแท้จริงเท่านั้นที่สามารถรับการทดสอบนี้ได้'";
+	next;
+	mes " ";
+	mes "มีคันโยกขนาดเล็กอยู่ คุณจะดึงมันหรือไม่?";
+	next;
+	if (select( "ดึงคันโยก","ไม่ดึง" ) == 1) {
+		if (.@guild_id == getcharid(2)) {
+			.@npc_map$ = strnpcinfo(4);
+			if (compare( .@npc_map$,"te_alde" )) {
+				.@map$ = "teg_dun02";
+				if (.@npc_map$ == "te_aldecas1") setarray .@coord[0],32,122;
+				else if (.@npc_map$ == "te_aldecas2") setarray .@coord[0],79,30;
+				else if (.@npc_map$ == "te_aldecas3") setarray .@coord[0],165,38;
+				else if (.@npc_map$ == "te_aldecas4") setarray .@coord[0],160,148;
+				else if (.@npc_map$ == "te_aldecas5") setarray .@coord[0],103,169;
+			}
+			else {
+				.@map$ = "teg_dun01";
+				if (.@npc_map$ == "te_prtcas01") setarray .@coord[0],28,251;
+				else if (.@npc_map$ == "te_prtcas02") setarray .@coord[0],164,268;
+				else if (.@npc_map$ == "te_prtcas03") setarray .@coord[0],164,179;
+				else if (.@npc_map$ == "te_prtcas04") setarray .@coord[0],268,203;
+				else if (.@npc_map$ == "te_prtcas05") setarray .@coord[0],199,28;
+			}
+			warp .@map$,.@coord[0],.@coord[1];
+		}
+		else {
+			mes " ";
+			mes "ไม่มีอะไรเกิดขึ้น";
+			close;
+		}
+	}
+	end;
+}
+
+// Treasure Room Exit (ทางออกห้องสมบัติ)
+//============================================================
+-	script	lever1_TE	-1,{
+	mes " ";
+	mes "มีคันโยกขนาดเล็กอยู่ คุณจะดึงมันหรือไม่?";
+	next;
+	if ( select( "ดึงคันโยก","ไม่ดึง" ) == 1 ) {
+		.@map$ = strnpcinfo(4);
+		if (.@map$ == "te_aldecas1") setarray .@coord[0],218,176;
+		else if (.@map$ == "te_aldecas2") setarray .@coord[0],51,179;
+		else if (.@map$ == "te_aldecas3") setarray .@coord[0],110,119;
+		else if (.@map$ == "te_aldecas4") setarray .@coord[0],67,117;
+		else if (.@map$ == "te_aldecas5") setarray .@coord[0],51,179;
+		else if (.@map$ == "te_prtcas01") setarray .@coord[0],112,183;
+		else if (.@map$ == "te_prtcas02") setarray .@coord[0],94,62;
+		else if (.@map$ == "te_prtcas03") setarray .@coord[0],51,101;
+		else if (.@map$ == "te_prtcas04") setarray .@coord[0],259,265;
+		else if (.@map$ == "te_prtcas05") setarray .@coord[0],36,38;
+		warp .@map$,.@coord[0],.@coord[1];
+	}
+	end;
+}
+
+// Treasure Room Spawn Template
+//============================================================
+-	script	treasure_TE	-1,{
+OnClock0001:// Spawn Treasure Chests based on castle economy.
+	.@map$ = strnpcinfo(4);
+	if (.@map$ == "") end;
+	.@guild_id = getcastledata(.@map$,CD_GUILD_ID);
+	if (.@guild_id == 0) end;
+
+	.@economy = getcastledata(.@map$,CD_CURRENT_ECONOMY);
+	.@defense = getcastledata(.@map$,CD_CURRENT_DEFENSE);
+	.@economy_today = getcastledata(.@map$,CD_INVESTED_ECONOMY);
+	.@defense_today = getcastledata(.@map$,CD_INVESTED_DEFENSE);
+
+	killmonster .@map$, strnpcinfo(0)+"::OnTreasureDied";
+	if (.@economy_today) {
+		.@economy = .@economy + .@economy_today + (rand(2) && getgdskilllv(.@guild_id,10014));
+		.@economy = ( .@economy > 100 ) ? 100 : .@economy;
+		setcastledata .@map$,CD_CURRENT_ECONOMY,.@economy;
+		setcastledata .@map$,CD_INVESTED_ECONOMY,0;
+	}
+	if (.@defense_today) {
+		.@defense = .@defense + .@defense_today;
+		.@defense = ( .@defense > 100 ) ? 100 : .@defense;
+		setcastledata .@map$,CD_CURRENT_DEFENSE,.@defense;
+		setcastledata .@map$,CD_INVESTED_DEFENSE,0;
+	}
+
+	if (.@map$ == "te_aldecas1") {
+		setarray .@data[0],// <mob_id>, <x>,<y>
+			2452, 115,226,// TREASURE_BOX_TE
+			2458, 122,226,// TREASURE_BOX_TE_6
+			2452, 115,219,
+			2458, 122,219,
+			2452, 116,225,
+			2458, 117,225,
+			2452, 118,225,
+			2458, 119,225,
+			2452, 120,225,
+			2458, 121,225,
+			2452, 121,224,
+			2458, 121,223,
+			2452, 121,222,
+			2458, 121,221,
+			2452, 121,220,
+			2458, 120,220,
+			2452, 119,220,
+			2458, 118,220,
+			2452, 117,220,
+			2458, 116,220,
+			2452, 116,221,
+			2458, 116,222,
+			2452, 116,223,
+			2458, 116,224;
+	}
+	else if (.@map$ == "te_aldecas2") {
+		setarray .@data[0],
+			2452, 134,231,// TREASURE_BOX_TE
+			2459, 135,231,// TREASURE_BOX_TE_7
+			2452, 135,230,
+			2459, 134,230,
+			2452, 132,233,
+			2459, 133,233,
+			2452, 134,233,
+			2459, 135,233,
+			2452, 136,233,
+			2459, 137,233,
+			2452, 137,232,
+			2459, 137,231,
+			2452, 137,230,
+			2459, 137,229,
+			2452, 137,228,
+			2459, 136,228,
+			2452, 135,228,
+			2459, 134,228,
+			2452, 133,228,
+			2459, 132,228,
+			2452, 132,229,
+			2459, 132,230,
+			2452, 132,231,
+			2459, 132,232;
+	}
+	else if (.@map$ == "te_aldecas3") {
+		setarray .@data[0],
+			2452, 224,269,// TREASURE_BOX_TE
+			2460, 225,269,// TREASURE_BOX_TE_8
+			2452, 225,268,
+			2460, 224,268,
+			2452, 222,271,
+			2460, 223,271,
+			2452, 224,271,
+			2460, 225,271,
+			2452, 226,271,
+			2460, 227,271,
+			2452, 227,270,
+			2460, 227,269,
+			2452, 227,268,
+			2460, 227,267,
+			2452, 227,266,
+			2460, 226,266,
+			2452, 225,266,
+			2460, 224,266,
+			2452, 223,266,
+			2460, 222,266,
+			2452, 222,267,
+			2460, 222,268,
+			2452, 222,269,
+			2460, 222,270;
+	}
+	else if (.@map$ == "te_aldecas4") {
+		setarray .@data[0],
+			2452, 84,13,// TREASURE_BOX_TE
+			2461, 85,13,// TREASURE_BOX_TE_9
+			2452, 85,12,
+			2461, 84,12,
+			2452, 82,15,
+			2461, 83,15,
+			2452, 84,15,
+			2461, 85,15,
+			2452, 86,15,
+			2461, 87,15,
+			2452, 87,14,
+			2461, 87,13,
+			2452, 87,12,
+			2461, 87,11,
+			2452, 87,10,
+			2461, 86,10,
+			2452, 85,10,
+			2461, 84,10,
+			2452, 83,10,
+			2461, 82,10,
+			2452, 82,11,
+			2461, 82,12,
+			2452, 82,13,
+			2461, 82,14;
+	}
+	else if (.@map$ == "te_aldecas5") {
+		setarray .@data[0],
+			2452, 62,12,// TREASURE_BOX_TE
+			2462, 62,11,// TREASURE_BOX_TE_10
+			2452, 61,11,
+			2462, 59,14,
+			2452, 60,14,
+			2462, 61,14,
+			2452, 62,14,
+			2462, 63,14,
+			2452, 64,14,
+			2462, 64,13,
+			2452, 64,12,
+			2462, 64,11,
+			2452, 64,10,
+			2462, 64,9,
+			2452, 63,9,
+			2462, 62,9,
+			2452, 61,9,
+			2462, 60,9,
+			2452, 59,9,
+			2462, 59,10,
+			2452, 59,11,
+			2462, 59,12,
+			2452, 59,13;
+	}
+	else if (.@map$ == "te_prtcas01") {
+		setarray .@data[0],
+			2452, 8,211,// TREASURE_BOX_TE
+			2453, 9,211,// TREASURE_BOX_TE_1
+			2452, 10,211,
+			2453, 11,211,
+			2452, 12,211,
+			2453, 13,211,
+			2452, 13,209,
+			2453, 12,209,
+			2452, 11,209,
+			2453, 10,209,
+			2452, 9,209,
+			2453, 8,209,
+			2452, 8,207,
+			2453, 9,207,
+			2452, 10,207,
+			2453, 11,207,
+			2452, 12,207,
+			2453, 13,207,
+			2452, 13,206,
+			2453, 12,206,
+			2452, 11,206,
+			2453, 10,206,
+			2452, 9,206,
+			2453, 8,206;
+	}
+	else if (.@map$ == "te_prtcas02") {
+		setarray .@data[0],
+			2452, 201,228,// TREASURE_BOX_TE
+			2454, 202,228,// TREASURE_BOX_TE_2
+			2452, 202,227,
+			2454, 201,227,
+			2452, 199,230,
+			2454, 200,230,
+			2452, 201,230,
+			2454, 202,230,
+			2452, 203,230,
+			2454, 204,230,
+			2452, 204,229,
+			2454, 204,228,
+			2452, 204,227,
+			2454, 204,226,
+			2452, 204,225,
+			2454, 203,225,
+			2452, 202,225,
+			2454, 201,225,
+			2452, 200,225,
+			2454, 199,225,
+			2452, 199,226,
+			2454, 199,227,
+			2452, 199,228,
+			2454, 199,229;
+	}
+	else if (.@map$ == "te_prtcas03") {
+		setarray .@data[0],
+			2452, 187,132,// TREASURE_BOX_TE
+			2455, 188,132,// TREASURE_BOX_TE_3
+			2452, 188,131,
+			2455, 187,131,
+			2452, 185,134,
+			2455, 186,134,
+			2452, 187,134,
+			2455, 188,134,
+			2452, 189,134,
+			2455, 190,134,
+			2452, 190,133,
+			2455, 190,132,
+			2452, 190,131,
+			2455, 190,130,
+			2452, 190,129,
+			2455, 189,129,
+			2452, 188,129,
+			2455, 187,129,
+			2452, 186,129,
+			2455, 185,129,
+			2452, 185,130,
+			2455, 185,131,
+			2452, 185,132,
+			2455, 185,133;
+	}
+	else if (.@map$ == "te_prtcas04") {
+		setarray .@data[0],
+			2452, 269,162,// TREASURE_BOX_TE
+			2456, 270,162,// TREASURE_BOX_TE_4
+			2452, 270,161,
+			2456, 269,161,
+			2452, 267,164,
+			2456, 268,164,
+			2452, 269,164,
+			2456, 270,164,
+			2452, 271,164,
+			2456, 272,164,
+			2452, 272,163,
+			2456, 272,162,
+			2452, 272,161,
+			2456, 272,160,
+			2452, 272,159,
+			2456, 271,159,
+			2452, 270,159,
+			2456, 269,159,
+			2452, 268,159,
+			2456, 267,159,
+			2452, 267,160,
+			2456, 267,161,
+			2452, 267,162,
+			2456, 267,163;
+	}
+	else if (.@map$ == "te_prtcas05") {
+		setarray .@data[0],
+			2452, 275,178,// TREASURE_BOX_TE
+			2457, 276,178,// TREASURE_BOX_TE_5
+			2452, 276,177,
+			2457, 275,177,
+			2452, 273,180,
+			2457, 274,180,
+			2452, 275,180,
+			2457, 276,180,
+			2452, 277,180,
+			2457, 278,180,
+			2452, 278,179,
+			2457, 278,178,
+			2452, 278,177,
+			2457, 278,176,
+			2452, 278,175,
+			2457, 277,175,
+			2452, 276,175,
+			2457, 275,175,
+			2452, 274,175,
+			2457, 273,175,
+			2452, 273,176,
+			2457, 273,177,
+			2452, 273,178,
+			2457, 273,179;
+	}
+	.@treasure_num = ( 4 + ( .@economy /5 ) ) *3;// x3 <-> data[] size
+	for ( .@i = 0; .@i < getarraysize(.@data) && .@treasure_num > .@i; .@i += 3 )// nb. [4;24] chests
+		monster .@map$, .@data[.@i+1], .@data[.@i+2],"Treasure Chest", .@data[.@i],1, strnpcinfo(0)+"::OnTreasureDied";
+
+OnTreasureDied:
+	end;
+}
+
+// Flag warp Template
+//============================================================
+function	script	F_flag_woe_TE	{
+	.@castle$ = getarg(1);
+	.@guild_id = getcastledata( .@castle$,CD_GUILD_ID );
+	if (.@guild_id == 0) {
+		mes "[ ประกาศราชโองการแห่งอาณาจักร Rune-Midgarts อันศักดิ์สิทธิ์ ]";
+		mes " ";
+		mes "1. ตามบทบัญญัติแห่งอาณาจักร Rune-Midgarts อันศักดิ์สิทธิ์,";
+		mes "เราขอประกาศว่า";
+		mes "ปราสาทหลังนี้ยังไม่มีเจ้าของอย่างเป็นทางการ";
+		mes " ";
+		mes "2. สำหรับผู้ที่สามารถ";
+		mes "ก้าวข้ามผ่านการทดสอบทั้งปวง";
+		mes "และทำลาย Emperium ลงได้,";
+		mes "องค์กษัตริย์จะทรงมอบ";
+		mes "กรรมสิทธิ์การครอบครองปราสาทหลังนี้ให้แก่ผู้นั้น";
+		close;
+	}
+	if (.@guild_id == getcharid(2) && getarg(0)) {
+		mes "[ เสียงก้องกังวาน ]";
+		mes "เหล่าผู้กล้าเอ๋ย...";
+		mes "เจ้าปรารถนาที่จะกลับไปยังสถานที่อันทรงเกียรติของเจ้าหรือไม่?";
+		next;
+		if (select( "กลับไปยังปราสาทกิลด์","ออกไป" ) == 1) {
+			if (jobcanentermap(.@castle$) == 0) {
+				mes "อาชีพคลาส 3 และผู้เล่นที่มีเลเวลเกินกำหนด (Expanded Levels) ไม่ได้รับอนุญาตให้เข้าร่วมในการศึกชิงปราสาทสนามฝึก (Training Siege Battles)";
+				close;
+			}
+			if (getcastledata( getarg(1),CD_GUILD_ID ) == getcharid(2))
+				warp getarg(1),getarg(2),getarg(3);
+			end;
+		}
+	}
+	.@guildname$ = getguildname(.@guild_id);
+	.@guildmaster$ = getguildmaster(.@guild_id);
+	mes "[ ประกาศราชโองการแห่งอาณาจักร Rune-Midgarts อันศักดิ์สิทธิ์ ]";
+	mes " ";
+	mes "1. ตามบทบัญญัติแห่งอาณาจักร Rune-Midgarts อันศักดิ์สิทธิ์,";
+	mes "เราขอรับรองว่าสถานที่แห่งนี้อยู่ใน";
+	mes "กรรมสิทธิ์ส่วนบุคคลของกิลด์ ^ff0000"+.@guildname$+"^000000";
+	mes " ";
+	mes "2. หัวหน้ากิลด์ (Guild Master) ของกิลด์ ^ff0000"+.@guildname$+"^000000 คือ";
+	mes "^ff0000"+.@guildmaster$+"^000000";
+	mes "หากมีผู้ใดคัดค้านต่อการนี้,";
+	mes "จงพิสูจน์ความแข็งแกร่งและเกียรติยศของเจ้าด้วยดาบเหล็กกล้าในมือเถิด";
+	close;
+}
+
+-	script	simple_info_TE	-1,{
+	callfunc( "F_flag_woe_TE",0,strnpcinfo(4) );
+OnInit:
+	if (strnpcinfo(4) != "")
+		flagemblem getcastledata( strnpcinfo(4),CD_GUILD_ID );
+	end;
+}
+
+-	script	flag_te	GUILD_FLAG,{
+	end;
+OnInit:
+	if (strnpcinfo(2) != "")
+		flagemblem getcastledata( strnpcinfo(2),CD_GUILD_ID );
+	end;
+}
+
+
+// GM NPC
+//============================================================
+prt_gld,1,4,0	script	#Enterance Button prt	CLEAR_NPC,{
+	mes "รหัสผ่าน (password)";
+	next;
+	if ( callfunc( "F_GM_NPC", 1854,0, 0,9000 ) < 1 ) {
+		mes "นั่นไม่ถูกต้อง";
+		close;
+	}
+	mes "คุณต้องการทำอะไรกับจุดวาร์ปที่มุ่งหน้าไป Gloria?";
+	next;
+	switch( select( "เปิดใช้งาน","ปิดใช้งาน","ยกเลิก","รับไอเทมเช่า" ) ) {
+	case 1:
+		mes "กำลังเปิดจุดวาร์ป";
+		enablenpc "to_gloria";
+		close;
+	case 2:
+		mes "กำลังปิดจุดวาร์ป";
+		disablenpc "to_gloria";
+		close;
+	case 3:
+		end;
+	case 4:
+		mes "คุณมีเวลา 300 วินาที";
+		rentitem 13083,300;// TE_Woe_Knife
+		close;
+	}
+}
+
+alde_gld,1,4,0	script	#Enterance Button ald	CLEAR_NPC,{
+	mes "รหัสผ่าน (password)";
+	next;
+	if ( callfunc( "F_GM_NPC", 1854,0, 0,9000 ) < 1 ) {
+		mes "นั่นไม่ถูกต้อง";
+		close;
+	}
+	mes "คุณต้องการทำอะไรกับจุดวาร์ปที่มุ่งหน้าไป Kafragarten?";
+	next;
+	switch( select( "เปิดใช้งาน","ปิดใช้งาน","ยกเลิก" ) ) {
+	case 1:
+		mes "กำลังเปิดจุดวาร์ป";
+		enablenpc "to_kafragarten";
+		close;
+	case 2:
+		mes "กำลังปิดจุดวาร์ป";
+		disablenpc "to_kafragarten";
+		close;
+	case 3:
+		end;
+	}
+}
+
+// God Item Hervor & Jormungand
+sec_in02,20,20,0	script	Test Guide	CLEAR_NPC,{
+	mes "รหัสผ่าน (Password)?";
+	next;
+	if (callfunc( "F_GM_NPC", 18543792,0, 0,99999999 ) < 1) {
+		mes "อา... ไม่นะ...";
+		close;
+	}
+	mes "เราจัดเตรียมไอเทมวัตถุดิบที่จำเป็นสำหรับการทดสอบระบบ TE ให้";
+	next;
+	switch( select( "วัตถุดิบสำหรับ Hervor","วัตถุดิบสำหรับ Jormungand" ) ) {
+	case 1:
+		getitem 6595,2;// Hammer_Of_Velund
+		getitem 6596,1;// Anvil_Of_Velund
+		getitem 6594,4;// Magic_Bronze_Bullion
+		getitem 6597,3;// Bracelet_Of_Velund
+		getitem 6602,1;// Secret_Of_Rune
+		getitem 6605,1;// Muspellium
+		getitem 6604,1;// Essence_Of_Rune
+		getitem 2115,1;// Valkyrja's_Shield
+		end;
+	case 2:
+		getitem 6603,4;// Skin_Of_Hraesvelg
+		getitem 6599,1;// Spirit_Of_Hugin
+		getitem 6598,1;// Rib_Of_Jormungand
+		getitem 6601,4;// Chisel_Of_Giant
+		getitem 6600,1;// Spirit_Of_Munin
+		getitem 6605,1;// Muspellium
+		getitem 6604,1;// Essence_Of_Rune
+		getitem 1473,1;// Wizardy_Staff
+		end;
+	}
+}

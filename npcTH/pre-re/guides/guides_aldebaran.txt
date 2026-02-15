@@ -1,0 +1,109 @@
+//===== rAthena Script =======================================
+//= Al De Baran Guides
+//===== By: ==================================================
+//= kobra_k88; L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.7
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official conversion]
+//= Guides for the City of Al De Baran
+//===== Additional Comments: =================================
+//= Corrected building locations and descriptions
+//= 1.2 Optimized, updated common guide names [Lupus]
+//= 1.3 Updated the guide according to how it is on iRO, thanks [MasterOfMuppets]
+//=     to Muad_Dib
+//= 1.4 Fitted the many lines into 1 or 2, and corrected some typos [erKURITA]
+//= 1.5 Removed Duplicates [Silent]
+//= 1.6 Rescripted to official 10.3 standards. [L0ne_W0lf]
+//= 1.6a Changed some "close"s to "close2"s. (bugreport:1597) [Samuray22]
+//= 1.7 Fixed viewpoint coordinates [Playtester]
+//============================================================
+
+aldebaran,139,63,4	script	Soldier#alde	105,{
+	cutin "prt_soldier",2;
+	mes "[Al De Baran Guard]";
+	mes "ฉันก็แค่ทหารยามธรรมดาๆ";
+	mes "ที่คุณสามารถพบได้ตามเมืองอื่นๆ ทั่วไปนั่นแหละ ฉันไม่คิดว่าตัวเองจะมีชื่อเรียกด้วยซ้ำไป...";
+	next;
+	mes "[Al De Baran Guard]";
+	mes "ฉันรับหน้าที่ดูแลส่วนการแนะนำบริการต่างๆ จากกองกำลังรักษาการณ์ Al De Baran ให้ฉันช่วยนำทาง";
+	mes "คุณไปรอบๆ เมืองของเรานะ!";
+	next;
+	if (select("รับการแนะนำสถานที่:จบการสนทนา") == 1) {
+		viewpoint 1,61,229,0,0xFF6633;
+		viewpoint 1,72,197,1,0x0000FF;
+		viewpoint 1,223,222,2,0x00FFFF;
+		viewpoint 1,233,105,3,0x515151;
+		viewpoint 1,197,70,4,0x3355FF;
+		viewpoint 1,60,60,5,0xFF5555;
+		mes "^FF6633+^000000 -> สำนักงานใหญ่ Kafra (Kafra Main Office)";
+		mes "^0000FF+^000000 -> ร้านขายอาวุธ (Weapon Shop)";
+		mes "^00FFFF+^000000 -> สมาคมจอมเวทย์ (Sorcerer Guild - ปิดทำการ)";
+		mes "^515151+^000000 -> ผับ (Pub)";
+		mes "^3355FF+^000000 -> ร้านขายไอเทม (Item Shop)";
+		mes "^FF5555+^000000 -> สมาคมนักปรุงยา (Alchemist Guild)";
+		close2;
+		cutin "prt_soldier",255;
+		end;
+	}
+	mes "[Al De Baran Guard]";
+	mes "พวกเราสาบานตนว่าจะปกป้อง Al De Baran! ขอให้กองกำลังแห่งความชั่วร้ายถูกบดขยี้ด้วย";
+	mes "กำปั้นแห่งความยุติธรรมของฝ่ายธรรมะเสมอไป!";
+	close2;
+	cutin "prt_soldier",255;
+	end;
+}
+
+aldebaran,133,108,4	script	Soldier#2alde	105,{
+	cutin "prt_soldier",2;
+	mes "[Al De Baran Guard]";
+	mes "ฉันก็แค่";
+	mes "ทหารยามธรรมดาๆ";
+	mes "แบบที่คุณสามารถ";
+	mes "พบได้ตามเมืองอื่นๆ";
+	next;
+	mes "[Al De Baran Guard]";
+	mes "ในเวลาที่ฉันไม่ยุ่งจนเกินไป";
+	mes "กับการปกป้องเหล่าประชากร";
+	mes "ของ Al De Baran ฉันจะอยู่ที่นี่เพื่อคอยบอกทางให้เหล่านักผจญภัย";
+	mes "เช่นคุณอย่างไรล่ะ";
+	next;
+	switch(select("สำนักงานใหญ่ Kafra:ร้านขายอาวุธ:สมาคมจอมเวทย์:ผับ:ร้านขายไอเทม:สมาคมนักปรุงยา:จบการสนทนา")) {
+	case 1:
+		viewpoint 1,61,229,0,0xFF6633;
+		mes "^FF6633+^000000 -> สำนักงานใหญ่ Kafra (Kafra Main Office)";
+		break;
+	case 2:
+		viewpoint 1,72,197,1,0x0000FF;
+		mes "^0000FF+^000000 -> ร้านขายอาวุธ (Weapon Shop)";
+		break;
+	case 3:
+		viewpoint 1,223,222,2,0x00FFFF;
+		mes "^00FFFF+^000000 -> สมาคมจอมเวทย์ (Sorcerer Guild - ปิดทำการ)";
+		break;
+	case 4:
+		viewpoint 1,233,105,3,0x515151;
+		mes "^515151+^000000 -> ผับ (Pub)";
+		break;
+	case 5:
+		viewpoint 1,197,70,4,0x3355FF;
+		mes "^3355FF+^000000 -> ร้านขายไอเทม (Item Shop)";
+		break;
+	case 6:
+		viewpoint 1,60,60,5,0xFF5555;
+		mes "^FF5555+^000000 -> สมาคมนักปรุงยา (Alchemist Guild)";
+		break;
+	case 7:
+		mes "[Al De Baran Guard]";
+		mes "พวกเราสาบานตน";
+		mes "ว่าจะปกป้อง Al De Baran!";
+		mes "ขอให้พลังแห่งความดี";
+		mes "มีชัยเหนือความชั่วร้ายเสมอไป~";
+		break;
+	}
+	close2;
+	cutin "prt_soldier",255;
+	end;
+}

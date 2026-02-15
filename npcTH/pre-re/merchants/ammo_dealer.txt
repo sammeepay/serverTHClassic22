@@ -1,0 +1,116 @@
+//===== rAthena Script =======================================
+//= Bullet Dealers
+//===== Description: =========================================
+//= Bullet trader.
+//===== Changelogs: ==========================================
+//= 1.0 First version [Playtester]
+//= 1.1 Converted from Aegis [Paradox924X]
+//= 1.2 More optimized conversion [Legionaire]
+//= 1.2a Removed .GATs [Lupus]
+//= 1.3 Fixed [Playtester] Optimized. Got rid of @vars [Lupus]
+//= 1.4 Updated to match AEGIS script. [Kisuka]
+//= 1.5 Updated to match AEGIS script again. [Masao]
+//= 1.6 Moved Izlude duplicate to pre-re/re paths. [Euphy]
+//= 2.0 Clean-up. [Capuche]
+//= 2.1 Fixes Issue #1482, where Rebellion jobs cannot use this npc. [Limestone]
+//============================================================
+
+alberta,118,160,3	script	Bullet Dealer Tony#alb::bdt	4_M_04,{
+	mes "[Tony]";
+	if (BaseClass == Job_Gunslinger) {
+		mes "ฉันชื่อ Tony เป็นพ่อค้าขายกระสุน";
+		mes "แวะมาหาฉันได้เสมอเมื่อไหร่ก็ตามที่";
+		mes "นายขาดแคลนกระสุน แค่นำ";
+		mes "วัตถุดิบมาให้ฉัน แล้วฉันจะ";
+		mes "ผลิตกระสุนที่นายต้องการให้เอง";
+		next;
+		switch(select("Poison Sphere:Flare Sphere:Lighting Sphere:Blind Sphere:Freezing Sphere:ยกเลิก")) {
+		case 1: callsub S_BulletTrade,937,10,13205;// <ไอเทมที่ต้องการ>, <จำนวนที่ต้องการ>, <ID กระสุน>
+		case 2: callsub S_BulletTrade,7097,2,13203;
+		case 3: callsub S_BulletTrade,7053,3,13204;
+		case 4: callsub S_BulletTrade,1024,5,13206;
+		case 5: callsub S_BulletTrade,7054,2,13207;
+		case 6:
+			mes "[Tony]";
+			mes "เปลี่ยนใจงั้นเหรอ?";
+			mes "เอาเถอะ ถ้าเมื่อไหร่ที่นายต้องการ";
+			mes "กระสุน ฉันก็จะอยู่ตรงนี้แหละ";
+			mes "กลับมาได้เสมอเมื่อไหร่ก็ตามที่";
+			mes "นายคิดว่าต้องการกระสุนเพิ่มนะ Gunslinger";
+			close;
+		}
+	}
+	mes "เฮ้ ฉันชื่อ Tony ฉันทำหน้าที่";
+	mes "ดูแลรับผิดชอบการแจกจ่าย";
+	mes "และผลิตกระสุนสำหรับ";
+	mes "เหล่า Gunslinger มันเป็นแค่";
+	mes "วิธีการที่กิลด์ของเราชอบ";
+	mes "ที่จะจัดการสิ่งต่างๆ น่ะ";
+	next;
+	mes "[Tony]";
+	mes "ฉันต้องขอโทษด้วยถ้าหากนาย";
+	mes "มาที่นี่เพื่อจะซื้อกระสุนน่ะนะ";
+	mes "ฉันสามารถทำธุรกิจได้กับเฉพาะ";
+	mes "ผู้ที่เป็น Gunslinger เต็มตัวเท่านั้น";
+	close;
+
+S_BulletTrade:
+	.@required_id = getarg(0);
+	.@required_amount = getarg(1);
+	.@bullet_id = getarg(2);
+
+	mes "[Tony]";
+	mes "สำหรับการแลกเปลี่ยนในทุกๆ";
+	mes "ชุดของ " + callfunc("F_InsertPlural",30,getitemname(.@bullet_id)) + ",";
+	mes "นายต้องมอบสิ่งเหล่านี้ให้ฉัน:";
+	mes "1 Emveretarcon,";
+	mes "1 Phracon, และ";
+	mes callfunc("F_InsertPlural",.@required_amount,getitemname(.@required_id)) + " ครับ";
+	next;
+	mes "[Tony]";
+	mes "จำไว้นะว่าฉันสามารถให้ได้";
+	mes "สูงสุดครั้งละ 500 ชุด (ชุดละ 30 นัด)";
+	mes "ต่อการแลกเปลี่ยนหนึ่งครั้ง โปรด";
+	mes "ใส่จำนวนชุดกระสุนที่นายต้องการ";
+	mes "หากนายต้องการยกเลิก ให้ใส่เลข ''0''";
+	next;
+	input .@amount;
+	mes "[Tony]";
+	if (.@amount < 1 || .@amount > 500) {
+		mes "เฮ้ ฉันไม่สามารถให้กระสุน";
+		mes "จำนวนมากขนาดนั้นได้หรอกนะ อย่า";
+		mes "ลืมใส่ตัวเลขที่ไม่เกิน 500 ล่ะ";
+		mes "ถ้าหากนายต้องการจะแลกเปลี่ยน";
+		mes "ไอเทมของนายเป็นกระสุนน่ะ";
+	}
+	else if (countitem(1010) >= .@amount && countitem(1011) >= .@amount && countitem(.@required_id) >= (.@amount*.@required_amount)) {
+		if (checkweight(.@bullet_id,.@amount * 30) == 0) {
+			mes "เอ๊ะ? ช่องเก็บของในตัวนายดูเหมือนจะ";
+			mes "ไม่มีที่ว่างพอสำหรับกระสุนจำนวน";
+			mes "มากขนาดนี้ กลับมาใหม่ภายหลัง";
+			mes "หลังจากที่นายเพิ่มที่ว่างเรียบร้อยแล้วนะ";
+			mes "ลองเอาของบางอย่างไปฝากไว้ในคลัง Kafra ดูสิ";
+		} else {
+			mes "เยี่ยมมาก ทุกอย่างดูเหมือนจะ";
+			mes "ถูกต้องเรียบร้อยดีนะ ขอฉันรับ";
+			mes "วัตถุดิบเหล่านี้ไป และนี่คือ";
+			mes "กระสุนของนาย ยินดีที่ได้ทำ";
+			mes "ธุรกิจกับนายนะ~";
+			delitem 1010,.@amount; //Phracon
+			delitem 1011,.@amount; //Emveretarcon
+			delitem .@required_id,.@amount * .@required_amount;
+			getitem .@bullet_id,.@amount * 30;
+		}
+	} else {
+		mes "หืม ดูเหมือนว่านายจะ";
+		mes "มีวัตถุดิบไม่เพียงพอสำหรับ";
+		mes "กระสุนจำนวนมากขนาดนั้นนะ";
+		mes "แต่ก็ไม่มีปัญหาหรอก แค่กลับมา";
+		mes "หลังจากที่รวบรวมทุกอย่างที่";
+		mes "นายต้องใช้ครบแล้ว โอเคไหม?";
+	}
+	close;
+}
+
+que_ng,187,156,3	duplicate(bdt)	Bullet Dealer Tony#ng	86
+izlude,171,133,3	duplicate(bdt)	Bullet Dealer Tony#iz	86

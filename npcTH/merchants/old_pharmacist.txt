@@ -1,0 +1,253 @@
+//===== rAthena Script =======================================
+//= Old Pharmacist
+//===== By: ==================================================
+//= DZeroX
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Trade in items for potions.
+//= Breakdown of arguments used:
+//= arg(0): Herb required.
+//= arg(1): Zeny cost.
+//= arg(2): Potion given.
+//===== Additional Comments: =================================
+//= 1.0 Fully working. [DZeroX]
+//= 1.0a Minor fixes [Lupus]
+//= 1.1 Added changed the dialogs and name to fit the
+//=     the official information. [DZeroX]
+//= 1.1a Removed .GATs [Lupus]
+//= 1.1b Fixed a bug in Orange Potion creating. Copy&Pasting = bad. [L0ne_W0lf]
+//= 1.2 Added checkweight, and input min/max values. [L0ne_W0lf]
+//= 1.3 Fixed minor condition check bug. (bugreport:597) [L0ne_W0lf]
+//= 1.4 Updated to match AEGIS script. [Kisuka]
+//============================================================
+
+alberta_in,16,28,4	script	Pharmacist	61,{
+	if (checkweight(1201,1) == 0) {
+		mes "- เดี๋ยวก่อน! -";
+		mes "- ตอนนี้คุณกำลังแบก -";
+		mes "- ไอเทมติดตัวมากเกินไป -";
+		mes "- กรุณากลับมาใหม่อีกครั้ง -";
+		mes "- หลังจากที่คุณนำไอเทมบางส่วนไปฝากในคลังเก็บของแล้ว -";
+		close;
+	}
+	mes "[Old Pharmacist]";
+	mes "อืมมมมม...";
+	mes "อะไรพาเจ้ามาที่นี่ล่ะ...?";
+	next;
+	switch(select("ปรุงยา:คุย:ข้อมูลการผสมยา:ยกเลิก")) {
+	case 1:
+		if (MaxWeight - Weight < 5000) {
+			mes "[Old Pharmacist]";
+			mes "ทำไมเจ้าถึงแบกของเยอะขนาดนี้!";
+			mes "อย่าโลภนักเลย แบกไปเท่าที่จำเป็นก็พอ!";
+			next;
+			mes "[Old Pharmacist]";
+			mes "เจ้าตัวหนักเกินกว่าจะรับยาจากข้านะ...";
+			mes "ไปเก็บของบางอย่างในคลังของเจ้าก่อนไป!";
+			close;
+		} else {
+			mes "[Old Pharmacist]";
+			mes "เจ้าเตรียมของมาพร้อมแล้วใช่ไหม? อยากได้อันไหนล่ะ?";
+			next;
+			switch(select("Red Potion:Orange Potion:Yellow Potion:White Potion:Blue Potion:Green Potion:จริงๆ แล้ว ข้าไม่ต้องการอะไรหรอก")) {
+			case 1:
+				callsub L_Making,507,3,501;
+			case 2:
+				mes "[Old Pharmacist]";
+				if (countitem(507) < countitem(713)) {
+					set .@max,countitem(507);
+				}
+				else if (countitem(508) < countitem(713)) {
+					set .@max,countitem(508);
+				}
+				else {
+					set .@max,countitem(713);
+				}
+				if ((countitem(507) < 1) || (countitem(508) < 1) || (countitem(713) == 0)) {
+					mes "ไอ้เจ้าเด็กเหลือขอ! เจ้าหวังอะไรกัน?! มาที่นี่โดยไม่มีอะไรเลยเนี่ยนะ ชิ!";
+					mes "ไปให้พ้น!";
+					close;
+				}
+				if (Zeny < 3) {
+					mes "ไอ้เจ้าเด็กเหลือขอ! เจ้าหวังอะไรกัน?! มาที่นี่โดยไม่มีอะไรเลยเนี่ยนะ ชิ!";
+					mes "ไปให้พ้น!";
+					close;
+				}
+				mes "ต้องการจำนวนเท่าไหร่?";
+				next;
+				switch(select("ทำเท่าที่ข้าจะทำได้:ข้าขอระบุจำนวนเอง:จริงๆ แล้ว ข้าไม่ต้องการอะไรหรอก")) {
+				case 1:
+					if ((countitem(507) < .@max) || (countitem(508) < .@max) || (countitem(713) < .@max) || (Zeny < .@max*3)) {
+						mes "[Old Pharmacist]";
+						mes "ไอ้เจ้าเด็กเหลือขอ! เจ้าไม่มีวัตถุดิบครบด้วยซ้ำแต่จะให้ข้าปรุงยาให้เนี่ยนะ?!";
+						close;
+					}
+					set Zeny,Zeny-(.@max*5);
+					delitem 507,.@max; //สมุนไพรสีแดง (Red_Herb)
+					delitem 508,.@max; //สมุนไพรสีเหลือง (Yellow_Herb)
+					delitem 713,.@max; //ขวดเปล่า (Empty_Bottle)
+					getitem 502,.@max; //Orange_Potion
+					break;
+				case 2:
+					mes "[Old Pharmacist]";
+					mes "ถ้าอย่างนั้นก็เลือกตัวเลขที่น้อยกว่า 100 หากเจ้าไม่ต้องการก็แค่ใส่ '0' ด้วยวัตถุดิบที่เจ้ามี เจ้าสามารถปรุงยาได้ประมาณ "+.@max+" ขวดนะ";
+					next;
+					input .@amount,0,101;
+					if (.@amount == 0) {
+						mes "[Old Pharmacist]";
+						mes "ตัดสินใจให้มันดีๆ หน่อยสิ จะเอายังไงกันแน่?!";
+						close;
+					}
+					if (.@amount > 100) {
+						mes "[Old Pharmacist]";
+						mes "เจ้าหูหนวกหรือไง? ข้าบอกว่าให้น้อยกว่า 100!";
+						close;
+					}
+					if ((countitem(507) < .@amount) || (countitem(508) < .@amount) || (countitem(713) < .@amount) || (Zeny < .@amount*3)) {
+						mes "[Old Pharmacist]";
+						mes "ไอ้เจ้าเด็กเหลือขอ! เจ้าไม่มีวัตถุดิบครบด้วยซ้ำแต่จะให้ข้าปรุงยาให้เนี่ยนะ?!";
+						close;
+					}
+					next;
+					set Zeny,Zeny-(.@amount*5);
+					delitem 507,.@amount; //สมุนไพรสีแดง (Red_Herb)
+					delitem 508,.@amount; //สมุนไพรสีเหลือง (Yellow_Herb)
+					delitem 713,.@amount; //ขวดเปล่า (Empty_Bottle)
+					getitem 502,.@amount; //Orange_Potion
+					break;
+				case 3:
+					mes "[Old Pharmacist]";
+					mes "อะไรนะ?!";
+					mes "แฮ่กๆ...";
+					mes "เหอะ!";
+					mes "ไปให้พ้น!";
+					close;
+				}
+				mes "[Old Pharmacist]";
+				mes "นี่ ของเจ้า ปรุงเสร็จเรียบร้อยแล้วรับไปได้เลย แต่จำไว้นะ! การใช้ยาเกินขนาดมันไม่ดีหรอก";
+				close;
+			case 3:
+				callsub L_Making,508,10,503;
+			case 4:
+				callsub L_Making,509,20,504;
+			case 5:
+				callsub L_Making,510,30,505;
+			case 6:
+				callsub L_Making,511,3,506;
+			case 7:
+				mes "[Old Pharmacist]";
+				mes "อะไรนะ?!";
+				mes "แฮ่กๆ...";
+				mes "เหอะ!";
+				mes "ไปให้พ้น!";
+				close;
+			}
+		}
+	case 2:
+		mes "[Old Pharmacist]";
+		mes "ด้วยยานี้ เจ้าสามารถเพิ่มความสามารถในการฟื้นฟูของคนคนหนึ่งได้ แต่พวกมันก็ดีแค่ถึงจุดจุดหนึ่งเท่านั้น *เฮ้อ* ข้าเริ่มคิดถึงสมัยที่ข้ายังหนุ่มๆ ข้าคงจะแก่ลงไปมากแล้วล่ะ";
+		next;
+		mes "[Old Pharmacist]";
+		mes "ช่างเถอะ ยาโพชั่นมันก็เป็นแค่ยาโพชั่น ไม่มีอะไรมากไปกว่านั้นหรือน้อยไปกว่านั้นหรอก";
+		close;
+	case 3:
+		mes "[Old Pharmacist]";
+		mes "หือออออ...";
+		mes "พวกเจ้าที่เป็นเด็กวัยรุ่นนี่มันน่ารำคาญจริงๆ แต่ในเมื่อเจ้าถาม ข้าก็จะอธิบายให้ฟัง";
+		next;
+		mes "[Old Pharmacist]";
+		mes "สมุนไพรนั้นใช้ได้ดีด้วยตัวมันเองอยู่แล้ว แต่ถ้าเจ้าใช้เทคนิคพิเศษและทักษะของข้าเพื่อปรุงยาขึ้นมาล่ะก็ ผลของมันจะยิ่งยิ่งใหญ่ขึ้นไปอีกมากเลยล่ะ";
+		next;
+		mes "[Old Pharmacist]";
+		mes "หากเจ้าขอร้องอย่างกระตือรือร้นและสุภาพ ข้าจะปรุงให้เจ้า แต่ไม่ได้ฟรีๆ หรอกนะ... แต่ไม่ต้องห่วง ข้าคิดค่าธรรมเนียมเพียงเล็กน้อยเท่านั้น มันไม่แพงขนาดนั้นหรอก";
+		next;
+		mes "[Old Pharmacist]";
+		mes "Red Potion - ^0098E5ใช้สมุนไพรสีแดง 2 อัน, ขวดเปล่า 1 ใบ, ค่าธรรมเนียม 2 zeny^000000";
+		mes "Orange Potion - ^0098E5ใช้สมุนไพรสีแดง 1 อัน, สมุนไพรสีเหลือง 1 อัน, ขวดเปล่า 1 ใบ, ค่าธรรมเนียม 5 zeny^000000";
+		mes "Yellow Potion - ^0098E5ใช้สมุนไพรสีเหลือง 2 อัน, ขวดเปล่า 1 ใบ, ค่าธรรมเนียม 10 zeny^000000";
+		next;
+		mes "[Old Pharmacist]";
+		mes "White Potion - ^0098E5ใช้สมุนไพรสีขาว 2 อัน, ขวดเปล่า 1 ใบ, ค่าธรรมเนียม 20 zeny^000000";
+		mes "Blue Potion - ^0098E5ใช้สมุนไพรสีน้ำเงิน 2 อัน, ขวดเปล่า 1 ใบ, ค่าธรรมเนียม 30 zeny^000000";
+		mes "Green Potion - ^0098E5ใช้สมุนไพรสีเขียว 2 อัน, ขวดเปล่า 1 ใบ, ค่าธรรมเนียม 3 zeny^000000";
+		close;
+	case 4:
+		mes "[Old Pharmacist]";
+		mes "ช่างเป็นคนที่น่าเบื่อจริงๆ ถ้าเจ้ามีอะไรจะพูด ทำไมไม่พูดออกมาล่ะ?!";
+		close;
+	}
+	
+L_Making:
+	.@item_req = getarg(0);
+	.@req_amount = getarg(1);
+
+	mes "[Old Pharmacist]";
+	if ((countitem(.@item_req)/2) < countitem(713)) {
+		.@max = countitem(.@item_req) /2;
+	} else {
+		.@max = countitem(713);
+	}
+	if (countitem(.@item_req) < 2 || countitem(713) == 0) {
+		mes "ไอ้เจ้าเด็กเหลือขอ! เจ้าหวังอะไรกัน?! มาที่นี่โดยไม่มีอะไรเลยเนี่ยนะ ชิ!";
+		mes "ไปให้พ้น!";
+		close;
+	}
+	if (Zeny < 3) {
+		mes "ไอ้เจ้าเด็กเหลือขอ! เจ้าหวังอะไรกัน?! มาที่นี่โดยไม่มีอะไรเลยเนี่ยนะ ชิ!";
+		mes "ไปให้พ้น!";
+		close;
+	}
+	mes "ต้องการจำนวนเท่าไหร่?";
+	next;
+	switch(select("ทำเท่าที่ข้าจะทำได้:ข้าขอระบุจำนวนเอง:จริงๆ แล้ว ข้าไม่ต้องการอะไรหรอก")) {
+	case 1:
+		if ((countitem(.@item_req) < .@max*2) || countitem(713) < .@max || (Zeny < .@max*.@req_amount)) {
+			mes "[Old Pharmacist]";
+			mes "ไอ้เจ้าเด็กเหลือขอ! เจ้าไม่มีวัตถุดิบครบด้วยซ้ำแต่จะให้ข้าปรุงยาให้เนี่ยนะ?!";
+			close;
+		}
+		Zeny = Zeny - (.@max*.@req_amount);
+		delitem .@item_req,.@max*2;
+		delitem 713,.@max; //ขวดเปล่า (Empty_Bottle)
+		getitem getarg(2),.@max; 
+		break;
+	case 2:
+		mes "[Old Pharmacist]";
+		mes "ถ้าอย่างนั้นก็เลือกตัวเลขที่น้อยกว่า 100 หากเจ้าไม่ต้องการก็แค่ใส่ '0' ด้วยวัตถุดิบที่เจ้ามี เจ้าสามารถปรุงยาได้ประมาณ "+.@max+" ขวดนะ";
+		next;
+		input .@amount;
+		if (.@amount == 0) {
+			mes "[Old Pharmacist]";
+			mes "ตัดสินใจให้มันดีๆ หน่อยสิ จะเอายังไงกันแน่?!";
+			close;
+		}
+		if (.@amount > 100) {
+			mes "[Old Pharmacist]";
+			mes "เจ้าหูหนวกหรือไง? ข้าบอกว่าให้น้อยกว่า 100!";
+			close;
+		}
+		if ((countitem(.@item_req) < .@amount*2) || countitem(713) < .@amount || (Zeny < .@amount*.@req_amount)) {
+			mes "[Old Pharmacist]";
+			mes "ไอ้เจ้าเด็กเหลือขอ! เจ้าไม่มีวัตถุดิบครบด้วยซ้ำแต่จะให้ข้าปรุงยาให้เนี่ยนะ?!";
+			close;
+		}
+		Zeny = Zeny - (.@max*.@req_amount);
+		delitem .@item_req,.@amount*2;
+		delitem 713,.@amount; //ขวดเปล่า (Empty_Bottle)
+		getitem getarg(2),.@amount; 
+		break;
+	case 3:
+		mes "[Old Pharmacist]";
+		mes "อะไรนะ?!";
+		mes "แฮ่กๆ...";
+		mes "เหอะ!";
+		mes "ไปให้พ้น!";
+		close;
+	}
+	mes "[Old Pharmacist]";
+	mes "นี่ ของเจ้า ปรุงเสร็จเรียบร้อยแล้วรับไปได้เลย แต่จำไว้นะ! การใช้ยาเกินขนาดมันไม่ดีหรอก";
+	close;
+}

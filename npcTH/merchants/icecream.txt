@@ -1,0 +1,88 @@
+//===== rAthena Script =======================================
+//= Ice Cream Maker
+//===== By: ==================================================
+//= KOOK SWU, Kisuka
+//===== Current Version: =====================================
+//= 1.5
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= A man makes you ice-cream
+//===== Additional Comments: =================================
+//= 1.1 Optimized, changed overlapping coords in Alberta [Lupus]
+//= 1.2 According to the patch, IceCream seller has been removed from Morocc [Lupus]
+//= 1.3 No more label menu and updated to match AEGIS script. [Kisuka]
+//= 1.4 Duplicates now spawn from floating NPCs. [L0ne_W0lf]
+//= 1.5 Fixed small checkweight issue. [Kisuka]
+//============================================================
+
+-	script	Ice Cream Maker::IceCreamer	-1,{
+	mes "[Ice Cream Maker]";
+	mes "ไอศกรีมสดใหม่ที่ทำจากหิมะเมือง Lutie มาแล้วจ้า!";
+	mes "เชิญอร่อยได้เลยจ้ะ เราขายอีกไม่นานแล้วนะ!";
+	mes "ไอศกรีมราคา ^3355FF100 Zeny^000000,";
+	mes "ไอศกรีมจ้า!";
+	next;
+	if(select("ขอไอศกรีมหน่อย!:ยกเลิกการซื้อ") == 2) {
+		mes "เจ้าแน่ใจนะว่าไม่ต้องการสักหน่อยน่ะ?";
+		mes "ข้าขายอีกไม่นานแล้วนะ";
+		mes "และถ้าของข้าหมดเมื่อไหร่";
+		mes "ก็จะไม่มีขายอีกแล้วนะ!!!";
+		close;
+	}
+	mes "[Ice Cream Maker]";
+	mes "ไอศกรีมสดใหม่ที่ทำจากหิมะเมือง Lutie มาแล้วจ้า!";
+	mes "ใครๆ ก็อยากกินไอศกรีมแสนอร่อยของเรา";
+	mes "แต่เรามีจำนวนจำกัดนะ";
+	mes "ดังนั้นเจ้าสามารถซื้อได้เพียงครั้งละ 5 อันเท่านั้น!!";
+	next;
+	while(true) {
+		input .@input;
+		if(.@input < 1) {
+			mes "[Ice Cream Maker]";
+			mes "หากเจ้าไม่ต้องการซื้อ";
+			mes "ช่วยหลีกทางให้ลูกค้าคนต่อไป";
+			mes "ได้เข้ามาซื้อหน่อยได้ไหมจ๊ะ?";
+			mes "ขอบคุณนะ";
+			close;
+		}
+		if(.@input > 5) {
+			mes "[Ice Cream Maker]";
+			mes "โอ๊ยย";
+			mes "เจ้าคาดหวังมากเกินไปแล้ว";
+			mes "คุณลูกค้าจ๊ะ,";
+			mes "ถ้าเจ้ากินไอศกรีมมากกว่า 5 อันล่ะก็";
+			mes "เจ้าอาจจะต้องวิ่งเข้าห้องน้ำ";
+			mes "หลายรอบเลยนะคืนนี้น่ะ";
+			next;
+			continue;
+		}
+		break;
+	}
+	if(Zeny<.@input*100) {
+		mes "[Ice Cream Maker]";
+		mes "คุณลูกค้าจ๊ะ กระเป๋าตังค์ของเจ้าน่าจะเบาไปหน่อยนะ";
+		mes "ราคาไอศกรีมคือ ^3355FF100 Zeny^000000 ต่ออันจ้ะ";
+		close;
+	}
+	if(checkweight(536,.@input) == 0) {
+		mes "[Ice Cream Maker]";
+		mes "คุณลูกค้าจ๊ะ ดูเหมือนเจ้าจะแบกของเยอะไปหน่อยนะ";
+		mes "ไอศกรีมน่ะมันดีก็จริง";
+		mes "แต่เจ้าต้องคำนึงถึงน้ำหนักที่เจ้าแบกไหว";
+		mes "ก่อนที่จะตัดสินใจซื้อด้วยนะจ๊ะ";
+		close;
+	}
+	set Zeny,Zeny-100*.@input;
+	getitem 536,.@input;	// ไอศกรีม (Ice_Cream)
+	close;
+}
+
+// Alberta
+alberta,120,45,2	duplicate(IceCreamer)	Ice Cream Maker#1	85
+
+// Morocc Field
+moc_fild16,88,304,4	duplicate(IceCreamer)	Ice Cream Maker#2	85
+
+// Morocc
+//morocc,160,144,4	duplicate(IceCreamer)	Ice Cream Maker#3	85

@@ -1,0 +1,2421 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Item Database
+###########################################################################
+#
+# Item Settings
+#
+###########################################################################
+# - Id                      Item ID.
+#   AegisName               Server name to reference the item in scripts and lookups, should use no spaces.
+#   Name                    Name in English for displaying as output.
+#   Type                    Item type. (Default: Etc)
+#   SubType                 Weapon, Ammo or Card type. (Default: 0)
+#   Buy                     Buying price. When not specified, becomes double the sell price. (Default: 0)
+#   Sell                    Selling price. When not specified, becomes half the buy price. (Default: 0)
+#   Weight                  Item weight. Each 10 is 1 weight. (Default: 0)
+#   Attack                  Weapon's attack. (Default: 0)
+#   MagicAttack             Weapon's magic attack. (Default: 0)
+#   Defense                 Armor's defense. (Default: 0)
+#   Range                   Weapon's attack range. (Default: 0)
+#   Slots                   Available slots in item. (Default: 0)
+#   Jobs                    Jobs that can equip the item. (Map default is 'All: true')
+#   Classes                 Upper class types that can equip the item. (Map default is 'All: true')
+#   Gender                  Gender that can equip the item. (Default: Both)
+#   Locations               Equipment's placement. (Default: None)
+#   WeaponLevel             Weapon level. (Default: 1 for Weapons)
+#   ArmorLevel              Armor level. (Default: 1 for Armors)
+#   EquipLevelMin           Minimum required level to equip. (Default: 0)
+#   EquipLevelMax           Maximum level that can equip. (Default: 0)
+#   Refineable              If the item can be refined. (Default: false)
+#   Gradable                If the item can be graded. (Default: false)
+#   View                    View sprite of an item. (Default: 0)
+#   AliasName               Another item's AegisName that will be sent to the client instead of this item's AegisName. (Default: null)
+#   Flags:                  Item flags. (Default: null)
+#     BuyingStore           If the item is available for Buyingstores. (Default: false)
+#     DeadBranch            If the item is a Dead Branch. (Default: false)
+#     Container             If the item is part of a container. (Default: false)
+#     UniqueId              If the item is a unique stack. (Default: false)
+#     BindOnEquip           If the item is bound to the character upon equipping. (Default: false)
+#     DropAnnounce          If the item has a special announcement to self on drop. (Default: false)
+#     NoConsume             If the item is consumed on use. (Default: false)
+#     DropEffect            If the item has a special effect on the ground when dropped by a monster. (Default: None)
+#   Delay:                  Item use delay. (Default: null)
+#     Duration              Duration of delay in seconds.
+#     Status                Status Change used to track delay. (Default: None)
+#   Stack:                  Item stack amount. (Default: null)
+#     Amount                Maximum amount that can be stacked.
+#     Inventory             If the stack is applied to player's inventory. (Default: true)
+#     Cart                  If the stack is applied to the player's cart. (Default: false)
+#     Storage               If the stack is applied to the player's storage. (Default: false)
+#     GuildStorage          If the stack is applied to the player's guild storage. (Default: false)
+#   NoUse:                  Conditions when the item is unusable. (Default: null)
+#     Override              Group level to override these conditions. (Default: 100)
+#     Sitting               If the item can not be used while sitting. (Default: false)
+#   Trade:                  Trade restrictions. (Default: null)
+#     Override              Group level to override these conditions. (Default: 100)
+#     NoDrop                If the item can not be dropped. (Default: false)
+#     NoTrade               If the item can not be traded. (Default: false)
+#     TradePartner          If the item can not be traded to the player's partner. (Default: false)
+#     NoSell                If the item can not be sold. (Default: false)
+#     NoCart                If the item can not be put in a cart. (Default: false)
+#     NoStorage             If the item can not be put in a storage. (Default: false)
+#     NoGuildStorage        If the item can not be put in a guild storage. (Default: false)
+#     NoMail                If the item can not be put in a mail. (Default: false)
+#     NoAuction             If the item can not be put in an auction. (Default: false)
+#   Script                  Script to execute when the item is used/equipped. (Default: null)
+#   EquipScript             Script to execute when the item is equipped. (Default: null)
+#   UnEquipScript           Script to execute when the item is unequipped or when a rental item expires. (Default: null)
+###########################################################################
+
+Header:
+  Type: ITEM_DB
+  Version: 3
+
+Body:
+# Item Customs By MixRO
+# ID Item Start : 35000+
+#=============================================================
+  - Id: 35000
+    AegisName: Auto_Trade_Voucher
+    Name: "Auto Trade Voucher"
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      atcommand "@at";
+  - Id: 35001
+    AegisName: GM_by_pass_Voucher
+    Name: "GM by pass Voucher"
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      callfunc "menu_GM";
+  - Id: 35002
+    AegisName: Cash_Coin
+    Name: "Cash Coin"
+    Type: Usable
+    Weight: 0
+    Script: |
+      #CASHPOINTS++;
+      dispbottom "¤Ø³ä´éÃÑº¨Ó¹Ç¹ 1 Cash Point";
+
+# Add Items Charm
+#=============================================================
+  - Id: 35003
+    AegisName: Charm_Free
+    Name: Charm Free
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bAllStats,10;
+  - Id: 35004
+    AegisName: Charm_Skill_WL
+    Name: Charm Skill Warlock
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bSMatk,350;
+      bonus bMatk,350;
+      bonus3 bAutoSpellWhenHit,"WL_SOULEXPANSION",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_JACKFROST",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_MARSHOFABYSS",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SIENNAEXECRATE",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_DRAINLIFE",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_CRIMSONROCK",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_HELLINFERNO",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_CHAINLIGHTNING",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_CHAINLIGHTNING_ATK",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX",10,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX_FIRE",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX_WATER",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX_WIND",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX_GROUND",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SUMMON_ATK_FIRE",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SUMMON_ATK_WIND",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SUMMON_ATK_WATER",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SUMMON_ATK_GROUND",5,300;
+  - Id: 35005
+    AegisName: Charm_HPDrain
+    Name: Charm HP Drain
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bHPDrainValue,1000;
+  - Id: 35006
+    AegisName: Charm_AllStats10
+    Name: Charm AllStats 10
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bAllStats,10;
+  - Id: 35007
+    AegisName: Charm_STR10
+    Name: Charm Str 10
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bStr,10;
+  - Id: 35008
+    AegisName: Charm_AGI10
+    Name: Charm Agi 10
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bAgi,10;
+  - Id: 35009
+    AegisName: Charm_VIT10
+    Name: Charm Vit 10
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bVit,10;
+  - Id: 35010
+    AegisName: Charm_INT10
+    Name: Charm Int 10
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bInt,10;
+  - Id: 35011
+    AegisName: Charm_DEX10
+    Name: Charm Dex 10
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bDex,10;
+  - Id: 35012
+    AegisName: Charm_LUK10
+    Name: Charm Luk 10
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bLuk,10;
+  - Id: 35013
+    AegisName: Charm_GM
+    Name: Charm GM
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bAllStats,50;
+      bonus bBaseAtk,3300;
+      bonus bMatkRate,200;
+      bonus2 bHPDrainRate,1000,100;
+      bonus2 bSPDrainRate,1000,20;
+      bonus bHealPower,200;
+      bonus2 bAddClass,Class_All,100;
+      skill "WZ_STORMGUST",10;
+      skill "WZ_METEOR",10;
+      skill "WZ_VERMILION",10;
+      skill "GM_SANDMAN",1;
+      bonus bVariableCastrate,-100;
+      bonus bFixedCastrate,-100;
+      bonus bAspdRate,100;
+      bonus3 bAutoSpellWhenHit,"WL_SOULEXPANSION",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_JACKFROST",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_MARSHOFABYSS",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SIENNAEXECRATE",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_DRAINLIFE",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_CRIMSONROCK",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_HELLINFERNO",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_CHAINLIGHTNING",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_CHAINLIGHTNING_ATK",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX",10,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX_FIRE",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX_WATER",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX_WIND",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_TETRAVORTEX_GROUND",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SUMMON_ATK_FIRE",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SUMMON_ATK_WIND",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SUMMON_ATK_WATER",5,300;
+      bonus3 bAutoSpellWhenHit,"WL_SUMMON_ATK_GROUND",5,300;
+      bonus3 bAutoSpell,"WL_SOULEXPANSION",5,300;
+      bonus3 bAutoSpell,"WL_JACKFROST",5,300;
+      bonus3 bAutoSpell,"WL_MARSHOFABYSS",5,300;
+      bonus3 bAutoSpell,"WL_SIENNAEXECRATE",5,300;
+      bonus3 bAutoSpell,"WL_DRAINLIFE",5,300;
+      bonus3 bAutoSpell,"WL_CRIMSONROCK",5,300;
+      bonus3 bAutoSpell,"WL_HELLINFERNO",5,300;
+      bonus3 bAutoSpell,"WL_CHAINLIGHTNING",5,300;
+      bonus3 bAutoSpell,"WL_CHAINLIGHTNING_ATK",5,300;
+      bonus3 bAutoSpell,"WL_TETRAVORTEX",10,300;
+      bonus3 bAutoSpell,"WL_TETRAVORTEX_FIRE",5,300;
+      bonus3 bAutoSpell,"WL_TETRAVORTEX_WATER",5,300;
+      bonus3 bAutoSpell,"WL_TETRAVORTEX_WIND",5,300;
+      bonus3 bAutoSpell,"WL_TETRAVORTEX_GROUND",5,300;
+      bonus3 bAutoSpell,"WL_SUMMON_ATK_FIRE",5,300;
+      bonus3 bAutoSpell,"WL_SUMMON_ATK_WIND",5,300;
+      bonus3 bAutoSpell,"WL_SUMMON_ATK_WATER",5,300;
+      bonus3 bAutoSpell,"WL_SUMMON_ATK_GROUND",5,300;
+      bonus3 bAutoSpellWhenHit,"RK_SONICWAVE",10,300;
+      bonus3 bAutoSpellWhenHit,"RK_HUNDREDSPEAR",10,300;
+      bonus3 bAutoSpellWhenHit,"RK_PHANTOMTHRUST",5,300;
+      bonus3 bAutoSpell,"RK_SONICWAVE",10,300;
+      bonus3 bAutoSpell,"RK_HUNDREDSPEAR",10,300;
+      bonus3 bAutoSpell,"RK_PHANTOMTHRUST",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_VENOMIMPRESS",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_CROSSIMPACT",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_DARKILLUSION",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_VENOMPRESSURE",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_CROSSRIPPERSLASHER",5,300;
+      bonus3 bAutoSpell,"GC_VENOMIMPRESS",5,300;
+      bonus3 bAutoSpell,"GC_CROSSIMPACT",5,300;
+      bonus3 bAutoSpell,"GC_DARKILLUSION",5,300;
+      bonus3 bAutoSpell,"GC_VENOMPRESSURE",5,300;
+      bonus3 bAutoSpell,"GC_CROSSRIPPERSLASHER",5,300;
+      bonus3 bAutoSpellWhenHit,"AB_JUDEX",10,300;
+      bonus3 bAutoSpellWhenHit,"AB_ADORAMUS",10,300;
+      bonus3 bAutoSpellWhenHit,"AB_CLEARANCE",5,300;
+      bonus3 bAutoSpellWhenHit,"AB_DUPLELIGHT_MELEE",10,300;
+      bonus3 bAutoSpellWhenHit,"AB_DUPLELIGHT_MAGIC",10,300;
+      bonus3 bAutoSpell,"AB_JUDEX",10,300;
+      bonus3 bAutoSpell,"AB_ADORAMUS",10,300;
+      bonus3 bAutoSpell,"AB_CLEARANCE",5,300;
+      bonus3 bAutoSpell,"AB_DUPLELIGHT_MELEE",10,300;
+      bonus3 bAutoSpell,"AB_DUPLELIGHT_MAGIC",10,300;
+      bonus3 bAutoSpellWhenHit,"RA_ARROWSTORM",10,300;
+      bonus3 bAutoSpellWhenHit,"RA_AIMEDBOLT",10,300;
+      bonus3 bAutoSpellWhenHit,"RA_WUGSTRIKE",5,300;
+      bonus3 bAutoSpellWhenHit,"RA_WUGBITE",5,300;
+      bonus3 bAutoSpell,"RA_ARROWSTORM",10,300;
+      bonus3 bAutoSpell,"RA_AIMEDBOLT",10,300;
+      bonus3 bAutoSpell,"RA_WUGSTRIKE",5,300;
+      bonus3 bAutoSpell,"RA_WUGBITE",5,300;
+      bonus3 bAutoSpellWhenHit,"NC_BOOSTKNUCKLE",5,300;
+      bonus3 bAutoSpellWhenHit,"NC_PILEBUNKER",3,300;
+      bonus3 bAutoSpellWhenHit,"NC_VULCANARM",3,300;
+      bonus3 bAutoSpellWhenHit,"NC_FLAMELAUNCHER",3,300;
+      bonus3 bAutoSpellWhenHit,"NC_ARMSCANNON",5,300;
+      bonus3 bAutoSpellWhenHit,"NC_ANALYZE",3,300;
+      bonus3 bAutoSpellWhenHit,"NC_AXEBOOMERANG",5,300;
+      bonus3 bAutoSpellWhenHit,"NC_POWERSWING",10,300;
+      bonus3 bAutoSpellWhenHit,"NC_DISJOINT",1,300;
+      bonus3 bAutoSpell,"NC_BOOSTKNUCKLE",5,300;
+      bonus3 bAutoSpell,"NC_PILEBUNKER",3,300;
+      bonus3 bAutoSpell,"NC_VULCANARM",3,300;
+      bonus3 bAutoSpell,"NC_FLAMELAUNCHER",3,300;
+      bonus3 bAutoSpell,"NC_ARMSCANNON",5,300;
+      bonus3 bAutoSpell,"NC_ANALYZE",3,300;
+      bonus3 bAutoSpell,"NC_AXEBOOMERANG",5,300;
+      bonus3 bAutoSpell,"NC_POWERSWING",10,300;
+      bonus3 bAutoSpell,"NC_DISJOINT",1,300;
+      bonus3 bAutoSpellWhenHit,"SC_FATALMENACE",10,300;
+      bonus3 bAutoSpellWhenHit,"SC_SHADOWFORM",5,300;
+      bonus3 bAutoSpellWhenHit,"SC_TRIANGLESHOT",10,300;
+      bonus3 bAutoSpellWhenHit,"SC_ENERVATION",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_GROOMY",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_IGNORANCE",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_LAZINESS",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_UNLUCKY",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_WEAKNESS",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_STRIPACCESSARY",5,300;
+      bonus3 bAutoSpell,"SC_FATALMENACE",10,300;
+      bonus3 bAutoSpell,"SC_SHADOWFORM",5,300;
+      bonus3 bAutoSpell,"SC_TRIANGLESHOT",10,300;
+      bonus3 bAutoSpell,"SC_ENERVATION",3,300;
+      bonus3 bAutoSpell,"SC_GROOMY",3,300;
+      bonus3 bAutoSpell,"SC_IGNORANCE",3,300;
+      bonus3 bAutoSpell,"SC_LAZINESS",3,300;
+      bonus3 bAutoSpell,"SC_UNLUCKY",3,300;
+      bonus3 bAutoSpell,"SC_WEAKNESS",3,300;
+      bonus3 bAutoSpell,"SC_STRIPACCESSARY",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_CANNONSPEAR",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_BANISHINGPOINT",10,300;
+      bonus3 bAutoSpellWhenHit,"LG_SHIELDPRESS",10,300;
+      bonus3 bAutoSpellWhenHit,"LG_PINPOINTATTACK",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_RAGEBURST",1,300;
+      bonus3 bAutoSpellWhenHit,"LG_HESPERUSLIT",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_OVERBRAND_BRANDISH",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_OVERBRAND_PLUSATK",5,300;
+      bonus3 bAutoSpellWhenHit,"SC_WEAKNESS",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_STRIPACCESSARY",5,300;
+      bonus3 bAutoSpell,"LG_CANNONSPEAR",5,300;
+      bonus3 bAutoSpell,"LG_BANISHINGPOINT",10,300;
+      bonus3 bAutoSpell,"LG_SHIELDPRESS",10,300;
+      bonus3 bAutoSpell,"LG_PINPOINTATTACK",5,300;
+      bonus3 bAutoSpell,"LG_RAGEBURST",1,300;
+      bonus3 bAutoSpell,"LG_HESPERUSLIT",5,300;
+      bonus3 bAutoSpell,"LG_OVERBRAND_BRANDISH",5,300;
+      bonus3 bAutoSpell,"LG_OVERBRAND_PLUSATK",5,300;
+      bonus3 bAutoSpell,"SC_WEAKNESS",3,300;
+      bonus3 bAutoSpell,"SC_STRIPACCESSARY",5,300;
+  - Id: 35014
+    AegisName: Charm_Skill_RK
+    Name: Charm Skill Rune Knight
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bSMatk,350;
+      bonus bMatk,350;
+      bonus3 bAutoSpellWhenHit,"RK_SONICWAVE",10,300;
+      bonus3 bAutoSpellWhenHit,"RK_HUNDREDSPEAR",10,300;
+      bonus3 bAutoSpellWhenHit,"RK_PHANTOMTHRUST",5,300;
+      bonus3 bAutoSpell,"RK_SONICWAVE",10,300;
+      bonus3 bAutoSpell,"RK_HUNDREDSPEAR",10,300;
+      bonus3 bAutoSpell,"RK_PHANTOMTHRUST",5,300;
+  - Id: 35015
+    AegisName: Charm_Skill_GC
+    Name: Charm Skill Guillotine Cross
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bSMatk,350;
+      bonus bMatk,350;
+      bonus3 bAutoSpellWhenHit,"GC_VENOMIMPRESS",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_CROSSIMPACT",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_DARKILLUSION",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_VENOMPRESSURE",5,300;
+      bonus3 bAutoSpellWhenHit,"GC_CROSSRIPPERSLASHER",5,300;
+      bonus3 bAutoSpell,"GC_VENOMIMPRESS",5,300;
+      bonus3 bAutoSpell,"GC_CROSSIMPACT",5,300;
+      bonus3 bAutoSpell,"GC_DARKILLUSION",5,300;
+      bonus3 bAutoSpell,"GC_VENOMPRESSURE",5,300;
+      bonus3 bAutoSpell,"GC_CROSSRIPPERSLASHER",5,300;
+  - Id: 35016
+    AegisName: Charm_Skill_AB
+    Name: Charm Skill Arch Bishop
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bSMatk,350;
+      bonus bMatk,350;
+      bonus3 bAutoSpellWhenHit,"AB_JUDEX",10,300;
+      bonus3 bAutoSpellWhenHit,"AB_ADORAMUS",10,300;
+      bonus3 bAutoSpellWhenHit,"AB_CLEARANCE",5,300;
+      bonus3 bAutoSpellWhenHit,"AB_DUPLELIGHT_MELEE",10,300;
+      bonus3 bAutoSpellWhenHit,"AB_DUPLELIGHT_MAGIC",10,300;
+      bonus3 bAutoSpell,"AB_JUDEX",10,300;
+      bonus3 bAutoSpell,"AB_ADORAMUS",10,300;
+      bonus3 bAutoSpell,"AB_CLEARANCE",5,300;
+      bonus3 bAutoSpell,"AB_DUPLELIGHT_MELEE",10,300;
+      bonus3 bAutoSpell,"AB_DUPLELIGHT_MAGIC",10,300;
+  - Id: 35017
+    AegisName: Charm_Skill_RA
+    Name: Charm Skill Ranger
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bSMatk,350;
+      bonus bMatk,350;
+      bonus3 bAutoSpellWhenHit,"RA_ARROWSTORM",10,300;
+      bonus3 bAutoSpellWhenHit,"RA_AIMEDBOLT",10,300;
+      bonus3 bAutoSpellWhenHit,"RA_WUGSTRIKE",5,300;
+      bonus3 bAutoSpellWhenHit,"RA_WUGBITE",5,300;
+      bonus3 bAutoSpell,"RA_ARROWSTORM",10,300;
+      bonus3 bAutoSpell,"RA_AIMEDBOLT",10,300;
+      bonus3 bAutoSpell,"RA_WUGSTRIKE",5,300;
+      bonus3 bAutoSpell,"RA_WUGBITE",5,300;
+  - Id: 35018
+    AegisName: Charm_Skill_NC
+    Name: Charm Skill Mechanic
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bSMatk,350;
+      bonus bMatk,350;
+      bonus3 bAutoSpellWhenHit,"NC_BOOSTKNUCKLE",5,300;
+      bonus3 bAutoSpellWhenHit,"NC_PILEBUNKER",3,300;
+      bonus3 bAutoSpellWhenHit,"NC_VULCANARM",3,300;
+      bonus3 bAutoSpellWhenHit,"NC_FLAMELAUNCHER",3,300;
+      bonus3 bAutoSpellWhenHit,"NC_ARMSCANNON",5,300;
+      bonus3 bAutoSpellWhenHit,"NC_ANALYZE",3,300;
+      bonus3 bAutoSpellWhenHit,"NC_AXEBOOMERANG",5,300;
+      bonus3 bAutoSpellWhenHit,"NC_POWERSWING",10,300;
+      bonus3 bAutoSpellWhenHit,"NC_DISJOINT",1,300;
+      bonus3 bAutoSpell,"NC_BOOSTKNUCKLE",5,300;
+      bonus3 bAutoSpell,"NC_PILEBUNKER",3,300;
+      bonus3 bAutoSpell,"NC_VULCANARM",3,300;
+      bonus3 bAutoSpell,"NC_FLAMELAUNCHER",3,300;
+      bonus3 bAutoSpell,"NC_ARMSCANNON",5,300;
+      bonus3 bAutoSpell,"NC_ANALYZE",3,300;
+      bonus3 bAutoSpell,"NC_AXEBOOMERANG",5,300;
+      bonus3 bAutoSpell,"NC_POWERSWING",10,300;
+      bonus3 bAutoSpell,"NC_DISJOINT",1,300;
+  - Id: 35019
+    AegisName: Charm_Skill_SC
+    Name: Charm Skill Shadow Chaser
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bSMatk,350;
+      bonus bMatk,350;
+      bonus3 bAutoSpellWhenHit,"SC_FATALMENACE",10,300;
+      bonus3 bAutoSpellWhenHit,"SC_SHADOWFORM",5,300;
+      bonus3 bAutoSpellWhenHit,"SC_TRIANGLESHOT",10,300;
+      bonus3 bAutoSpellWhenHit,"SC_ENERVATION",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_GROOMY",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_IGNORANCE",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_LAZINESS",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_UNLUCKY",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_WEAKNESS",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_STRIPACCESSARY",5,300;
+      bonus3 bAutoSpell,"SC_FATALMENACE",10,300;
+      bonus3 bAutoSpell,"SC_SHADOWFORM",5,300;
+      bonus3 bAutoSpell,"SC_TRIANGLESHOT",10,300;
+      bonus3 bAutoSpell,"SC_ENERVATION",3,300;
+      bonus3 bAutoSpell,"SC_GROOMY",3,300;
+      bonus3 bAutoSpell,"SC_IGNORANCE",3,300;
+      bonus3 bAutoSpell,"SC_LAZINESS",3,300;
+      bonus3 bAutoSpell,"SC_UNLUCKY",3,300;
+      bonus3 bAutoSpell,"SC_WEAKNESS",3,300;
+      bonus3 bAutoSpell,"SC_STRIPACCESSARY",5,300;
+  - Id: 35020
+    AegisName: Charm_Skill_LG
+    Name: Charm Skill Royal Guard
+    Type: Charm
+    Buy: 100000
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      bonus bSMatk,350;
+      bonus bMatk,350;
+      bonus3 bAutoSpellWhenHit,"LG_CANNONSPEAR",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_BANISHINGPOINT",10,300;
+      bonus3 bAutoSpellWhenHit,"LG_SHIELDPRESS",10,300;
+      bonus3 bAutoSpellWhenHit,"LG_PINPOINTATTACK",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_RAGEBURST",1,300;
+      bonus3 bAutoSpellWhenHit,"LG_HESPERUSLIT",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_OVERBRAND_BRANDISH",5,300;
+      bonus3 bAutoSpellWhenHit,"LG_OVERBRAND_PLUSATK",5,300;
+      bonus3 bAutoSpellWhenHit,"SC_WEAKNESS",3,300;
+      bonus3 bAutoSpellWhenHit,"SC_STRIPACCESSARY",5,300;
+      bonus3 bAutoSpell,"LG_CANNONSPEAR",5,300;
+      bonus3 bAutoSpell,"LG_BANISHINGPOINT",10,300;
+      bonus3 bAutoSpell,"LG_SHIELDPRESS",10,300;
+      bonus3 bAutoSpell,"LG_PINPOINTATTACK",5,300;
+      bonus3 bAutoSpell,"LG_RAGEBURST",1,300;
+      bonus3 bAutoSpell,"LG_HESPERUSLIT",5,300;
+      bonus3 bAutoSpell,"LG_OVERBRAND_BRANDISH",5,300;
+      bonus3 bAutoSpell,"LG_OVERBRAND_PLUSATK",5,300;
+      bonus3 bAutoSpell,"SC_WEAKNESS",3,300;
+      bonus3 bAutoSpell,"SC_STRIPACCESSARY",5,300;
+
+# Add Script VIP Items or Premium Items
+# Add Items Usable
+#=============================================================
+  - Id: 23207
+    AegisName: Premium_Box
+    Name: "[30Day] Premium Subscription Box"
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      atcommand "@vip +30d "+strcharinfo(0);
+      getitem 23165,1;
+  - Id: 23209
+    AegisName: Premium_Box_1d
+    Name: "[1Day] Premium Subscription Box"
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      atcommand "@vip +1d "+strcharinfo(0);
+      getitem 23165,1;
+  - Id: 23213
+    AegisName: Premium_Box_5d7
+    Name: "[7Day] Premium Subscription Box"
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      atcommand "@vip +7d "+strcharinfo(0);
+      getitem 23165,1;
+  - Id: 23041
+    AegisName: Royal_Jelly_Box2_
+    Name: "[NotForSale] Royal Jelly Box"
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      getitem 11604,100;
+  - Id: 11604
+    AegisName: Royal_Jelly_
+    Name: "[NotForSale] Royal Jelly"
+    Type: Healing
+    Buy: 10
+    Weight: 150
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      itemheal rand(325,405),rand(40,60);
+      sc_end SC_POISON;
+      sc_end SC_SILENCE;
+      sc_end SC_BLIND;
+      sc_end SC_CONFUSION;
+      sc_end SC_CURSE;
+  - Id: 102064
+    AegisName: Silvervine_Box100
+    Name: Silvervine 100 Box
+    Type: Cash
+    Buy: 10
+    Weight: 0
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      getitem 6417,100;
+  - Id: 102065
+    AegisName: Silvervine_Box500
+    Name: Silvervine 500 Box
+    Type: Cash
+    Buy: 10
+    Weight: 0
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      getitem 6417,500;
+  - Id: 23165
+    AegisName: Service30_AID_Buff
+    Name: "Premium Service Staff"
+    Type: Usable
+    Weight: 10
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+       
+
+#=============================================================      
+# Add Items Offline Voucher
+#=============================================================
+#  - Id: 23342
+#    AegisName: Vend_Arbeit1_1Lv
+#    Name: 1 Day Consignment Merchant Envelope Lv1
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23348,86400;
+#  - Id: 23343
+#    AegisName: Vend_Arbeit1_2Lv
+#    Name: 1 Day Consignment Merchant Envelope Lv2
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23349,86400;
+#  - Id: 23344
+#    AegisName: Vend_Arbeit1_3Lv
+#    Name: 1 Day Consignment Merchant Envelope Lv3
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23350,86400;
+#  - Id: 23345
+#    AegisName: Buy_Arbeit1_1Lv
+#    Name: 1 Day Personal Shopper Envelope Lv1
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23351,86400;
+#  - Id: 23346
+#    AegisName: Buy_Arbeit1_2Lv
+#    Name: 1 Day Personal Shopper Envelope Lv2
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23352,86400;
+#  - Id: 23347
+#    AegisName: Buy_Arbeit1_3Lv
+#    Name: 1 Day Personal Shopper Envelope Lv3
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23353,86400;
+#  - Id: 23348
+#    AegisName: Vend_Arbeit_1Lv
+#    Name: Consignment Merchant Voucher Lv1
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Flags:
+#      UniqueId: true
+#    Trade:
+#      NoDrop: true
+#      NoTrade: true
+#      NoSell: true
+#      NoCart: true
+#      NoGuildStorage: true
+#      NoMail: true
+#      NoAuction: true
+#    Script: |
+#      open_stall "ALL_ASSISTANT_VENDING",1;
+#  - Id: 23349
+#    AegisName: Vend_Arbeit_2Lv
+#    Name: Consignment Merchant Voucher Lv2
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Flags:
+#      UniqueId: true
+#    Trade:
+#      NoDrop: true
+#      NoTrade: true
+#      NoSell: true
+#      NoCart: true
+#      NoGuildStorage: true
+#      NoMail: true
+#      NoAuction: true
+#    Script: |
+#      open_stall "ALL_ASSISTANT_VENDING",2;
+#  - Id: 23350
+#    AegisName: Vend_Arbeit_3Lv
+#    Name: Consignment Merchant Voucher Lv3
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Flags:
+#      UniqueId: true
+#    Trade:
+#      NoDrop: true
+#      NoTrade: true
+#      NoSell: true
+#      NoCart: true
+#      NoGuildStorage: true
+#      NoMail: true
+#      NoAuction: true
+#    Script: |
+#      open_stall "ALL_ASSISTANT_VENDING",3;
+#  - Id: 23351
+#    AegisName: Buy_Arbeit_1Lv
+#    Name: Personal Shopper Voucher Lv1
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Flags:
+#      UniqueId: true
+#    Trade:
+#      NoDrop: true
+#      NoTrade: true
+#      NoSell: true
+#      NoCart: true
+#      NoGuildStorage: true
+#      NoMail: true
+#      NoAuction: true
+#    Script: |
+#      open_stall "ALL_ASSISTANT_BUYING",1;
+#  - Id: 23352
+#    AegisName: Buy_Arbeit_2Lv
+#    Name: Personal Shopper Voucher Lv2
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Flags:
+#      UniqueId: true
+#    Trade:
+#      NoDrop: true
+#      NoTrade: true
+#      NoSell: true
+#      NoCart: true
+#      NoGuildStorage: true
+#      NoMail: true
+#      NoAuction: true
+#    Script: |
+#      open_stall "ALL_ASSISTANT_BUYING",2;
+#  - Id: 23353
+#    AegisName: Buy_Arbeit_3Lv
+#    Name: Personal Shopper Voucher Lv3
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Flags:
+#      UniqueId: true
+#    Trade:
+#      NoDrop: true
+#      NoTrade: true
+#      NoSell: true
+#      NoCart: true
+#      NoGuildStorage: true
+#      NoMail: true
+#      NoAuction: true
+#    Script: |
+#      open_stall "ALL_ASSISTANT_BUYING",3;
+#  - Id: 23354
+#    AegisName: Vend_Arbeit3_1Lv
+#    Name: 3 Day Consignment Merchant Envelope Lv1
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23348,259200;
+#  - Id: 23355
+#    AegisName: Vend_Arbeit3_2Lv
+#    Name: 3 Day Consignment Merchant Envelope Lv2
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23349,259200;
+#  - Id: 23356
+#    AegisName: Vend_Arbeit3_3Lv
+#    Name: 3 Day Consignment Merchant Envelope Lv3
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23350,259200;
+#  - Id: 23357
+#    AegisName: Buy_Arbeit3_1Lv
+#    Name: 3 Day Personal Shopper Envelope Lv1
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23351,259200;
+#  - Id: 23358
+#    AegisName: Buy_Arbeit3_2Lv
+#    Name: 3 Day Personal Shopper Envelope Lv2
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23352,259200;
+#  - Id: 23359
+#    AegisName: Buy_Arbeit3_3Lv
+#    Name: 3 Day Personal Shopper Envelope Lv3
+#    Type: Cash
+#    Buy: 20
+#    Weight: 0
+#    Script: |
+#      rentitem 23353,259200;
+
+# Add Items Equip
+#=============================================================
+  - Id: 400309
+    AegisName: C_20th_Anniversary_Hat
+    Name: "Costume 20th Anniversary Poring"
+    Type: Armor
+    Buy: 20
+    Weight: 0
+    Defense: 3
+    Locations:
+      Costume_Head_Top: true
+    ArmorLevel: 1
+    View: 2284
+    Script: |
+      bonus bAllStats,2;
+      bonus2 bExpAddRace,RC_All,20;
+  - Id: 480202
+    AegisName: C_Guardian_Butterwing
+    Name: "Costume 20th Anniversary Fairy Wing"
+    Type: Armor
+    Buy: 20
+    Weight: 0
+    Defense: 3
+    Locations:
+      Costume_Garment: true
+    ArmorLevel: 1
+    Script: |
+      bonus bAllStats,2;
+      bonus2 bExpAddRace,RC_All,20;
+  - Id: 510076
+    AegisName: D_Glacier_B_Knife
+    Name: Dim Glacier Basic Knife
+    Type: Weapon
+    SubType: Dagger
+    Buy: 50000
+    Weight: 1200
+    Attack: 210
+    MagicAttack: 210
+    Range: 1
+    Slots: 1
+    Jobs:
+      Novice: true
+      SuperNovice: true
+    Locations:
+      Right_Hand: true
+    WeaponLevel: 5
+    EquipLevelMin: 230
+    Refineable: true
+    Gradable: true
+    Flags:
+      DropEffect: CLIENT
+
+# Add Items ETC.
+#=============================================================
+##  - Id: 1000707
+##    AegisName: Ep19_Rgan_Core_F
+##    Name: Low-quality Rgan Magic Core
+##    Type: Etc
+##    Buy: 2100
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000811
+##    AegisName: Snow_F_Ore
+##    Name: Snow Flower Ore
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 1
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000822
+##    AegisName: EP19_Shell_Of_Rgan
+##    Name: Rgan Shell
+##    Type: Etc
+##    Buy: 2300
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000823
+##    AegisName: EP19_Unknown_Cell
+##    Name: Monstrous Cell
+##    Type: Etc
+##    Buy: 2400
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000824
+##    AegisName: EP19_Calapy
+##    Name: Calapy
+##    Type: Etc
+##    Buy: 2000
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000825
+##    AegisName: EP19_CaCalapy
+##    Name: Cacalapy
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000826
+##    AegisName: EP19_Prickle_Shell
+##    Name: Prickly Shell
+##    Type: Etc
+##    Buy: 2200
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000829
+##    AegisName: EP19_Bell_Flower
+##    Name: Bait Bellflower
+##    Type: Etc
+##    Buy: 2700
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000830
+##    AegisName: EP19_Thin_Shell
+##    Name: Thin Tough Shell
+##    Type: Etc
+##    Buy: 2300
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000831
+##    AegisName: EP19_Shiny_Seaweed
+##    Name: Shiny Seaweed Stem
+##    Type: Etc
+##    Buy: 2200
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1000832
+##    AegisName: EP19_Frozen_Shell
+##    Name: Frozen Insect Shell
+##    Type: Etc
+##    Buy: 2250
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001081
+##    AegisName: Slicky_Fluid
+##    Name: Slimy Fluid
+##    Type: Etc
+##    Buy: 3900
+##    Weight: 10
+##  - Id: 1001085
+##    AegisName: Cool_Liquid
+##    Name: Cool Liquid
+##    Type: Etc
+##    Buy: 3900
+##    Weight: 10
+##  - Id: 1001226
+##    AegisName: Ep20_Rgan_Core_F
+##    Name: Legan's Advanced Magic Core    # !todo check english name
+##    Type: Etc
+##    Buy: 2600
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001227
+##    AegisName: Ep20_Coral_Bangle
+##    Name: Coral bracelet    # !todo check english name
+##    Type: Etc
+##    Buy: 3200
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001228
+##    AegisName: Ep20_Shell_Hairpin
+##    Name: Seashell hairpin    # !todo check english name
+##    Type: Etc
+##    Buy: 3200
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001229
+##    AegisName: Ep20_Seaweed_Belt
+##    Name: Seaweed Belt    # !todo check english name
+##    Type: Etc
+##    Buy: 3200
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001230
+##    AegisName: Ep20_Cataphract_Piece
+##    Name: Scale Armor Fragment    # !todo check english name
+##    Type: Etc
+##    Buy: 3200
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001231
+##    AegisName: Ep20_Fluor_Cell_Sour
+##    Name: Soft Fluorescent Cell (Sour)    # !todo check english name
+##    Type: Etc
+##    Buy: 4000
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001232
+##    AegisName: Ep20_Fluor_Cell_Salty
+##    Name: Soft Fluorescent Cell (salty)    # !todo check english name
+##    Type: Etc
+##    Buy: 3200
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001233
+##    AegisName: Ep20_Fluor_Cell_Sweet
+##    Name: Fluorescent Fluorescent Cell (Daldal)    # !todo check english name
+##    Type: Etc
+##    Buy: 3400
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001234
+##    AegisName: Ep20_Ice_Bearskin
+##    Name: Bear Hide    # !todo check english name
+##    Type: Etc
+##    Buy: 3800
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001237
+##    AegisName: Ep20_Angels_Tail
+##    Name: Angel's Tail    # !todo check english name
+##    Type: Etc
+##    Buy: 15000
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001238
+##    AegisName: Ep20_Mystic_Spl_Colt
+##    Name: Mystic Magic Mass    # !todo check english name
+##    Type: Etc
+##    Buy: 3400
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001239
+##    AegisName: Ep20_Broken_Trident
+##    Name: Broken Trident    # !todo check english name
+##    Type: Etc
+##    Buy: 2600
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001243
+##    AegisName: Ep20_Iwin_Sergeant_C
+##    Name: Arwin Manic Hat    # !todo check english name
+##    Type: Etc
+##    Buy: 3400
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001244
+##    AegisName: Ep20_Huge_Feather_G
+##    Name: Large Gray Feather    # !todo check english name
+##    Type: Etc
+##    Buy: 2800
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001245
+##    AegisName: Ep20_Huge_Feather_W
+##    Name: Large White Feather    # !todo check english name
+##    Type: Etc
+##    Buy: 3800
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001247
+##    AegisName: Ep20_Copo_Egg_Shell
+##    Name: Kkopo Eggshell Fragment    # !todo check english name
+##    Type: Etc
+##    Buy: 2100
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001248
+##    AegisName: EP20_D_P_Ore
+##    Name: Pure Magical Ore
+##    Type: Etc
+##    Buy: 1000
+##    Weight: 30
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##
+### Items ETC EP.21
+###=============================================================
+##
+##  - Id: 9157
+##    AegisName: ICESEAHORSE_Egg
+##    Name: Ice Seahorse Egg
+##    Type: PetEgg
+##  - Id: 102948
+##    AegisName: Tan_Antiquity
+##    Name: Antiquity of Giant Snake (Devouring Tan)
+##    Type: Usable
+##    Weight: 200
+##    Flags:
+##      Container: true
+##      DropEffect: CLIENT
+##    Script: |
+##      getgroupitem(IG_AEGIS_102948);
+##  - Id: 102947
+##    AegisName: Captain_Antiquity
+##    Name: Antiquity of Ghost Ship (Ghost Ship Captain)
+##    Type: Usable
+##    Weight: 200
+##    Flags:
+##      Container: true
+##      DropEffect: CLIENT
+##    Script: |
+##      getgroupitem(IG_AEGIS_102947);
+##  - Id: 1001628
+##    AegisName: Ep21_Jor_Rosary
+##    Name: Snake Shape Rosary
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001629
+##    AegisName: Ep21_Jor_Bible
+##    Name: Jormungandr Catechism
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001630
+##    AegisName: Ep21_Old_Bandana
+##    Name: Old Bandana
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001631
+##    AegisName: Ep21_Old_Apron
+##    Name: Old Apron
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001632
+##    AegisName: Ep21_Old_Homi
+##    Name: Old Hoe
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001633
+##    AegisName: Ep21_Fanatic_Mask
+##    Name: Fanatic Mask
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001634
+##    AegisName: Ep21_Fanatic_Cap
+##    Name: Fanatic Cap
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001635
+##    AegisName: Ep21_Jor_Stick
+##    Name: Snake Shape Stick
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001636
+##    AegisName: Ep21_Jor_Wand_Acc
+##    Name: Snake Shape Ornament
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001637
+##    AegisName: Ep21_Jor_Dagger_Pcs
+##    Name: Snake Shape Dagger Piece
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001638
+##    AegisName: Ep21_Jor_G_Rosary
+##    Name: Glittering Snake Shape Rosary
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001639
+##    AegisName: Ep21_Jor_Accessary
+##    Name: Flashy Accessory
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001640
+##    AegisName: Ep21_Daribitsal
+##    Name: Scalleg Flesh
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001641
+##    AegisName: Ep21_Bright_Eye
+##    Name: Bright Eye
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001642
+##    AegisName: Ep21_Guano
+##    Name: Guano
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001643
+##    AegisName: Ep21_Vellelopy
+##    Name: Vellelopy
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001644
+##    AegisName: Ep21_Skipskip_Fin
+##    Name: Skipskipper Fin
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001645
+##    AegisName: Ep21_Stiff_Limb
+##    Name: Stiff Limb
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001646
+##    AegisName: Ep21_Fluffy_Core
+##    Name: Fluffy Core
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001647
+##    AegisName: Ep21_Thick_Flesh
+##    Name: Thick Flesh
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001648
+##    AegisName: Ep21_Star_Candy
+##    Name: Ice Star Candy
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 1001649
+##    AegisName: Ep21_G_Ice_Coral
+##    Name: Shining Ice Coral
+##    Type: Etc
+##    Buy: 2500
+##    Weight: 10
+##    Flags:
+##      BuyingStore: true
+##  - Id: 300585
+##    AegisName: Tris_Card
+##    Name: Tris Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"DK_HACKANDSLASHER",.@r;
+##      bonus2 bSkillAtk,"DK_STORMSLASH",.@r;
+##  - Id: 300586
+##    AegisName: Tan_Card
+##    Name: Tan Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"IG_IMPERIAL_CROSS",.@r;
+##      bonus2 bSkillAtk,"IG_OVERSLASH",.@r;
+##  - Id: 300587
+##    AegisName: W_Lugenburg_Card
+##    Name: Wilhelm Lugenburg Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"IQ_EXPOSION_BLASTER",.@r;
+##      bonus2 bSkillAtk,"IQ_BLAZING_FLAME_BLAST",.@r;
+##  - Id: 300588
+##    AegisName: R_Lugenburg_Card
+##    Name: Reinhardt Lugenburg Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"CD_DIVINUS_FLOS",.@r;
+##      bonus2 bSkillAtk,"CD_ARBITRIUM_ATK",.@r;
+##      bonus2 bSkillAtk,"CD_ARBITRIUM",.@r;
+##  - Id: 300589
+##    AegisName: Ivan_Card
+##    Name: Ivan Wigner Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"MT_ENERGY_CANNONADE",.@r;
+##      bonus2 bSkillAtk,"MT_SPARK_BLASTER",.@r;
+##  - Id: 300590
+##    AegisName: Lalaila_Card
+##    Name: Lalaila Nazar Wigner Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"BO_DUST_EXPLOSION",.@r;
+##      bonus2 bSkillAtk,"BO_MYSTERY_POWDER",.@r;
+##  - Id: 300591
+##    AegisName: Richard_Card
+##    Name: Richard Richard Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"SHC_ETERNAL_SLASH",.@r;
+##      bonus2 bSkillAtk,"SHC_CROSS_SLASH",.@r;
+##  - Id: 300592
+##    AegisName: Valdaris_Card
+##    Name: Laura Valdaris Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"ABC_ABYSS_SQUARE",.@r;
+##      bonus2 bSkillAtk,"ABC_ABYSS_FLAME",.@r;
+##      bonus2 bSkillAtk,"ABC_ABYSS_FLAME_ATK",.@r;
+##  - Id: 300593
+##    AegisName: Aurelie_Card
+##    Name: Aurelie Petit Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"AG_DESTRUCTIVE_HURRICANE",.@r;
+##      bonus2 bSkillAtk,"AG_ALL_BLOOM",.@r;
+##      bonus2 bSkillAtk,"AG_ALL_BLOOM_ATK",.@r;
+##      bonus2 bSkillAtk,"AG_ALL_BLOOM_ATK2",.@r;
+##  - Id: 300594
+##    AegisName: Heine_Card
+##    Name: Ilse El Heine Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"EM_LIGHTNING_LAND",.@r;
+##      bonus2 bSkillAtk,"EM_TERRA_DRIVE",.@r;
+##  - Id: 300595
+##    AegisName: Epesto_Card
+##    Name: Epesto Walther Megas Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"WH_CRESCIVE_BOLT",.@r;
+##      bonus2 bSkillAtk,"WH_WILD_WALK",.@r;
+##  - Id: 300596
+##    AegisName: Maristella_Card
+##    Name: Maristella Walther Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"TR_ROSEBLOSSOM",.@r;
+##      bonus2 bSkillAtk,"TR_ROSEBLOSSOM_ATK",.@r;
+##      bonus2 bSkillAtk,"TR_RHYTHMSHOOTING",.@r;
+##  - Id: 300597
+##    AegisName: Yohan_Card
+##    Name: Yohan Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"SKE_NOON_BLAST",.@r;
+##      bonus2 bSkillAtk,"SKE_ALL_IN_THE_SKY",.@r;
+##  - Id: 300598
+##    AegisName: Gunter_Card
+##    Name: Günter Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"NW_MAGAZINE_FOR_ONE",.@r;
+##      bonus2 bSkillAtk,"NW_WILD_SHOT",.@r;
+##  - Id: 300599
+##    AegisName: Galaxia_Card
+##    Name: Galaxia Nerius Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"SS_ANKOKURYUUAKUMU",.@r;
+##      bonus2 bSkillAtk,"SS_ANTENPOU",.@r;
+##  - Id: 300600
+##    AegisName: Iana_Card
+##    Name: Iana Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"SOA_TALISMAN_OF_FOUR_BEARING_GOD",.@r;
+##      bonus2 bSkillAtk,"SOA_TALISMAN_OF_RED_PHOENIX",.@r;
+##  - Id: 300601
+##    AegisName: Yol_Card
+##    Name: Lee Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getequiprefinerycnt(EQI_HAND_R);
+##      bonus2 bSkillAtk,"HN_JUPITEL_THUNDER_STORM",.@r;
+##      bonus2 bSkillAtk,"HN_JACK_FROST_NOVA",.@r;
+##  - Id: 300505
+##    AegisName: Seawind_Card
+##    Name: Seawind Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Shoes: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getrefine();
+##      bonus bAtkRate,8;
+##      if (.@r>=7) {
+##         bonus2 bAddRace,RC_Brute,12;
+##         if (.@r>=9) {
+##            bonus2 bAddRace,RC_Brute,8;
+##         }
+##      }
+##  - Id: 300511
+##    AegisName: Rockstriker_Card
+##    Name: Rockstriker Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Shoes: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getrefine();
+##      bonus bAtkRate,8;
+##      if (.@r>=7) {
+##         bonus2 bAddRace,RC_Undead,12;
+##         if (.@r>=9) {
+##            bonus2 bAddRace,RC_Undead,8;
+##         }
+##      }
+##  - Id: 300527
+##    AegisName: Yorker_Trader_Card
+##    Name: Yorker Trader Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Left_Accessory: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      bonus bVariableCastrate,-7;
+##      bonus bCritical,5;
+##  - Id: 300517
+##    AegisName: Yoster_Negotiator_Card
+##    Name: Yoster Negotiator Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Garment: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      bonus bCritical,-15;
+##      bonus bFlee,30;
+##      bonus bLongAtkRate,10+7*(getrefine()/3);
+##  - Id: 300520
+##    AegisName: Yormi_Missionary_Card
+##    Name: Yormi Missionary Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      bonus2 bMagicAddSize,Size_Medium,10;
+##      bonus2 bMagicAddSize,Size_Large,10;
+##      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_WEAPONLEVEL)==5) {
+##         bonus2 bMagicAddSize,Size_Medium,10;
+##         bonus2 bMagicAddSize,Size_Large,10;
+##      }
+##  - Id: 300521
+##    AegisName: Yordos_Investigator_Card
+##    Name: Yordos Investigator Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Garment: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getrefine();
+##      bonus bVariableCastrate,15;
+##      bonus bFlee,30;
+##      bonus2 bMagicAtkEle,Ele_Ghost,10+7*(.@r/3);
+##      bonus2 bMagicAtkEle,Ele_Fire,10+7*(.@r/3);
+##      bonus2 bMagicAtkEle,Ele_Neutral,10+7*(.@r/3);
+##      bonus2 bMagicAtkEle,Ele_Holy,10+7*(.@r/3);
+##      bonus2 bMagicAtkEle,Ele_Dark,10+7*(.@r/3);
+##  - Id: 300523
+##    AegisName: Yordos_Executor_Card
+##    Name: Yordos Executor Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Armor: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getrefine();
+##      bonus bCritAtkRate,12;
+##      bonus bCritical,5;
+##      if (.@r>=9) {
+##         bonus bCritical,5;
+##         if (.@r>=11) {
+##            bonus bCritical,6;
+##         }
+##      }
+##  - Id: 300524
+##    AegisName: Yoscopus_Guardian_Card
+##    Name: Yoscopus Guardian Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Armor: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      bonus bPAtk,10;
+##      bonus bMaxHPrate,-7;
+##      bonus bFlee,30;
+##      bonus bAtkRate,2*(readparam(bStr)/10);
+##      bonus bCritical,-3*(readparam(bLuk)/10);
+##  - Id: 300525
+##    AegisName: Yoscopus_Warlock_Card
+##    Name: Yoscopus Warlock Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Armor: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      bonus bPAtk,10;
+##      bonus bMaxHPrate,-7;
+##      bonus bFlee,30;
+##      bonus bAtkRate,2*(readparam(bDex)/10);
+##      bonus bCritical,-3*(readparam(bLuk)/10);
+##  - Id: 300529
+##    AegisName: Yortus_Warlock_Card
+##    Name: Yortus Warlock Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Armor: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      bonus bSMatk,10;
+##      bonus bMaxHPrate,-7;
+##      bonus bFlee,30;
+##      bonus bMatkRate,2*(readparam(bInt)/10);
+##      bonus bUseSPrate,3*(readparam(bDex)/10);
+##  - Id: 300513
+##    AegisName: Icehorn_Card
+##    Name: Icehorn Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Shoes: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      bonus bUseSPrate,10;
+##      bonus2 bMagicAtkEle,Ele_Water,3*getrefine();
+##  - Id: 300533
+##    AegisName: Devouring_Tan_Card
+##    Name: Devouring Tan Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Armor: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      .@r = getrefine();
+##      bonus2 bAddClass,Class_Normal,30;
+##      bonus2 bAddClass,Class_Boss,30;
+##      bonus bMaxHPrate,-15;
+##      bonus bPAtk,.@r;
+##      bonus bAtkRate,.@r;
+##  - Id: 300532
+##    AegisName: Ghost_Ship_Captain_Card
+##    Name: Ghost Ship Captain Card
+##    Type: Card
+##    Weight: 10
+##    Locations:
+##      Right_Hand: true
+##    Flags:
+##      BuyingStore: true
+##      DropEffect: CLIENT
+##    Script: |
+##      bonus2 bAddClass,Class_Boss,20;
+##      if (getiteminfo(getequipid(EQI_HAND_R), ITEMINFO_WEAPONLEVEL)==5) {
+##         bonus2 bAddClass,Class_Boss,10;
+##      }
+
+
+
+
+#Body:
+# THQ Quest Items
+#=============================================================
+#  - Id: 1998
+#    AegisName: Jeramiah's_Jur
+#    Name: Jeramiah's Jur
+#    Type: Etc
+#    Sell: 10
+#    Weight: 10
+#    AliasName: Jur
+#  - Id: 1999
+#    AegisName: Zed's_Staff
+#    Name: Zed's Staff
+#    Type: Etc
+#    Sell: 10
+#    Weight: 10
+#    AliasName: Staff_Of_Soul
+#  - Id: 7950
+#    AegisName: THG_Membership
+#    Name: THG Membership
+#    Type: Etc
+#    Sell: 10
+#    Weight: 10
+#    AliasName: Foolishness_Of_Blind
+#  - Id: 7951
+#    AegisName: Gold_Tulip
+#    Name: Token Bag
+#    Type: Etc
+#    Sell: 10
+#    Weight: 10
+#    AliasName: Leather_Bag_Of_Infinity
+
+# Official Event Items that had their Effects removed after the event was completed
+#=============================================================
+  - Id: 585
+    AegisName: Wurst
+    Name: Brusti
+    Type: Delayconsume
+    Buy: 2
+    Weight: 40
+    Script: |
+      itemheal rand(15,20),0; itemskill "PR_MAGNIFICAT",3;
+  - Id: 679
+    AegisName: Gold_Pill
+    Name: Pilule
+    Type: Healing
+    Buy: 5000
+    Weight: 300
+    Script: |
+      percentheal 50,50;
+  - Id: 2681
+    AegisName: Republic_Ring
+    Name: Republic Anniversary Ring
+    Type: Armor
+    Buy: 20
+    Weight: 100
+    Locations:
+      Right_Accessory: true
+      Left_Accessory: true
+    Script: |
+      bonus bAllStats,3;
+  - Id: 5134
+    AegisName: Pumpkin_Hat
+    Name: Pumpkin-Head
+    Type: Armor
+    Buy: 20
+    Weight: 200
+    Defense: 2
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 206
+    Script: |
+      bonus2 bSubRace,RC_Demon,5;
+  - Id: 5136
+    AegisName: Santa's_Hat_
+    Name: Louise's Santa Hat
+    Type: Armor
+    Buy: 20
+    Weight: 100
+    Defense: 3
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 20
+    Script: |
+      bonus bMdef,1; bonus bLuk,1; bonus3 bAutoSpellWhenHit,"AL_HEAL",3,50; bonus3 bAutoSpellWhenHit,"AL_BLESSING",10,50;
+  - Id: 5145
+    AegisName: Carnival_Joker_Jester
+    Name: Carnival Jester
+    Type: Armor
+    Buy: 10
+    Weight: 100
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 89
+    Script: |
+      bonus bAllStats,3;
+  - Id: 5147
+    AegisName: Baseball_Cap
+    Name: Baseball Cap
+    Type: Armor
+    Weight: 200
+    Defense: 3
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 216
+    Script: |
+      bonus2 bExpAddRace,RC_Boss,50; bonus2 bExpAddRace,RC_NonBoss,50;
+  - Id: 5201
+    AegisName: Party_Hat_B
+    Name: 2nd Anniversary Party Hat
+    Type: Armor
+    Buy: 20
+    Weight: 300
+    Defense: 3
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 144
+    Script: |
+      bonus bAllStats,3;
+  - Id: 5202
+    AegisName: Pumpkin_Hat_
+    Name: Pumpkin Hat
+    Type: Armor
+    Buy: 20
+    Weight: 200
+    Defense: 2
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 206
+    Script: |
+      bonus bAllStats,2; bonus2 bSubRace,RC_Demon,5; bonus3 bAddMonsterDropItem,529,RC_DemiHuman,1500;
+  - Id: 5204
+    AegisName: Event_Pierrot_Nose
+    Name: Rudolf's Red Nose
+    Type: Armor
+    Buy: 20
+    Weight: 100
+    Locations:
+      Head_Low: true
+    View: 49
+    Script: |
+      bonus2 bResEff,Eff_Blind,3000; bonus2 bAddMonsterDropItem,12130,30;
+  - Id: 5264
+    AegisName: Aussie_Flag_Hat
+    Name: Australian Flag Hat
+    Type: Armor
+    Buy: 20
+    Weight: 500
+    Defense: 4
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 304
+    Script: |
+      bonus bAllStats,2;
+  - Id: 5356
+    AegisName: Pumpkin_Hat_H
+    Name: Pumpkin Hat
+    Type: Armor
+    Buy: 20
+    Weight: 200
+    Defense: 2
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 206
+    Script: |
+      bonus bAllStats,2; bonus2 bSubRace,RC_Demon,5; bonus2 bMagicAddRace,RC_Demon,5;
+  - Id: 5384
+    AegisName: Santa_Hat_1
+    Name: Twin Pompom By JB
+    Type: Armor
+    Buy: 20
+    Weight: 200
+    Defense: 2
+    Slots: 1
+    Locations:
+      Head_Top: true
+    EquipLevelMin: 20
+    Refineable: true
+    View: 390
+    Script: |
+      bonus bLuk,3; bonus2 bResEff,Eff_Curse,2000; bonus bVariableCastrate,-2; bonus bAspdRate,4; bonus2 bAddMonsterDropItem,539,100; bonus2 bAddMonsterDropItem,529,200; bonus2 bAddMonsterDropItem,530,200; autobonus "{ bonus bCritical,10; }",10,5000;
+  - Id: 5811
+    AegisName: Santa_Beard
+    Name: Santa Beard
+    Type: Armor
+    Buy: 20
+    Weight: 100
+    Defense: 5
+    Locations:
+      Head_Low: true
+    View: 25
+    Script: |
+      bonus2 bSubRace,RC_Brute,5; bonus2 bSubRace,RC_Player_Doram,5;
+  - Id: 11702
+    AegisName: Moon_Cookie
+    Name: Moon Cookie
+    Type: Delayconsume
+    Weight: 10
+    Script: |
+      sc_end SC_POISON; sc_end SC_SILENCE; sc_end SC_BLIND; sc_end SC_CONFUSION; sc_end SC_CURSE; sc_end SC_HALLUCINATION; itemskill "AL_BLESSING",7;
+  - Id: 12131
+    AegisName: Lucky_Potion
+    Name: Lucky Potion
+    Type: Healing
+    Buy: 2
+    Weight: 100
+    Script: |
+      sc_start SC_LUKFOOD,180000,15;
+  - Id: 12143
+    AegisName: Red_Can
+    Name: Red Can
+    Type: Usable
+    Buy: 50000
+    Weight: 300
+    Script: |
+      percentheal 25,25;
+
+# Event effect: Summon monster? Probably Rice_Cake. x_x
+#=============================================================
+  - Id: 12199
+    AegisName: Rice_Scroll
+    Name: Rice Scroll
+    Type: Usable
+  - Id: 12200
+    AegisName: Event_Cake
+    Name: Event Cake
+    Type: Usable
+    Buy: 20
+    Weight: 50
+    Script: |
+      itemskill "PR_MAGNIFICAT",3;
+  - Id: 12238
+    AegisName: New_Year_Rice_Cake_1
+    Name: New Year Rice Cake
+    Type: Healing
+    Buy: 20
+    Weight: 100
+    Script: |
+      percentheal 20,15; sc_start SC_STRFOOD,1200000,3; sc_start SC_INTFOOD,1200000,3; sc_start SC_LUKFOOD,1200000,3; sc_start SC_SPEEDUP1,5000,0;
+  - Id: 12239
+    AegisName: New_Year_Rice_Cake_2
+    Name: New Year Rice Cake
+    Type: Healing
+    Buy: 20
+    Weight: 100
+    Script: |
+      percentheal 20,15; sc_start SC_DEXFOOD,1200000,3; sc_start SC_AGIFOOD,1200000,3; sc_start SC_VITFOOD,1200000,3; sc_start SC_SPEEDUP1,5000,0;
+
+# iRO St. Patrick's Day Event 2008
+#=============================================================
+  - Id: 7915
+    AegisName: Copper_Coin_
+    Name: Bronze Coin
+    Type: Etc
+    Weight: 10
+    AliasName: Copper_Coin
+  - Id: 7916
+    AegisName: Silver_Coin_
+    Name: Silver Coin
+    Type: Etc
+    Weight: 10
+    AliasName: Silver_Coin
+  - Id: 12715
+    AegisName: Black_Treasure_Box
+    Name: Black Treasure Chest
+    Type: Usable
+    Weight: 200
+    AliasName: Treasure_Box_
+    Script: |
+      callfunc "F_08stpattyseventbox";
+
+# iRO Valentine's Day Event 2009
+#=============================================================
+  - Id: 5817
+    AegisName: Valentine_Pledge
+    Name: Valentine's Emblem
+    Type: Armor
+    Buy: 10
+    Defense: 3
+    Locations:
+      Right_Accessory: true
+      Left_Accessory: true
+    Script: |
+      bonus bAtkRate,3; bonus bMatkRate,3; bonus bAllStats,2; bonus bFlee,10; bonus bAspd,1; bonus bMdef,3; bonus2 bSkillAtk,"AL_HEAL",10; bonus2 bSkillHeal,"AL_HEAL",10; bonus2 bSkillHeal,"AM_POTIONPITCHER",10; bonus2 bAddItemGroupHealRate,IG_Potion,10;
+  - Id: 7946
+    AegisName: Gold_Ring_Of_Valentine
+    Name: Gold Ring Of Valentine
+    Type: Etc
+    Buy: 10
+  - Id: 7947
+    AegisName: Silver_Ring_Of_Valentine
+    Name: Silver Ring Of Valentine
+    Type: Etc
+    Buy: 10
+  - Id: 7948
+    AegisName: Box
+    Name: Box
+    Type: Etc
+    Buy: 10
+    Weight: 10
+  - Id: 12742
+    AegisName: Valentine_Gift_Box_M
+    Name: Valentine Gift Box
+    Type: Usable
+    Buy: 10
+    Script: |
+      getitem 7946,1;
+  - Id: 12743
+    AegisName: Valentine_Gift_Box_F
+    Name: Valentine Gift Box
+    Type: Usable
+    Buy: 10
+    Script: |
+      getitem 7947,1;
+  - Id: 12744
+    AegisName: Chocolate_Box
+    Name: Chocolate Box
+    Type: Usable
+    Buy: 10
+    Script: |
+      getitem 558,1;
+  - Id: 14466
+    AegisName: Valentine's_Emblem_Box
+    Name: Valentine's Emblem Box
+    Type: Usable
+    Buy: 10
+    Script: |
+      getitem 5817,1;
+
+# iRO Halloween Event 2009
+#=============================================================
+  - Id: 5668
+    AegisName: Weird_Pumpkin_Hat
+    Name: Weird Pumpkin Hat
+    Type: Armor
+    Buy: 20
+    Defense: 5
+    Locations:
+      Head_Top: true
+    Refineable: true
+    View: 206
+    Script: |
+      bonus bMdef,5; bonus2 bAddMonsterDropItem,12192,2500;
+  - Id: 6298
+    AegisName: Pumpkin_Head_Crushed
+    Name: Crushed Pumpkin
+    Type: Etc
+  - Id: 6299
+    AegisName: Worn_Cloth_Piece
+    Name: Worn Fabric
+    Type: Etc
+
+# Old Tuxedo and Wedding Dress, will display the outfit when worn.
+#==================================================================
+  - Id: 2338
+    AegisName: Wedding_Dress
+    Name: Wedding Dress
+    Type: Armor
+    Buy: 43000
+    Weight: 500
+    Jobs:
+      All: true
+      Novice: false
+    Gender: Female
+    Locations:
+      Armor: true
+    Refineable: true
+    EquipScript: |
+      sc_start SC_WEDDING,INFINITE_TICK,0;
+    UnEquipScript: |
+      sc_end SC_WEDDING;
+  - Id: 7170
+    AegisName: Tuxedo
+    Name: Tuxedo
+    Type: Armor
+    Buy: 43000
+    Weight: 10
+    Jobs:
+      All: true
+      Novice: false
+    Gender: Male
+    Locations:
+      Armor: true
+    ArmorLevel: 1
+    Refineable: true
+    EquipScript: |
+      sc_start SC_WEDDING,INFINITE_TICK,0;
+    UnEquipScript: |
+      sc_end SC_WEDDING;
+
+# Non-kRO Eden Group Mark effect
+#=============================================================
+#  - Id: 22508
+#    AegisName: Para_Team_Mark_
+#    Name: Eden Group Mark
+#    Type: Delayconsume
+#    Script: |
+#      unitskilluseid getcharid(3),"AL_TELEPORT",3;
+
+# Gender restrictions that were removed on official servers
+#=============================================================
+#  - Id: 2206
+#    Gender: Female
+#  - Id: 2208
+#    Gender: Female
+#  - Id: 2209
+#    Gender: Female
+#  - Id: 2234
+#    Gender: Female
+#  - Id: 2235
+#    Gender: Male
+#  - Id: 2407
+#    Gender: Female
+#  - Id: 2415
+#    Gender: Female
+#  - Id: 2494
+#    Gender: Female
+#  - Id: 5143
+#    Gender: Male
+#  - Id: 5164
+#    Gender: Female
+#  - Id: 5165
+#    Gender: Male
+#  - Id: 5191
+#    Gender: Female
+#  - Id: 5192
+#    Gender: Female
+#  - Id: 5193
+#    Gender: Female
+#  - Id: 5194
+#    Gender: Female
+#  - Id: 5195
+#    Gender: Female
+#  - Id: 5196
+#    Gender: Female
+#  - Id: 5197
+#    Gender: Female
+#  - Id: 5221
+#    Gender: Female
+#  - Id: 5354
+#    Gender: Male
+#  - Id: 5355
+#    Gender: Female
+#  - Id: 5400
+#    Gender: Female
+#  - Id: 5681
+#    Gender: Female
+#  - Id: 5735
+#    Gender: Female

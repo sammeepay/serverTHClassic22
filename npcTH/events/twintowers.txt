@@ -1,0 +1,95 @@
+//===== rAthena Script =======================================
+//= Twin Towers NPCs
+//===== By: ==================================================
+//= sEiKaN (1.0)
+//===== Current Version: =====================================
+//= 1.6
+//===== Compatible With: =====================================
+//= rAthena Project; 0315+
+//===== Description: =========================================
+//= mRO Event: Twin Towers NPCs
+//===== Additional Comments: =================================
+//= 1.2 by Akaru 1.3 by massdriller(Fixed typos)
+//= 1.4 fixed coords, according to off. src [Lupus]
+//= 1.5 Removed Duplicates [Silent]
+//= 1.6 Fixed wrong sprite id on main npc [ultramage]
+//============================================================
+
+prontera,146,92,4	script	Twin Towers#tt1::Twin-Towers	812,{
+	mes "[Twin Towers]";
+	mes "คุณเป็นอย่างไรบ้าง? พวกเราคือ Twin Towers";
+	mes "เป็นความยินดีอย่างยิ่งที่ได้พบคุณที่นี่";
+	mes "ฉันสมมติว่าคุณคงทราบดีว่าที่นี่คือ Ragnarok Online ดินแดนแห่งความฝันและจินตนาการ";
+	mes "คุณกำลังสนุกกับการผจญภัยที่เปี่ยมสุขและประสบการณ์ที่น่าตื่นเต้นอยู่ใช่ไหม?";
+	next;
+	mes "[Twin Towers]";
+	mes "แม้ว่าพวกเราจะไม่สามารถเคลื่อนที่ไปไหนมาไหนได้ และไม่สามารถใช้ชีวิตในแบบที่คุณทำได้";
+	mes "แต่พวกเราก็รักโลกใบนี้มากพอๆ กับที่คุณรักนั่นแหละ!";
+	next;
+	mes "[Twin Towers]";
+	mes "ขอให้คุณได้สัมผัสถึงความรู้สึกของโลกอันน่ารักใบนี้!";
+	mes "ด้วยเหตุนี้ พวกเราจึงมาอยู่ตรงนี้เพื่อรับใช้คุณด้วยเวทมนตร์พิเศษของเรา";
+	mes "โปรดบอกให้เราทราบเถิด";
+	next;
+	menu "ฉันขอรับข้อเสนอของคุณ",YES,"ฉันจะมาใช้บริการในคราวหน้า",NO;
+
+	NO:
+	mes "[Twin Towers]"; 
+	mes "อา ช่างน่าเสียดาย การเดินทางด้วยตัวคุณเองยังคงเป็นข้อพิสูจน์ที่ดีที่สุดของการผจญภัย";
+	mes "นี่ไม่ใช่สิ่งยืนยันหรอกหรือว่าคุณยังเป็นคนหนุ่มสาวอยู่?";
+	mes "พวกเราเคารพหัวใจที่กล้าหาญเช่นนี้";
+	next;
+	mes "[Twin Towers]";
+	mes "ชีวิตย่อมมีทั้งช่วงเวลาที่ดีและร้าย ยิ่งไปกว่านั้น การผจญภัยก็ไม่ใช่เรื่องง่ายตั้งแต่แรกอยู่แล้ว";
+	mes "เรื่องนี้เป็นความจริงใช่ไหมล่ะ?";
+	mes "แวะมาหาเราได้เสมอเมื่อคุณมีเวลา พวกเราจะรอรับใช้คุณอยู่ที่นี่เสมอ";
+	next;
+	mes "[Twin Towers]";
+	mes "ลืมความเดือดร้อนวุ่นวายทั้งหมดไปเสีย แล้วสร้างตำนานที่งดงามในโลกที่แสนวิเศษใบนี้";
+	mes "นี่คือโลกที่มหัศจรรย์มาก และคุณจะเป็นนักผจญภัยที่ยิ่งใหญ่เสมอ!";
+	close;
+	YES:
+	mes "[Twin Towers]";
+	mes "ความปรารถนาที่ลุกโชนของนักผจญภัย,";
+	mes "ความต้องการที่จะสำรวจดินแดนที่ไม่รู้จัก,";
+	mes "ความทุ่มเทและความมุ่งมั่นเพื่อให้บรรลุความทะเยอทะยาน...";
+	mes "คุณคือนักผจญภัยที่แท้จริงด้วยความเห็นอกเห็นใจเหล่านั้น";
+	next;
+	mes "[Twin Towers]";
+	mes "พวกเราปรารถนาที่จะช่วยเหลือนักผจญภัยที่มีความมุ่งมั่น";
+	mes "แม้ว่าเราจะไม่สามารถเคลื่อนที่ได้ แต่โชคดีที่เรามีความสามารถพิเศษที่สามารถวาร์ปคุณไปยังสถานที่ที่เต็มไปด้วยอันตรายและความตื่นเต้นได้";
+	next;
+	mes "[Twin Towers]";
+	mes "มาเถอะ! คุณปรารถนาจะไปที่ใด?";
+	mes "เพียงบอกจุดหมายที่คุณต้องการมา แล้วเราจะส่งคุณไปที่นั่นเอง!";
+	menu "Hidden Temple", HiddenTemple,"Orc Dungeon",OrcDungeon,"Ant Hell",AntHell,"Mjolnir Waste Pit",MjolnirWastePit,"Sphinx",Sphinx,"Glast Heim",GlastHeim,"Comodo",Comodo;
+		HiddenTemple:
+			warp "prt_fild01",136,368;
+			end;
+		OrcDungeon:
+			warp "gef_fild10",67,334;
+			end;
+		AntHell:
+			warp "moc_fild04",210,329;
+			end;
+		MjolnirWastePit:
+			warp "mjolnir_02",79,361;
+			end;
+		Sphinx:
+			warp "moc_fild19",105,99;
+			end;
+		GlastHeim:
+			warp "gef_fild06",45,304;
+			end;
+		Comodo:
+			warp "cmd_fild01",30,317;
+			end;
+}
+
+morocc,160,97,4	duplicate(Twin-Towers)	Twin Towers#tt2	812
+payon,176,226,4	duplicate(Twin-Towers)	Twin Towers#tt3	812
+izlude,134,92,4	duplicate(Twin-Towers)	Twin Towers#tt4	812
+alberta,25,238,4	duplicate(Twin-Towers)	Twin Towers#tt5	812
+geffen,120,60,4	duplicate(Twin-Towers)	Twin Towers#tt6	812
+aldebaran,143,116,4	duplicate(Twin-Towers)	Twin Towers#tt7	812
+comodo,194,158,4	duplicate(Twin-Towers)	Twin Towers#tt8	812

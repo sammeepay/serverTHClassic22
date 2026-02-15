@@ -1,0 +1,1639 @@
+//===== rAthena Script =======================================
+//= Blacksmith Job Quest
+//===== By: ==================================================
+//= EREMES THE CANIVALIZER(Aegis)
+//= Translated by: yoshiki.
+//= Converted by: Komurka.
+//= Optimized and further edited by kobra_k88.
+//= Further bugfixed and tested by Lupus
+//===== Current Version: =====================================
+//= 2.9
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Job Change quest for Blacksmith class.
+//===== Additional Comments: =================================
+//= Changed some npc names to the iRO names. Changed some variable
+//= names and labels. Edited some text.[kobra_k88]
+//= Removed "if (JobLevel > 48) goto higher". It was a left over line.
+//= Thx to "Decker".[kobra_k88]
+//= Fixed some typos, thanks to Riotblade [celest]
+//= 1.3-1.5 Added Baby Class support [Lupus]
+//= 1.6 Added a func which prevent advanced classes passing
+//=     2nd Job Quests again. It also guides adv classes where
+//=     to go. [Lupus]
+//= 1.7 item quantity/ids typos fix
+//= 1.8 Moved the Quest to Einbroch [Poki#3]
+//= 2.0 Changed numbers to constants. [Vicious]
+//= 2.1 Removed Duplicates [Silent]
+//= 2.2 Merged Jfunc, changed job numbers to constants [Lupus]
+//= 2.3 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
+//= 2.4 Several bugfixes with the help of Barron-Monster. [L0ne_W0lf]
+//= 2.4a Changed a BaseJob to baseclass. [L0ne_W0lf]
+//= 2.4b Further bug fixes with teh hel of Barron-Monster. [L0ne_W0lf]
+//= 2.4c More fixes courtosy of Micktu. [L0ne_W0lf]
+//= 2.4d Fixed an incorrect answer in the quiz. (Trojal) [L0ne_W0lf]
+//= 2.4e Touched up a few issues as pointed out by Ultramage. [L0ne_W0lf]
+//= 2.5 Krongast is in Lighthalzen. (DarkValmir) [L0ne_W0lf]
+//= 2.6 Fixed 4 bugs [Lupus]
+//= 2.6a Typo fix [Yommy]
+//= 2.7 Added Quest Log commands. [Kisuka]
+//= 2.8 Removed the need for use of 'goto.' [L0ne_W0lf]
+//= 2.9 Updated with some extra conditions. [Euphy]
+//==============================================================
+
+ein_in01,18,28,4	script	Guildsman#BLS	731,{
+	if (Upper == 1) {
+		mes "[Altiregen]";
+		mes "เฮ้ๆ ข้าไม่มีเวลามาคุยเล่นหรอกนะ ข้าน่ะเป็นคนที่ยุ่งมาก มี Merchant มากมายที่กำลังพยายามอย่างหนักเพื่อที่จะเป็น Blacksmith";
+		next;
+		mes "[Altiregen]";
+		mes "เดี๋ยวก่อนนะ ข้าว่าข้าเคยเจอเจ้ามาก่อน";
+		mes "อืมมมม.....";
+		next;
+		mes "[Altiregen]";
+		mes "เจ้าคือคนที่ทำอาวุธของข้าพังแล้วหนีไปหรือเปล่า? หรือว่าเจ้าคือคนที่ทรมานข้าเพื่อให้ข้าตีอาวุธให้เจ้ากันนะ? ทำไมข้าจำไม่ได้เนี่ย?";
+		next;
+		mes "[Altiregen]";
+		mes ".......";
+		mes "ข้าจำไม่ได้จริงๆ ว่าเจ้าเป็นใคร นี่มันคือเดจาวูหรือเปล่านะ?";
+		next;
+		mes "[Altiregen]";
+		mes "อ๊าก!! มันกวนใจข้าจริงๆ! แต่ถึงอย่างนั้น ข้าก็สัมผัสได้ว่ามีบางอย่างที่พิเศษในตัวเจ้า เอาเถอะ ช่างมันเถอะ ขอให้เป็นวันที่ดีนะ~";
+		close;
+	}
+	mes "[Altiregen]";
+	mes "ยินดีต้อนรับ!";
+	mes "พวกเราคือ Workers of Steel,";
+	mes "สมาคม Blacksmith";
+	next;
+	mes "[Altiregen]";
+	mes "พวกเราเทหยาดเหงื่อ";
+	mes "และความหลงใหลแห่งจิตวิญญาณลงไปใน";
+	mes "งานฝีมือของเรา ทักษะการหลอมโลหะให้กลายเป็นอาวุธใหม่";
+	mes "และเครื่องมือต่างๆ คือศิลปะที่แท้จริง!";
+	if (BaseClass >= Job_Thief) close;	// Custom expanded class check.
+	next;
+
+	// Third class check - precedes other BaseClass dialogue.
+	if (Class >= Job_Rune_Knight && Class <= Job_Baby_Mechanic2) {
+		mes "[Altiregen]";
+		mes "เจ้า... ดูเหมือนคนแปลกหน้า แต่ดูเหมือนว่าเจ้าจะมีความเกี่ยวข้องกับกิลด์ของเรานะ ฮ่าๆ~";
+		mes "ข้าพูดถูกไหมล่ะ?";
+		close;
+	}
+
+	if (BaseClass == Job_Novice) {
+		mes "[Altiregen]";
+		if (Sex == SEX_FEMALE) {
+			mes "โอ้~";
+			mes "ช่างเป็น";
+			mes "สุภาพสตรีที่งดงามจริงๆ!";
+		}
+		mes "เจ้าสนใจที่จะ";
+		mes "เป็น Blacksmith งั้นรึ?";
+		next;
+		mes "[Altiregen]";
+		mes "ก่อนอื่น เจ้าต้องเป็น Merchant ก่อนที่จะมาเป็น Blacksmith ได้ จงไปที่เมือง Alberta เพื่อเรียนรู้การค้าขายแบบ Merchant เสียก่อน";
+		close;
+	}
+	else if (BaseClass == Job_Swordman) {
+		mes "[Altiregen]";
+		mes "โอ้ เจ้าสนใจที่จะให้ข้าตีอาวุธให้งั้นรึ? ข้าเสียใจที่ต้องทำให้เจ้าผิดหวัง แต่จริงๆ แล้วข้ามีธุระมากมายที่ต้องไปจัดการ";
+		close;
+	}
+	else if (BaseClass == Job_Archer) {
+		mes "[Altiregen]";
+		mes "โอ้...";
+		mes "ที่นี่ไม่มีอะไรจะมอบให้เจ้าได้มากนักหรอก และเจ้าก็ช่วยอะไรแถวนี้ไม่ได้หรอกนะ เว้นแต่เจ้าจะรู้วิธีสร้างสิ่งของ...";
+		close;
+	}
+	else if (BaseClass == Job_Mage) {
+		mes "[Altiregen]";
+		mes "โอ้? ผู้ใช้เวทมนตร์มาทำอะไรที่นี่? ข้าประหลาดใจนะเนี่ย ปกติงานหยาบๆ แบบนี้ไม่ค่อยเหมาะกับพวกปัญญาชนอย่างเจ้าเท่าไหร่";
+		close;
+	}
+	else if (BaseClass == Job_Acolyte) {
+		mes "[Altiregen]";
+		mes "โอ้! ข้าเข้าใจถูกไหมว่าเจ้าเป็นสมาชิกของศาสนจักร? ได้โปรดช่วยอวยพรให้ข้าก่อนที่เจ้าจะไปจะได้ไหม!";
+		close;
+	}
+	else if (BaseClass == Job_Thief) {
+		mes "[Altiregen]";
+		mes "ข้าเสียใจด้วยนะ...";
+		mes "แต่ที่นี่ไม่มีอะไรให้เจ้าขโมยหรอก จริงๆ มันก็มีพวกมีดสั้นที่เราเก็บไว้ข้างหลังน่ะนะ แต่ว่า...";
+		close;
+	}
+	else if (BaseJob == Job_Alchemist) {
+		mes "[Altiregen]";
+		mes "แล้วธุรกิจปรุงยาช่วงนี้เป็นยังไงบ้างล่ะ?";
+		mes "อืม ธุรกิจการตีเหล็กของข้าดูเหมือนจะไม่มีอะไรคืบหน้าไปกว่านี้แล้ว";
+		close;
+	}
+	else if (BaseJob == Job_Blacksmith) {
+		mes "[Altiregen]";
+		mes "โอ้! ไม่เจอกันนานเลยนะ";
+		mes "เจ้ามาซื้อของจาก Christopher งั้นรึ? ช่วงนี้ข้าต้องมาติดแหง็กอยู่หลังโต๊ะตัวนี้ ร่างกายของข้ามันคันไม้คันมืออยากจะไปตีทั่งเหล็กจะแย่อยู่แล้ว";
+		close;
+	}
+	else if (BaseJob == Job_Merchant) {
+		if (SkillPoint) {
+			mes "[Altiregen]";
+			mes "เจ้าไม่สามารถเปลี่ยนอาชีพเป็น Blacksmith ได้หากยังใช้ Skill Point ไม่หมด โปรดกลับมาอีกครั้งหลังจากใช้แต้มสกิลอย่างชาญฉลาดแล้ว";
+			close;
+		}
+		if (BSMITH_Q == 0) {
+			mes "[Altiregen]";
+			mes "ทำไมเจ้าไม่หยุดดิ้นรน";
+			mes "หา Zeny ในฐานะ Merchant แล้ว";
+			mes "มาเข้าร่วมกับอาชีพ Blacksmith ระดับสูงดูล่ะ?";
+			mes "ถ้าเจ้าสนใจ ก็จงกรอกใบสมัครนี้ด้วยชื่อ";
+			mes "และ Job Level ของเจ้าซะ";
+			next;
+			switch(select("กรอกใบสมัคร.:เงื่อนไขมีอะไรบ้าง?:อืม... ฉันขอคิดดูก่อน")) {
+			case 1:
+				if (SkillPoint) {
+					mes "[Altiregen]";
+					mes "เจ้าไม่สามารถเปลี่ยนอาชีพเป็น Blacksmith ได้หากยังใช้ Skill Point ไม่หมด โปรดกลับมาอีกครั้งหลังจากใช้แต้มสกิลอย่างชาญฉลาดแล้ว";
+					close;
+				}
+				else if (JobLevel > 39 && BSMITH_Q == 0) {
+					mes "[Altiregen]";
+					mes "หืมมม...";
+					mes "ดูเหมือนว่าเจ้า";
+					mes "จะมี Job Level";
+					mes "ตามที่กำหนดนะ";
+					next;
+					mes "[Altiregen]";
+					mes "เจ้ารู้ไหม เราไม่รับใครเข้ากิลด์ง่ายๆ หรอกนะ อย่างแรก เราจะรับเฉพาะ Merchant ที่มีประสบการณ์และมีความปรารถนาอันแรงกล้าที่จะเป็น Blacksmith ที่ยิ่งใหญ่ ไหนดูซิ...";
+					next;
+					mes "^3355FF*เสียงเปิดกระดาษ*^000000";
+					next;
+					mes "[Altiregen]";
+					mes "หืมมม...";
+					mes "หนึ่งใน Blacksmith ของเราใน Einbech ที่ชื่อ ^8E6B23Geschupenschte^000000 ส่งข่าวมาว่าเขากำลังขาดคนช่วยพอดี บททดสอบความประพฤติแรกของเจ้าคือการไปช่วยเขา";
+					next;
+					set BSMITH_Q,1;
+					setquest 2000;
+					mes "[Altiregen]";
+					mes "ระมัดระวังตัวด้วย";
+					mes "และโชคดีล่ะ!";
+					close;
+				}
+				else if (JobLevel < 40) {
+					mes "[Altiregen]";
+					mes "หืมมม ดูเหมือนเจ้าจะยังขาดประสบการณ์ในฐานะ Merchant นะ เรากำหนดว่าเจ้าต้องมี Job Level อย่างน้อย 40 น่ะ";
+					next;
+					mes "[Altiregen]";
+					mes "ข้ารู้สึกแย่นะที่ต้องปฏิเสธเจ้าหลังจากที่เจ้าอุตส่าห์มาไกลขนาดนี้ แต่กฎก็คือกฎ เสียใจที่ทำให้ผิดหวัง แต่เรายินดีต้อนรับเจ้ากลับมาเสมอเมื่อเจ้าพร้อม";
+					close;
+				}
+			case 2:
+				mes "[Altiregen]";
+				mes "เจ้าอยากรู้เงื่อนไขของเรางั้นรึ? อย่างแรก เจ้าต้องมี Job Level 40 หรือสูงกว่าในอาชีพ Merchant อย่างที่สอง เจ้าต้องผ่านการทดสอบที่จะมอบให้โดยสมาคม Blacksmith";
+				next;
+				mes "[Altiregen]";
+				mes "การทดสอบอาจประกอบด้วยงานที่ยากลำบาก แต่มันไม่เกินความสามารถแน่นอน เจ้าจะต้องส่งไอเทมบางอย่างไปยังพื้นที่ต่างๆ ทั่วโลก";
+				mes "เพื่อผ่านการทดสอบนี้";
+				close;
+			case 3:
+				mes "[Altiregen]";
+				mes "หืมมม...";
+				mes "เอาล่ะ ข้าหวัง";
+				mes "จะได้พบเจ้าอีกนะ";
+				close;
+			}
+		}
+		else if (BSMITH_Q > 0 && BSMITH_Q < 8) {
+			mes "[Altiregen]";
+			mes "เจ้ายังไม่ไปอีกรึ?";
+			mes "ไปที่ Einbech และหา ^8E6B23Geschupenschte^000000 ช่วยงานเขาให้เสร็จ และเมื่อเจ้าทำเสร็จแล้ว ค่อยกลับมาหาข้า";
+			close;
+		}
+		else if (BSMITH_Q > 8 && BSMITH_Q < 15) {
+			mes "[Altiregen]";
+			mes "งานที่เจ้าทำให้กับ ^8E6B23Geschupenschte^000000 เป็นที่น่าพอใจไหม? เขาขึ้นชื่อเรื่องความเจ้านับพัน... เอ้ย ความเข้มงวดน่ะนะ";
+			close;
+		}
+		else if (BSMITH_Q == 15) {
+			mes "[Altiregen]";
+			mes "ยอดเยี่ยมมาก!!";
+			mes "เจ้าผ่าน";
+			mes "การทดสอบแรกแล้ว...";
+			next;
+			mes "[Altiregen]";
+			mes "หืม? เจ้าดูประหลาดใจนะ";
+			mes "ข้าเดาว่าเจ้าคงไม่รู้ว่ามันมีการทดสอบมากกว่าหนึ่งอย่าง";
+			mes "ฮ่าๆ แต่ไม่ต้องห่วง เจ้าไม่ต้องเดินทางไกลขนาดนั้นแล้วล่ะ";
+			mes "โปรดไปคุยกับกิลด์แมนที่อยู่ข้างในอาคารเพื่อฟังรายละเอียดเกี่ยวกับการทดสอบครั้งต่อไปของเจ้า";
+			next;
+			if (select("ฉันอยากเปลี่ยนอาชีพเร็วๆ! แต่... ก็ได้:หนอย! พอกันที!") == 1) {
+				set BSMITH_Q,16;
+				changequest 2013,2014;
+				mes "[Altiregen]";
+				mes "ข้าขอโทษนะ แต่ข้ามั่นใจว่าเจ้าคงเข้าใจใช่ไหม? เราไม่สามารถรับใครเข้ากิลด์";
+				mes "ของเราแบบส่งๆ ได้!";
+				next;
+				mes "[Altiregen]";
+				mes "หากเราไม่รักษามาตรฐานเอาไว้";
+				mes "เราก็จะไม่สามารถรักษาความน่าเชื่อถือของสมาคม Blacksmith ไว้ได้!";
+				mes "เราจะทำให้กิลด์ของเราอับอายไม่ได้! *อะแฮ่ม* เอาเถอะ เจ้าไปคุยกับกิลด์แมนข้างในอาคารได้แล้ว";
+				close;
+			}
+			mes "[Altiregen]";
+			mes "นี่เจ้ากำลังบอกว่าจะ";
+			mes "ยกเลิกขั้นตอนใบสมัครอย่างนั้นรึ? นั่นเป็นการดูหมิ่นกิลด์ของเรานะ!";
+			mes "ออกไปจากที่นี่ซะ! ด้วยทัศนคติแบบนั้น เจ้าลืมเรื่องการเป็นสมาชิกของสมาคม Blacksmith ไปได้เลย!";
+			next;
+			mes "[Altiregen]";
+			mes "เจ้าไม่มีจิตวิญญาณเลย!";
+			mes "ถ้าเจ้าอดทนกับเรื่องแค่นี้ไม่ได้ เจ้าก็ไม่มีวันเป็น Blacksmith ได้หรอก!";
+			close;
+		}
+		else if (BSMITH_Q == 16) {
+			mes "[Altiregen]";
+			mes "หืม? เจ้ายังไม่ได้คุยกับกิลด์แมนอีกรึ?";
+			mes "ถ้ายัง ข้าแนะนำให้เจ้าไปคุยให้เร็วที่สุดเท่าที่จะทำได้นะ";
+			close;
+		}
+		else if (BSMITH_Q == 17 && countitem(1005) > 0 && JobLevel > 39) {
+			mes "[Altiregen]";
+			if (ismounting()) {
+				mes "เจ้ากำลังขี่สัตว์เลี้ยงอยู่ เจ้าไม่สามารถเปลี่ยนอาชีพได้";
+				mes "โปรดเอาสัตว์เลี้ยงออกแล้วลองใหม่อีกครั้ง!";
+				close;
+			}
+			mes "ยอดเยี่ยม ข้าบอกได้เลยจากแววตาของเจ้าว่าเจ้าทำสำเร็จ ข้าสามารถมอบพรแห่งการตีเหล็กและศิลปะแห่ง Blacksmith ให้กับเจ้าได้แล้วในตอนนี้";
+			if (checkquest(2015) != -1) {
+				changequest 2015,2016;
+			}
+			next;
+			set .@joblvl,JobLevel;
+			callfunc "Job_Change",Job_Blacksmith;
+			callfunc "F_ClearJobVar";		// clears all job variables for the current player
+			mes "[Altiregen]";
+			mes "จงจำไว้เสมอว่าพวกเราคือผู้สร้าง และศิลปินเหนือมวลโลหะ จงระวังอย่าให้ตัวเองตกลงไปในหลุมพรางแห่งความเห็นแก่ตัว";
+			mes "และความโลภ";
+			next;
+			delitem 1005,1; //Hammer_Of_Blacksmith
+			completequest 2016;
+			mes "[Altiregen]";
+			mes "นี่คือของขวัญ";
+			mes "เล็กๆ น้อยๆ เพื่อเป็นเครื่องหมาย";
+			mes "แห่งการเริ่มต้น";
+			mes "ชีวิตในฐานะ Blacksmith ของเจ้า";
+			mes "ยินดีด้วยจริงๆ!!!";
+			if (.@joblvl > 48)
+				getitem 999,30; //Steel
+			else
+				getitem 999,5; //Steel
+			close;
+		}
+	}
+}
+
+ein_in01,201,27,3	script	Guildsman#alberta	63,{
+	mes "[Geschupenschte]";
+	mes "สวัสดี!";
+	mes "ข้าคือ ^8E6B23Geschupenschte^000000,";
+	mes "ช่างตีเหล็กโดยอาชีพ";
+	mes "ยินดีที่ได้รู้จัก!";
+	next;
+	if (BaseJob == Job_Merchant) {
+		mes "[Geschupenschte]";
+		mes "โอ้ โฮ่ โฮ่!";
+		mes "เจ้าเป็น Merchant นี่นา!";
+		mes "ยอดเยี่ยม! ข้ากำลัง";
+		mes "ต้องการความช่วยเหลืออยู่พอดี!";
+		next;
+		if (BSMITH_Q == 0) {
+			mes "[Geschupenschte]";
+			mes "แต่แน่นอนว่า";
+			mes "ข้าจะไม่รบกวนเจ้า";
+			mes "ถ้าเจ้ากำลังยุ่งอยู่ ไปตามทาง";
+			mes "ของเจ้าเถอะถ้าเจ้าต้องไป~";
+			next;
+			mes "[Geschupenschte]";
+			mes "ยังไงซะ...";
+			mes "ข้าก็ควรจะรู้ดี";
+			mes "ว่าความรู้สึกตอนยุ่งๆ";
+			mes "มันเป็นยังไง~";
+			close;
+		}
+		else if ((BSMITH_Q == 1) || (BSMITH_Q == 2)) {
+			if (BSMITH_Q == 1) {
+				mes "[Geschupenschte]";
+				mes "ข้าเข้าใจถูกไหมว่าเจ้าคือคนที่สมาคม Blacksmith ส่งมาช่วย? ไม่ค่อยมีคนที่น่าเชื่อถือพอที่ข้าจะจ้างมาช่วยได้เลย ข้าก็เลย";
+				mes "ขาดคนช่วยอยู่ตลอด";
+				next;
+				mes "[Geschupenschte]";
+				mes "หืม ยังไงก็เถอะ";
+				mes "เจ้าคือคนที่ถูกส่งมาช่วยใช่ไหม? โอเค ข้ามีงานให้เจ้าทำซึ่งต้องจัดการ";
+				mes "เดี๋ยวนี้เลย!";
+				next;
+				mes "[Geschupenschte]";
+				mes "เมื่อไม่นานมานี้ ข้ามีเด็กคนหนึ่งทำงานให้ เขาไม่มีประสบการณ์เลยและซื้อเสบียงมาผิดหมด! มันแย่มาก...";
+				next;
+				mes "[Geschupenschte]";
+				mes "ใครๆ ก็คงเกลียดที่จะเสียเงินเพราะความผิดพลาดโง่ๆ แบบนั้น อย่างไรก็ตาม ข้ามีงานที่ยากกว่านั้นหน่อยให้เจ้าทำ";
+				next;
+				mes "[Geschupenschte]";
+				mes "อย่างไรก็ตาม ข้าอยากจะเมคชัวร์ว่าเจ้ามีความรู้พื้นฐานในฐานะ Merchant ข้าอยากจะถามคำถามเจ้าสักหน่อย ถ้าเจ้าสะดวกนะ";
+				next;
+				set .@selection,select("ได้ครับ.:เอ่อ... ผมขอเวลาเตรียมตัวสักหน่อยได้ไหม?");
+			}
+			else if (BSMITH_Q == 2) {
+				mes "[Geschupenschte]";
+				mes "เอาล่ะ ครั้งนี้";
+				mes "เจ้าได้ไปศึกษา";
+				mes "มาเพิ่มหรือยัง?";
+				next;
+				mes "[Geschupenschte]";
+				mes "ข้ายอมรับว่ามันค่อนข้างเกินเหตุไปหน่อยที่จะคาดหวังให้ใครได้คะแนนเต็มตั้งแต่ครั้งแรก ดังนั้นข้าจะให้";
+				mes "โอกาสเจ้าสักหน่อย...";
+				next;
+				mes "[Geschupenschte]";
+				mes "เจ้าสามารถตอบผิดได้";
+				mes "หนึ่งข้อ!";
+				mes "เอาล่ะ มาเริ่ม";
+				mes "คำถามกันเลย~";
+				next;
+			}
+			if (.@selection != 2) {
+				if (rand(2)) {
+					mes "[Geschupenschte]";
+					mes "1. ข้อใดต่อไปนี้จับคู่ภูมิภาค";
+					mes "กับไอเทมพิเศษประจำเมืองผิด?";
+					next;
+					if (select("Morocc - Thief Clothes:Alberta - Two Hand Axe:Comodo - Berserk Potion:Alberta - Swordmace") == 4)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "2. สถานะใดที่";
+					mes "จะเกิดขึ้นเมื่อถูกโจมตีด้วย";
+					mes "สกิล ^8E6B23Hammer Fall^000000?";
+					next;
+					if (select("Stun:Blind:Silence:Sleep") == 1)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "3. ข้อใดต่อไปนี้คือสกิลที่";
+					mes "Merchant ไม่สามารถทำได้?";
+					next;
+					if (select("Vending:Discount:Overcharge:Increase AGI") == 4)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "4. เจ้าสามารถหาร้านค้า";
+					mes "ที่ขาย Blue Gemstones ได้ที่ไหน?";
+					next;
+					if (select("Alberta:Morocc:Geffen:Prontera") == 3)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "5. ร้านขาย";
+					mes "Tool Dealer";
+					mes "ในเมือง Geffen ตั้งอยู่ที่ไหน?";
+					next;
+					if (select("ทิศ 8 นาฬิกาจากลานกว้างกลางเมือง:ทิศ 11 นาฬิกาจากลานกว้างกลางเมือง:ทิศ 6 นาฬิกาจากลานกว้างกลางเมือง:ทิศ 5 นาฬิกาจากลานกว้างกลางเมือง") == 1)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "6. อาวุธชนิดใด";
+					mes "ที่ Merchant";
+					mes "ไม่สามารถใช้ได้?";
+					next;
+					if (select("Stiletto:Ring Pommel Saber:Chain:Bible") == 4)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "7. ไอเทมใดต่อไปนี้";
+					mes "มีพลังป้องกันสูงที่สุด?";
+					next;
+					if (select("Panties:Mink Coat:Wooden Mail:Silk Robe") == 2)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "8. สำหรับอาวุธเลเวล 3";
+					mes "ขีดจำกัดความ ^8E6B23ปลอดภัย^000000";
+					mes "ในการอัพเกรดคือเท่าไหร่?";
+					next;
+					if (select("สูงสุดถึง + 3:สูงสุดถึง + 4:สูงสุดถึง + 5:สูงสุดถึง + 6") == 3)
+						set .@black_q,.@black_q+10;
+					mes "9. ไอเทมใด";
+					mes "ที่สามารถสร้างได้โดยใช้";
+					mes "ไอเทม ^8E6B23Trunks^000000?";
+					next;
+					if (select("Sakkat:Ghost Bandana:Majestic Goat:Antler") == 1)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "10. สิ่งที่สำคัญที่สุด";
+					mes "ของการเป็น Merchant คือ...?";
+					next;
+					select("ความเชื่อถือ (Credit):ความซื่อสัตย์ (Integrity):เงิน (Money):วาทศิลป์ (Rhetoric)");
+					set .@black_q,.@black_q+10;
+				}
+				else {
+					mes "[Geschupenschte]";
+					mes "1. ในบรรดาเมืองต่อไปนี้ เมืองใดจับคู่กับของพิเศษประจำเมืองไม่ถูกต้อง?";
+					next;
+					if (select("Al De Baran - Yggdrasil Leaf:Alberta - Hammer:Comodo - Berserk Potion:Al De Baran - Hammer") == 4)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "2. Jellopy 1 อัน";
+					mes "มีค่ากี่ Zeny?";
+					next;
+					if (select("1 Zeny:2 Zeny:3 Zeny:4 Zeny") == 3)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "3. สิ่งใดที่จำเป็น";
+					mes "สำหรับ Merchant ในการใช้";
+					mes "สกิล ^8E6B23Vending^000000?";
+					next;
+					if (select("ต้องมีรถเข็น (Cart):ต้องมีไอเทมที่จะขาย:ต้องกวัดแกว่งอาวุธ:ต้องสวมเกราะ") == 1)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "4. เจ้าสามารถ";
+					mes "เปลี่ยนอาชีพเพื่อ";
+					mes "เป็น Merchant ได้ที่เมืองใด?";
+					next;
+					if (select("Alberta:Morocc:Geffen:Prontera") == 1)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "5. ร้านขาย";
+					mes "Weapons Dealer";
+					mes "ในเมือง Morocc ตั้งอยู่ที่ไหน?";
+					next;
+					if (select("ทิศ 7 นาฬิกาจากใจกลางเมือง:ทิศ 11 นาฬิกาจากใจกลางเมือง:ทิศ 6 นาฬิกาจากใจกลางเมือง:ทิศ 5 นาฬิกาจากใจกลางเมือง") == 4)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "6. อาวุธชนิดใด";
+					mes "ที่ Merchant";
+					mes "ไม่สามารถใช้ได้?";
+					next;
+					if (select("Main Gauche:Claymore:Chain:Two handed Axe") == 2)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "7. ไอเทมใดต่อไปนี้";
+					mes "มีพลังป้องกันสูงที่สุด?";
+					next;
+					if (select("Panties:Mink Coat:Wooden Mail:Silk Robe") == 2)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "8. สำหรับอาวุธเลเวล 3";
+					mes "ขีดจำกัดความ ^8E6B23ปลอดภัย^000000";
+					mes "ในการอัพเกรดคือเท่าไหร่?";
+					next;
+					if (select("สูงสุดถึง + 3:สูงสุดถึง + 4:สูงสุดถึง + 5:สูงสุดถึง + 6") == 3)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "9. มอนสเตอร์ตัวใด";
+					mes "ที่ไม่ได้ดรอป Iron Ore?";
+					next;
+					if (select("Chon Chon:Steel Chon Chon:Zerom:Anolian") == 4)
+						set .@black_q,.@black_q+10;
+					mes "[Geschupenschte]";
+					mes "10. สิ่งใดสำคัญที่สุด";
+					mes "สำหรับ Merchant?";
+					next;
+					select("วาทศิลป์ (Rhetoric):ความเชื่อถือ (Credit):เงิน (Money):ประสบการณ์ (Experience)");
+					set .@black_q,.@black_q+10;
+				}
+				mes "[Geschupenschte]";
+				mes "อืมมม เจ้าทำได้ดีมาก!";
+				next;
+				mes "[Geschupenschte]";
+				mes "ไหนดูซิ... คะแนนของเจ้าคือ..." + .@black_q + " คะแนน";
+				if (.@black_q == 100) {
+					set BSMITH_Q,3;
+					if (checkquest(2001) != -1) {
+						changequest 2001,2002;
+					} else {
+						changequest 2000,2002;
+					}
+					mes "โอ้ โฮ่ โฮ่~";
+					mes "เจ้าคงไม่มี";
+					mes "ปัญหาอะไร";
+					mes "กับคะแนนเท่านี้!";
+					next;
+					mes "[Geschupenschte]";
+					mes "ข้าจะมอบหมายงานให้เจ้า!";
+					mes "ขอเวลาข้าสักหน่อยในการจัดเตรียมสิ่งที่จำเป็น";
+					mes "เมื่อเจ้ากลับมา ข้าจะพร้อมเอง!";
+					close;
+				}
+				set BSMITH_Q,2;
+				if (checkquest(2001) == -1) {
+					changequest 2000,2001;
+				}
+				mes ".............";
+				next;
+				mes "[Geschupenschte]";
+				if (BSMITH_Q == 2) {
+					mes "ข้าควรพูดเรื่องนี้ยังไงดีนะ?";
+					mes "นี่เจ้าสอบตกอีกแล้วงั้นรึ?!";
+					mes "ถ้าเจ้าวางแผนจะปฏิบัติหน้าที่ในลักษณะนี้ ข้าคงเชื่อใจมอบหมายงานอะไรให้เจ้าไม่ได้หรอก...";
+					close;
+				}
+				mes "หืมมม...";
+				mes "มันเจ็บปวดที่ต้องพูดแบบนี้ แต่ดูเหมือนเจ้าต้องไปศึกษาเพิ่มอีกสักหน่อยนะ เจ้าไม่มีวันจะเป็น";
+				mes "Blacksmith ได้ด้วย";
+				mes "คะแนนเท่านี้หรอก!";
+				close;
+			}
+			mes "[Geschupenschte]";
+			mes "อา แน่นอน ข้าไม่ว่าอะไรถ้าเจ้าจะกลับมาทีหลัง การเตรียมพร้อมจะช่วยป้องกันหายนะ";
+			mes "ที่จะตามมาได้ ยังไงซะ การรอบคอบไว้ก่อนก็";
+			mes "ไม่เสียหายอะไร~";
+			close;
+		}
+		/*
+		else if (BSMITH_Q == 2) {
+			mes "[Geschupenschte]";
+			mes "So, have you";
+			mes "studied a little";
+			mes "more this time?";
+			next;
+			mes "[Geschupenschte]";
+			mes "I admit that it's pretty unreasonable to expect anyone to get a perfect score the first time around, so I'll give you";
+			mes "a little break...";
+			next;
+			mes "[Geschupenschte]";
+			mes "You can miss";
+			mes "one problem!";
+			mes "Alright, let's start";
+			mes "with the questions~";
+			next;
+			goto L_AskQuestions;
+		}
+		*/
+		else if (BSMITH_Q == 3) {
+			mes "[Geschupenschte]";
+			mes "หืมมม...";
+			mes "ตอนนี้ ใบสั่งซื้อพวกนั้น";
+			mes "มันไปอยู่ที่ไหนแล้วนะ...";
+			next;
+			mes "^3355FF*เสียงเปิดหาเอกสาร*";
+			mes "*เสียงค้นกระดาษ*^000000";
+			next;
+			mes "[Geschupenschte]";
+			mes "โอ้! อยู่นี่เอง!";
+			mes "นี่คือรายการสั่งซื้อที่";
+			mes "ล่าช้ามานาน";
+			mes "ที่สุด...";
+			mes "เหะ เหะ~";
+			next;
+			mes "[Geschupenschte]";
+			mes "เอาล่ะ ในการทำ";
+			mes "สิ่งนี้เจ้าจะต้องใช้...";
+			next;
+			switch(rand(1,5)) {
+			//Steel, Rotten_Bandage, Blue_Gemstone, Arc_Wand
+			case 1: setarray .@items[0], 999,1, 930,1, 717,2, 1610,1, 4; changequest 2002,2003; break;
+			//Sparkling_Dust, Skel_Bone, Zargon, Gladius
+			case 2: setarray .@items[0], 1001,2, 932,1, 912,1, 1219,1, 5; changequest 2002,2004; break;
+			//Coal, Shell, Boody_Red, Tsurugi
+			case 3: setarray .@items[0], 1003,1, 935,2, 990,2, 1119,1, 6; changequest 2002,2005; break;
+			//Iron_Ore, Eye_Bandage, Blue_Gemstone, Arbalest
+			case 4: setarray .@items[0], 1002,1, 2212,1, 717,2, 1713,1, 7; changequest 2002,2006; break;
+			//Iron, Green_Herb, Animal's_Skin, Ring_Pommel_Saber
+			default: setarray .@items[0], 998,1, 511,1, 919,2, 1122,1, 8; changequest 2002,2007; break;
+			}
+			set BSMITH_Q,.@items[8];
+			mes "[Geschupenschte]";
+			mes "^8E6B23"+.@items[1]+" "+getitemname(.@items[0])+"^000000,";
+			mes "^8E6B23"+.@items[3]+" "+getitemname(.@items[2])+"^000000,";
+			mes "^8E6B23"+.@items[5]+" "+getitemname(.@items[4])+"^000000, และ";
+			mes "^8E6B23"+.@items[7]+" "+getitemname(.@items[6])+"^000000 ชนิดที่";
+			mes "เจ้าสามารถหาซื้อได้จาก";
+			mes "ร้านค้า NPC ทั่วไป";
+			next;
+			mes "[Geschupenschte]";
+			mes "การสะสมไอเทมเหล่านี้จะเป็นบททดสอบของเจ้า และมันก็เป็นทางที่ดีที่ข้าจะได้ประหยัดเงินไปด้วยในตัว ข้าจะทวนอีกรอบว่าเจ้าต้องนำอะไรมาให้ข้าบ้าง...";
+			next;
+			mes "[Geschupenschte]";
+			mes "โอเค~";
+			mes "ขอให้โชคดี";
+			mes "กับงานแรกของเจ้านะ!";
+			close;
+		}
+		else if (BSMITH_Q > 3 && BSMITH_Q < 9) {
+			switch(BSMITH_Q) {
+			case 4: setarray .@items[0], 999,1, 930,1, 717,2, 1610,1, 9; break;
+			case 5: setarray .@items[0], 1001,2, 932,1, 912,1, 1219,1, 10; break;
+			case 6: setarray .@items[0], 1003,1, 935,2, 990,2, 1119,1, 11; break;
+			case 7: setarray .@items[0], 1002,1, 2212,1, 717,2, 1713,1, 12; break;
+			case 8: setarray .@items[0], 998,1, 511,1, 919,2, 1122,1, 13; break;
+			}
+			mes "[Geschupenschte]";
+			mes "อา เจ้ากลับมาแล้ว!";
+			mes "เจ้าได้นำ";
+			mes "ทุกอย่างที่";
+			mes "ข้าต้องการมาด้วยไหม?";
+			next;
+			if (countitem(.@items[0]) >= .@items[1] && countitem(.@items[2]) >= .@items[3] && countitem(.@items[4]) >= .@items[5] && countitem(.@items[6]) >= .@items[7]) {
+				mes "[Geschupenschte]";
+				mes "เดี๋ยวนะ...";
+				mes "ข้าไม่ได้บอกเจ้า";
+				mes "ให้ไปหา Steel มา 3 อันรึ?";
+				next;
+				mes "[Geschupenschte]";
+				mes "โอ้ ข้าเดาว่ามันคงเป็น";
+				mes "2 อันจริงๆ นั่นแหละ ไหนดูซิ...";
+				mes "ใช่ เจ้าได้ทุกอย่างครบแล้ว!";
+				mes "ตอนนี้ ขอเวลาข้าสักครู่";
+				next;
+				mes "[Geschupenschte]";
+				mes "โอ้ เจ้าต้องแน่ใจนะว่าเจ้าไม่ได้พก ^FF0000"+getitemname(.@items[6])+" มามากกว่าหนึ่งอัน^000000 เจ้าควรจะมีแค่ "+getitemname(.@items[6])+" ที่ซื้อมาจากร้าน NPC ในช่องสัมภาระของเจ้าเท่านั้น";
+				next;
+				if (select("โอ้ ขอเวลาผมสักครู่ได้ไหมครับ?:อ้อ ผมนำสิ่งที่ท่านต้องการมาครบแล้วครับ") == 1) {
+					mes "[Geschupenschte]";
+					mes "หืมมม มันคงเป็น";
+					mes "ความคิดที่ดีนะถ้าเจ้าจะเอา";
+					mes "ไอเทมที่เหลือของเจ้า";
+					mes "ไปฝากไว้ในคลัง Kafra";
+					close;
+				}
+				mes "[Geschupenschte]";
+				mes "โอเค";
+				mes "ยอดเยี่ยม~!!";
+				next;
+				mes "[Geschupenschte]";
+				mes "^3355FF*เคร้ง...!*^000000";
+				next;
+				mes "[Geschupenschte]";
+				mes "^3355FF*โครม เคร้ง!*^000000";
+				next;
+				delitem .@items[0],.@items[1];
+				delitem .@items[2],.@items[3];
+				delitem .@items[4],.@items[5];
+				delitem .@items[6],.@items[7];
+				set BSMITH_Q,.@items[8];
+				mes "[Geschupenschte]";
+				mes "วู้ววววว~~~";
+				mes "เสร็จเรียบร้อย...";
+				switch(BSMITH_Q) {
+				case 9:
+					mes "เอาล่ะ ตอนนี้จงนำสิ่งนี้ไปให้ ^8E6B23Baisulist^000000 ในเมือง Geffen แห่งอาณาจักร Rune-Midgarts แค่นำไปส่งและนำใบเสร็จกลับมาให้ข้า";
+					getitem 1610,1; //Arc_Wand
+					if (checkquest(2003) != -1) {
+						changequest 2003,2008;
+					}
+					next;
+					mes "[Geschupenschte]";
+					mes "หืมมม...?";
+					mes "มองแบบนั้นทำไมกัน?";
+					mes "นี่ไม่ใช่ Arc Wand";
+					mes "ธรรมดานะ! ดูให้ดี";
+					mes "ตรงที่ด้ามจับสิ...";
+					next;
+					mes "^3355FFที่ด้ามจับสลักว่า:";
+					mes "'Super Arc Wand";
+					mes "of Geschupenschte";
+					mes "Mark 2.' มันดูเหมือน";
+					mes "จะให้ความรู้สึกที่";
+					mes "แตกต่างไปอย่างสิ้นเชิง^000000";
+					next;
+					mes "[Geschupenschte]";
+					mes "ยังไงซะ นำสิ่งนี้";
+					mes "ไปให้ ^8E6B23Baisulist^000000 ในเมือง Geffen แห่งอาณาจักร Rune-Midgarts เสีย";
+					break;
+				case 10:
+					mes "เอาล่ะ ตอนนี้จงนำสิ่งนี้ไปให้ ^8E6B23Wickebine^000000 ในเมือง Morocc แห่งอาณาจักร Rune-Midgarts แค่นำไปส่งและนำใบเสร็จกลับมาให้ข้า";
+					getitem 1219,1; //Gladius
+					if (checkquest(2004) != -1) {
+						changequest 2004,2009;
+					}
+					next;
+					mes "[Geschupenschte]";
+					mes "หืมมม...?";
+					mes "มองแบบนั้นทำไมกัน?";
+					mes "นี่ไม่ใช่ Gladius";
+					mes "ธรรมดานะ! ดูให้ดี";
+					mes "ตรงที่ด้ามจับสิ...";
+					next;
+					mes "^3355FFที่ด้ามจับสลักว่า:";
+					mes "'Super Gladius";
+					mes "of Geschupenschte";
+					mes "Mark 2.' มันดูเหมือน";
+					mes "จะให้ความรู้สึกที่";
+					mes "แตกต่างไปอย่างสิ้นเชิง^000000";
+					next;
+					mes "[Geschupenschte]";
+					mes "ยังไงซะ นำสิ่งนี้";
+					mes "ไปให้ ^8E6B23Wickebine^000000 ในเมือง Morocc แห่งอาณาจักร Rune-Midgarts เสีย";
+					break;
+				case 11:
+					mes "เอาล่ะ ตอนนี้จงนำสิ่งนี้ไปให้ ^8E6B23Krongast^000000 ในเมือง Lighthalzen แค่นำไปส่งและนำใบเสร็จกลับมาให้ข้า";
+					getitem 1119,1; //Tsurugi
+					if (checkquest(2005) != -1) {
+						changequest 2005,2010;
+					}
+					next;
+					mes "[Geschupenschte]";
+					mes "หืมมม...?";
+					mes "มองแบบนั้นทำไมกัน?";
+					mes "นี่ไม่ใช่ Tsurugi";
+					mes "ธรรมดานะ! ดูให้ดี";
+					mes "ตรงที่ตัวใบดาบสิ...";
+					next;
+					mes "^3355FFที่ใบดาบสลักว่า:";
+					mes "'Fine-edged";
+					mes "Geschupenschte";
+					mes "Tsurugi Special.'";
+					mes "มันดูเหมือนจะรู้สึก";
+					mes "แตกต่างไปจาก";
+					mes "Tsurugi ปกติอย่างมาก...^000000";
+					next;
+					mes "[Geschupenschte]";
+					mes "ยังไงซะ นำสิ่งนี้";
+					mes "ไปให้ ^8E6B23Krongast^000000 ในเมือง Lighthalzen เสีย";
+					break;
+				case 12:
+					mes "เอาล่ะ ตอนนี้จงนำสิ่งนี้ไปให้ ^8E6B23Talpiz^000000 ในเมือง Payon แห่งอาณาจักร Rune-Midgarts แค่นำไปส่งสิ่งนี้และนำใบเสร็จกลับมาให้ข้า";
+					getitem 1713,1; //Arbalest
+					if (checkquest(2006) != -1) {
+						changequest 2006,2011;
+					}
+					next;
+					mes "[Geschupenschte]";
+					mes "หืมมม...?";
+					mes "มองแบบนั้นทำไมกัน?";
+					mes "นี่ไม่ใช่ Arbalest";
+					mes "ธรรมดานะ! ดูให้ดี";
+					mes "ตรงที่ตัวคันธนูสิ...";
+					next;
+					mes "^3355FFที่คันธนูสลักว่า:";
+					mes "Geschupenschte";
+					mes "Arbalest Luxury Edition.";
+					mes "มันดูหรูหรามากกว่า";
+					mes "Arbalest ทั่วไปนะเนี่ย^000000";
+					next;
+					mes "[Geschupenschte]";
+					mes "ยังไงซะ นำสิ่งนี้";
+					mes "ไปให้ ^8E6B23Talpiz^000000 ในเมือง Payon แห่งอาณาจักร Rune-Midgarts เสีย";
+					break;
+				case 13:
+					mes "เอาล่ะ ตอนนี้จงนำสิ่งนี้ไปให้ ^8E6B23Bismarc^000000 ในเมือง Hugel แค่นำไปส่งและนำใบเสร็จกลับมาให้ข้า";
+					getitem 1122,1; //Ring_Pommel_Saber
+					if (checkquest(2007) != -1) {
+						changequest 2007,2012;
+					}
+					next;
+					mes "[Geschupenschte]";
+					mes "หืมมม...?";
+					mes "มองแบบนั้นทำไมกัน?";
+					mes "นี่ไม่ใช่ Ring Pommel Saber";
+					mes "ธรรมดานะ! ดูให้ดี";
+					mes "ตรงที่ด้ามจับสิ...";
+					next;
+					mes "^3355FFที่ด้ามจับสลักว่า:";
+					mes "'Green Herbal";
+					mes "Ring Pommel Saber";
+					mes "of Geschupenschte";
+					mes "Mark 2.' มันดูเหมือน";
+					mes "จะให้ความรู้สึกที่";
+					mes "แตกต่างไปอย่างสิ้นเชิง^000000";
+					next;
+					mes "[Geschupenschte]";
+					mes "พลังของ Green Herbs ที่อัดแน่นอยู่ในดาบเล่มนี้มีประโยชน์มากนะ! เจ้าสามารถช่วยใครสักคนที่กำลังจะตายจากพิษได้โดยการแทงพวกเขาเร็วๆ ด้วยอาวุธเล่มนี้!";
+					next;
+					mes "[Geschupenschte]";
+					mes "ยังไงซะ นำสิ่งนี้";
+					mes "ไปให้ ^8E6B23Bismarc^000000 ในเมือง Hugel เสีย";
+				}
+				mes "และอย่าลืม";
+				mes "เอาใบเสร็จมาด้วยล่ะ!";
+				close;
+			}
+			else {
+				mes "[Geschupenschte]";
+				mes "เจ้ายังนำไอเทม";
+				mes "มาไม่ครบเลยนะ";
+				mes "เจ้าต้องให้ข้าเตือนอีกรอบ";
+				mes "หรือยังไงกัน? นำสิ่งนี้มาให้ข้า...";
+				next;
+				mes "[Geschupenschte]";
+				mes "^8E6B23"+.@items[1]+" "+getitemname(.@items[0])+"^000000,";
+				mes "^8E6B23"+.@items[3]+" "+getitemname(.@items[2])+"^000000,";
+				mes "^8E6B23"+.@items[5]+" "+getitemname(.@items[4])+"^000000, และ";
+				mes "^8E6B23"+.@items[7]+" "+getitemname(.@items[6])+"^000000 ชนิดที่";
+				mes "เจ้าสามารถหาซื้อได้จาก";
+				mes "ร้านค้า NPC ทั่วไป";
+				next;
+				mes "[Geschupenschte]";
+				mes "เอาล่ะ ต้องแน่ใจว่าเจ้ามี";
+				mes "ทุกอย่างที่ข้าต้องการเมื่อ";
+				mes "เจ้ากลับมา จำไว้นะ";
+				mes "นี่คือการทดสอบ! เจ้าไม่สามารถ";
+				mes "เป็น Blacksmith ได้หรอกถ้า";
+				mes "เจ้ามัวแต่อู้งาน!";
+				close;
+			}
+		}
+		else if (BSMITH_Q > 8 && BSMITH_Q < 14) {
+			mes "[Geschupenschte]";
+			mes "เจ้ายัง";
+			mes "ทำอะไรอยู่ที่นี่?";
+			mes "รีบไปส่ง";
+			mes "พัสดุได้แล้ว~!";
+			mes "เจ้าลืมไปแล้วรึ";
+			mes "ว่าจะต้องไปที่ไหน?";
+			next;
+			mes "[Geschupenschte]";
+			if (BSMITH_Q == 9) {
+				mes "ในเมือง Geffen ทิศ 11 นาฬิกาจากใจกลางเมือง เจ้าจะพบกับ ^8E6B23Baisulist^000000 และอย่าลืมเอาใบเสร็จมาด้วยล่ะ";
+			}
+			else if (BSMITH_Q == 10) {
+				mes "ไปหาคนขาย Swordmace";
+				mes "ที่ชื่อ ^8E6B23Wickebine^000000 ในเมือง Morocc และอย่าลืมใบเสร็จล่ะ";
+			}
+			else if (BSMITH_Q == 11) {
+				mes "ในเมือง Lighthalzen ทิศ 6 นาฬิกาจากใจกลางเมือง เจ้าจะพบกับ ^8E6B23Krongast^000000 ใกล้ๆ กับร้านขายอาวุธ และอย่าลืมใบเสร็จด้วย";
+			}
+			else if (BSMITH_Q == 12) {
+				mes "ในเมือง Payon ทิศ 5 นาฬิกาจากใจกลางเมือง เจ้าจะพบกับ ^8E6B23Talpiz^000000 และอย่าลืมใบเสร็จนะ";
+			}
+			else {
+				mes "ในเมือง Hugel ทิศ 1 นาฬิกาจากใจกลางเมือง เจ้าจะพบกับ ^8E6B23Bismarc^000000 ใกล้ๆ กับจุดจอดเรือเหาะ และอย่าลืมใบเสร็จด้วยล่ะ";
+			}
+			close;
+		}
+		else if (BSMITH_Q == 14) {
+			mes "[Geschupenschte]";
+			mes "หืมมม...?";
+			mes "เจ้าทำการ";
+			mes "ส่งของ";
+			mes "เสร็จเรียบร้อยแล้วรึ?";
+			mes "ไหนขอข้าดูใบเสร็จหน่อยสิ~";
+			next;
+			if (select("ครับท่าน นี่ครับใบเสร็จ:ใบเสร็จ? เอ่อ ผมว่าผมวางไว้แถวไหนสักแห่งนี่แหละ") == 1) {
+				if (countitem(1073) > 0) {
+					set BSMITH_Q,15;
+					delitem 1073,1; //Merchant_Voucher_1
+					if (checkquest(2008) != -1) {
+						changequest 2008,2013;
+					}
+					else if (checkquest(2009) != -1) {
+						changequest 2009,2013;
+					}
+					else if (checkquest(2010) != -1) {
+						changequest 2010,2013;
+					}
+					else if (checkquest(2011) != -1) {
+						changequest 2011,2013;
+					}
+					else {
+						changequest 2012,2013;
+					}
+					mes "[Geschupenschte]";
+					mes "โอ้ โฮ่ โฮ่~";
+					mes "ยอดเยี่ยม!";
+					mes "เจ้าคือ";
+					mes "Merchant ที่ยอดเยี่ยมจริงๆ!";
+					next;
+					mes "[Geschupenschte]";
+					mes "ทำดีมาก!";
+					mes "กลับไปหา ^8E6B23Altiregen^000000 ใน Einbroch ชายคนแรกที่เจ้าเจอตอนที่เจ้าสมัครงาน Blacksmith น่ะ";
+					next;
+					mes "[Geschupenschte]";
+					mes "ข้าเชื่อมั่นว่าเจ้า";
+					mes "จะเป็น Blacksmith ที่ยิ่งใหญ่!";
+					close;
+				}
+				set BSMITH_Q,3;
+				mes "[Geschupenschte]";
+				mes "เจ้าหมายความว่า...";
+				mes "เจ้าไม่ได้";
+				mes "ใบเสร็จมางั้นรึ?";
+				mes "อะไรกัน...?";
+				next;
+				mes "[Geschupenschte]";
+				mes "ใบเสร็จคือ";
+				mes "เพื่อนที่ดีที่สุดของ Merchant นะ!";
+				mes "มันจำเป็นต่องานของเจ้า!";
+				mes "เจ้าจะต้องเริ่มการ";
+				mes "ทดสอบใหม่อีกครั้งตั้งแต่ต้น!";
+				close;
+			}
+			mes "[Geschupenschte]";
+			mes "กลับมาเมื่อเจ้า";
+			mes "หาใบเสร็จเจอนะ~";
+			mes "เจ้าคงไม่ลืมที่จะ";
+			mes "รับใบเสร็จมาหรอก";
+			mes "ใช่ไหม...?";
+			close;
+		}
+		else if (BSMITH_Q == 15) {
+			mes "[Geschupenschte]";
+			mes "ขอบคุณ";
+			mes "เจ้ามาก";
+			mes "สำหรับความช่วยเหลือ";
+			mes "กลับไปที่ Einbroch";
+			mes "และไปหา ^8E6B23Altiregen^000000 ซะ!";
+			close;
+		}
+		mes "[Geschupenschte]";
+		mes "หืมมม...?";
+		mes "เจ้าทำการทดสอบที่นี่";
+		mes "กับข้าเสร็จเรียบร้อยแล้ว!";
+		mes "และน่าประหลาดใจที่วันนี้";
+		mes "ข้าไม่ต้องให้ใครช่วยอะไรแล้วล่ะ";
+		close;
+	}
+	else {
+		mes "[Geschupenschte]";
+		mes "การได้เป็น";
+		mes "Blacksmith";
+		mes "มันยอดเยี่ยมจริงๆ!";
+		mes "เจ้าไม่คิดอย่างนั้นรึ?";
+		mes "มว่ะฮ่าฮ่าฮ่าฮ่าฮ่า!!";
+		close;
+	}
+}
+
+geffen,46,164,1	script	Baisulist#BLS	69,{
+	if (BSMITH_Q == 9 && countitem(1610) > 0) {
+		mes "[Baisulist]";
+		mes "โอ้ สวัสดี!";
+		mes "เจ้าเอา";
+		mes "Arc Wand";
+		mes "มาส่งให้ข้าใช่ไหม?";
+		next;
+		mes "[Baisulist]";
+		mes "เจ้าแน่ใจนะว่านี่คือของที่ข้าสั่งจริงๆ? ข้าหมายความว่า ถ้ามันเคยผ่านการใช้งานมาแล้ว";
+		mes "ข้าไม่เอาหรอกนะ";
+		next;
+		if (select("อุ๊ย นี่มันของที่ฉันใช้อยู่นี่นา...:ฉันแน่ใจ! มันเป็นของใหม่แกะกล่องเลย!") == 1) {
+			mes "[Baisulist]";
+			mes "อืม...";
+			mes "ข้าว่าข้าคง";
+			mes "รอต่ออีกหน่อยก็ได้";
+			mes "กรุณารีบเอาของ";
+			mes "มาส่งให้ข้าด้วยนะ~";
+			close;
+		}
+		mes "[Baisulist]";
+		mes "เจ้า";
+		mes "แน่ใจจริงๆ นะ?";
+		set BSMITH_Q,14;
+		delitem 1610,1; //Arc_Wand
+		next;
+		mes "[Baisulist]";
+		mes "ขอบคุณมากที่อุตส่าห์เดินทางมาไกลขนาดนี้ ฝากเขกหัว Geschupenschte คนนั้นทีนะถ้าเจ้าเจอเขา โทษฐานที่ส่งของล่าช้าขนาดนี้...";
+		next;
+		mes "[Baisulist]";
+		mes "กรุณารอสักครู่";
+		mes "ให้ข้าเขียน";
+		mes "ใบเสร็จให้เจ้าก่อนนะ~";
+		next;
+		getitem 1073,1; //Merchant_Voucher_1
+		mes "[Baisulist]";
+		mes "นี่จ้ะ";
+		mes "ขอบคุณมากนะ!";
+		mes "โอ้ แล้วก็ขอให้โชคดีนะ~";
+		mapannounce "geffen","เฮ้ " +strcharinfo(0)+ " ขอบคุณมากเลยนะที่เอาของมาส่งให้~",bc_map;
+		close;
+	}
+	else if (BSMITH_Q == 14) {
+		mes "[Baisulist]";
+		mes "ขอบคุณ";
+		mes "มากจริงๆ";
+		mes "สำหรับการมาส่งของนะ~";
+		close;
+	}
+	else {
+		mes "[Baisulist]";
+		mes "โอ้...";
+		mes "ก็นานแล้วนะ";
+		mes "ตั้งแต่ที่ข้า";
+		mes "ไป Alberta ครั้งล่าสุด";
+		next;
+		mes "[Baisulist]";
+		mes "ข้าสั่งของบางอย่าง";
+		mes "จากที่นั่นเมื่อสักพักใหญ่แล้ว";
+		mes "แต่ข้ายังไม่ได้รับ";
+		mes "ของที่ส่งมาเลย...";
+		next;
+		mes "[Baisulist]";
+		mes "ข้าสงสัยจัง...";
+		mes "สมาคม Blacksmith";
+		mes "กำลังขาดคนหรือเปล่านะ? ข้านึกเหตุผลอื่นไม่ออกเลยว่าทำไมพวกเขาถึงส่งของช้าขนาดนี้...";
+		next;
+		mes "[Baisulist]";
+		mes "เมื่อไหร่ข้าจะได้";
+		mes "Arc Wand รุ่นพิเศษของข้ากันนะ?";
+		close;
+	}
+}
+
+morocc,27,112,4	script	Wickebine#BLS	725,{
+	if (BSMITH_Q == 10 && countitem(1219) > 0) {
+		cutin "Job_Black_hucke01",2;
+		mes "[Wickebine]";
+		mes "...!";
+		mes "มันมาถึงแล้ว!";
+		next;
+		mes "[Wickebine]";
+		mes "นี่คือของที่ฉันสั่งใช่ไหม?";
+		mes "ฉันไม่ต้องการ Gladius เก่าๆ หรือที่เคยใช้แล้วที่เธออาจจะมีติดตัวหรอกนะ!";
+		next;
+		if (select("อุ๊ย ไม่ใช่เล่มนี้ล่ะ:ฉันรับรองเลยว่ามันเป็นของใหม่") == 1) {
+			cutin "Job_Black_hucke03",2;
+			mes "[Wickebine]";
+			mes "โอ๊ย...!";
+			mes "รีบๆ เอา";
+			mes "Gladius ของฉันมาส่งซะที~";
+			next;
+			mes "- เธอดูเหมือนจะอารมณ์ไม่ดี -";
+			close2;
+			cutin "Job_Black_hucke03",255;
+			end;
+		}
+		cutin "Job_Black_hucke02",2;
+		mes "[Wickebine]";
+		mes "ฮ่า ฮ่า ฮ่า!";
+		mes "ในที่สุด! เอาล่ะ...";
+		mes "ขอฉัน";
+		mes "ตรวจดูหน่อย!";
+		next;
+		mes "- เธอดูมีความสุขมาก -";
+		next;
+		set BSMITH_Q,14;
+		delitem 1219,1; //Gladius
+		cutin "Job_Black_hucke01",2;
+		mes "[Wickebine]";
+		mes "เธอมาจากสมาคม";
+		mes "Blacksmith แห่ง Einbroch ใช่ไหม?";
+		mes "ฝากข้อความนี้ไปบอก Geschupenschte ด้วย!";
+		next;
+		cutin "Job_Black_hucke03",2;
+		mes "[Wickebine]";
+		mes "'^660000นายมาช้านะ!";
+		mes "รู้ไหมว่าฉัน";
+		mes "ต้องรอมานานแค่ไหนแล้ว?!^000000'";
+		next;
+		cutin "Job_Black_hucke02",2;
+		mes "[Wickebine]";
+		mes "แต่ก็นะ ของชิ้นนี้ก็";
+		mes "ถูกสร้างขึ้นมาได้อย่างยอดเยี่ยม";
+		mes "บอกเขาด้วยว่าฉันพอใจในคุณภาพของฝีมือการทำมาก";
+		next;
+		getitem 1073,1; //Merchant_Voucher_1
+		emotion ET_THROB;
+		mes "[Wickebine]";
+		mes "นี่คือใบเสร็จ";
+		mes "ฉันคิดว่าเธอทำ";
+		mes "หน้าที่ได้ดีนะ";
+		mapannounce "morocc","ขอบคุณที่มาส่งนะ " + strcharinfo(0) + "~!",bc_map;
+		close2;
+		cutin "Job_Black_hucke02",255;
+		end;
+	}
+	else if (BSMITH_Q == 14) {
+		emotion ET_THROB;
+		cutin "Job_Black_hucke02",2;
+		mes "[Wickebine]";
+		mes "ขอบคุณสำหรับการมาส่งของนะ";
+		close2;
+		cutin "Job_Black_hucke02",255;
+		end;
+	}
+	else {
+		cutin "Job_Black_hucke03",2;
+		mes "[Wickebine]";
+		mes "...";
+		next;
+		mes "[Wickebine]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Wickebine]";
+		mes "พวกเขามาช้า";
+		mes "มาช้า";
+		mes "มาช้า";
+		mes "มาช้าจังเลย~!";
+		next;
+		mes "[Wickebine]";
+		mes "มันต้องใช้เวลานานแค่ไหนกันนะสำหรับการส่งของจาก Geschupenschte? ปกติแล้วสมาคม Blacksmith แห่ง Geffen จะค่อนข้างตรงต่อเวลานะ...";
+		next;
+		emotion ET_THROB;
+		mes "[Wickebine]";
+		mes "โอ๊ยยย...";
+		mes "นี่มันน่า";
+		mes "หงุดหงิดจริงๆ...";
+		close2;
+		cutin "Job_Black_hucke03",255;
+		end;
+	}
+}
+
+lighthalzen,209,80,4	script	Krongast#BLS	734,{
+	if (BSMITH_Q == 11 && countitem(1119) > 0) {
+		mes "[Krongast]";
+		mes "โอ้ออออออ~";
+		mes "มันมาถึงแล้วใช่ไหม?";
+		mes "ดีมาก";
+		mes "ขอข้าดูหน่อย";
+		next;
+		mes "[Krongast]";
+		mes "เจ้าแน่ใจนะว่านี่คือของ";
+		mes "ที่ข้าสั่งจริงๆ? ข้าไม่ต้องการมันถ้ามันเคยถูกใช้มาแล้ว";
+		next;
+		if (select("อุ๊ย เล่มนี้เคยใช้แล้ว!:มันเพิ่งถูกสร้างเสร็จ ดังนั้นมันเป็นของใหม่แน่นอน") == 1) {
+			mes "[Krongast]";
+			mes "อืมมมมม!";
+			mes "กรุณาเอาดาบ";
+			mes "ที่ถูกต้องมาส่งด้วย!";
+			mes "ข้ารอมา";
+			mes "นานพอแล้วนะ...";
+			close;
+		}
+		mes "[Krongast]";
+		mes "เจ้าตรวจเช็คดีแล้วใช่ไหม?";
+		mes "ตกลง งั้นข้ารับไว้เอง!";
+		next;
+		set BSMITH_Q,14;
+		delitem 1119,1; //Tsurugi
+		mes "[Krongast]";
+		mes "โอ้ โฮ...";
+		mes "มันดีมาก";
+		mes "ดีกว่าที่ข้า";
+		mes "คาดหวังไว้เยอะเลย";
+		next;
+		mes "[Krongast]";
+		mes "ด้วยดาบเล่มนี้...";
+		mes "ท่าไม้ตายของข้าจะทรงพลังยิ่งขึ้นไปอีก! ข้าอาจจะสามารถฝึกเทคนิคการโจมตีอันรวดเร็วให้สมบูรณ์แบบได้เลย! ข้าชอบมันมาก!";
+		next;
+		mes "[Krongast]";
+		mes "ตกลงงั้น";
+		mes "ข้าจะมอบ";
+		mes "ใบเสร็จให้เจ้า";
+		next;
+		getitem 1073,1; //Merchant_Voucher_1
+		mes "[Krongast]";
+		mes "นี่คือ";
+		mes "ใบเสร็จของเจ้า";
+		mes "ขอบคุณที่";
+		mes "มาใช้บริการนะ!";
+		mapannounce "lighthalzen",strcharinfo(0)+"... ขอบคุณสำหรับการมาส่งของนะ",bc_map;
+		close;
+	}
+	else if (BSMITH_Q == 14) {
+		mes "[Krongast]";
+		mes "ขอบคุณ";
+		mes "สำหรับการ";
+		mes "มาส่งของนะ";
+		close;
+	}
+	else {
+		mes "[Krongast]";
+		mes "...";
+		next;
+		mes "[Krongast]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Krongast]";
+		mes "เมื่อไหร่ดาบที่ข้า";
+		mes "สั่งจะมาถึงเสียที?";
+		mes "ข้าต้องลองใช้ท่าสุดยอดของข้า ^2F4F4FFine Edge^000000 กับมันดู";
+		next;
+		mes "[Krongast]";
+		mes "อาาาาาาา!";
+		mes "ข้าจำเป็นต้อง";
+		mes "มีดาบเล่มนั้น!";
+		close;
+	}
+}
+
+payon,214,79,4	script	Talpiz#BLS	59,{
+	if (BSMITH_Q == 12 && countitem(1713) > 0) {
+		mes "[Talpiz]";
+		mes "โอ้~";
+		mes "ในที่สุดก็มาถึงแล้วเหรอ?";
+		mes "พัสดุที่ฉันสั่งน่ะ?";
+		next;
+		mes "[Talpiz]";
+		mes "เอ่อ นี่คือของที่ฉันสั่งใช่ไหม? ฉันไม่อยากได้ Arbalest ที่เคยใช้มาก่อนหรอกนะ";
+		next;
+		if (select("อุ๊ย ชิ้นนี้มันของใช้น่ะ:ฉันแน่ใจว่ามันเป็นของใหม่") == 1) {
+			mes "[Talpiz]";
+			mes "อืมมมม";
+			mes "กรุณารีบ";
+			mes "ไปเอาของที่";
+			mes "ถูกต้องมาให้ด้วย";
+			mes "ฉันรอมา";
+			mes "นานเกินไปแล้ว...";
+			close;
+		}
+		mes "[Talpiz]";
+		mes "เจ้าแน่ใจนะ?";
+		mes "ขอฉันดูหน่อยสิ...";
+		next;
+		set BSMITH_Q,14;
+		delitem 1713,1; //Arbalest
+		mes "[Talpiz]";
+		mes "*วี้ด วิ้ว*" ;
+		mes "เจ๋งมาก!!" ;
+		next;
+		mes "[Talpiz]";
+		mes "นี่มันเป็นงานสั่งทำที่มีคุณภาพจริงๆ ฉันชอบตรงที่มีที่เก็บผ้าปิดตาด้วย! ฉันชอบมันมากๆ เลยล่ะ~";
+		next;
+		mes "[Talpiz]";
+		mes "ขอบคุณนะ!";
+		mes "สำหรับของที่มีคุณภาพขนาดนี้";
+		mes "ถึงฉันจะใช้ไปแล้ว ฉันก็น่าจะเอาไปขายต่อได้ราคาดีเลยล่ะ!";
+		next;
+		getitem 1073,1; //Merchant_Voucher_1
+		mes "[Talpiz]";
+		mes "นี่!";
+		mes "กรุณารับ";
+		mes "ใบเสร็จของเจ้าไป";
+		mes "ฉันซาบซึ้งในความ";
+		mes "ตั้งใจทำงานของเจ้าจริงๆ";
+		mapannounce "payon","ขอบใจนะ " +strcharinfo(0)+ " นายมาส่งได้ถูกเวลาจริงๆ ทุกครั้งที่ฉันมองเจ้านี่ ฉันก็ยิ่งรักมันมากขึ้นเรื่อยๆ เลย~",bc_map;
+		close;
+	}
+	else if (BSMITH_Q == 14) {
+		mes "[Talpiz]";
+		mes "จริงๆ นะ";
+		mes "ฉันพูดได้";
+		mes "ไม่เบื่อเลย นี่มัน";
+		mes "งานคุณภาพชั้นยอดจริงๆ~!";
+		close;
+	}
+	else {
+		mes "[Talpiz]";
+		mes "เอ่อ...";
+		mes "เมื่อไหร่คำสั่งซื้อ";
+		mes "ของฉันจะมาถึงนะ?";
+		next;
+		mes "[Talpiz]";
+		mes "Arbalest แบบสั่งทำพิเศษ";
+		mes "พร้อมกล่องคุณภาพสำหรับใส่ผ้าปิดตา มีเพียงคนเดียวเท่านั้นที่สร้างของแบบนั้นได้...";
+		next;
+		mes "[Talpiz]";
+		mes "อาาาาาาา...";
+		mes "การรอนี่มัน";
+		mes "เหลือทนจริงๆ!";
+		close;
+	}
+}
+
+hugel,168,183,1	script	Bismarc#BLS	118,{
+	if (BSMITH_Q == 13 && countitem(1122) > 0) {
+		mes "[Bismarc]";
+		mes "พระเจ้าช่วย...";
+		mes "ท่านส่ง";
+		mes "นางฟ้ามาให้ข้าหรือ...?";
+		mes "นั่นคือ Ring Pommel Saber";
+		mes "ที่ข้าสั่งใช่ไหม? มันคือความหวังเดียวของข้า...";
+		next;
+		mes "[Bismarc]";
+		mes "^666666*อึกก*^000000 นี่คือของที่ข้าสั่งใช่ไหม? ข้าต้องการเล่มที่";
+		mes "ทำมาเป็นพิเศษเพื่อสยบพิษนี่...";
+		next;
+		if (select("อุ๊ย นี่มัน Ring Pommel Saber ของฉันเองล่ะ:ฉันแน่ใจว่าต้องเป็นเล่มนี้") == 1) {
+			mes "[Bismarc]";
+			mes "ม-ไม่นะ...";
+			mes "รีบหน่อย...!";
+			mes "ข้าต้องการ";
+			mes "ดาบเล่มนั้นเพื่อ";
+			mes "ย...า...แ-ก้...พิ...ษ!";
+			next;
+			mes "^3355FFดูเหมือนว่า";
+			mes "เขาจะกำลังค่อยๆ ตายลง...!";
+			mes "เจ้าควรจะรีบหน่อยนะ^000000";
+			close;
+		}
+		mes "[Bismarc]";
+		mes "^666666*อักก*^000000";
+		mes "ส่งมันมา...!";
+		mes "ได้โปรดดด!";
+		next;
+		set BSMITH_Q,14;
+		delitem 1122,1; //Ring_Pommel_Saber
+		mes "^3355FFBismarc แทง";
+		mes "ตัวเองซ้ำแล้วซ้ำเล่า";
+		mes "ด้วยดาบ Ring Pommel Saber";
+		mes "ที่ถูกอาบไว้ด้วย";
+		mes "พลังของ Green Herb^000000";
+		next;
+		mes "[Bismarc]";
+		mes "^666666*อักก*^000000";
+		mes "*แฮก แฮก*";
+		next;
+		mes "[Bismarc]";
+		mes "ได้โปรด...";
+		mes "ช่วยประคองข้าขึ้นหน่อย";
+		mes "พิษมันยังคง";
+		mes "ไหลเวียนอยู่";
+		mes "ในร่างกายของข้า...";
+		next;
+		mes "[Bismarc]";
+		mes "โอ๊ยยยยยยย!!";
+		mes "มันแสบร้อนเหลือเกิน!";
+		next;
+		mes "[Bismarc]";
+		mes "*แฮก แฮก*";
+		mes "*ฟู่* ตกลง";
+		mes "ข้ารู้สึกได้ว่า";
+		mes "ยาแก้พิษเริ่มทำงานแล้ว";
+		mes "นั่นแหละคือสิ่งที่ข้าต้องการ";
+		next;
+		getitem 1073,1; //Merchant_Voucher_1
+		mes "[Bismarc]";
+		mes "นี่คือ";
+		mes "ใบเสร็จของเจ้า";
+		mes "ร-รับไปซะ...!";
+		mes "มันเป็นของเจ้า!";
+		mapannounce "hugel","ขอบใจนะ " +strcharinfo(0)+ " สำหรับการมาส่งของ เจ้าช่วยชีวิตข้าไว้จริงๆ...",bc_map;
+		close;
+	}
+	else if (BSMITH_Q == 14) {
+		mes "[Bismarc]";
+		mes "ขอบคุณนะ";
+		mes "เจ้าช่วยชีวิต";
+		mes "ข้าไว้...";
+		close;
+	}
+	else {
+		mes "[Bismarc]";
+		mes "^666666*อักก*^000000";
+		mes "^666666*อึก อึกก*^000000";
+		mes "เมื่อไหร่คำสั่งซื้อ";
+		mes "ข-ของข้าจะมาถึง...?";
+		next;
+		mes "[Bismarc]";
+		mes "พิษใน";
+		mes "ร่างกายข้า... ความเจ็บปวดนี่...";
+		mes "มันทรมานเหลือเกิน... พ-พระเจ้า...";
+		next;
+		mes "[Bismarc]";
+		mes "เมื่อไหร่";
+		mes "ยาแก้พิษ";
+		mes "จะมาถึงที่นี่เสียที?!";
+		close;
+	}
+}
+
+ein_in01,24,41,5	script	Blacksmith Guildsman#moc	726,{
+	if (BSMITH_Q == 16) {
+		emotion ET_SCRATCH;
+		mes "[Mitehmaeeuh]";
+		mes "โอ้...งั้นเจ้าคือคนที่จะมาเป็น blacksmith งั้นรึ?";
+		mes "ดีเลย หึหึ";
+		mes "อย่างที่เจ้าได้รับรู้จากการทดสอบครั้งก่อนๆ เจ้าจะไม่ได้รับการเลื่อนขั้นจาก Merchant เป็น Blacksmith ในทันทีหรอกนะ";
+		next;
+		mes "[Mitehmaeeuh]";
+		mes "เจ้ามีความเข้าใจเกี่ยวกับการตีเหล็กมากแค่ไหนกัน? เจ้าพร้อมจะให้ข้าถามคำถามบางอย่างหรือยัง?";
+		next;
+		if (select("พร้อมครับ/ค่ะ:ยังไม่พร้อมครับ/ค่ะ~") == 1) {
+			mes "[Mitehmaeeuh]";
+			mes "เอาล่ะ...";
+			mes "แบบทดสอบของข้ามันง่ายมาก";
+			mes "ข้าจะถามคำถามห้าข้อ";
+			mes "ถ้าเจ้าตอบผิดมากเกินไป";
+			mes "เจ้าจะสอบตก และข้าจะไม่";
+			mes "บอกเจ้าด้วยว่าเจ้าผิดข้อไหน";
+			next;
+			set .@blackss_te,0;
+			mes "[Mitehmaeeuh]";
+			mes "กรุณาฟัง";
+			mes "และตอบอย่างระมัดระวัง...";
+			next;
+			switch(rand(1,3)) {
+			case 1:
+				mes "[Mitehmaeeuh]";
+				mes "1. ความสามารถใด";
+				mes "ที่จำเป็นต้องมีเพื่อเรียน";
+				mes "สกิล ^8E6B23Discount^000000?";
+				next;
+				if (select("Push Cart เลเวล 3:Item Appraisal:Mammonite เลเวล 10:Enlarge Weight เลเวล 3") == 4)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "2. เมื่อเจ้าโจมตี";
+				mes "ด้วย ^8E6B23Hammerfall^000000";
+				mes "ค่าสถานะผิดปกติใดที่เจ้า";
+				mes "สามารถทำให้เกิดขึ้นกับศัตรูได้?";
+				next;
+				if (select("Stun (มึน):Blindness (ตาบอด):Chaos (สับสน):Silence (ใบ้)") == 1)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "3. ต้องเสียเงิน Zeny เท่าไหร่";
+				mes "เมื่อทำการโจมตีด้วยสกิล";
+				mes "Mammonite ที่เลเวลสูงสุด?";
+				mes "(Mammonite เลเวล 10)";
+				next;
+				if (select("900 Zeny:1000 Zeny:2000 Zeny:100,000 Zeny") == 2)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "4. อัตราการลดราคา";
+				mes "เมื่อเรียนสกิล ^8E6B23Discount^000000";
+				mes "จนถึงเลเวลสูงสุดคือเท่าไหร่?";
+				next;
+				if (select("21 % :22 % :23 % :24 % ") == 4)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "5. เปอร์เซ็นต์สูงสุด";
+				mes "ที่เจ้าสามารถบวกราคาเพิ่ม";
+				mes "ในการขายของให้ NPC หลังจาก";
+				mes "เรียนสกิล ^8E6B23Overcharge^000000 จนสูงสุดคือเท่าไหร่?";
+				next;
+				if (select("21 % :22 % :23 % :24 % ") == 3)
+					set .@blackss_te,.@blackss_te+20;
+				break;
+			case 2:
+				mes "[Mitehmaeeuh]";
+				mes "1. มอนสเตอร์ตัวใด";
+				mes "ในรายการต่อไปนี้";
+				mes "ดรอป Steel?";
+				next;
+				if (select("Zerom:Chon Chon:Skel Worker:Requiem") == 3)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "2. หินธาตุชนิดใดต่อไปนี้";
+				mes "ที่สามารถสร้างขึ้นมาจาก";
+				mes "Red Blood?";
+				next;
+				if (select("Flame Heart:Rough Wind:Great Nature:Mystic Frozen") == 1)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "3. หินธาตุชนิดใดต่อไปนี้";
+				mes "ที่เจ้ามีเก็บไว้ในคลัง Kafra";
+				mes "มากที่สุดในตอนนี้?";
+				next;
+				select("Wind of Verdure:Red Blood:Green Live:Crystal Blue");
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "4. โดยทั่วไปแล้ว";
+				mes "มอนสเตอร์ธาตุใด";
+				mes "ที่จะได้รับความเสียหาย";
+				mes "มากที่สุดจากอาวุธธาตุลม (Wind)?";
+				next;
+				if (select("ธาตุไฟ (Fire):ธาตุน้ำ (Water):ธาตุดิน (Earth):ธาตุลม (Wind)") == 2)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "5. ต้องใช้ Iron Ore กี่ชิ้น";
+				mes "เพื่อสร้าง";
+				mes "1 Steel?";
+				next;
+				if (select("5 Iron Ore :4 Iron Ore:3 Iron Ore:6 Iron Ore") == 1)
+					set .@blackss_te,.@blackss_te+20;
+				break;
+			case 3:
+				mes "[Mitehmaeeuh]";
+				mes "1. ปกติเจ้าจะทำอย่างไร";
+				mes "เมื่อเจ้าเจอใครบางคน";
+				mes "โดยบังเอิญตามท้องถนน?";
+				next;
+				switch(select("ถามว่าพวกเขาต้องการอะไรไหม:สนทนากันช่วงสั้นๆ:เพิกเฉยต่อพวกเขา:มอบไอเทมให้แล้ววิ่งหนีไป")) {
+				case 1:
+				case 2:
+					set .@blackss_te,.@blackss_te+20;
+					break;
+				default:
+					break;
+				}
+				mes "[Mitehmaeeuh]";
+				mes "2. เจ้าสามารถเรียนรู้";
+				mes "สกิล ^8E6B23Crazy Uproar^000000 และ";
+				mes "^8E6B23Change Cart^000000 ได้ที่หมู่บ้านใด?";
+				next;
+				if (select("Al De Baran:Alberta:Morocc:Izlude") == 2)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "3. หากนับจากใจกลางเมือง Einbroch";
+				mes "สมาคม Blacksmith ตั้งอยู่ทางทิศใด?";
+				next;
+				if (select("ทิศ 11 นาฬิกา:ทิศ 5 นาฬิกา:ทิศ 7 นาฬิกา:ทิศ 12 นาฬิกา") == 2)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "4. ในเมืองใด";
+				mes "ที่เจ้าสามารถพบ";
+				mes "Blacksmith ได้มากที่สุด?";
+				next;
+				if (select("Prontera:Morocc:Alberta:Einbroch") == 4)
+					set .@blackss_te,.@blackss_te+20;
+				mes "[Mitehmaeeuh]";
+				mes "5. ค่าสถานะใด";
+				mes "ต่อไปนี้ที่ส่งผลต่อ";
+				mes "ทักษะสกิลของเจ้า";
+				mes "ในฐานะ Blacksmith?";
+				next;
+				if (select("STR :DEX:AGI :VIT ") == 2)
+					set .@blackss_te,.@blackss_te+20;
+				break;
+			}
+			mes "[Mitehmaeeuh]";
+			mes "อา...";
+			mes "เจ้าทำแบบทดสอบ";
+			mes "เสร็จแล้ว ไหนดูซิ...";
+			next;
+			mes "[Mitehmaeeuh]";
+			mes "เจ้าได้รับ";
+			mes ""+ .@blackss_te +" คะแนน...";
+			if (.@blackss_te > 70) {
+				mes "ดีมาก!";
+				mes "ยินดีด้วย!";
+				mes "เจ้าสอบผ่านแล้ว!";
+				next;
+				mes "[Mitehmaeeuh]";
+				mes "อย่างไรก็ตาม อย่าปล่อยให้ความสำเร็จครั้งแรกนี้ทำให้เจ้าประมาทล่ะ ชีวิตของ Blacksmith ไม่ได้ง่ายเหมือนมาปิกนิกหรอกนะ เพื่อเป็นหลักฐานว่าเจ้าสอบผ่าน ข้าจะมอบ Hammer of Blacksmith นี่ให้เจ้า";
+				set BSMITH_Q,17;
+				getitem 1005,1; //Hammer_Of_Blacksmith
+				changequest 2014,2015;
+				next;
+				mes "[Mitehmaeeuh]";
+				mes "นำ Hammer";
+				mes "of Blacksmith นี้ไปคืนให้ Altiregen นะ เข้าใจไหม? ข้าขอให้เจ้าโชคดี!";
+				close;
+			}
+			mes "เจ้าสอบตก! เจ้าควรไปศึกษามาให้ดีกว่านี้ก่อนจะกลับมาที่นี่นะ";
+			next;
+			mes "[Mitehmaeeuh]";
+			mes "ด้วยความรู้ของเจ้า หรือการขาดความรู้แบบนี้ เจ้าจะจบลงที่การทำตัวเองเจ็บเปล่าๆ ตอนถือค้อนน่ะ!";
+			close;
+		}
+		mes "[Mitehmaeeuh]";
+		mes "ตกลงงั้น";
+		mes "กรุณาเตรียม";
+		mes "ตัวให้พร้อมแล้วกลับมา";
+		mes "เมื่อเจ้าพร้อมนะ...";
+		close;
+	}
+	else if (BSMITH_Q == 17) {
+		emotion ET_SCRATCH;
+		mes "[Mitehmaeeuh]";
+		mes "เยส เจ้าเพิ่งผ่านการทดสอบอาชีพ Blacksmith ไปน่ะ~";
+		next;
+		mes "[Mitehmaeeuh]";
+		mes "ทำไมเจ้าไม่กลับไปหาท่าน Altiregen ล่ะ?";
+		next;
+		mes "[Mitehmaeeuh]";
+		mes "อย่าลืมนำ Hammer of Blacksmith ติดตัวไปด้วยนะ!";
+		next;
+		mes "[Mitehmaeeuh]";
+		mes "โอ้ แล้วก็ตรวจสอบให้แน่ใจด้วยว่าเจ้าไม่เหลือ skill point แล้วก่อนจะเปลี่ยนอาชีพนะ~";
+		close;
+	}
+	else {
+		emotion ET_SCRATCH;
+		mes "[Mitehmaeeuh]";
+		mes "ข้าต้องทนกับความร้อนตอนข้าอยู่ที่ Morocc";
+		mes "และตอนนี้ข้าต้องมาทนกับหมอกควันใน Einbroch นี่อีก!";
+		next;
+		mes "[Mitehmaeeuh]";
+		mes "แต่ข้าต้องยอมรับจริงๆ ว่าที่นี่เป็นสถานที่ที่สมบูรณ์แบบสำหรับ Blacksmith เพราะเรามีแหล่งวัตถุดิบในการสร้างมากมายรวมถึงอุปกรณ์ที่พัฒนาไปไกลมาก";
+		next;
+		mes "[Mitehmaeeuh]";
+		mes "พวกเรา Blacksmith กำลังพยายามอย่างเต็มที่เพื่อตีอาวุธที่ยอดเยี่ยมที่สุดในบรรดาสิ่งที่ยอดเยี่ยม";
+		next;
+		mes "[Mitehmaeeuh]";
+		mes "พวกเราขอเอาเกียรติเป็นเดิมพันในเรื่องนั้นเลย!";
+		close;
+	}
+}
+
+geffen_in,109,170,3	script	Blacksmith Guildsman#gef	726,{
+	mes "[Blacksmith Guildsman]";
+	mes "สวัสดี มีธุระอะไรที่สมาคม Blacksmith หรือเปล่า?";
+	next;
+	mes "[Blacksmith Guildsman]";
+	mes "ขอบคุณที่อุตส่าห์เดินทางมาไกลเพื่อเยี่ยมชมสมาคมของเรา อย่างไรก็ตาม ข้าต้องขออภัยที่ต้องแจ้งให้ทราบว่าสมาคม Blacksmith ได้";
+	mes "ย้ายไปอยู่ที่ ^3131FF'Einbroch' ในสาธารณรัฐ Schwarzwald^000000 แล้ว";
+	next;
+	mes "[Blacksmith Guildsman]";
+	mes "เจ้าสามารถเดินทางไปสาธารณรัฐ Schwarzwald ได้โดยใช้เรือเหาะ (Airship)";
+	mes "ข้าสามารถให้บริการวาร์ปเจ้าไปยัง Izlude ซึ่งเป็นที่ที่เจ้าสามารถขึ้นเรือเหาะได้";
+	mes "เจ้าต้องการจะไปที่ Izlude ทันทีเลยไหม?";
+	next;
+	switch(select("วิธีเดินทางไป Einbroch:ไปครับ/ค่ะ!:ไม่ล่ะ ขอบคุณ")) {
+	case 1:
+		mes "[Blacksmith Guildsman]";
+		mes "อุ๊ย เจ้ายังไม่เคยใช้เรือเหาะงั้นรึ?";
+		next;
+		mes "[Blacksmith Guildsman]";
+		mes "สาธารณรัฐ Schwarzwald จะต่างจากอาณาจักร Rune-Midgarts ตรงที่มี 'เรือเหาะ' แทนการใช้บริการวาร์ปเพื่อเดินทางระหว่างเมือง";
+		next;
+		mes "[Blacksmith Guildsman]";
+		mes "ใน ^3131FF'Izlude'^000000 เจ้าสามารถใช้ ^3131FF'เรือเหาะระหว่างประเทศ'^000000 ซึ่งจะเดินทางระหว่าง ^3131FFIzlude และ Juno ในสาธารณรัฐ Schwarzwald^000000";
+		next;
+		mes "[Blacksmith Guildsman]";
+		mes "ขึ้นเรือเหาะแล้วไปที่ Juno จากนั้นจาก Juno เจ้าต้องต่อ ^3131FFเรือเหาะภายในประเทศ^000000 เพื่อไปยัง Einbroch";
+		mes "จำไว้นะ เจ้าจะต้อง ^3131FFไม่ออกไปข้างนอกสนามบิน^000000 ในตอนที่เปลี่ยนจากเรือเหาะระหว่างประเทศเป็นเรือเหาะภายในประเทศ";
+		next;
+		mes "[Blacksmith Guildsman]";
+		mes "มันอาจฟังดูซับซ้อน แต่เจ้าจะเข้าใจเองเมื่อเจ้าไปถึงสนามบิน";
+		mes "เมื่อเจ้าไปถึงสมาคม Blacksmith แล้ว ฝากความคิดถึงไปถึงเพื่อนร่วมงานของข้าด้วยนะ!";
+		close;
+	case 2:
+		if (Zeny < 600) {
+			mes "[Blacksmith Guildsman]";
+			mes "ขออภัย แต่เจ้ามีเงินไม่เพียงพอ";
+			close;
+		}
+		set Zeny, Zeny-600;
+		warp "izlude",94,103;
+		end;
+	case 3:
+		mes "[Blacksmith Guildsman]";
+		mes "เดินทางปลอดภัยนะ!";
+		close;
+	}
+}

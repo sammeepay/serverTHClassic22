@@ -1,0 +1,563 @@
+//===== rAthena Script =======================================
+//= Manuk Town
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.3
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Town-specific NPCs for Manuk.
+//===== Additional Comments: =================================
+//= 1.0 First Version.
+//= 1.1 Added more town NPCs
+//= 1.2 Added more town NPCs
+//= 1.3 Enabled an NPC
+//============================================================
+
+// cat_enhance
+manuk,304,195,5	script	Soldier#ep13pa829	454,{
+	if (isequipped(2782) == 1) {
+		mes "[ผู้จัดหาเสบียง]";
+		mes "ครอบครัวชาว Manuk ของพวกเราดำรงชีวิตอยู่ได้ด้วยการสกัดแร่ Gray Hollow ที่ถูกฝังอยู่ลึกลงไปใต้ดินมาเป็นเวลานานน่ะ";
+		close;
+	}
+	else {
+		mes "[Food Provider]";
+		mes "Gdiios duuie Dssoas pogggd fdrul fdddoweet";
+		close;
+	}
+}
+
+manuk,274,239,5	script	Soldier#ep13_2	455,{
+	if (isequipped(2782) == 1) {
+		mes "[ทหาร Manuk ผู้บาดเจ็บ]";
+		mes "ข้าไม่สามารถดูดซับ Bradium Essence ได้อีกต่อไปแล้วเพราะบาดแผลที่ฉกรรจ์นี้...";
+		mes "พวกแฟรี่สารเลวนั่นโจมตีข้า และทิ้งข้าไว้ในสภาพแบบนี้";
+		close;
+		mes "[ทหาร Manuk ผู้บาดเจ็บ]";
+		mes "ข้าปรารถนาเหลือเกินที่จะฆ่าพวกแฟรี่นั่นให้หมด...";
+		close;
+	}
+	else {
+		mes "[Injured Manuk Soldier]";
+		mes "Bhiio aaas dgwer fdds rrrrrpppp Ee";
+		close;
+		mes "[Injured Manuk Soldier]";
+		mes "Foi dsddff gggeeeerr pqowe";
+		close;
+	}
+}
+
+manuk,107,233,5	script	Soldier#ep13_3	454,{
+	if (isequipped(2782) == 1) {
+		mes "[ทหารผู้กระวนกระวาย]";
+		mes "เร็วเข้า! ข้ากำลังแย่แล้ว ข้าทำ Manuk Coin หายไปหมดเลย ข้าคิดว่าทำตกไว้แถวๆ ทุ่งหิมะแน่ๆ โธ่เอ๊ย ข้ายังเห็นพวกมันอยู่เลยก่อนที่ข้าจะเผลอหลับไปน่ะ!";
+		close;
+	}
+	else {
+		mes "[Anxious Soldier]";
+		mes "Qosi dhhui rffd poaner ouh.";
+		close;
+	}
+}
+
+// ep13_2_hiki
+manuk,100,100,3	script	Piom	454,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Piom]";
+		mes "เจ้านี่มัน... ตัวจ้อยจริงๆ แต่ดูเหมือนเจ้าจะไม่ใช่พวกแฟรี่นะ";
+		mes "ตราบใดที่เจ้าไม่ใช่ไอ้พวกแฟรี่เฮงซวยนั่น";
+		mes "เจ้าก็ไม่ใช่ศัตรูของพวกเรา!";
+		mes "ในโลกใบนี้ มันมีแค่ศัตรูหรือไม่ก็มิตรเท่านั้นแหละ!";
+		close;
+	}
+	else {
+		mes "[Piom]";
+		mes "As our wi nueo woud bus";
+		mes "Gw pii rooop pishe";
+		mes "Fw iusbn podim bn usow ";
+		mes "Psbh io whe pasn jd";
+		close;
+	}
+}
+
+manuk,188,216,3	script	Benknee#ep13_2_1	449,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Benknee]";
+		mes "ลมอะไรพัดเจ้ามาที่นี่ล่ะ?";
+		mes "เจ้าเป็นมนุษย์งั้นรึ?";
+		mes "ถ้าเจ้าเป็นมนุษย์ เจ้าไม่ควรมาอยู่ที่นี่นะ";
+		next;
+		mes "[Benknee]";
+		mes "Jotunheim คือดินแดนที่ศักดิ์สิทธิ์และได้รับพร";
+		mes "พวกเราชาว Sapha จะยืนหยัดด้วยลำแข้งของตัวเอง";
+		mes "และลุกขึ้นต่อต้านการกดขี่ทั้งปวง!";
+		close;
+	}
+	else {
+		mes "[Benknee]";
+		mes "Bdf sdio hs ioq";
+		mes "Wfn is ao ps od jd";
+		mes "No pip dd dow hso le";
+		next;
+		mes "[Benknee]";
+		mes "Wsd oup nc xkh d";
+		mes "Rww o jsd sp";
+		mes "Yd aihd oa sd s dd";
+		close;
+	}
+}
+
+manuk,169,260,3	script	Piom#ep13_2_1	455,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Piom]";
+		mes "พวกเราชาว Sapha จะอยู่รวมกันเป็นหนึ่งเสมอ!";
+		mes "ไม่ว่าพวกเราจะอยู่ที่ไหน พวกเราจะเชื่อมถึงกันอยู่ตลอดเวลา";
+		mes "ข้าไม่รู้ว่าเจ้ามาจากไหน แต่เจ้าควรจะเรียนรู้จิตวิญญาณของพวกเราไว้นะ";
+		close;
+	}
+	else {
+		mes "[Piom]";
+		mes "Ng go oois yus dd";
+		mes "You ii iaao nfb ud";
+		mes "Wqq ifn isp did";
+		mes "Uy ydf sd fs wee";
+		mes "Mgg gf fs d ff";
+		close;
+	}
+}
+
+manuk,218,163,3	script	Galtun#ep13_2_1	450,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Galtun]";
+		mes "พักหลังๆ มานี้ มีไอ้ตัวจ้อยบินว่อนไปมาเต็มไปหมด";
+		mes "ข้าไม่แน่ใจว่าพวกมันเป็นแมลงวันหรือเปล่า";
+		mes "แต่มันน่ารำคาญเป็นบ้าเลย";
+		next;
+		mes "[Galtun]";
+		mes "พวกมันทำได้แค่ใช้เวทมนตร์กระจอกๆ จากระยะไกลเท่านั้นแหละ";
+		mes "แต่ข้าสามารถเตะพวกมันกระเด็นได้ในพริบตา";
+		mes "พวกมันน่ารำคาญจริงๆ... แต่ข้าไม่เอาเวลาไปเสียกับพวกนั้นจะดีกว่า";
+		close;
+	}
+	else {
+		mes "[Galtun]";
+		mes "Ya sda sdou sh dbi";
+		mes "Av bu dgs ldo gp gf ";
+		mes "Jg gfs dsd fw eerr ";
+		next;
+		mes "[Galtun]";
+		mes "Mb ih ids oj fd";
+		mes "Pg sdf dd sd fff";
+		mes "Bq wer jfsd fsd ut yy";
+		mes "Nx cxd fsd fs df ";
+		close;
+	}
+}
+
+manuk,266,199,5	script	Galtun#ep13_2_2	450,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Galtun]";
+		mes "ข้าค่อยรู้สึกผ่อนคลายหน่อยที่มีกองแร่ Bradium มากมายขนาดนี้";
+		mes "แต่ข้าก็กังวลว่าพวกเราอาจจะใช้มันจนหมดในเวลาอันสั้นเหมือนกัน";
+		close;
+	}
+	else {
+		mes "[Galtun]";
+		mes "Bu iu bus sfi a sd";
+		mes "Zsd dwo uf sh osad ";
+		mes "Qdf aih fas io d hoas";
+		mes "Nas d iy as di";
+		close;
+	}
+}
+
+manuk,225,129,5	script	Benknee#ep13_2_2	449,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Benknee]";
+		mes "หือ? ใครกัน?? เจ้าเป็นใคร??";
+		mes "โอ้ เจ้าไม่ใช่พวกแฟรี่นี่นา";
+		mes "ข้านึกว่าเจ้าเป็นไอ้พวกสิ่งมีชีวิตแฟรี่นั่นซะอีก";
+		mes "ว่าแต่เจ้าเป็นใครกันแน่? เจ้าพูดได้ไหมเนี่ย?";
+		close;
+	}
+	else {
+		mes "[Benknee]";
+		mes "Bao j pj a sd";
+		mes "Gi oh as d";
+		mes "Ya sd Yrt sd ad";
+		mes "Bq we ojj jd";
+		close;
+	}
+}
+
+manuk,286,147,3	script	Piom#ep13_2_2	454,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Piom]";
+		mes "ข้าจะไม่มีวันลืมความแค้นที่ฝังรากลึกต่อไอ้พวกคนทรยศพวกนั้น";
+		mes "ข้ายังจำได้ดีว่าบรรพบุรุษของพวกเราต้องตายอย่างไร";
+		mes "ข้าขอสาบานว่าจะต้องแก้แค้นให้พวกเขาให้ได้";
+		next;
+		mes "[Piom]";
+		mes "อันดับแรก ข้าจะเตะก้นไอ้พวกเวรนั่นก่อนเลย";
+		mes "ไอ้พวกตัวจ้อยที่บินไปบินมาพวกนั้นมันกวนใจข้าชะมัด";
+		close;
+	}
+	else {
+		mes "[Piom]";
+		mes "Vio hs pf I aps";
+		mes "Vs ou oas de ee";
+		mes "Bzi sh da opd";
+		mes "Mc oju asop dj a ps";
+		next;
+		mes "[Piom]";
+		mes "Be juas da sd";
+		mes "Eoj ssr owq w e ";
+		mes "Wps dj i ao sj daasd asd";
+		close;
+	}
+}
+
+manuk,183,185,5	script	Piom#ep13_2_3	454,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Piom]";
+		mes "ชีวิตของพวกเราดำรงอยู่เพื่อเผ่า Sapha";
+		mes "และในทางกลับกัน...";
+		mes "การดำรงอยู่ของ Sapha ก็คือชีวิตของข้าเช่นกัน";
+		mes "ฮึ่ม ฮ่าฮ่าฮ่า!";
+		next;
+		mes "[Piom]";
+		mes "พวกเราชาว Sapha จะอยู่เคียงข้างกันเสมอ!";
+		mes "ไม่ว่าจะอยู่ที่ไหนก็ตาม!";
+		mes "เพื่อความรุ่งโรจน์ของ Sapha!";
+		close;
+	}
+	else {
+		mes "[Piom]";
+		mes "Esd fas hdi as sp ad osd";
+		mes "Ns id pie sj idf";
+		mes "Rto osd ps ad ";
+		mes "Mi sho oo pesd";
+		next;
+		mes "[Piom]";
+		mes "N sd sou as d ";
+		mes "Ma asd psh ds ii ";
+		mes "Qso uf lj dhis id";
+		close;
+	}
+}
+
+manuk,256,143,3	script	Galtun#ep13_2_3	450,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Galtun]";
+		mes "ข้าจะอุทิศตนเพื่อปกป้อง";
+		mes "ครอบครัวและเผ่า Sapha ของข้า";
+		mes "นั่นคือสิ่งเดียวที่ข้าปรารถนา...";
+		close;
+	}
+	else {
+		mes "[Galtun]";
+		mes "Mr ishh qw e ee";
+		mes "Baa eou sh ua sd";
+		mes "Up idhs ish dk I jsd";
+		close;
+	}
+}
+
+manuk,245,124,3	script	Piom#ep13_2_4	455,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Piom]";
+		mes "มนุษย์เอ๋ย... เจ้าคิดว่าการต่อสู้ของพวกเรามันงี่เง่างั้นรึ?";
+		mes "คิดว่ามันเป็นการเสียเวลาโดยเปล่าประโยชน์งั้นเหรอ?";
+		mes "แต่รู้ไว้เถอะว่า สงครามครั้งนี้แหละคือตัวตัดสินว่าพวกเราจะอยู่รอดหรือต้องสูญสิ้นไป";
+		close;
+	}
+	else {
+		mes "[Piom]";
+		mes "Nsa dhi pao sdi a jp das";
+		mes "Uaa as iijds kn sdg f";
+		mes "Bzi hd sia pasd ";
+		mes "Es do ja pda sj d";
+		mes "Bs oju lujdi ni sdgf g ";
+		next;
+		mes "[Piom]";
+		mes "Us id jd nai dh";
+		close;
+	}
+}
+
+// ep13_2_npc - กลุ่มคนงานในอาคาร
+man_in01,346,135,0	script	 Worker#ep13bsg1	454,{
+	if (isequipped(2782) == 1) {
+		mes "[คนงาน]";
+		mes "มันจะอันตรายมากถ้าไม่ตรวจสอบวาล์วให้ดีทุกๆ วัน";
+		mes "จริงๆ แล้ว มันเคยมีเหตุการณ์ร้ายแรงเกิดขึ้นมาก่อนนะ";
+		mes "แค่คิดถึงเรื่องนั้น ข้าก็ขนลุกซู่แล้วล่ะ";
+		close;
+	}
+	else {
+		mes "[Worker]";
+		mes "Gs df o aj ud pa";
+		mes "N sd asw ewt jj ";
+		mes "Ud aso pda s ";
+		close;
+	}
+}
+
+man_in01,393,134,3	script	Worker#ep13bsg2	454,{
+	if (isequipped(2782) == 1) {
+		mes "[คนงาน]";
+		mes "อะไรนะ!! อะ... อ้อ... ขะ... ข้าไม่ได้แอบหลับนะ!!";
+		mes "กลับไปทำงานต่อกันเถอะ... ใช่แล้ว งานคือเงิน เงินคืองาน...";
+		close;
+	}
+	else {
+		mes "[Worker]";
+		mes "Ns ad jai osd";
+		mes "Rt odj as jo dp as";
+		close;
+	}
+}
+
+man_in01,377,143,5	script	Worker#ep13bsg3	454,{
+	if (isequipped(2782) == 1) {
+		mes "[คนงาน]";
+		mes "อืม... มันยังทำงานได้ปกติดี... ไม่มีปัญหาอะไรเลย...";
+		close;
+	}
+	else {
+		mes "[Worker]";
+		mes "Mou ii ros oa d d ";
+		close;
+	}
+}
+
+man_in01,333,128,5	script	Worker#ep13bsg4	454,{
+	if (isequipped(2782) == 1) {
+		mes "[คนงาน]";
+		mes "ช่วงนี้สายตาของข้าเริ่มจะแย่ลงเรื่อยๆ แล้วสิ";
+		close;
+	}
+	else {
+		mes "[Worker]";
+		mes "Yw I eus ia d ap s";
+		close;
+	}
+}
+
+man_in01,336,128,5	script	Worker#ep13bsg5	454,{
+	if (isequipped(2782) == 1) {
+		mes "[คนงาน]";
+		mes "สิ่งนี้มันดูสุดยอดไปเลยว่าไหม?";
+		close;
+	}
+	else {
+		mes "[Worker]";
+		mes "R tt osj dj d";
+		close;
+	}
+}
+
+man_in01,283,288,3	script	Worker#ep13bsg6	454,{
+	if (isequipped(2782) == 1) {
+		mes "[คนงาน]";
+		mes "นับเป็นโชคดีจริงๆ ที่วันนี้พวกเราได้แร่ Bradium คุณภาพเยี่ยมมาเยอะเลย";
+		next;
+		mes "[คนงาน]";
+		mes "นี่คือสิ่งเดียวที่เหลืออยู่สำหรับพวกเราแล้วล่ะ";
+		close;
+	}
+	else {
+		mes "[Worker]";
+		mes "Qw eI hs pado as d p ";
+		next;
+		mes "[Worker]";
+		mes "Too fn ish d fd";
+		close;
+	}
+}
+
+// ep13_2_tre
+manuk,103,354,5	script	Manuk Galtun#door1	450,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Manuk Galtun]";
+		mes "ที่นี่คือ Manuk ดินแดนที่เหล่า Sapha ผู้สืบเชื้อสายมาจาก Hwergelmir อาศัยอยู่";
+		close;
+	}
+	else {
+		mes "[Manuk Galtun]";
+		mes "Zd sng pps fsr";
+		close;
+	}
+}
+
+manuk,122,354,3	script	Manuk Galtun#door2	450,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Manuk Galtun]";
+		mes "ที่นี่คือ Manuk ดินแดนที่เหล่า Sapha ผู้สืบเชื้อสายมาจาก Hwergelmir อาศัยอยู่";
+		close;
+	}
+	else {
+		mes "[Manuk Galtun]";
+		mes "To osn dia fg gh gh";
+		close;
+	}
+}
+
+manuk,99,334,5	script	Manuk Piom#tre1	460,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Manuk Piom]";
+		mes "พวก Galtun คือเหล่านักรบ Sapha ผู้กล้าหาญ";
+		mes "ส่วนข้าอยู่ในชนชั้น Piom ซึ่งเป็นแรงงานทั่วไปน่ะ";
+		next;
+		mes "[Manuk Piom]";
+		mes "ด้วยความกล้าหาญของพวก Galtun ทำให้พวกเรายังคงยืนหยัดอยู่ได้ท่ามกลางการก่อกวนของพวก Laphine มาอย่างยาวนาน";
+		mes "พวกเราซาบซึ้งในความเสียสละของพวกเขาเสมอ";
+		close;
+	}
+	else {
+		mes "[Manuk Piom]";
+		mes "H dn i sid p sd ";
+		mes "Nd isjd sapd j s id";
+		mes "Bsi o ps dkm jgf";
+		mes "Eo oo ptr n sid";
+		close;
+	}
+}
+
+manuk,103,311,3	script	Manuk Piom#tre2	455,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Manuk Piom]";
+		mes "ขาของข้า...";
+		mes "มันถึงเวลาของมันแล้วสินะ...";
+		close;
+	}
+	else {
+		mes "[Manuk Piom]";
+		mes "Fn is d id ";
+		mes "Yon sdi dh so dps";
+		close;
+	}
+}
+
+manuk,194,189,3	script	Manuk Galtun#tre3	450,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Manuk Galtun]";
+		mes "ยินดีต้อนรับสู่ Manuk";
+		mes "มีอะไรให้ข้าช่วยไหม?";
+		close;
+	}
+	end;
+}
+
+manuk,293,203,3	script	Manuk Piom#tre4	454,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Manuk Piom]";
+		mes "เฮ้ ระวังหน่อย!";
+		mes "แร่ธาตุนี้คือ Bradium ซึ่งเป็นดั่งชีวิตของเผ่าพันธุ์เรา";
+		mes "ถ้าเจ้าไม่จัดการกับมันอย่างระมัดระวัง เจ้าจะเดือดร้อนเอานะ!";
+		close;
+	}
+	else {
+		mes "[Manuk Piom]";
+		mes "Bmm ish di sd";
+		mes "Fii sd ani s a d s k ds ";
+		mes "Ti h is so so pd";
+		close;
+	}
+}
+
+manuk,253,173,3	script	Manuk Benknee#tre5	449,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		mes "[Manuk Benknee]";
+		mes "เจ้าเห็นรูปปั้นนั่นไหม?";
+		mes "เขาคือ Hwergelmir ผู้เป็นดั่งตำนานของพวกเราชาว Sapha";
+		mes "เขาเป็นบุรุษที่สง่างามและกล้าหาญอย่างแท้จริง";
+		close;
+	}
+	else {
+		mes "[Manuk Piom]";
+		mes "Ys oadj oa s d";
+		mes "Bni ii osd jo as das";
+		mes "Qa oj df isd oo o";
+		close;
+	}
+}
+
+// ep12_2_dailybs
+manuk,251,180,5	script	Young Villager#ep13bs	454,{
+	if (isequipped(2782) == 1) {
+		mes "[ชาวบ้านหนุ่ม]";
+		mes "นี่มันเลยเวลานัดมาแล้วนะ ทำไมเธอยังไม่มาอีกเนี่ย!!?";
+		close;
+	}
+	else {
+		mes "[Asd]";
+		mes "Ywo di pi butfs oui Afbsu ";
+		close;
+	}
+}
+
+man_in01,360,137,5	script	Mechanic#ep13bs	454,{
+	if (isequipped(2782) == 1) {
+		mes "[ช่างเครื่อง]";
+		mes "ไม่อนุญาตให้เผ่าพันธุ์อื่นเข้า";
+		mes "ที่นี่อันตรายมาก โปรดอย่าเข้ามาใกล้กว่านี้";
+		close;
+	}
+	else {
+		mes "[Asoui]";
+		mes "Fs iua sdjosow ww ";
+		mes "Adds wwpq iusnd ";
+		close;
+	}
+}
+
+man_in01,68,187,0	script	Worker#ep13bs1	454,{
+	if (isequipped(2782) == 1) {
+		mes "[คนงาน]";
+		mes "หืม กลิ่นหอมน่ากินเชียว";
+		mes "ได้เวลาพลิกด้านมันแล้วล่ะ";
+		next;
+		mes "[คนงาน]";
+		mes "สเต็ก Hardrock Mammoth น่ะ ต้องกินแบบกึ่งสุกกึ่งดิบถึงจะอร่อย!";
+		close;
+	}
+	else {
+		mes "[Tee]";
+		mes "As woue dpi sha we";
+		mes "Two psie bu le";
+		next;
+		mes "[Tee]";
+		mes "Tr sdou powee wwee ";
+		close;
+	}
+}
+
+man_in01,74,181,3	script	Worker#ep13bs2	454,{
+	if (isequipped(2782) == 1) {
+		mes "[คนงาน]";
+		mes "เชฟครับ ผมต้องวางจานทั้งหมดกี่ใบดี?";
+		close;
+	}
+	else {
+		mes "[Tee]";
+		mes "We pishd bugs ouwwe iro ";
+		close;
+	}
+}
+
+man_in01,227,280,5	script	Scientist#ep13bs	449,{
+	if (isequipped(2782) == 1) {
+		mes "[นักวิทยาศาสตร์]";
+		mes "มันมีเพียงหนทางเดียวจริงๆ เหรอนะ ที่จะทำให้เราอยู่รอดได้..?";
+		close;
+	}
+	else {
+		mes "[Apti]";
+		mes "Dso piey pioit ioep ";
+		close;
+	}
+}

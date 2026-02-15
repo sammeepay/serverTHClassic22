@@ -1,0 +1,157 @@
+# This file is a part of rAthena.
+#   Copyright(C) 2021 rAthena Development Team
+#   https://rathena.org - https://github.com/rathena
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+###########################################################################
+# Instance Database
+###########################################################################
+#
+# Instance Settings
+#
+###########################################################################
+# - Id                Instance ID.
+#   Name              Instance Name.
+#   TimeLimit         Total lifetime of instance in seconds. Use 0 to define infinite time. (Default: 3600)
+#   IdleTimeOut       Time before an idle instance is destroyed in seconds. Use 0 to define infinite idle time. (Default: 300)
+#   NoNpc             Prevent copying NPCs from the source map. (Default: false)
+#   NoMapFlag         Prevent copying Mapflags from the source map. (Default: false)
+#   Destroyable       Toggles the ability to destroy the instance using instance 'Destroy' button. (Default: true)
+#                     Note: the button is displayed based on parties. For any mode, it requires the party leader to be the instance owner to destroy it.
+#   Enter:            Instance entrance coordinates.
+#     Map             Map Name where players start.
+#     X               X Coordinate where players start.
+#     Y               Y Coordinate where players start.
+#   AdditionalMaps:   List of maps that are part of an instance. (Optional)
+###########################################################################
+
+Header:
+  Type: INSTANCE_DB
+  Version: 2
+
+Body:
+###########################################################################
+##          EP.20
+###########################################################################
+##  - Id: 300
+##    Name: "Sticky Sea"
+##    TimeLimit: 1800
+##    Enter:
+##      Map: 1@slug
+##      X: 44
+##      Y: 56
+##  - Id: 301
+##    Name: "Canyon Exploration"
+##    Enter:
+##      Map: 1@20cn1
+##      X: 94
+##      Y: 79
+##    AdditionalMaps:
+##      1@20cn2: true
+##  - Id: 302
+##    Name: "Drift Ice Zone"
+##    Enter:
+##      Map: 1@twsd
+##      X: 318
+##      Y: 76
+##  - Id: 303
+##    Name: "Nest of Twigs"
+##    TimeLimit: 1200
+##    Enter:
+##      Map: 1@twig
+##      X: 209
+##      Y: 176
+##  - Id: 304
+##    Name: "Separated Sanctuary"
+##    TimeLimit: 1800
+##    Enter:
+##      Map: 1@twas
+##      X: 96
+##      Y: 66
+##  - Id: 305
+##    Name: "Immortal"
+##    TimeLimit: 1800
+##    Enter:
+##      Map: 1@twbs
+##      X: 86
+##      Y: 68
+##  - Id: 306
+##    Name: "Immortal (Hard)"
+##    TimeLimit: 1800
+##    Enter:
+##      Map: 1@twbs
+##      X: 101
+##      Y: 68
+#############################################################################
+####          EP.21
+#############################################################################
+##  - Id: 100
+##    Name: Ghost Ship Captain
+##    TimeLimit: 3600
+##    IdleTimeOut: 600
+##    Enter:
+##      Map: 1@wtgs
+##      X: 86
+##      Y: 305
+##  - Id: 101
+##    Name: Final Battle
+##    TimeLimit: 3600
+##    IdleTimeOut: 600
+##    Enter:
+##      Map: 1@ep21b
+##      X: 73
+##      Y: 70
+##  - Id: 102
+##    Name: Gimli Infiltration
+##    TimeLimit: 3600
+##    IdleTimeOut: 600
+##    Enter:
+##      Map: 1@mdtem
+##      X: 266
+##      Y: 174
+##    AdditionalMaps:
+##      2@mdtem: true
+##  - Id: 103
+##    Name: Secret Altar
+##    TimeLimit: 1800
+##    IdleTimeOut: 600
+##    Enter:
+##      Map: 1@ep21a
+##      X: 61
+##      Y: 33
+##  - Id: 104
+##    Name: Silent Sanctuary
+##    TimeLimit: 1800
+##    IdleTimeOut: 600
+##    Enter:
+##      Map: 1@twbs2
+##      X: 96
+##      Y: 66
+##  - Id: 105
+##    Name: Final Battle(Normal)
+##    TimeLimit: 3600
+##    IdleTimeOut: 600
+##    Enter:
+##      Map: 1@ep21b
+##      X: 73
+##      Y: 70
+##  - Id: 106
+##    Name: Final Battle(Hard)
+##    TimeLimit: 3600
+##    IdleTimeOut: 600
+##    Enter:
+##      Map: 1@ep21b
+##      X: 73
+##      Y: 70

@@ -1,0 +1,71 @@
+//===== rAthena Script =======================================
+//= Rock Ridge Guides
+//===== Description: =========================================
+//= NPC Guide for Rock Ridge
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Capuche]
+//============================================================
+
+harboro1,356,211,5	script	Guide#rockridge01	4_F_ANYA,{
+	mes "[Sheriff Assistant]";
+	mes "ยินดีต้อนรับสู่ Rock Ridge ดินแดนทะเลทรายอันร้อนระอุและแห้งแล้งในทิศตะวันตกที่ซึ่งการผจญภัยกำลังรอคุณอยู่!";
+	mes "ฉันคือผู้ช่วยเชอริฟฟ์ มีหน้าที่คอยแนะนำเหล่านักเดินทาง มีสถานที่ไหนที่คุณอยากจะไปเป็นพิเศษไหม?";
+	next;
+	mes "[Sheriff Assistant]";
+	mes "บอกฉันมาได้เลยว่าคุณอยากไปที่ไหน แล้วฉันจะแสดงตำแหน่งให้ดู";
+	mes "นอกจากนี้ คุณยังสามารถใช้โหมด ^B9062FNavigation^000000 ได้โดยการ ^B9062Fคลิกที่ชื่อสถานที่^000000 ที่ฉันแสดงให้คุณเห็น";
+	while(true) {
+		next;
+		.@s = select( "[พนักงาน Kafra]", "[โรงแรม]", "[ร้านอาวุธ/ชุดป้องกัน]", "[ร้านขายของชำ]", "[สำนักงานเชอริฟฟ์]", "ลบเครื่องหมายบน mini-map", "ยกเลิก" );
+		switch(.@s) {
+		case 1:
+			mes "[Sheriff Assistant]";
+			mes "รับทราบ ^006400Kafra Employee^000000 สินะ โปรดคลิกที่ ^0000FFไอคอนรูปกล่อง^000000 บน mini-map ของคุณ";
+			viewpoint 1,291,207,1,0xFFFF33;
+			break;
+		case 2:
+			mes "[Sheriff Assistant]";
+			mes "ฉันได้ทำเครื่องหมายตำแหน่งของ <NAVI>Inn<INFO>harboro1,156,215,0,000,0</INFO></NAVI> ไว้บน mini-map ของคุณแล้ว";
+			mes "คลิกที่ชื่อเพื่อเปิดใช้งานโหมด Navigation";
+			viewpoint 1,156,215,2,0xAAFF00;
+			break;
+		case 3:
+			mes "[Sheriff Assistant]";
+			mes "ฉันได้ทำเครื่องหมายตำแหน่งของ <NAVI>Weapon/Armor Shop<INFO>harboro1,312,193,0,000,0</INFO></NAVI> ไว้บน mini-map ของคุณแล้ว";
+			mes "คลิกที่ชื่อเพื่อเปิดใช้งานโหมด Navigation";
+			viewpoint 1,312,193,3,0x008080;
+			break;
+		case 4:
+			mes "[Sheriff Assistant]";
+			mes "ฉันได้ทำเครื่องหมายตำแหน่งของ <NAVI>Tool Shop<INFO>harboro1,312,193,0,000,0</INFO></NAVI> ไว้บน mini-map ของคุณแล้ว";
+			mes "คลิกที่ชื่อเพื่อเปิดใช้งานโหมด Navigation";
+			viewpoint 1,312,193,4,0xFF1493;
+			break;
+		case 5:
+			mes "[Sheriff Assistant]";
+			mes "ฉันได้ทำเครื่องหมายตำแหน่งของ <NAVI>Sheriff's Office<INFO>harboro1,241,218,0,000,0</INFO></NAVI> ไว้บน mini-map ของคุณแล้ว";
+			mes "คลิกที่ชื่อเพื่อเปิดใช้งานโหมด Navigation";
+			viewpoint 1,241,218,5,0xFFCCFF;
+			break;
+		case 6:
+			mes "[Sheriff Assistant]";
+			mes "เดี๋ยวฉันจะลบเครื่องหมายทั้งหมดออกจาก mini-map ให้";
+			viewpoint 2,291,207,1,0xFFFF33;
+			viewpoint 2,156,215,2,0xAAFF00;
+			viewpoint 2,312,193,3,0x008080;
+			viewpoint 2,312,193,4,0xFF1493;
+			viewpoint 2,241,218,5,0xFFCCFF;
+			break;
+		case 7:
+			mes "[Sheriff Assistant]";
+			mes "ขอให้มีความสุขกับการพักผ่อนใน Rock Ridge!";
+			close;
+		}
+		if (.@s == 7)
+			mes "คุณต้องการอย่างอื่นอีกไหม?";
+		else
+			mes "มีที่ไหนที่คุณต้องการตรวจสอบเพิ่มเติมอีกไหม?";
+	}
+}
+
+harboro1,80,211,3	duplicate(Guide#rockridge01)	Guide#rockridge02	4_F_ANYA

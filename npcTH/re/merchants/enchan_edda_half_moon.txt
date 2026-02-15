@@ -1,0 +1,283 @@
+//===== rAthena Script =======================================
+//= Half Moon in the Daylight Enchanter
+//===== Description: =========================================
+//= [Walkthrough Conversion]
+//= Half Moon in the Daylight related enchanter
+//===== Changelog: ===========================================
+//= 1.0 Initial release [Everade]
+//= 1.1 Clean-up [Capuche]
+//============================================================
+
+rachel,177,139,3	script	Temple Item Manager#0hmoon	4_M_TRAINEE,{
+	disable_items;
+	if (MaxWeight - Weight < 1000 || checkweight(5819,1) == 0) {
+		npctalk "กรุณาลดน้ำหนักตัวลงหน่อยครับ", "", bc_self;
+		end;
+	}
+	mes "[Temple Item Manager]";
+	mes "ถ้าคุณมี 1 ^0000cd" + getitemname(28387) + "^000000 และ ^0000cd" + getitemname(25088) + "^000000 ผมจะมอบพลังแห่งเทพีให้แก่คุณ";
+	next;
+	mes "[Temple Item Manager]";
+	mes "ผมจะทำมันอย่างสุดฝีมือเลยล่ะ ไว้ใจผมได้";
+	next;
+	switch( select( "พลังแห่งเทพีคืออะไร?", "ถ้าอย่างนั้น ฝากด้วยนะ", "ไม่มีอะไรหรอก" ) ) {
+	case 1:
+		mes "[Temple Item Manager]";
+		mes "พลังแห่งเทพีคืออะไรน่ะเหรอ? นี่คุณเพิ่งถามถึงพลังแห่งเทพีใช่ไหม?";
+		next;
+		if (select( "เปล่า", "ใช่ ฉันถามเองแหละ" ) == 1) {
+			 mes "[Temple Item Manager]";
+			 mes "ผมอยากคุยกับคุณจริงๆ นะ กรุณาฟังหน่อยเถอะ";
+			 close;
+		}
+		mes "[Temple Item Manager]";
+		mes "พลังแห่งเทพี!!! ผมรักท่านเทพี! ท่านเทพี ท่านสุดยอดที่สุดเลย!!!";
+		next;
+		mes "[Temple Item Manager]";
+		mes "มันมีเรื่องราวที่ต้องเล่าให้ฟังก่อนน่ะ";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมเป็นแฟนตัวยงของ ^0000cdท่านเทพี^000000 มาตลอด เมื่อผมได้เข้ามาที่วิหารและเริ่มใช้ชีวิตในฐานะสาวกผู้ศรัทธา ชีวิตของผมก็เริ่มเบ่งบาน";
+		next;
+		mes "[Temple Item Manager]";
+		mes "วันหนึ่งก่อนที่ผมจะหลับไป ผมได้ฝัน ^0000cddream^000000 ในขณะที่ผมกำลังสวดภาวนาต่อท่านเทพี";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมได้ยิน ^0000cdเสียง^000000 ของเทพี Freya ท่ามกลางแสงสว่างโชติช่วง";
+		next;
+		mes "[Temple Item Manager]";
+		mes "แต่น่าเสียดาย ทันทีที่ผมตื่นขึ้น ผมกลับลืมเรื่องราวในความฝันไปจนหมดสิ้น ก็นะ ความฝันมันก็เป็นแบบนี้แหละ";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมร้องไม่ออกเลยเพราะผมรู้สึกเสียใจกับความจริงข้อนั้นมาก แต่ถ้าท่านเทพียอมให้ผมได้ยินเสียงของท่านผ่านความฝัน พวกเราเองก็น่าจะเข้าถึงท่านเทพีผ่านความฝันได้ไม่ใช่เหรอ?";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมเริ่มศึกษาเรื่องความฝันด้วยความหลงใหลทั้งหมดที่มี ผมคิดว่านี่คือเจตจำนงของท่านเทพีที่พยายามจะสื่อสารกับผมผ่านสิ่งเหล่านั้น";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ในขณะที่ผมกำลังตรากตรำทำการวิจัย ผมก็ได้สร้าง ^0000cdPassage of Dreams^000000 ขึ้นตามคำขอของป้าของพวกเรา High Priestess Niren ที่อยู่ข้างๆ ผมนี่แหละ มันคือผลลัพธ์จากสิ่งที่ผมอุทิศทั้งชีวิตให้";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมยังเข้าไม่ถึงท่านเทพีหรอก... แต่ก็มีคนไม่มากนักหรอกนะที่จะได้พบท่านเทพีในความฝัน... เหมือนกับผม...";
+		next;
+		mes "[Temple Item Manager]";
+		mes "อย่างไรก็ตาม ตอนที่ผมได้ยินคำขอจากป้า Niren ครั้งแรก ผมนี่ตกใจมากเลย";
+		next;
+		mes "[Temple Item Manager]";
+		mes "คุณกล้าดีน่ะที่จะเข้าไปในความฝันของท่าน Pope...? แม้ High Priestess Niren จะโน้มน้าวให้ผมเข้าไปในฝันของท่าน แต่ผมก็ไม่มีอะไรที่จะช่วยท่านได้เลยในตอนนั้น";
+		next;
+		mes "[Temple Item Manager]";
+		mes "และการโน้มน้าวนั้นก็น่าเชื่อถืออย่างน่าประหลาด";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "แล้วสรุปพลังแห่งเทพีคืออะไรล่ะ?";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ตอนที่ผมเข้าไปในความฝันของท่าน Pope ครั้งแรก ผมนี่อึ้งไปเลยล่ะ";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "ทำไมล่ะ?";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ก็ในความ ^0000cdอัจฉริยะ^000000 ของผมยังไงล่ะ";
+		emotion ET_SWEAT;
+		next;
+		mes "[Temple Item Manager]";
+		mes "จะมีใครคนอื่นในโลกนี้อีกไหมที่สามารถสร้างอุปกรณ์ที่ทำให้เข้าไปในความฝันของคนอื่นและสัมผัสมันได้อย่างชัดเจนขนาดนี้? คิยะ- ให้ตายสิ สมกับเป็นลูกแกะผู้เป็นที่รักของท่านเทพีจริงๆ";
+		emotion ET_SWEAT;
+		next;
+		mes "[Temple Item Manager]";
+		mes "ในขณะที่ผมเดินอยู่ในความฝันของท่าน Pope ผมบังเอิญไปพบ ^0000cdPriest's Necklace^000000 จากนักบวชคนหนึ่ง และเศษเสี้ยว ^0000cdFragment^000000 ที่มีพลังงานพิเศษจากศาลเจ้าไร้ใบหน้าที่นั่น";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมพยายามเดินสำรวจเพื่อหาข้อมูลให้ได้มากที่สุดเท่าที่จะทำได้ในความฝัน แต่เมื่อท่าน Pope พบผมเข้า ท่านก็ปฏิเสธผมอย่างรุนแรงด้วยความกลัว";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมไม่ใช่คนสนิทของท่าน Pope ดังนั้นผมคงเป็นแค่คนแปลกหน้าสำหรับท่าน";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมก็เลยถูกเตะออกมาจากความฝันของท่าน Pope";
+		next;
+		mes "[Temple Item Manager]";
+		mes "แต่จะว่าไป เมื่อผมตื่นจากความฝัน ผมกลับพบว่า Priest's Necklace จากศาลเจ้าและเศษเสี้ยวประหลาดนั่นยังอยู่ในมือของผม! คุณคิดว่าไงล่ะ?";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "น่าทึ่งมาก";
+		next;
+		mes "[Temple Item Manager]";
+		mes "โอ้ ท่านเทพี ได้โปรดสงสารในความความรู้สึกที่ทื่อมะลื่อของนักผจญภัยคนนี้ด้วยเถิด ที่สามารถบรรยายผลลัพธ์อันยิ่งใหญ่นี้ด้วยคำว่า 'น่าทึ่งมาก' แค่คำเดียวได้ลงคอ-";
+		emotion ET_SWEAT;
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมสามารถนำของที่ได้จากความฝันของคนอื่นออกมาได้ นี่มันเรื่องใหญ่เลยนะ! งั้นเข้าเรื่องกันเลยดีกว่า เพราะดูเหมือนคุณจะไม่อินไปกับผมด้วยเลย";
+		emotion ET_SWEAT;
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมเริ่มศึกษาสร้อยคอและเศษเสี้ยวประหลาดของศาลเจ้านั่น ผมตั้งชื่อเศษเสี้ยวประหลาดนั้นว่า ^0000cdDream Fragment^000000 ซึ่งหมายถึงเศษเสี้ยวที่ได้มาจากความฝัน คิยะ- เซนส์ในการตั้งชื่อของผมนี่มัน!";
+		next;
+		mes "[Temple Item Manager]";
+		mes "พวกมันดูเหมือนของธรรมดาทั่วไปเมื่อแยกจากกัน แต่ผมสัมผัสได้ถึงพลังงานบางอย่างเมื่อผมนำพวกมันมาวางซ้อนทับกัน";
+		next;
+		mes "[Temple Item Manager]";
+		mes "จากนั้นมา ผมก็ได้เข้าไปในความฝันของท่าน Pope และเริ่มทำการศึกษาโดยการเก็บรวบรวมพวกมันทีละชิ้นๆ โดยไม่ให้ท่าน Pope สังเกตเห็น";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมค้นพบว่าการรวบรวม ^0000cdDream Fragment ประมาณ 100 ชิ้น^000000 แล้วบีบอัดพวกมันด้วยพลังงาน ใส่ลงไปใน ^0000cdPriest's Necklace^000000 ผมจะสามารถมอบ ^0000cdพลังพิเศษ^000000 ให้กับมันได้";
+		next;
+		mes "[Temple Item Manager]";
+		mes "และด้วยการค้นคว้าซ้ำแล้วซ้ำเล่า ผมก็ประสบความสำเร็จในการแยกพลังนั้นออกเป็นสามระดับ";
+		next;
+		mes "[Temple Item Manager]";
+		mes "พลังนี้สามารถช่วยเพิ่มการโจมตีทาง ^0000cdกายภาพ (physical)^000000, ^0000cdเวทมนตร์ (magical)^000000 หรือการโจมตี ^0000cdระยะไกล (ranged)^000000 ให้กับผู้สวมใส่ โดยไม่มีผลข้างเคียงใดๆ เลย!";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ผมตั้งชื่อพลังเหล่านี้ว่า ^0000cdGoddess of Justice, Goddess of Mercy, Goddess of Insight^000000 ตามลำดับ ฟังดูเข้าท่าใช่ไหมล่ะ?";
+		next;
+		mes "[Temple Item Manager]";
+		mes "แต่ที่น่าตกใจยิ่งกว่าก็คือ ถ้าคุณใส่ ^0000cdDream Fragment^000000 ลงไปในปริมาณที่มากขึ้น คือประมาณ ^0000cd1000 ชิ้น^000000 คุณจะสามารถเสริมพลังที่ ^0000cdแข็งแกร่งยิ่งขึ้น^000000 เข้าไปได้อีก";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ถ้ามากกว่านั้น Priest's Necklace จะรับไม่ไหว และไอเทมทั้งหมดที่ผมรวบรวมมาก็จะถูกทำลายไป ผมยังคงพยายามศึกษาเรื่องนี้อยู่ และผมมั่นใจว่าสักวันหนึ่งผมจะทำได้สำเร็จ";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "งั้นขอสรุปสั้นๆ สามบรรทัดหน่อย";
+		next;
+		mes "[Temple Item Manager]";
+		mes "โถ่เอ๋ย ผมควรจะทำยังไงกับคนคนนี้ดีนะ? แต่เอาเถอะ ผมมันเป็นลูกแกะที่ใจดีของท่านเทพีอยู่แล้ว ผมจะสรุปให้ฟังคร่าวๆ";
+		next;
+		mes "[Temple Item Manager]";
+		mes "ถ้าคุณนำ ^0000cdPriest's Necklace 1 เส้น และ Dream Fragment 100 ชิ้น^000000 ที่ได้จากความฝันมาให้ผม ^0000cdPriest's Necklace ของคุณจะได้รับการเสริมพลังแห่งเทพี^000000";
+		next;
+		mes "[Temple Item Manager]";
+		mes "และถ้าคุณนำ ^0000ffPriest's Necklace ที่เสริมพลังแห่งเทพีแล้ว^000000 พร้อมกับ ^0000ffDream Fragment อีก 1000 ชิ้น^000000 มาให้ผม คุณจะได้รับพลังที่มากขึ้นไปอีก";
+		next;
+		mes "[Temple Item Manager]";
+		mes "แค่นั้นแหละ!";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "โอ้ ขอบใจนะ";
+		next;
+		mes "[Temple Item Manager]";
+		mes "อยากฟังอีกรอบไหมล่ะ?";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "โอ้ ไม่ล่ะ พอแล้วครับ ไม่เป็นไร";
+		next;
+		mes "[Temple Item Manager]";
+		mes "โถ่ เสียดายจัง รอบนี้กะว่าจะลงรายละเอียดให้ลึกกว่านี้แท้ๆ";
+		close;
+	case 2:
+		mes "[Temple Item Manager]";
+		mes "เป็นการตัดสินใจที่ยอดเยี่ยม! คุณอยากจะเสริมพลังที่ด้าน ^0000cdซ้าย^000000 หรือด้าน ^0000cdขวา^000000 ล่ะ? ผมมั่นใจทั้งสองข้างเลยนะ!...";
+		next;
+		switch( select( "ซ้าย", "ขวา", "ยกเลิก" ) ) {
+		case 1:
+			.@part = EQI_ACC_L;
+			break;
+		case 2:
+			.@part = EQI_ACC_R;
+			break;
+		case 3:
+			mes "[Temple Item Manager]";
+			mes "โถ่ ทำไมล่ะ!!! นี่ผมกำลังทำดีกับคุณอยู่นะ!!!";
+			close;
+		}
+		.@itemid = getequipid(.@part);
+
+		if (.@itemid != 28387) {
+			mes "[Temple Item Manager]";
+			mes "เอ๊ะ เดี๋ยวสิ! นั่นไม่ใช่ ^0000cd" + mesitemlink(28387, false) + "^000000 ใช่ไหม? ช่วยเช็คดูอีกทีได้ไหมครับ?";
+			close;
+		}
+		.@card = getequipcardid(.@part,3);
+
+		if (getiteminfo(.@card, ITEMINFO_SUBTYPE) == CARD_ENCHANT) {
+			npctalk "สร้อยคอเส้นนี้ของคุณมีการเสริมพลังอยู่แล้วนี่นา";
+			end;
+		}
+		mes "[Temple Item Manager]";
+		mes "คุณต้องการเสริมความสามารถพิเศษแบบไหนให้กับสร้อยคอของคุณดีครับ?";
+		next;
+		setarray .@enhance_n$[0], "Goddess of Justice", "Goddess of Mercy", "Goddess of Insight";
+		.@s = select( .@enhance_n$[0], .@enhance_n$[1], .@enhance_n$[2], "ยกเลิก" ) -1;
+
+		switch( .@s ) {
+		default:
+			setarray .@enhance_a[0],29121,29123,29125;
+			setarray .@enhance_s[0],29122,29124,29126;
+
+			mes "[Temple Item Manager]";
+			mes "คุณได้เลือกการเสริมพลังแบบ " + .@enhance_n$[.@s] + " ครับ";
+			mes "กรุณาเลือกระดับ (Class)";
+			mes "" + mesitemlink(.@enhance_a[.@s], false) + "";
+			mes "" + mesitemlink(.@enhance_s[.@s], false) + "";
+			next;
+			switch( select( "A Class", "S Class" ) ) {
+			case 1:
+				.@enchant = .@enhance_a[.@s];
+				.@cost = 100;
+				.@class = 1;
+				break;
+			case 2:
+				.@enchant = .@enhance_s[.@s];
+				.@cost = 1000;
+				.@class = 2;
+				break;
+			}
+			mes "[Temple Item Manager]";
+			mes "สร้อยคอจะถูกเสริมพลังด้วย " + mesitemlink(.@enchant, false) + "";
+			mes "คุณแน่ใจจริงๆ นะครับว่าจะดำเนินการขั้นตอนการเสริมพลังนี้?";
+			next;
+			if (select( "ไม่ ขอเวลาคิดก่อน","ใช่ โปรดดำเนินการเลย" ) == 1)
+				break;
+			.@card = getequipcardid(.@part,3);	// re-defined
+
+			mes "[Temple Item Manager]";
+			if (!getequipisequiped(.@part) || isequipped(28387) < 1) {
+				mes "คุณไม่ได้สวมใส่ " + mesitemlink(28387, false) + " อยู่นี่นา...!";
+				close;
+			}
+			if (.@enchant == .@card) {
+				mes "" + mesitemlink(28387, false) + " ของคุณมีการเสริมพลังนี้อยู่แล้วครับ";
+				close;
+			}
+			if (countitem(25088) < .@cost) {
+				mes "คุณนำ " + mesitemlink(25088, false) + " มาไม่พอนะครับ!";
+				close;
+			}
+			if (.@class == 2 && (.@enchant == 29122 && .@card != 29121 || .@enchant == 29124 && .@card != 29123 || .@enchant == 29126 && .@card != 29125)) {
+				mes "คุณจำเป็นต้องเสริมพลังสร้อยคอด้วย " + mesitemlink(.@enhance_a[.@s], false) + " ก่อนครับ";
+				close;
+			}
+			specialeffect2 182;
+			specialeffect2 205;
+			specialeffect2 102;
+			specialeffect2 104;
+			mes "สร้อยคอได้รับการเสริมพลังตามที่คุณต้องการเรียบร้อยแล้วครับ";
+			delitem 25088,.@cost; //Fragment of Dream
+			delequip .@part;
+			getitem2 28387,1,1,0,0,0,0,0,.@enchant; //Priest's Necklace
+			close;
+		case 3:
+			break;
+		}
+		break;
+	case 3:
+		break;
+	}
+	mes "[Temple Item Manager]";
+	mes "ไม่มีอะไรเหรอ? ลืมไปแล้วเหรอว่าจะพูดอะไร?";
+	next;
+	mes "[Temple Item Manager]";
+	mes "ถ้าตอนนี้ไม่ยุ่งล่ะก็ สนใจไปกินข้าวกับผมไหม?";
+	next;
+	mes "[Temple Item Manager]";
+	mes "ทำไมคุณไม่ลองใช้เวลาคุยกับผมเรื่องความฝัน วิทยาศาสตร์ และท่านเทพีดูล่ะ?";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "เอ่อ พอดีผมยุ่งอยู่น่ะ...";
+	next;
+	mes "[Temple Item Manager]";
+	mes "ต่อให้คุณไม่มีอะไรจะพูด ก็แค่ฟังผมหน่อยเถอะ!!!";
+	close;
+}

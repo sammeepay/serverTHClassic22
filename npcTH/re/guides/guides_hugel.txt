@@ -1,0 +1,301 @@
+//===== rAthena Script ======================================= 
+//= Hugel Guides
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.2
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guides for the city of Hugel.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guide.
+//= 1.1 Optimized. [Euphy]
+//= 1.2 Navigation system update. [Euphy]
+//============================================================ 
+
+hugel,98,56,3	script	Hugel Guide Granny#hugel	863,{
+	mes "[Hugel Guide Granny]";
+	mes "โอ้ สวัสดีจ้ะ~ เธอช่างเป็นนักผจญภัยที่ดูมีพลังเต็มเปี่ยมจริงๆ";
+	mes "ยินดีต้อนรับสู่ ^8B4513Hugel^000000 จ้ะ ยายรู้สึกเป็นเกียรติมากที่จะได้นำทางเธอในหมู่บ้านที่สวยงามแห่งนี้";
+	mes "หากนี่เป็นครั้งแรกที่เธอใช้บริการนำทาง เธอควรจะถามคำถามเยอะๆ นะจ๊ะ";
+	F_Navi("[Hugel Guide Granny]");
+	next;
+	set .@str$,"เธออยากจะทราบตำแหน่งอื่นๆ อีกไหมจ๊ะ?";
+	while (1) {
+		switch(select("[ สถานที่สำคัญ ]:[ พ่อค้าและผู้ช่วย ]:ลบเครื่องหมายออกจาก Mini-Map:ยกเลิก")) {
+		case 1:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ โบสถ์ ]:[ โรงแรม ]:[ ร้านเหล้า ]:[ สนามบิน ]:[ ร้านอาวุธ ]:[ ร้านขายของชำ ]:[ ห้องเล่นเกม Bingo ]:[ ^3131FFHunter Guild^000000 ]:[ ร้านขายอุปกรณ์ปาร์ตี้ ]:[ ^3131FFShrine Expedition^000000 ]:เมนูก่อนหน้า")) {
+				case 1:
+					mes "[Hugel Guide Granny]";
+					mes "สำหรับยายแล้ว "+F_Navi("Church","hugel,159,113")+" แห่งนี้ดูจะเป็นสถานที่สำหรับคนแก่อย่างยายมากกว่านะจ๊ะ เธอรู้ไหม...";
+					mes .@str$;
+					viewpoint 1,159,113,0,0xFF0000;
+					next;
+					break;
+				case 2:
+					mes "[Hugel Guide Granny]";
+					mes "กองทัพต้องเดินด้วยท้องจ้ะ";
+					mes "เธอควรจะไปเก็บข้าวของที่ "+F_Navi("Inn","hugel,101,77")+" ให้เรียบร้อยก่อนที่จะเริ่มเดินชมรอบหมู่บ้านนี้นะจ๊ะ";
+					mes .@str$;
+					viewpoint 1,101,77,1,0x8B4513;
+					next;
+					break;
+				case 3:
+					mes "[Hugel Guide Granny]";
+					mes "ใช่แล้วจ้ะ เวลาเดินทาง เธอคงอยากจะแวะที่ "+F_Navi("Pub","hugel,126,65")+" และทำความรู้จักกับเพื่อนใหม่ๆ";
+					mes "ไปทางตะวันออกจากที่นี่ แล้วเธอจะถึงร้านเหล้าจ้ะ";
+					mes .@str$;
+					viewpoint 1,126,65,2,0xDAA520;
+					next;
+					break;
+				case 4:
+					mes "[Hugel Guide Granny]";
+					mes "เมื่อไม่นานมานี้ มีคนแปลกหน้าเข้ามาในหมู่บ้านและสร้างเจ้าสิ่งที่ดูประหลาดๆ อย่าง "+F_Navi("Airport","hugel,178,146")+" ขึ้นมา...";
+					mes "พวกเขาเรียกมันว่าอะไรนะ? เรือเหาะ (Airship) ใช่ไหมจ๊ะ?";
+					mes .@str$;
+					viewpoint 1,178,146,3,0xD7567F;
+					next;
+					break;
+				case 5:
+					mes "[Hugel Guide Granny]";
+					mes "เรามี "+F_Navi("Weapon Shop","hugel,88,167")+" อยู่ใจกลางหมู่บ้านจ้ะ";
+					mes "แต่ยายก็ไม่รู้หรอกนะว่าจะมีอาวุธชิ้นไหนที่เธอจะเห็นว่ามีประโยชน์บ้างหรือเปล่า";
+					mes .@str$;
+					viewpoint 1,88,167,4,0xCD5C5C;
+					next;
+					break;
+				case 6:
+					mes "[Hugel Guide Granny]";
+					mes "ใช่จ้ะ ยายชอบ Red Potion ยี่ห้อ Hugel มาก ยายยังไม่เคยลองชิม Red Potion ยี่ห้ออื่นเลย... โฮะโฮะโฮะ";
+					mes " "+F_Navi("Tool Shop","hugel,92,163")+" ตั้งอยู่ใจกลางหมู่บ้านจ้ะ";
+					mes .@str$;
+					viewpoint 1,92,163,5,0x000080;
+					next;
+					break;
+				case 7:
+					mes "[Hugel Guide Granny]";
+					mes "เดี๋ยวจะทำเครื่องหมายตำแหน่ง";
+					mes "ของ "+F_Navi("Bingo Game Room","hugel,58,206","^800080");
+					mes "บน mini-map ของเธอให้นะจ๊ะ";
+					mes .@str$;
+					viewpoint 1,58,206,6,0x800080;
+					next;
+					break;
+				case 8:
+					mes "[Hugel Guide Granny]";
+					mes "โอ้ เธออยากจะเป็น Hunter งั้นเหรอจ๊ะ?";
+					mes "งั้นให้มุ่งหน้าไปทางตะวันออกเฉียงเหนือตามแนวชายหาด แล้วเธอจะพบกับ "+F_Navi("Hunter Guild","hugel,209,224")+" จ้ะ";
+					mes .@str$;
+					viewpoint 1,209,224,7,0xFF1493;
+					next;
+					break;
+				case 9:
+					mes "[Hugel Guide Granny]";
+					mes "เดี๋ยวจะทำเครื่องหมายตำแหน่ง";
+					mes "ของ "+F_Navi("Party Supplies Shop","hugel,95,103","^483D8B");
+					mes "บน mini-map ของเธอให้นะจ๊ะ";
+					mes .@str$;
+					viewpoint 1,95,103,8,0x483D8B;
+					next;
+					break;
+				case 10:
+					mes "[Hugel Guide Granny]";
+					mes "ยายได้ยินมาว่าคณะ ";
+					mes F_Navi("Shrine Expedition","hugel,52,95")+" พักอยู่ในบ้านทางทิศตะวันตกจ้ะ";
+					mes "พวกเขาติดป้ายอะไรบางอย่างไว้กลางหมู่บ้าน ยายเลยเดาว่าพวกเขากำลังจ้างคนไปทำอะไรสักอย่าง...";
+					mes "ยายสงสัยจังว่าพวกเขาทำอะไรกันอยู่ที่นี่... อืมมม";
+					mes .@str$;
+					viewpoint 1,52,95,9,0x834683;
+					next;
+					break;
+				case 11:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 2:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ สนามแข่ง Monster Race ]:[ พนักงาน Cool Event Corp. ]:เมนูก่อนหน้า")) {
+				case 1:
+					mes "[Hugel Guide Granny]";
+					mes "ยายเองก็ชอบเล่นเกม Monster Race นะจ๊ะ มันสนุกมากเลยล่ะรู้ไหม?";
+					mes "โอ้ เธอยังไม่เคยลองงั้นเหรอ? ไม่ได้นะ~ เธอควรจะไปลองดู เชื่อยายสิ เธอจะต้องชอบมันแน่ๆ";
+					mes .@str$;
+					viewpoint 1,60,71,10,0xFF1493;
+					next;
+					break;
+				case 2:
+					mes "[Hugel Guide Granny]";
+					mes "เดี๋ยวจะทำเครื่องหมายตำแหน่ง";
+					mes "ของ ^DA70D6Cool Event Corp. Staff^000000";
+					mes "บน mini-map ของเธอให้นะจ๊ะ";
+					mes .@str$;
+					viewpoint 1,88,168,11,0xDA70D6;
+					next;
+					break;
+				case 3:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 3:
+			mes "[Hugel Guide Granny]";
+			mes "ยายจะลบเครื่องหมายทั้งหมดออกจาก mini-map ของเธอให้นะจ๊ะ";
+			mes "มีอะไรอย่างอื่นที่ยายพอจะช่วยได้อีกไหมจ๊ะ?";
+			viewpoint 2,159,113,0,0xFFFFFF;
+			viewpoint 2,101,77,1,0xFFFFFF;
+			viewpoint 2,126,65,2,0xFFFFFF;
+			viewpoint 2,178,146,3,0xFFFFFF;
+			viewpoint 2,88,167,4,0xFFFFFF;
+			viewpoint 2,92,163,5,0xFFFFFF;
+			viewpoint 2,58,206,6,0xFFFFFF;
+			viewpoint 2,209,224,7,0xFFFFFF;
+			viewpoint 2,95,103,8,0xFFFFFF;
+			viewpoint 2,52,95,9,0xFFFFFF;
+			viewpoint 2,60,71,10,0xFFFFFF;
+			viewpoint 2,88,168,11,0xFFFFFF;
+			next;
+			break;
+		case 4:
+			mes "[Hugel Guide Granny]";
+			mes "โฮะ โฮะ โฮะ ~!";
+			mes "การได้นำทางนี่มันน่าสนใจจริงๆ เลยนะ";
+			close;
+		}
+	}
+}
+
+hugel,187,172,6	script	Guide Rich King#hugel	414,{
+	mes "[Rich King]";
+	mes "คุณมีธุระอะไร";
+	mes "ในหมู่บ้านชนบทแห่งนี้งั้นเหรอ?";
+	next;
+	mes "[Rich King]";
+	mes "ที่นี่คือ ^8B4513Hugel^000000";
+	mes "ในสาธารณรัฐ Schwarzwald";
+	mes "คุณถือเป็นเกียรติมากนะที่ได้รับการนำทางจากผู้ยิ่งใหญ่อย่างฉัน";
+	F_Navi("[Rich King]");
+	next;
+	while (1) {
+		switch(select("[ สถานที่สำคัญ ]:[ พ่อค้าและผู้ช่วย ]:ลบเครื่องหมายออกจาก Mini-Map:ยกเลิก")) {
+		case 1:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ โบสถ์ ]:[ โรงแรม ]:[ ร้านเหล้า ]:[ สนามบิน ]:[ ร้านอาวุธ ]:[ ร้านขายของชำ ]:[ ห้องเล่นเกม Bingo ]:[ Hunter Guild ]:[ ร้านขายอุปกรณ์ปาร์ตี้ ]:[ Shrine Expedition ]:เมนูก่อนหน้า")) {
+				case 1:
+					callsub L_Mark, F_Navi("Church","hugel,159,113","^FF0000");
+					viewpoint 1,159,113,0,0xFF0000;
+					next;
+					break;
+				case 2:
+					callsub L_Mark, F_Navi("Inn","hugel,101,77","^8B4513");
+					viewpoint 1,101,77,1,0x8B4513;
+					next;
+					break;
+				case 3:
+					callsub L_Mark, F_Navi("Pub","hugel,126,65","^DAA520");
+					viewpoint 1,126,65,2,0xDAA520;
+					next;
+					break;
+				case 4:
+					callsub L_Mark, F_Navi("Airport","hugel,178,146","^D7567F");
+					viewpoint 1,178,146,3,0xD7567F;
+					next;
+					break;
+				case 5:
+					callsub L_Mark, F_Navi("Weapon Shop","hugel,88,167","^CD5C5C");
+					viewpoint 1,88,167,4,0xCD5C5C;
+					next;
+					break;
+				case 6:
+					callsub L_Mark, F_Navi("Tool Shop","hugel,92,163","^000080");
+					viewpoint 1,92,163,5,0x000080;
+					next;
+					break;
+				case 7:
+					callsub L_Mark, F_Navi("Bingo Game Room","hugel,58,206","^800080");
+					viewpoint 1,58,206,6,0x800080;
+					next;
+					break;
+				case 8:
+					callsub L_Mark, F_Navi("Hunter Guild","hugel,209,224","^FF1493");
+					viewpoint 1,209,224,7,0xFF1493;
+					next;
+					break;
+				case 9:
+					callsub L_Mark, F_Navi("Party Supplies Shop","hugel,95,103","^483D8B");
+					viewpoint 1,95,103,8,0x483D8B;
+					next;
+					break;
+				case 10:
+					callsub L_Mark, F_Navi("Shrine Expedition","hugel,52,95","^834683");
+					viewpoint 1,52,95,9,0x834683;
+					next;
+					break;
+				case 11:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 2:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ สนามแข่ง Monster Race ]:[ พนักงาน Cool Event Corp. ]:เมนูก่อนหน้า")) {
+				case 1:
+					callsub L_Mark, "^FF1493Monster Race Arena^000000";
+					viewpoint 1,60,71,10,0xFF1493;
+					next;
+					break;
+				case 2:
+					callsub L_Mark, "^DA70D6Cool Event Corp. Staff^000000";
+					viewpoint 1,88,168,11,0xDA70D6;
+					next;
+					break;
+				case 3:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 3:
+			mes "[Rich King]";
+			mes "ฉันจะลบเครื่องหมายออกจาก mini-map ของคุณให้";
+			mes "ฉันรู้ว่าคุณขี้สงสัย แต่เลิกตอแยฉันได้แล้ว";
+			viewpoint 2,159,113,0,0xFFFFFF;
+			viewpoint 2,101,77,1,0xFFFFFF;
+			viewpoint 2,126,65,2,0xFFFFFF;
+			viewpoint 2,178,146,3,0xFFFFFF;
+			viewpoint 2,88,167,4,0xFFFFFF;
+			viewpoint 2,92,163,5,0xFFFFFF;
+			viewpoint 2,58,206,6,0xFFFFFF;
+			viewpoint 2,209,224,7,0xFFFFFF;
+			viewpoint 2,95,103,8,0xFFFFFF;
+			viewpoint 2,52,95,9,0xFFFFFF;
+			viewpoint 2,60,71,10,0xFFFFFF;
+			viewpoint 2,88,168,11,0xFFFFFF;
+			next;
+			break;
+		case 4:
+			mes "[Rich King]";
+			mes "ฉันเริ่มหิวขึ้นมานิดหน่อยแล้วหลังจากทำงานหนักแบบนี้...";
+			mes "ฉันอยากจะกินอะไรสักอย่างแล้วล่ะ!";
+			close;
+		}
+	}
+	end;
+L_Mark:
+	mes "[Rich King]";
+	mes "ฉันจะทำเครื่องหมายตำแหน่ง";
+	mes "ของ "+getarg(0)+" ให้";
+	mes "คุณอยากจะทราบตำแหน่งอื่นๆ อีกไหม?";
+	mes "หรือคุณจะยังคอยตอแยฉันจนทำให้ฉันอารมณ์เสียต่อไป?";
+	return;
+}

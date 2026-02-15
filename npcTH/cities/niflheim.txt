@@ -1,0 +1,361 @@
+//===== rAthena Script =======================================
+//= Niflheim Script
+//===== By: ==================================================
+//= Fyrien, Dizzy, PKGINGO
+//= Official NPCs translated and re-edited by Celest
+//===== Current Version: =====================================
+//= 1.5
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Official NPC's for Niflheim
+//= 1.01 Splitted file(guides, shops). Fixed rand() bugs,
+//=      missing labels bugs, optimization [Lupus]
+//= 1.03 fixed end; -> close;
+//= 1.04-1.05 fixed several bugs with missing CLOSE button, wrong var name
+//=     in Piano Keys quest
+//=     fixed zeny/item, exploit in Sairin, some optimizations [Lupus]
+//= 1.06 some typos in some variables fixed (thx 2 Dr.Evil) [Lupus]
+//= 1.07 Fixed typos [Nexon]
+//= 1.08 Commented "Traveler" out as it is not official & we have correct Bungee quest in.
+//=     Also removed TODO, as they are already done. [Vicious_Pucca]
+//= 1.1 Replaced nif_q_done with MISC_QUEST & 32. nif_t -> @nif_t [Lupus]
+//= 1.2 Removed Duplicates [Silent]
+//= 1.3 Moved Book of Devil and Piano quest to quests/quests_niflheim.txt [Evera]
+//= 1.4 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
+//=     Removed Cursed Spirits as they were custom.
+//= 1.5 Added dummy "OnMyMobDead" event to Cursed Spirit. [L0ne_W0lf]
+//============================================================
+
+niflheim,52,147,3	script	Keedz#nif	796,{
+	mes "[Keedz]";
+	mes "ข้าไม่อนุญาตให้ผู้ที่ยังมีลมหายใจ";
+	mes "ย่างกรายเข้ามาในสถานที่แห่งนี้!";
+	close;
+}
+
+niflheim,195,211,6	script	Gigantia#nif	796,3,3,{
+	// ตรวจสอบว่าสวมใส่ Magni's Cap (5038), Majestic Goat (2257) หรือ Spiky Band (2256) หรือไม่
+	if (isequipped(5038) || isequipped(2257) || isequipped(2256)) {
+		mes "[" + strcharinfo(0) + "]";
+		mes "มีอะไรเหรอ?";
+		next;
+		mes "[Gigantia]";
+		mes "แค่...";
+		mes "มานี่สิ";
+		mes "ขามีบางอย่าง";
+		mes "ที่ต้องจัดการให้เจ้าหน่อย";
+		next;
+		mes "[Gigantia]";
+		mes "เขาของเจ้ามันเบี้ยวอยู่น่ะ";
+		mes "จงตรวจเช็กให้มั่นใจเสมอว่า";
+		mes "เจ้าสวมมันได้ตรงและเรียบร้อยดี";
+		mes "เพราะ Lord of Death กำลัง";
+		mes "จ้องมองเจ้าอยู่ตลอดเวลา";
+		close;
+	}
+	mes "[Gigantia]";
+	mes "Lord of Death ทรงรับรู้";
+	mes "และเห็นทุกสิ่งทุกอย่าง มันเปล่าประโยชน์";
+	mes "ที่จะซ่อนตัว หรือพยายามหลบหนีจาก";
+	mes "อ้อมกอดอันแสนหวานของความตาย";
+	close;
+
+OnTouch_:
+	if (isequipped(5038) || isequipped(2257) || isequipped(2256)) {
+		mes "[Gigantia]";
+		mes "เฮ้ เดี๋ยวก่อน!";
+		close;
+	}
+	end;
+}
+
+nif_in,16,27,1	script	Undead Chicken#nif	800,{
+	percentheal -5,0; // ลดเลือดผู้เล่น 5%
+	mes "[ไก่ซอมบี้]";
+	mes "ข้าเคยใช้ชีวิตอย่างสงบสุขในฐานะไก่ธรรมดาๆ จนกระทั่งวันนั้น วันที่ข้าถูกพวกมนุษย์ฆ่าและจับกินอย่างโหดเหี้ยม เอาล่ะ... หึหึ~! ถึงคราวของข้าบ้างแล้ว! *กระต๊ากกกก*";
+	next;
+	mes "["+ strcharinfo(0) +"]";
+	mes "โอ๊ย...!";
+	mes "ไก่เหรอ...";
+	mes "มันกัดฉัน!";
+	next;
+	mes "[ไก่ซอมบี้]";
+	mes "โฮ่ โฮ่~!";
+	mes "ข้าน่ะทั้งพูดได้ และยังได้ลิ้มรส";
+	mes "เนื้อมนุษย์ที่ยังมีชีวิตด้วย!";
+	mes "การเป็นซอมบี้นี่มันสุดยอดไปเลย!";
+	mes "*กระต๊ากกกก*";
+	close;
+}
+
+nif_in,16,30,4	script	Undead Familiar#nif	799,{
+	percentheal -5,0; // ลดเลือดผู้เล่น 5%
+	mes "[Vatoman]";
+	mes "โอ้... ช่างพอเหมาะพอดีจริงๆ มนุษย์";
+	mes "ที่ยังมีชีวิตอยู่~! เลือดสดๆ นี่มัน";
+	mes "อร่อยเสมอเลย...! ข้าขอจิบ";
+	mes "สักนิดสักหน่อยก็แล้วกันนะ";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "โอ๊ย! เส้นเลือดฉัน!";
+	mes "นี่แกเพิ่ง";
+	mes "ดูดเลือดฉันไปงั้นเหรอ?!";
+	next;
+	mes "[Vatoman]";
+	mes "มว่ะฮ่าฮ่าฮ่า~";
+	mes "เจ้ามนุษย์ผู้งมงาย!";
+	mes "จงระวังพลังของข้าไว้ให้ดี!";
+	close;
+}
+
+nif_in,156,93,5	script	Child#niflheim	793,{
+	mes "[Alakina Ann]";
+	mes "ที่นี่...ที่นี่ที่ไหนเหรอคะ...?";
+	mes "หนูจำได้ว่าหนูกำลังนอนหลับอยู่";
+	mes "แต่พอตื่นมา หนูก็มาอยู่ที่นี่แล้ว...";
+	mes "คุณน้าคะ เห็นแม่ของหนูบ้างไหม?";
+	mes "หนูอยากกลับบ้าน... *สะอึกสะอื้น*";
+	next;
+	switch(select("เกี่ยวกับแม่มด:เกี่ยวกับคำสาป:ยกเลิก")) {
+	case 1:
+		mes "[Alakina Ann]";
+		mes "แม่มดเหรอคะ...? หนูไม่เคยเห็นแม่มดหรอกค่ะ แต่หนูเคยอ่านเรื่องของพวกเขานมาในหนังสือ หนูไม่แน่ใจว่าพวกเขามีจริงไหม แต่ถ้ามีจริงๆ มันต้องน่ากลัวมากแน่ๆ เลย...";
+		next;
+		mes "[Alakina Ann]";
+		mes "ทำไมที่นี่มันหนาวจังเลยคะ...?";
+		mes "คุณ...คุณไม่หนาว หรือไม่กลัวบ้างเลยเหรอ? หนูอยากกลับบ้านจัง... ที่นั่นอบอุ่นมาก คุณช่วยพาหนูกลับไปหน่อยได้ไหมคะ... ได้โปรด... ช-ช่วยหนูด้วย...";
+		close;
+	case 2:
+		mes "[Alakina Ann]";
+		mes "ค-คำสาปเหรอคะ...?";
+		mes "คุณยายของหนูเคยบอกว่าในโลกนี้มีคำสาปอยู่มากมาย บางอันเราก็ดูออกว่าเป็นคำสาป แต่ก็มีคำสาปบางอย่างที่จะคอยตามติดคุณไปตลอดชีวิต...";
+		next;
+		mes "[Alakina Ann]";
+		mes "ยายบอกว่าคำสาปสามารถมาในรูปแบบอื่นได้ด้วย... อย่างเช่นถ้าใครสักคนโกรธคุณตลอดเวลา และไม่ยอมให้อภัยคุณ นั่นก็ถือเป็นคำสาปอย่างหนึ่งเหมือนกันนะ";
+		next;
+		mes "[Alakina Ann]";
+		mes "ยายบอกหนูว่ามีเพียงคาถาเดียวเท่านั้นที่จะทำลายคำสาปที่รุนแรง ซึ่งไม่สามารถแก้ได้ด้วยการ Bless...";
+		next;
+		mes "[Alakina Ann]";
+		mes "Klaatu...";
+		mes "Verata.....";
+		mes "Ne...ni...อืมมม...?";
+		mes "ท่อนสุดท้ายมันคืออะไรนะ?";
+		mes "ห-หนูจำ";
+		mes "ท่อนสุดท้ายของคาถาไม่ได้ค่ะ!";
+		next;
+		mes "[Alakina Ann]";
+		mes "ถ้าคุณท่องคาถาตามลำดับนั้น มันจะช่วยให้คุณหลุดพ้นจากความโกรธและความแค้นของคนอื่นได้ และถ้าคุณไปท่องมันใกล้ๆ กับวิญญาณร้าย พวกมันอาจจะรับคำสาปนั้นไปแทนค่ะ";
+		next;
+		mes "[Alakina Ann]";
+		mes "ทำไมคุณน้าถึงถามหนูเรื่องน่ากลัวพวกนี้ล่ะคะ...? หนูแค่ยากกลับบ้าน...";
+		close;
+	case 3:
+		mes "[Alakina Ann]";
+		mes "ที่นี่หนาวจังเลย...";
+		mes "หนูจะแข็งตายอยู่แล้ว...";
+		mes "หนูอยากกลับบ้าน และ";
+		mes "ออกไปจากที่ที่น่ากลัวแบบนี้...";
+		next;
+		mes "[Alakina Ann]";
+		mes "ได้โปรด... ช่วยหนูด้วย";
+		mes "คุณพาหนูไปด้วยได้ไหมคะ...?";
+		close;
+	}
+}
+
+niflheim,350,258,1	script	Cursed Spirit#nif	802,{
+	killmonster "niflheim","Cursed Spirit#nif::OnMyMobDead";
+	mes "[Ashe Bruce]";
+	mes "ข้าสัมผัสได้ว่าเจ้าถูกสาป...";
+	mes "ด้วยมนตราที่ทรงพลัง...";
+	mes "หืม... ชัดเจนเลยว่า";
+	mes "เจ้ากำลังคิดจะทำอะไร....";
+	next;
+	mes "[Ashe Bruce]";
+	mes "เจ้าอยากจะกำจัด";
+	mes "คำสาปของเจ้าทิ้งไป....";
+	mes "โดยการโยนมันมาให้ข้าสินะ!!";
+	next;
+	mes "[Ashe Bruce]";
+	mes "แค่เพราะข้าเป็นวิญญาณต้องสาป พวกนักผจญภัยอย่างพวกเจ้าก็คิดจะเอาคำสาปมาเททิ้งที่ข้าหรือยังไงกัน?!";
+	emotion ET_FRET; // แสดงอารมณ์หงุดหงิด
+	next;
+	mes "[Ashe Bruce]";
+	mes "ข้าไม่อนุญาตให้";
+	mes "เจ้าอยู่ที่นี่ต่อ.....";
+	mes "ออกไปซะเดี๋ยวนี้ ไม่งั้นข้าจะ";
+	mes "ไล่เจ้าออกไปด้วยกำลัง....";
+	next;
+	mes "[Ashe Bruce]";
+	mes "....แล้วก็...";
+	mes "....ไม่ว่าเจ้าจะทำอะไรก็ตาม...";
+	mes "....ห้าม-แตะ-ต้อง-หนังสือของข้าเด็ดขาด...";
+	next;
+	switch(select("แตะหนังสือเล่มแรก:แตะหนังสือเล่มที่สอง:แตะหนังสือเล่มที่สาม:ตกลง ฉันจะไปแล้ว")) {
+	case 1:
+		// เรียกมอนสเตอร์ Rideword มาโจมตีผู้เล่น
+		monster "niflheim",349,259,"Rideword",1478,1,"Cursed Spirit#nif::OnMyMobDead";
+		mes "[Ashe Bruce]";
+		mes "...!...";
+		mes "เจ้ากล้าดียังไงมาแตะหนังสือของข้า";
+		mes "ทั้งที่ข้าเพิ่งจะพูดไปหยกๆ ว่า";
+		mes "'ห้ามแตะต้องหนังสือของข้า!'";
+		next;
+		mes "[Ashe Bruce]";
+		mes "....!...แฮ่รรรรร!";
+		mes "ข้าจะฉีกเจ้าเป็นชิ้นๆ...!";
+		mes "จงถูกพันธนาการด้วยคำสาปชั่วนิรันดร์ซะ...!";
+		close;
+	case 2:
+		mes "[Ashe Bruce]";
+		mes "...!...";
+		mes "เจ้าบังอาจแตะหนังสือของข้างั้นเหรอ?!";
+		mes "ทันทีหลังจากที่ข้าบอกว่า";
+		mes "ห้ามแตะเนี่ยนะ...?!";
+		mes "เจ้ามนุษย์ผู้งมงาย!";
+		mes "...ไสหัวไปซะ!";
+		close2;
+		// วาร์ปผู้เล่นไปจุดอื่นในเมือง
+		warp "niflheim",34,162;
+		end;
+	case 3:
+		mes "[Ashe Bruce]";
+		mes "มว่ะฮ่าฮ่าฮ่า....";
+		mes "เจ้ามนุษย์จอมดื้อรั้น~!";
+		mes "ก็ได้! ข้าจะให้โอกาสเจ้าได้สู้หน่อย";
+		mes "และจะยอมให้เจ้าลองร่ายคาถาก็ได้";
+		next;
+		mes "[Ashe Bruce]";
+		mes "แต่สกิล Blessing น่ะ";
+		mes "ใช้กับคำสาปที่เจ้ามี";
+		mes "ไม่ได้หรอกนะ...";
+		mes "และคาถาที่จะถอนคำสาปน่ะ";
+		mes "มันได้สาบสูญไปตามกาลเวลาแล้ว~!";
+		emotion ET_KIK; // แสดงอารมณ์หัวเราะเยาะ
+		next;
+		
+		// ส่วนการเลือกคาถา (ต้องเลือกให้ถูก 3 ข้อ)
+		if (select("Clover:Klaatu:Klaytos") == 2) // Klaatu
+			set .@spell,.@spell+1;
+		if (select("Verit:Veritas:Verata") == 3) // Verata
+			set .@spell,.@spell+1;
+		if (select("Necktie:Necklace:Nero:^FFFFFFNictu!!!^000000") == 4) // Nictu!!!
+			set .@spell,.@spell+1;
+			
+		if (.@spell == 3) {
+			// กรณีร่ายคาถาถูกต้อง (สุ่มผลลัพธ์เพื่อดำเนินเควสต่อ)
+			switch(rand(1,5)) {
+				case 1:
+					if (morison_meat < 15) {
+						set morrison_meat, 15;
+						mes "[Ashe Bruce]";
+						mes "เจ้า... เจ้าถอนคำสาปได้!";
+						mes "เจ้ารู้คาถานี้ได้ยังไงกัน?!";
+						next;
+						mes "[Ashe Bruce]";
+						mes "เจ้าคงคาดหวังจะเห็นข้าหลอมละลาย";
+						mes "ด้วยความเจ็บปวดตอนนี้เลยล่ะสิ?";
+						mes "หึ... เสียใจด้วยนะเจ้ามนุษย์ แต่ข้าน่ะไม่มีวันตาย!";
+						close;
+					}
+					mes "[Ashe Bruce]";
+					mes "...! เจ้าร่ายคาถาถูกงั้นเหรอ?!";
+					mes "...!...";
+					mes "แต่... เจ้าก็ยังถูกสาปอยู่ดีนั่นแหละ...";
+					mes "อั้มฮาาาาาาาาาาาาาาาาาาาา.....!";
+					close;
+			
+				case 2:
+					if (thai_head == 1) {
+						set thai_head, 2;
+						mes "[Ashe Bruce]";
+						mes "นี่มัน...";
+						mes "ความรู้สึกนี้มันอะไรกัน?";
+						next;
+						mes "[Ashe Bruce]";
+						mes "ไม่นะ...!";
+						mes "ไม่นะะะะะะะะะะะะะะะะะะะ!";
+						next;
+						mes "[Ashe Bruce]";
+						mes "ทำไมคาถาของเจ้าต้องมาได้ผลเอาตอนนี้ด้วย!";
+						close;
+					}
+					mes "[Ashe Bruce]";
+					mes "เจ้า...";
+					mes "ร่ายคาถาถูกต้องงั้นเหรอ?!";
+					next;
+					mes "[Ashe Bruce]";
+					mes "โฮ่โฮ่~";
+					mes "แต่เจ้าก็ยังถูกสาปอยู่ดีนั่นแหละ...";
+					close;
+			
+				case 3:
+					if (thai_head == 8) {
+						set thai_head, 7;
+						mes "[Ashe Bruce]";
+						mes "เจ้า... เจ้าถอนคำสาปได้!";
+						mes "ใครเป็นคนสอนคาถานี้ให้เจ้ากัน?!";
+						next;
+						mes "[Ashe Bruce]";
+						mes "เจ้าคงคาดหวังจะเห็นข้าหลอมละลาย";
+						mes "ด้วยความเจ็บปวดตอนนี้เลยล่ะสิ?";
+						mes "หึ... เสียใจด้วยนะเจ้ามนุษย์ แต่ข้าน่ะไม่มีวันตาย!";
+						next;
+						mes "[Ashe Bruce]";
+						mes "ตราบใดที่ข้ายัง...";
+						mes "ยังคง...";
+						mes "ถูกสาปอยู่แบบนี้";
+						next;
+						mes "[Ashe Bruce]";
+						mes "ไม่นะะะะะะะะะะ!";
+						close;
+					}
+					mes "[Ashe Bruce]";
+					mes "...! เจ้าร่ายคาถาถูกงั้นเหรอ?!";
+					mes "...!...";
+					mes "แต่... เจ้าก็ยังถูกสาปอยู่ดีนั่นแหละ...";
+					mes "อั้มฮาาาาาาาาาาาาาาาาาาาา.....!";
+					close;
+			
+				case 4:
+					mes "[Ashe Bruce]";
+					mes "...! เจ้าร่ายคาถาถูกงั้นเหรอ?!";
+					mes "...!...";
+					mes "แต่... เจ้าก็ยังถูกสาปอยู่ดีนั่นแหละ...";
+					mes "มว่ะฮ่าฮ่าฮ่าาาาา.....!";
+					close;
+			}
+		}
+		// กรณีร่ายคาถาผิด หรือจบเหตุการณ์ เรียก Orc Skeleton มารุม
+		monster "niflheim",345,259,"Orc Skeleton",1462,1,"Cursed Spirit#nif::OnMyMobDead";
+		monster "niflheim",347,261,"Orc Skeleton",1462,1,"Cursed Spirit#nif::OnMyMobDead";
+		monster "niflheim",344,253,"Orc Skeleton",1462,1,"Cursed Spirit#nif::OnMyMobDead";
+		monster "niflheim",346,251,"Orc Skeleton",1462,1,"Cursed Spirit#nif::OnMyMobDead";
+		monster "niflheim",349,249,"Orc Skeleton",1462,1,"Cursed Spirit#nif::OnMyMobDead";
+		monster "niflheim",350,260,"Orc Skeleton",1462,1,"Cursed Spirit#nif::OnMyMobDead";
+		monster "niflheim",353,256,"Orc Skeleton",1462,1,"Cursed Spirit#nif::OnMyMobDead";
+		mes "[Ashe Bruce]";
+		mes "มว่ะฮ่าฮ่าฮ่าฮ่าฮ่า!";
+		mes "นั่นไม่ใช่คาถาที่ถูกต้อง!";
+		mes "คราวนี้แหละ ความตายรอเจ้าอยู่!";
+		mes "เจ้าจะถูกพันธนาการด้วยคำสาป";
+		mes "ไปชั่วนิรันดร์...!";
+		close;
+	case 4:
+		mes "[Ashe Bruce]";
+		mes "...";
+		mes ".....";
+		next;
+		mes "[Ashe Bruce]";
+		mes "งั้นก็ดี";
+		mes "ระวังอย่าให้สะดุดขาตัวเองล้ม";
+		mes "ตอนรีบวิ่งออกไปล่ะ";
+		close;
+	}
+
+OnMyMobDead:
+	end;
+}

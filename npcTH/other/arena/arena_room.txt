@@ -1,0 +1,1022 @@
+//===== rAthena Script =======================================
+//= Izlude Arena Room
+//===== By: ==================================================
+//= SinSloth
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Izlude Battle Arena Main Room
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//= 1.1 Fixed a small reward typo (was giving potato.) [L0ne_W0lf]
+//= 1.2 Label standardization, disabled GM NPCs. [Euphy]
+//= 1.2a Added Renewal level checksk. [Euphy]
+//= 1.3 Script updates. [Euphy]
+//= 1.4 Added GM management function. [Euphy]
+//============================================================
+
+arena_room,94,93,5	script	Vendigos	97,{
+	mes "[Vendigos]";
+	mes "ยินดีต้อนรับสู่โลกของ Arena การต่อสู้ที่ต้องแข่งกับเวลา";
+	mes "ฉันชื่อ Vendigos ฉันอยู่ที่นี่เพื่อช่วยเหลือคุณ";
+	next;
+	mes "[Vendigos]";
+	mes "หากคุณมีคำถามใดๆ สามารถสอบถามฉันได้เลย";
+	next;
+	while(1) {
+		switch(select("วิธีท้าทาย:เกี่ยวกับ Arena Points:Arena Points ปัจจุบันของฉัน:ยกเลิก")) {
+		case 1:
+			mes "[Vendigos]";
+			mes "โหมด Arena มีอยู่ 2 รูปแบบ คือ ^3131FFPlayer Mode^000000 และ ^3131FFParty Mode^000000";
+			next;
+			mes "[Vendigos]";
+			mes "^3131FFPlayer Mode^000000 ประกอบด้วย 4 ระดับที่แตกต่างกันตามเลเวลตัวละครตั้งแต่ 50~80";
+			mes "สำหรับปาร์ตี้ที่มีสมาชิก 5 คน สามารถเข้าร่วมใน ^3131FFParty Mode^000000 ได้";
+			next;
+			mes "[Vendigos]";
+			mes "สำหรับ ^3131FFPlayer Mode ในแต่ละระดับ^000000 ตัวละครที่มีเลเวลสูงกว่าเงื่อนไขเลเวลของระดับนั้นๆ 20 เลเวล จะไม่สามารถเข้าได้ ทั้งนี้เพื่อป้องกันตัวละครเลเวลสูงมาครอบครองระดับเลเวลต่ำ";
+			next;
+			mes "[Vendigos]";
+			mes "มี NPC สำหรับระดับ Player Mode ตั้งแต่ทิศ 12 นาฬิกาย้อนทวนเข็มนาฬิกาไป";
+			mes "ในขณะที่คุณรออยู่ในห้องแชท คุณจะถูกนำทางไปยังห้อง Arena โดยอัตโนมัติตามลำดับการคอย";
+			break;
+		case 2:
+			mes "[Vendigos]";
+			mes "ให้ฉันอธิบายเกี่ยวกับ ^3131FFArena Point^000000 นะ";
+			mes "มันคือแต้มรางวัลสำหรับผู้เล่นที่ ^3131FFผ่านด่าน Arena ได้สำเร็จ^000000 โดยผู้เล่นสามารถสะสมแต้มได้สูงสุด 30,000 แต้ม";
+			next;
+			mes "[Vendigos]";
+			mes "แม้ว่าคุณจะผ่านด่านไม่สำเร็จเนื่องจากหมดเวลาหรือข้อผิดพลาดอื่นๆ คุณก็จะได้รับแต้ม Arena จำนวนเล็กน้อย";
+			next;
+			mes "[Vendigos]";
+			mes "เกี่ยวกับการใช้แต้ม Arena,";
+			mes "เรามีบริการต่างๆ มากมาย เช่น บริการถ่ายภาพที่ระลึกผ่าน NPC ที่ชื่อว่า Givu";
+			break;
+		case 3:
+			mes "[Vendigos]";
+			mes "ให้ฉันตรวจสอบแต้ม Arena ปัจจุบันของ "+strcharinfo(0)+" หน่อยนะ";
+			next;
+			mes "[Vendigos]";
+			mes ""+strcharinfo(0)+" มีแต้มทั้งหมด ^3131FF"+arena_point+"^000000 แต้ม";
+			next;
+			mes "[Vendigos]";
+			mes "หากคุณต้องการทราบวิธีใช้แต้ม Arena โปรดอ้างอิงจากเมนูที่ 2 ^3131FF'เกี่ยวกับ Arena Points'^000000";
+			break;
+		case 4:
+			mes "[Vendigos]";
+			mes "ตกลงถ้าอย่างนั้น,";
+			mes "ขอให้มี";
+			mes "ช่วงเวลาที่ดีนะ";
+			close;
+		}
+		next;
+		mes "[Vendigos]";
+		mes "มีอะไร";
+		mes "ที่ฉันสามารถช่วยคุณได้อีกไหม?";
+		next;
+	}
+	close;
+
+OnLineRec_50:
+	mapannounce "arena_room",""+$arena_50topn$+" ได้สร้างสถิติสูงสุดใหม่ใน Arena Time Force Battle เลเวล 50 ขอแสดงความยินดีด้วย!",0;
+	end;
+
+OnLineRec_60:
+	mapannounce "arena_room",""+$arena_60topn$+" ได้สร้างสถิติสูงสุดใหม่ใน Arena Time Force Battle เลเวล 60 ขอแสดงความยินดีด้วย!",0;
+	end;
+
+OnLineRec_70:
+	mapannounce "arena_room",""+$arena_70topn$+" ได้สร้างสถิติสูงสุดใหม่ใน Arena Time Force Battle เลเวล 70 ขอแสดงความยินดีด้วย!",0;
+	end;
+OnLineRec_80:
+	mapannounce "arena_room",""+$arena_80topn$+" ได้สร้างสถิติสูงสุดใหม่ใน Arena Time Force Battle เลเวล 80 ขอแสดงความยินดีด้วย!",0;
+	end;
+
+OnLineRec_pt:
+	mapannounce "arena_room","ปาร์ตี้ "+$arena_pttopn$+" ได้สร้างสถิติสูงสุดใหม่ใน Arena Time Force Battle ขอแสดงความยินดีด้วย!",0;
+	end;
+
+//OnLineRec_vs:
+//	mapannounce "arena_room","Party "+$040611_arn_vstopn$+" has renewed the top record in the Arena Time Force Battle. Congratulations!",0;
+//	end;
+}
+
+arena_room,105,82,5	script	Arena Record Staff	57,{
+	mes "[Owen Kheuv]";
+	mes "สวัสดี ฉันชื่อ Own Kheuv";
+	mes "รับหน้าที่ดูแลบันทึกสถิติของทุกด่าน Arena ของผู้เล่น";
+	next;
+	mes "[Owen Kheuv]";
+	mes "คุณต้องการตรวจสอบอันดับผู้เล่นที่ทำสถิติสูงสุดในแต่ละด่านไหม?";
+	mes "ถ้าใช่ โปรดเลือกเมนูที่ด้านล่างนี้";
+	next;
+	switch(select("ด่าน Lv 50:ด่าน Lv 60:ด่าน Lv 70:ด่าน Lv 80:ด่าน Party")) {
+	case 1:
+		mes "[Owen Kheuv]";
+		mes "ปัจจุบันผู้เล่นอันดับสูงสุดของ Arena ด่าน Lv 50 คือ ^3131FF "+$arena_50topn$+"^000000, สถิติคือ ^3131FF"+$top_50min+"^000000 นาที ^3131FF"+$top_50sec+"^000000 วินาที";
+		close;
+	case 2:
+		mes "[Owen Kheuv]";
+		mes "ปัจจุบันผู้เล่นอันดับสูงสุดของ Arena ด่าน Lv 60 คือ ^3131FF"+$arena_60topn$+"^000000, สถิติคือ ^3131FF"+$top_60min+"^000000 นาที ^3131FF"+$top_60sec+"^000000 วินาที";
+		close;
+	case 3:
+		mes "[Owen Kheuv]";
+		mes "ปัจจุบันผู้เล่นอันดับสูงสุดของ Arena ด่าน Lv 70 คือ ^3131FF"+$arena_70topn$+"^000000, สถิติคือ ^3131FF"+$top_70min+"^000000 นาที ^3131FF"+$top_70sec+"^000000 วินาที";
+		close;
+	case 4:
+		mes "[Owen Kheuv]";
+		mes "ปัจจุบันผู้เล่นอันดับสูงสุดของ Arena ด่าน Lv 80 คือ ^3131FF"+$arena_80topn$+"^000000, สถิติคือ ^3131FF"+$top_80min+"^000000 นาที ^3131FF"+$top_80sec+"^000000 วินาที";
+		close;
+	case 5:
+		mes "[Owen Kheuv]";
+		mes "ปัจจุบันปาร์ตี้อันดับสูงสุดคือ ^3131FF"+$arena_pttopn$+"^000000, สถิติคือ ^3131FF"+$top_ptmin+"^000000 นาที ^3131FF"+$top_ptsec+"^000000 วินาที";
+		close;
+	}
+}
+
+arena_room,68,135,3	script	Helper Pat	726,{
+	mes "[Pat]";
+	mes "ยินดีต้อนรับ ยินดีต้อนรับ";
+	mes "ฉันเป็นผู้ช่วยของ Arena ด่าน Lv 50";
+	next;
+	mes "[Pat]";
+	mes "^3131FFArena ด่าน Lv 50 นี้^000000";
+	mes "อนุญาตให้เข้าได้เฉพาะตัวละครที่มี ^FF0000เลเวล 50^000000 ถึง ^FF0000เลเวล 69^000000 เท่านั้น";
+	next;
+	mes "[Pat]";
+	mes "การจำกัดเลเวลนี้เพื่อป้องกันตัวละครเลเวลสูงมาเอาเปรียบในด่านเลเวลต่ำ ฉันหวังว่าคุณจะเข้าใจ";
+	mes "นอกจากนี้เรายังเก็บค่าธรรมเนียมการเข้า 1,000 zeny";
+	next;
+	mes "[Pat]";
+	mes "ให้ฉันแนะนำเกี่ยวกับกฎการเล่นของ Arena นะ";
+	next;
+	mes "[Pat]";
+	mes "^3131FFให้รอในห้องแชทเพื่อรอคิวของคุณ^000000";
+	mes "เมื่อถึงคิวของคุณ คุณจะถูกวาร์ปไปยังแผนที่ Arena โดยอัตโนมัติ";
+	next;
+	mes "[Pat]";
+	mes "ทันทีที่คุณเข้าสู่แผนที่ นาฬิกาจับเวลาการเล่นของคุณจะเริ่มทำงาน";
+	mes "โปรดทำตามที่ ^3131FFHeel and Toe^000000 แนะนำคุณ";
+	next;
+	mes "[Pat]";
+	mes "คุณมีเวลาในการต่อสู้ ^3131FF5 นาที^000000";
+	next;
+	mes "[Pat]";
+	mes "หลังจากที่คุณผ่านทุกห้องรวมถึงห้องบอสแล้ว คุณจะถูกวาร์ปไปยัง ^3131FFห้องรอก่อนจบ^000000";
+	mes "คุณได้รับอนุญาตให้อยู่ในห้องรอนั้นเพียง ^3131FF1 นาที^000000 เท่านั้น โปรดรีบรับแต้ม Arena แล้วออกไป";
+	next;
+	mes "[Pat]";
+	mes "หากคุณอยู่นานเกิน 1 นาทีในห้องรอก่อนจบ คุณจะถูกบังคับให้ออกไปด้านนอกและจะไม่ได้รับแต้ม Arena ใดๆ โปรดจำเรื่องนี้ไว้ด้วย";
+	next;
+	mes "[Pat]";
+	mes "ฉันหวังว่าคุณจะมีช่วงเวลาที่ดีนะ";
+	close;
+}
+
+arena_room,41,93,5	script	Helper Ben	750,{
+	mes "[Ben]";
+	mes "ยินดีต้อนรับ ยินดีต้อนรับ";
+	mes "ฉันเป็นผู้ช่วยของ Arena ด่าน Lv 60";
+	next;
+	mes "[Ben]";
+	mes "^3131FFArena ด่าน Lv 60 นี้^000000";
+	mes "อนุญาตให้เข้าได้เฉพาะตัวละครที่มี ^FF0000เลเวล 60^000000 ถึง ^FF0000เลเวล 79^000000 เท่านั้น";
+	next;
+	mes "[Ben]";
+	mes "การจำกัดเลเวลนี้เพื่อป้องกันตัวละครเลเวลสูงมาเอาเปรียบในด่านเลเวลต่ำ ฉันหวังว่าคุณจะเข้าใจ";
+	mes "นอกจากนี้เรายังเก็บค่าธรรมเนียมการเข้า 1,000 zeny";
+	next;
+	mes "[Ben]";
+	mes "ให้ฉันแนะนำเกี่ยวกับกฎการเล่นของ Arena นะ";
+	next;
+	mes "[Ben]";
+	mes "^3131FFให้รอในห้องแชทเพื่อรอคิวของคุณ^000000";
+	mes "เมื่อถึงคิวของคุณ คุณจะถูกวาร์ปไปยังแผนที่ Arena โดยอัตโนมัติ";
+	next;
+	mes "[Ben]";
+	mes "ทันทีที่คุณเข้าสู่แผนที่ นาฬิกาจับเวลาการเล่นของคุณจะเริ่มทำงาน";
+	mes "โปรดทำตามที่ ^3131FFMinilover^000000 แนะนำคุณ";
+	next;
+	mes "[Ben]";
+	mes "คุณมีเวลาในการต่อสู้ ^3131FF6 นาที^000000";
+	next;
+	mes "[Ben]";
+	mes "หลังจากที่คุณผ่านทุกห้องรวมถึงห้องบอสแล้ว คุณจะถูกวาร์ปไปยัง ^3131FFห้องรอก่อนจบ^000000";
+	mes "คุณได้รับอนุญาตให้อยู่ในห้องรอนั้นเพียง ^3131FF1 นาที^000000 เท่านั้น โปรดรีบรับแต้ม Arena แล้วออกไป";
+	next;
+	mes "[Ben]";
+	mes "หากคุณอยู่นานเกิน 1 นาทีในห้องรอก่อนจบ คุณจะถูกบังคับให้ออกไปด้านนอกและจะไม่ได้รับแต้ม Arena ใดๆ โปรดจำเรื่องนี้ไว้ด้วย";
+	next;
+	mes "[Ben]";
+	mes "ฉันหวังว่าคุณจะมีช่วงเวลาที่ดีนะ";
+	close;
+}
+
+arena_room,53,49,5	script	Helper Vicious	730,{
+	mes "[Vicious]";
+	mes "เฮ้ หวัดดี";
+	mes "ฉันชื่อ Vicious เป็นผู้ช่วยของ Arena ด่าน Lv 70";
+	mes "(...ฉันก็ไม่รู้เหมือนกันว่าฉันมาทำงานเฮงซวยนี่ได้ยังไง...บ่น บ่น...พึมพำ พึมพำ..)";
+	next;
+	mes "[Vicious]";
+	mes "^3131FFArena ด่าน Lv 70 นี้^000000";
+	mes "อนุญาตให้เข้าได้เฉพาะตัวละครที่มี ^FF0000เลเวล 70^000000 ถึง ^FF0000เลเวล 89^000000 เท่านั้น";
+	next;
+	mes "[Vicious]";
+	mes "การจำกัดเลเวลนี้เพื่อป้องกันตัวละครเลเวลสูงมาเอาเปรียบในด่านเลเวลต่ำ ฉันหวังว่าคุณจะเข้าใจ";
+	mes "นอกจากนี้เรายังเก็บค่าธรรมเนียมการเข้า 1,000 zeny";
+	next;
+	mes "[Vicious]";
+	mes "ให้ฉันแนะนำเกี่ยวกับกฎการเล่นของ Arena นะ";
+	next;
+	mes "[Vicious]";
+	mes "^3131FFให้รอในห้องแชทเพื่อรอคิวของคุณ^000000";
+	mes "เมื่อถึงคิวของคุณ คุณจะถูกวาร์ปไปยังแผนที่ Arena โดยอัตโนมัติ";
+	next;
+	mes "[Vicious]";
+	mes "ทันทีที่คุณเข้าสู่แผนที่ นาฬิกาจับเวลาการเล่นของคุณจะเริ่มทำงาน";
+	mes "โปรดทำตามที่ ^3131FFCadilac^000000 แนะนำคุณ";
+	next;
+	mes "[Vicious]";
+	mes "คุณมีเวลาในการต่อสู้ ^3131FF7 นาที^000000";
+	next;
+	mes "[Vicious]";
+	mes "หลังจากที่คุณผ่านทุกห้องรวมถึงห้องบอสแล้ว คุณจะถูกวาร์ปไปยัง ^3131FFห้องรอก่อนจบ^000000";
+	mes "คุณได้รับอนุญาตให้อยู่ในห้องรอนั้นเพียง ^3131FF1 นาที^000000 เท่านั้น โปรดรีบรับแต้ม Arena แล้วออกไป";
+	next;
+	mes "[Vicious]";
+	mes "หากคุณอยู่นานเกิน 1 นาทีในห้องรอก่อนจบ คุณจะถูกบังคับให้ออกไปด้านนอกและจะไม่ได้รับแต้ม Arena ใดๆ จำไว้ล่ะ";
+	next;
+	mes "[Vicious]";
+	mes "เอาล่ะ ดูแลตัวเองด้วย";
+	close;
+}
+
+arena_room,147,49,3	script	Helper Epin	727,{
+	mes "[Epin]";
+	mes "สวัสดี,";
+	mes "ฉันชื่อ Epin เป็นผู้ช่วยของ Arena ด่าน Lv 80";
+	mes "ฉันชอบการอ่านหนังสือ และฉันอายุ 19 ปี...หือ...? คุณไม่อยากฟังเรื่องของฉันเหรอ...?";
+	next;
+	emotion ET_CRY;
+	mes "[Epin]";
+	mes "ก็ได้...";
+	next;
+	mes "[Epin]";
+	mes "^3131FFArena ด่าน Lv 80 นี้^000000";
+	mes "อนุญาตให้เข้าได้เฉพาะตัวละครที่มี ^FF0000เลเวล 80^000000 ถึง ^FF0000เลเวล "+(checkre(0)?"160":"99")+"^000000 เท่านั้น";
+	next;
+	mes "[Epin]";
+	mes "การจำกัดเลเวลนี้เพื่อป้องกันตัวละครเลเวลสูงมาเอาเปรียบในด่านเลเวลต่ำ ฉันหวังว่าคุณจะเข้าใจ";
+	mes "นอกจากนี้เรายังเก็บค่าธรรมเนียมการเข้า 1,000 zeny";
+	next;
+	mes "[Epin]";
+	mes "ให้ฉันแนะนำเกี่ยวกับกฎการเล่นของ Arena นะ";
+	next;
+	mes "[Epin]";
+	mes "^3131FFให้รอในห้องแชทเพื่อรอคิวของคุณ^000000";
+	mes "เมื่อถึงคิวของคุณ คุณจะถูกวาร์ปไปยังแผนที่ Arena โดยอัตโนมัติ";
+	next;
+	mes "[Epin]";
+	mes "ทันทีที่คุณเข้าสู่แผนที่ นาฬิกาจับเวลาการเล่นของคุณจะเริ่มทำงาน";
+	mes "โปรดทำตามที่ ^3131FFActus^000000 แนะนำคุณ";
+	next;
+	mes "[Epin]";
+	mes "คุณมีเวลาในการต่อสู้ ^3131FF8 นาที^000000";
+	next;
+	mes "[Epin]";
+	mes "หลังจากที่คุณผ่านทุกห้องรวมถึงห้องบอสแล้ว คุณจะถูกวาร์ปไปยัง ^3131FFห้องรอก่อนจบ^000000";
+	mes "คุณได้รับอนุญาตให้อยู่ในห้องรอนั้นเพียง ^3131FF1 นาที^000000 เท่านั้น โปรดรีบรับแต้ม Arena แล้วออกไป";
+	next;
+	mes "[Epin]";
+	mes "หากคุณอยู่นานเกิน 1 นาทีในห้องรอก่อนจบ คุณจะถูกบังคับให้ออกไปด้านนอกและจะไม่ได้รับแต้ม Arena ใดๆ โปรดจำเรื่องนี้ไว้ด้วย";
+	next;
+	mes "[Epin]";
+	mes "ฉันหวังว่าคุณจะมีช่วงเวลาที่ดีนะ";
+	close;
+}
+
+arena_room,158,93,5	script	Helper Lunic	828,{
+	mes "[Lunic]";
+	mes "ยินดีต้อนรับสู่ Party Arena Stage";
+	mes "ฉันหวังว่าคุณจะรับฟังคำแนะนำของฉันอย่างตั้งใจ";
+	mes "เพราะด่าน Party Arena นี้แตกต่างจากด่านโหมด Player เล็กน้อย";
+	next;
+	mes "[Lunic]";
+	mes "^3131FFParty Arena Stage^000000";
+	mes "อนุญาตให้ผู้เล่นที่มี ^FF0000เลเวล 10^000000 ถึง ^FF0000เลเวล "+(checkre(0)?"160":"99")+"^000000 เข้าได้";
+	next;
+	mes "[Lunic]";
+	mes "นอกจากนี้ Arena จะไม่เริ่มทำงานจนกว่าสมาชิกในปาร์ตี้ทั้ง 5 คนจะเข้าห้องครบ เราเก็บค่าธรรมเนียมเข้า 1,000 zeny";
+	next;
+	mes "[Lunic]";
+	mes "ให้ฉันแนะนำเกี่ยวกับกฎการเล่นของ Arena นะ";
+	next;
+	mes "[Lunic]";
+	mes "^3131FFจัดปาร์ตี้กับเพื่อนของคุณและรอในห้องแชท^000000";
+	mes "คุณต้องสร้างปาร์ตี้ไว้ล่วงหน้า หากคุณไม่ทำ คุณยังเล่นได้แต่จะได้รับความไม่สะดวกอย่างมาก";
+	next;
+	mes "[Lunic]";
+	mes "นอกจากนี้โปรดจำไว้ว่า ผู้เล่น 5 คนที่จะถูกวาร์ปอัตโนมัติไปยังห้อง Arena จะเป็นไปตามลำดับ ^FF0000การเข้าห้องแชท^000000 ไม่ใช่ตามลำดับ ^FF0000ปาร์ตี้^000000 โปรดจำเรื่องนี้ไว้ให้ดี";
+	next;
+	mes "[Lunic]";
+	mes "และกรุณาตั้งปาร์ตี้ให้ครบ ^3131FF5 คน^000000 ก่อนที่คุณจะเข้าห้องแชท";
+	next;
+	mes "[Lunic]";
+	mes "เมื่อถึงคิวของคุณ คุณจะถูกวาร์ปไปยังแผนที่ขนาดเล็กที่มีวาร์ปและ NPC ผู้ช่วยตั้งอยู่";
+	mes "ในกรณีที่คุณเข้ามาพร้อมสมาชิกปาร์ตี้อื่น ให้ใช้วาร์ปเพื่อหนีออกจากแผนที่ แล้วคุณจะกลับไปยังห้องรอ";
+	next;
+	mes "[Lunic]";
+	mes "ในกรณีที่คุณเข้ามาพร้อมสมาชิกปาร์ตี้ของคุณ โปรดดำเนินการพูดคุยกับ NPC ผู้ช่วยในแผนที่ขนาดเล็กนั้น";
+	mes "NPC ผู้ช่วยนี้สามารถคุยได้แค่ ^FF0000 1 คน ^000000ต่อครั้งเท่านั้น";
+	next;
+	mes "[Lunic]";
+	mes "NPC จะนำทางคุณและสมาชิกปาร์ตี้ไปยังห้อง Arena ของจริง";
+	mes "อย่างไรก็ตาม หากใครในปาร์ตี้ ^3131FFมีเงินไม่พอจ่ายค่าธรรมเนียมเข้า เขาจะถูกวาร์ปออกไปข้างนอก^000000";
+	next;
+	mes "[Lunic]";
+	mes "นอกจากนี้โปรดทราบว่า คุณสามารถอยู่ในแผนที่นั้นได้เพียง ^FF0000 1 นาที^000000";
+	next;
+	mes "[Lunic]";
+	mes "ทันทีที่คุณเข้าสู่แผนที่ Arena นาฬิกาจับเวลาการต่อสู้ของคุณจะเริ่มทำงาน";
+	mes "โปรดทำตามที่ ^3131FFSlipslowrun^000000 แนะนำคุณ";
+	next;
+	mes "[Lunic]";
+	mes "คุณจะมีเวลา ^3131FF10 นาที^000000 ในการผ่านด่าน แต่มันไม่ง่ายอย่างที่คิดนะ และแนะนำให้ใช้เวลาอย่างคุ้มค่า";
+	next;
+	mes "[Lunic]";
+	mes "หลังจากที่คุณผ่านทุกห้องรวมถึงห้องบอสแล้ว คุณจะถูกวาร์ปไปยัง ^3131FFห้องรอก่อนจบ^000000";
+	mes "คุณได้รับอนุญาตให้อยู่ในห้องรอนั้นเพียง ^3131FF1 นาที^000000 เท่านั้น โปรดรีบรับแต้ม Arena แล้วออกไป";
+	next;
+	mes "[Lunic]";
+	mes "หากคุณอยู่นานเกิน 1 นาทีในห้องรอก่อนจบ คุณจะถูกบังคับให้ออกไปด้านนอกและจะไม่ได้รับแต้ม Arena ใดๆ โปรดจำเรื่องนี้ไว้ด้วย";
+	next;
+	mes "[Lunic]";
+	mes "นอกจากนี้ หากปาร์ตี้สามารถสร้างสถิติเวลาใหม่ในการผ่านแผนที่";
+	mes "^3131FFหัวหน้าปาร์ตี้^000000 จะสามารถบันทึก ^3131FFชื่อปาร์ตี้^000000 ได้";
+	next;
+	mes "[Lunic]";
+	mes "ในกรณีนี้ หากปาร์ตี้มีหัวหน้ามากกว่าหนึ่งคนหรือไม่มีเลย จะไม่สามารถบันทึก ^FF0000สถิตอปาร์ตี้อันดับสูงสุด^000000 ได้";
+	mes "ดังนั้น ขอแนะนำอย่างยิ่งให้จัดปาร์ตี้ให้เรียบร้อยก่อนเข้าแผนที่ Arena";
+	next;
+	mes "[Lunic]";
+	mes "ขอบคุณที่รับฟังและ";
+	mes "ฉันหวังว่าคุณจะมีช่วงเวลาที่ดีนะ";
+	close;
+}
+
+arena_room,158,82,1	script	Helper Lonik	828,{
+	emotion ET_BEST;
+	mes "[Lonik]";
+	mes "แท แด๊! ฉันอยู่นี่แล้ว!";
+	next;
+	mes "[Lonik]";
+	mes "คุณคงสงสัยสินะว่ามีใครอยู่ข้างในหรือเปล่า?";
+	next;
+	mes "[Lonik]";
+	mes "คำตอบของฉันคือ...";
+	mes ".............";
+	if (getmapusers("force_1-2")) {
+		emotion ET_O;
+		mes "ใช่แล้ว!";
+		mes "มีคนอยู่ข้างในนะ";
+		next;
+		mes "[Lonik]";
+		mes "คุณควรรออีกสักหน่อยนะ!";
+	} else {
+		emotion ET_X;
+		mes "ไม่ล่ะ!";
+		mes "เชิญเลย ขอให้โชคดีนะ!";
+	}
+	close;
+}
+
+sec_in02,72,180,3	script	Arena Manager#arena	802,{
+	set .@i, callfunc("F_GM_NPC",1357,0);
+	if (.@i == -1) {
+		mes "[Arena Manager]";
+		mes "คำสั่งถูกยกเลิก";
+		close;
+	} else if (.@i == 0) {
+		mes "รหัสผ่านไม่ถูกต้อง";
+		close;
+	} else {
+		mes "[Arena Manager]";
+		mes "เลือกตัวเลือก";
+		next;
+		switch(select("รีสตาร์ท Arena:จัดลำดับเวลาการจัดอันดับใหม่")) {
+		case 1:
+			switch(select("Lv 50:Lv 60:Lv 70:Lv 80:Party Mode")) {
+			case 1:
+				set .@arena,50;
+				break;
+			case 2:
+				set .@arena,60;
+				break;
+			case 3:
+				set .@arena,70;
+				break;
+			case 4:
+				set .@arena,80;
+				break;
+			case 5:
+				mes "[Arena Manager]";
+				mes "== คำเตือน ==";
+				mes "คุณเลือกที่จะรีสตาร์ทด่าน Party Arena";
+				mes "คุณต้องการดำเนินการต่อหรือไม่?";
+				next;
+				switch(select("ใช่:ไม่")) {
+				case 1:
+					donpcevent "Ponox::OnStart";
+					mes "[Arena Manager]";
+					mes "ด่าน Arena เปิดใช้งานใหม่อีกครั้งเรียบร้อยแล้ว";
+					close;
+
+				case 2:
+					mes "[Arena Manager]";
+					mes "คำสั่งถูกยกเลิก";
+					close;
+				}
+			}
+			mes "[Arena Manager]";
+			mes "== คำเตือน ==";
+			mes "คุณเลือกที่จะรีสตาร์ทด่าน Arena Lv "+.@arena;
+			mes "คุณต้องการดำเนินการต่อหรือไม่?";
+			next;
+			switch(select("ใช่:ไม่")) {
+			case 1:
+				donpcevent "Lv"+.@arena+" Waiting Room::OnStart";
+				mes "[Arena Manager]";
+				mes "ด่าน Arena เปิดใช้งานใหม่อีกครั้งเรียบร้อยแล้ว";
+				close;
+			case 2:
+				mes "[Arena Manager]";
+				mes "คำสั่งถูกยกเลิก";
+				close;
+			}
+		case 2:
+			mes "[Arena Manager]";
+			mes "== คำเตือน ==";
+			mes "^CE0000คุณเลือกที่จะจัดลำดับเวลาการจัดอันดับใหม่ โปรดแน่ใจว่านี่เป็นการตัดสินใจที่ถูกต้อง ยกเว้นว่าจะมีเรื่องร้ายแรงเกิดขึ้น!^000000";
+			next;
+			mes "[Arena Manager]";
+			mes "คุณแน่ใจหรือไม่ว่าต้องการจัดลำดับเวลาใหม่?";
+			next;
+			switch(select("ไม่:ใช่")) {
+			case 1:
+				mes "[Arena Manager]";
+				mes "ฟิ้วว~ :)";
+				close;
+			case 2:
+				switch(select("Lv 50:Lv 60:Lv 70:Lv 80:Party Mode")) {
+				case 1:
+					set .@min$,"$top50min";
+					set .@sec$,"$top50sec";
+					set .@mode$,"Lv 50";
+					break;
+				case 2:
+					set .@min$,"$top60min";
+					set .@sec$,"$top60sec";
+					set .@mode$,"Lv 60";
+					break;
+				case 3:
+					set .@min$,"$top70min";
+					set .@sec$,"$top70sec";
+					set .@mode$,"Lv 70";
+					break;
+				case 4:
+					set .@min$,"$top80min";
+					set .@sec$,"$top80sec";
+					set .@mode$,"Lv 80";
+					break;
+				case 5:
+					set .@min$,"$top_ptmin";
+					set .@sec$,"$top_ptsec";
+					set .@mode$,"party";
+					break;
+				}
+				mes "[Arena Manager]";
+				// Doesn't work with Athena's implementation.
+				//mes "Please enter 0 to cancel.";
+				//mes "If not, please enter a value for minutes first and then seconds.";
+				mes "โปรดป้อนค่านาทีก่อนแล้วตามด้วยวินาที";
+				next;
+				input .@arenamin;
+				setd .@min$,.@arenamin;
+				input .@arenasec;
+				setd .@sec$,.@arenasec;
+				mes "[Arena Manager]";
+				mes "เวลาการเล่นของอันดับ "+.@mode$+" ปัจจุบันถูกจัดลำดับใหม่เป็น ^FF0000"+getd(.@min$)+"^000000 นาที และ ^FF0000"+getd(.@sec$)+"^000000 วินาที";
+				close;
+			}
+		}
+	}
+}
+
+sec_in02,79,171,3	script	Reward Manager#arena	802,{
+	set .@i, callfunc("F_GM_NPC",1357,0);
+	if (.@i == -1) {
+		mes "[Reward Manager]";
+		mes "คำสั่งถูกยกเลิก";
+		close;
+	} else if (.@i == 0) {
+		mes "[Reward Manager]";
+		mes "รหัสผ่านไม่ถูกต้อง";
+		close;
+	} else {
+		mes "[Reward Manager]";
+		mes "คุณเลือกที่จะซ่อน NPC Teleporter";
+		next;
+		switch(select("ยกเลิก:ใช่:เปิดใช้งาน")) {
+		case 1:
+			mes "[Reward Manager]";
+			mes "คุณได้ยกเลิกคำสั่ง";
+			close;
+		case 2:
+			mes "[Reward Manager]";
+			mes "NPC ถูกซ่อนแล้ว";
+			disablenpc "Teleporter#arena";
+			close;
+		case 3:
+			mes "[Reward Manager]";
+			mes "NPC เปิดใช้งานแล้ว";
+			enablenpc "Teleporter#arena";
+			close;
+		}
+	}
+}
+
+arena_room,105,93,5	script	Teleporter#arena	55,{
+	mes "[Teleporter]";
+	mes "ฉันสามารถพาคุณไปยังอารีน่าให้รางวัลได้!";
+	mes "คุณต้องการไปที่นั่นไหม?";
+	next;
+	switch(select("ใช่:ไม่")) {
+	case 1:
+		mes "[Teleporter]";
+		mes "ให้ฉันนำทางคุณนะ";
+		close2;
+		warp "prt_are_in",60,14;
+		end;
+	case 2:
+		mes "[Teleporter]";
+		mes "ไม่มีปัญหา แวะมาใหม่ได้เสมอนะ";
+		close;
+	}
+}
+
+prt_are_in,98,14,3	script	Givu#arena	728,{
+	if (checkweight(526,5) == 0) {
+		mes "- เดี๋ยวก่อน! -";
+		mes "- ปัจจุบันคุณกำลังถือไอเทม -";
+		mes "- มากเกินไป -";
+		mes "- โปรดลดน้ำหนักสัมภาระของคุณ -";
+		mes "- แล้วลองใหม่อีกครั้ง -";
+		close;
+	}
+	mes "[Givu]";
+	mes "สวัสดี ยินดีต้อนรับสู่โลกของ Arena";
+	mes "ฉันชื่อ Givu ฉันรับหน้าที่ดูแลโปรแกรมแลกเปลี่ยนแต้ม Arena";
+	next;
+	mes "[Givu]";
+	mes "คุณสามารถนำแต้ม Arena มาแลกเปลี่ยนเป็นสิ่งของต่างๆ ได้";
+	mes "โปรดเลือกเมนูที่ด้านล่างนี้";
+	next;
+	switch(select("แลกเปลี่ยนเป็นไอเทมสิ้นเปลือง:แลกเปลี่ยนเป็นแต้ม EXP:ถ่ายรูปเป็นที่ระลึก:ตรวจสอบแต้ม Arena ปัจจุบัน")) {
+	case 1:
+		mes "[Givu]";
+		mes "คุณต้องการแลกแต้มเป็นไอเทมสิ้นเปลืองชิ้นไหน?";
+		next;
+		switch(select("Honey:Royal Jelly:Mastela Fruit:Condensed White Potion:Anodyne:Yggdrasil Seed:Yggdrasilberry:Old Blue Box:Old Purple Box:Old Card Album")) {
+			case 1: callfunc "Func_Are_Rew",518,5,20;
+			case 2: callfunc "Func_Are_Rew",526,5,30;
+			case 3: callfunc "Func_Are_Rew",522,5,30;
+			case 4: callfunc "Func_Are_Rew",547,8,30;
+			case 5: callfunc "Func_Are_Rew",605,3,20;
+			case 6: callfunc "Func_Are_Rew",608,1,20;
+			case 7: callfunc "Func_Are_Rew",607,1,40;
+			case 8: callfunc "Func_Are_Rew",603,1,100;
+			case 9: callfunc "Func_Are_Rew",617,1,300;
+			case 10: callfunc "Func_Are_Rew",616,1,1000;
+		}
+	case 2:
+		mes "[Givu]";
+		mes "คุณต้องการแลกแต้ม Arena เป็นค่าประสบการณ์ (EXP) ไหม?";
+		mes "ต้องใช้ 40 แต้ม Arena";
+		next;
+		switch(select("ยกเลิก:ใช่")) {
+		case 1:
+			mes "[Givu]";
+			mes "คุณได้ยกเลิกคำขอ";
+			close;
+		case 2:
+			if (arena_point < 40) {
+				mes "[Givu]";
+				mes "คุณมีแต้ม Arena ไม่เพียงพอ";
+				mes "โปรดตรวจสอบจำนวนแต้ม Arena ทั้งหมดที่คุณมี";
+				close;
+			}
+			set arena_point, arena_point-40;
+			if (checkre(3)) {
+				if (BaseLevel < 70) getexp 300,0;
+				else if (BaseLevel < 80) getexp 900,0;
+				else if (BaseLevel < 90) getexp 1000,0;
+				else getexp 3000,0;
+			} else {
+				if (BaseLevel < 70) getexp 3000,0;
+				else if (BaseLevel < 80) getexp 9000,0;
+				else if (BaseLevel < 90) getexp 10000,0;
+				else getexp 30000,0;
+			}
+			mes "[Givu]";
+			mes "คุณได้รับค่าประสบการณ์แล้ว ขอบคุณ";
+			close;
+		}
+	case 3:
+		mes "[Givu]";
+		mes "คุณเลือกบริการถ่ายรูปเป็นที่ระลึก";
+		next;
+		switch(select("เกี่ยวกับบริการถ่ายรูปที่ระลึก:ถ่ายรูปเลย")) {
+		case 1:
+			mes "[Givu]";
+			mes "คุณเห็นบันไดทางด้านขวาของฉันไหม?";
+			next;
+			mes "[Givu]";
+			mes "ที่บันไดนั้น คุณสามารถถ่ายรูป Screenshot คู่กับ NPC หรือมอนสเตอร์ได้";
+			next;
+			mes "[Givu]";
+			mes "เมื่อคุณเลือก NPC หรือมอนสเตอร์ มันจะแสดงไอคอนแสดงอารมณ์ ^FF0000เป็นเวลา 1 นาที^000000";
+			next;
+			mes "[Givu]";
+			mes "อย่าพลาดโอกาสที่จะถ่ายรูปกับ NPC ที่คุณชื่นชอบล่ะ!";
+			close;
+		case 2:
+			if ($@arena_picture) {
+				mes "[Givu]";
+				mes "บริการถ่ายรูปที่ระลึกกำลังดำเนินการอยู่ โปรดรอสักครู่";
+				close;
+			}
+			mes "[Givu]";
+			mes "โปรดเลือก NPC ด้านล่าง";
+			mes "NPC จะปรากฏตัวเป็นเวลา 1 นาที และบริการนี้ต้องใช้แต้ม Arena 10 แต้ม";
+			next;
+			switch(select("Baphomet:Dark Lord:Doppelganger:Eddga:Dracula:Samurai:Stormy Knight:Phreeoni:Girl:Valkyrie")) {
+				case 1: set $@arena_picture_id,1039; break;
+				case 2: set $@arena_picture_id,1272; break;
+				case 3: set $@arena_picture_id,1046; break;
+				case 4: set $@arena_picture_id,1115; break;
+				case 5: set $@arena_picture_id,1389; break;
+				case 6: set $@arena_picture_id,1492; break;
+				case 7: set $@arena_picture_id,1251; break;
+				case 8: set $@arena_picture_id,1159; break;
+				case 9: set $@arena_picture_id,6969; break;
+				case 10: set $@arena_picture_id,7777; break;
+			}
+			if (arena_point < 10) {
+				mes "[Givu]";
+				mes "คุณมีแต้ม Arena ไม่เพียงพอ";
+				mes "โปรดตรวจสอบจำนวนแต้ม Arena ทั้งหมดที่คุณมี";
+				close;
+			}
+			mes "[Givu]";
+			if ($@arena_picture_id == 6969)
+				mes "คุณต้องการถ่ายรูปกับสาวสวยไหม?";
+			else if ($@arena_picture_id == 7777)
+				mes "คุณต้องการถ่ายรูปกับ Valkyrie ไหม?";
+			else
+				mes "คุณต้องการถ่ายรูปกับ "+getmonsterinfo($@arena_picture_id, MOB_NAME)+"?";
+			next;
+			switch(select("ใช่:ไม่")) {
+			case 1:
+				set arena_point, arena_point-10;
+				set $@arena_picture,1;
+				enablenpc "#arena_"+$@arena_picture_id+"";
+				movenpc "#arena_"+$@arena_picture_id+"",96,28;
+				if ($@arena_picture_id == 6969) {
+					enablenpc "#arena_ss_2";
+					enablenpc "#arena_ss_3";
+					enablenpc "#arena_ss_4";
+				}
+				donpcevent "npctime#arena::OnStart";
+				mes "[Givu]";
+				mes "ขอบคุณ";
+				close;
+			case 2:
+				mes "[Givu]";
+				mes "คุณอยากจะลองคิดดูอีกสักหน่อยไหม?";
+				close;
+			}
+		}
+	case 4:
+		mes "[Givu]";
+		mes "ให้ฉันตรวจสอบแต้ม Arena ปัจจุบันของ "+strcharinfo(0)+" หน่อยนะ";
+		next;
+		mes "[Givu]";
+		mes ""+strcharinfo(0)+" มีแต้มทั้งหมด ^3131FF"+arena_point+"^000000 แต้ม";
+		close;
+	}
+}
+
+prt_are_in,1,1,5	script	#arena_1039	1039,{
+	end;
+
+OnInit:
+	disablenpc "#arena_6969";
+	disablenpc "#arena_ss_2";
+	disablenpc "#arena_ss_3";
+	disablenpc "#arena_ss_4";
+	disablenpc "#arena_1272";
+	disablenpc "#arena_1046";
+	disablenpc "#arena_1115";
+	disablenpc "#arena_1389";
+	disablenpc "#arena_1492";
+	disablenpc "#arena_1251";
+	disablenpc "#arena_1159";
+	disablenpc "#arena_7777";
+	disablenpc "#arena_1039";
+	end;
+
+OnHeart:
+	emotion ET_THROB;
+	end;
+OnSci:
+	emotion ET_SCISSOR;
+	end;
+OnBest:
+	emotion ET_BEST;
+	end;
+OnOmg:
+	emotion ET_HUK;
+	end;
+OnKik:
+	emotion ET_KIK;
+	end;
+OnKis:
+	emotion ET_CHUP;
+	end;
+}
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_6969	714
+prt_are_in,94,26,5	duplicate(#arena_1039)	#arena_ss_2	714
+prt_are_in,100,28,3	duplicate(#arena_1039)	#arena_ss_3	714
+prt_are_in,102,26,3	duplicate(#arena_1039)	#arena_ss_4	714
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_1272	1272
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_1046	1046
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_1115	1115
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_1389	1389
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_1492	1492
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_1251	1251
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_1159	1159
+prt_are_in,1,1,5	duplicate(#arena_1039)	#arena_7777	811
+
+-	script	npctime#arena	-1,{
+OnStop:
+	stopnpctimer;
+	end;
+
+OnStart:
+	initnpctimer;
+	end;
+
+OnTimer2000:
+	mapannounce "prt_are_in","Givu : คุณควรจับเวลาการถ่ายรูปให้ตรงกับไอคอนแสดงอารมณ์นะ~",1,0xFFCE00;
+	end;
+
+OnTimer5000:
+	mapannounce "prt_are_in","ไอคอน : /lv",1,0xFFCE00;
+	end;
+
+OnTimer7000:
+	mapannounce "prt_are_in"," 3 ",1,0xFFCE00;
+	end;
+
+OnTimer8000:
+	mapannounce "prt_are_in"," 2 ",1,0xFFCE00;
+	end;
+
+OnTimer9000:
+	mapannounce "prt_are_in"," 1 ",1,0xFFCE00;
+	end;
+
+OnTimer10000:
+	mapannounce "prt_are_in"," ",1,0xFFCE00;
+	donpcevent "#arena_"+$@arena_picture_id+"::OnHeart";
+	if ($@arena_picture_id == 6969) {
+		donpcevent "#arena_ss_2::OnHeart";
+		donpcevent "#arena_ss_3::OnHeart";
+		donpcevent "#arena_ss_4::OnHeart";
+	}
+	end;
+
+OnTimer15000:
+	mapannounce "prt_are_in","ไอคอน : /gawi",1,0xFFCE00;
+	end;
+
+OnTimer17000:
+	mapannounce "prt_are_in"," 3 ",1,0xFFCE00;
+	end;
+
+OnTimer18000:
+	mapannounce "prt_are_in"," 2 ",1,0xFFCE00;
+	end;
+
+OnTimer19000:
+	mapannounce "prt_are_in"," 1 ",1,0xFFCE00;
+	end;
+
+OnTimer20000:
+	mapannounce "prt_are_in"," ",1,0xFFCE00;
+	donpcevent "#arena_"+$@arena_picture_id+"::OnSci";
+	if ($@arena_picture_id == 6969) {
+		donpcevent "#arena_ss_2::OnSci";
+		donpcevent "#arena_ss_3::OnSci";
+		donpcevent "#arena_ss_4::OnSci";
+	}
+	end;
+
+OnTimer25000:
+	mapannounce "prt_are_in","ไอคอน : /no1",1,0xFFCE00;
+	end;
+
+OnTimer27000:
+	mapannounce "prt_are_in"," 3 ",1,0xFFCE00;
+	end;
+
+OnTimer28000:
+	mapannounce "prt_are_in"," 2 ",1,0xFFCE00;
+	end;
+
+OnTimer29000:
+	mapannounce "prt_are_in"," 1 ",1,0xFFCE00;
+	end;
+
+OnTimer30000:
+	mapannounce "prt_are_in"," ",1,0xFFCE00;
+	donpcevent "#arena_"+$@arena_picture_id+"::OnBest";
+	if ($@arena_picture_id == 6969) {
+		donpcevent "#arena_ss_2::OnBest";
+		donpcevent "#arena_ss_3::OnBest";
+		donpcevent "#arena_ss_4::OnBest";
+	}
+	end;
+
+OnTimer35000:
+	mapannounce "prt_are_in","ไอคอน : /huk",1,0xFFCE00;
+	end;
+
+OnTimer37000:
+	mapannounce "prt_are_in"," 3 ",1,0xFFCE00;
+	end;
+
+OnTimer38000:
+	mapannounce "prt_are_in"," 2 ",1,0xFFCE00;
+	end;
+
+OnTimer39000:
+	mapannounce "prt_are_in"," 1 ",1,0xFFCE00;
+	end;
+
+OnTimer40000:
+	mapannounce "prt_are_in"," ",1,0xFFCE00;
+	donpcevent "#arena_"+$@arena_picture_id+"::OnOmg";
+	if ($@arena_picture_id == 6969) {
+		donpcevent "#arena_ss_2::OnOmg";
+		donpcevent "#arena_ss_3::OnOmg";
+		donpcevent "#arena_ss_4::OnOmg";
+	}
+	end;
+
+OnTimer45000:
+	mapannounce "prt_are_in","ไอคอน : /gg",1,0xFFCE00;
+	end;
+
+OnTimer47000:
+	mapannounce "prt_are_in"," 3 ",1,0xFFCE00;
+	end;
+
+OnTimer48000:
+	mapannounce "prt_are_in"," 2 ",1,0xFFCE00;
+	end;
+
+OnTimer49000:
+	mapannounce "prt_are_in"," 1 ",1,0xFFCE00;
+	end;
+
+OnTimer50000:
+	mapannounce "prt_are_in"," ",1,0xFFCE00;
+	donpcevent "#arena_"+$@arena_picture_id+"::OnKik";
+	if ($@arena_picture_id == 6969) {
+		donpcevent "#arena_ss_2::OnKik";
+		donpcevent "#arena_ss_3::OnKik";
+		donpcevent "#arena_ss_4::OnKik";
+	}
+	end;
+
+OnTimer55000:
+	mapannounce "prt_are_in","ไอคอน : /kis",1,0xFFCE00;
+	end;
+
+OnTimer57000:
+	mapannounce "prt_are_in"," 3 ",1,0xFFCE00;
+	end;
+
+OnTimer58000:
+	mapannounce "prt_are_in"," 2 ",1,0xFFCE00;
+	end;
+
+OnTimer59000:
+	mapannounce "prt_are_in"," 1 ",1,0xFFCE00;
+	end;
+
+OnTimer60000:
+	mapannounce "prt_are_in"," ",1,0xFFCE00;
+	donpcevent "#arena_"+$@arena_picture_id+"::OnKis";
+	if ($@arena_picture_id == 6969) {
+		donpcevent "#arena_ss_2::OnKis";
+		donpcevent "#arena_ss_3::OnKis";
+		donpcevent "#arena_ss_4::OnKis";
+	}
+	end;
+
+OnTimer62000:
+	mapannounce "prt_are_in","หมดเวลาแล้ว ขอบคุณที่ใช้บริการของเรา",1,0xFFCE00;
+	movenpc "#arena_"+$@arena_picture_id+"",1,1;
+	donpcevent "#arena_1039::OnInit";
+	set $@arena_picture,0;
+	stopnpctimer;
+	end;
+}
+
+sec_in02,72,171,3	script	Picture Manager#arena	802,{
+	set .@i, callfunc("F_GM_NPC",1357,0);
+	if (.@i == -1) {
+		mes "[Picture Manager]";
+		mes "คำสั่งถูกยกเลิก";
+		close;
+	} else if (.@i == 0) {
+		mes "[Picture Manager]";
+		mes "รหัสผ่านไม่ถูกต้อง";
+		close;
+	} else {
+		mes "[Picture Manager]";
+		mes "คุณต้องการรีเซ็ตตัวแปรค่า Picture Reward ให้เป็น 0 หรือไม่?";
+		next;
+		switch(select("ยกเลิก:ใช่")) {
+		case 1:
+			mes "[Picture Manager]";
+			mes "คุณได้ยกเลิกคำขอ";
+			close;
+		case 2:
+			mes "[Picture Manager]";
+			mes "รีเซ็ตการให้รางวัลรูปภาพเรียบร้อยแล้ว";
+			set $@arena_picture,0;
+			close;
+		}
+	}
+}
+
+sec_in02,76,176,5	script	Live Broadcast#arena	802,{
+	callfunc "F_GM_NPC";
+	mes "[Live Broadcast]";
+	mes "ปัจจุบันมีผู้เล่น "+getmapusers("force_1-1")+" คนในแผนที่ Lv 50s";
+	mes "ปัจจุบันมีผู้เล่น "+getmapusers("force_2-1")+" คนในแผนที่ Lv 60s";
+	mes "ปัจจุบันมีผู้เล่น "+getmapusers("force_3-1")+" คนในแผนที่ Lv 70s";
+	mes "ปัจจุบันมีผู้เล่น "+getmapusers("force_4-1")+" คนในแผนที่ Lv 80s";
+	mes "ปัจจุบันมีผู้เล่น "+getmapusers("force_1-2")+" คนในแผนที่ Party";
+	mes "ปัจจุบันมีผู้เล่น "+getmapusers("arena_room")+" คนในห้องรอ";
+	close;
+}
+
+function	script	Func_Are_Rew	{
+	.@item_id = getarg(0);
+	.@amount = getarg(1);
+	.@arena_point = getarg(2);
+
+	mes "[Givu]";
+	mes "คุณต้องการแลกแต้ม Arena เป็น "+ getitemname(.@item_id) +" ไหม?";
+	mes "คุณสามารถแลก ^3131FFแต้ม Arena "+ .@arena_point +" แต้ม ต่อ "+ .@amount +" "+ getitemname(.@item_id) +"^000000";
+	mes "หากคุณต้องการยกเลิก โปรดป้อน 0 หากไม่ต้องการยกเลิก โปรดระบุว่าคุณต้องการแลกแต้ม Arena จำนวนกี่ ^3131FFครั้ง^000000";
+	next;
+	input .@reward;
+	if (.@reward <= 0) {
+		mes "[Givu]";
+		mes "คุณได้ยกเลิกคำขอ";
+		close;
+	} else if (.@reward > 1500) {
+		mes "[Givu]";
+		mes "คุณป้อนจำนวนเกินขีดจำกัดสูงสุด";
+		close;
+	}
+	if (arena_point < (.@reward * .@arena_point)) {
+		mes "[Givu]";
+		mes "คุณมีแต้ม Arena ไม่เพียงพอ";
+		mes "โปรดตรวจสอบจำนวนแต้ม Arena ทั้งหมดที่คุณมี";
+		close;
+	}
+	arena_point = arena_point - (.@reward * .@arena_point);
+	getitem .@item_id,.@reward * .@amount;
+	mes "[Givu]";
+	mes "ขอบคุณ โปรดแวะมาใหม่นะ";
+	close;
+}

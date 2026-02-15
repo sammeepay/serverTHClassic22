@@ -1,0 +1,258 @@
+//===== rAthena Script =======================================
+//= Morocc Quest NPCs
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Quest NPCs related to Morocc.
+//===== Additional Comments: =================================
+//= 1.0 First Version.
+//= 1.0a Gathered remaining dialogues. [Euphy]
+//= 1.1 Added new warpers for Satan Morocc maps. [Euphy]
+//============================================================
+
+// Stop Post Quest
+// ============================================================
+morocc,152,167,4	duplicate(William)	William#moc	89
+
+// Binoculars Quest
+// ============================================================
+morocc,169,168,4	duplicate(Alchemist)	Alchemist#moc	64
+
+// Resurrection of Satan Morocc
+// ============================================================
+-	script	Continental Guard#man	-1,{
+	mes "[Continental Guard]";
+	mes "พวกเราได้รับคำสั่งจากกองบัญชาการให้ปิดกั้นทางเข้าพื้นที่นี้ เนื่องจากตรวจพบปรากฏการณ์มิติเวลาที่ผิดปกติ";
+	next;
+	mes "[Continental Guard]";
+	mes "ถ้าคุณยืนยันที่จะไปยังพื้นที่ถัดไปจริงๆ คุณจะต้องรับผิดชอบความปลอดภัยของตัวเองนะ";
+	next;
+	switch(select("ไม่เป็นไร.:เข้าสู่ฟิลด์")) {
+	case 1:
+		mes "[Continental Guard]";
+		mes "เป็นการตัดสินใจที่ฉลาด";
+		mes "ขอให้เดินทางโดยสวัสดิภาพ";
+		close;
+	case 2:
+		mes "[Continental Guard]";
+		mes "เข้าใจแล้ว";
+		mes "ฉันจะส่งคุณไปยังฟิลด์เดี๋ยวนี้แหละ";
+		close2;
+		warp "moc_fild20",208,207;
+		end;
+	}
+}
+moc_fild07,380,202,1	duplicate(Continental Guard#man)	Continental Guard#man1	852
+moc_fild11,189,360,6	duplicate(Continental Guard#man)	Continental Guard#man2	852
+prt_fild10,263,23,1	duplicate(Continental Guard#man)	Continental Guard#man3	852
+prt_fild09,95,19,1	duplicate(Continental Guard#man)	Continental Guard#man4	852
+prt_fild09,246,17,1	duplicate(Continental Guard#man)	Continental Guard#man5	852
+moc_fild13,32,171,6	duplicate(Continental Guard#man)	Continental Guard#man6	852
+moc_fild16,124,381,4	duplicate(Continental Guard#man)	Continental Guard#man7	852
+moc_fild16,333,380,4	duplicate(Continental Guard#man)	Continental Guard#man8	852
+moc_fild01,84,19,1	duplicate(Continental Guard#man)	Continental Guard#man9	852
+
+morocc,176,101,3	duplicate(Continental Official)	Continental Official#mor	754
+
+// Pyramids Nightmare Mode :: nightmare_pry
+//============================================================
+moc_prydb1,103,54,3	script	Suspicious Cat#night	547,{
+	mes "[Suspicious Cat]";
+	mes "ไม่อยากจะเชื่อเลยว่ามัมมี่จะทำกับฉันได้ขนาดนี้ โอ๊ย มันเจ็บนะเนี่ย อย่าให้ใครมารู้เรื่องนี้เชียว....";
+	next;
+	if(select("มัมมี่เหรอ? เกิดอะไรขึ้น?:แกล้งทำเป็นไม่รู้เรื่อง") == 2)
+		close;
+	mes "[Suspicious Cat]";
+	mes "เจ้าจับผิดฉันได้เหรอ! บ้าจริง... ไม่คิดเลยว่าชื่อเสียงในฐานะนักล่าสมบัติตามสุสานของฉันจะมามัวหมองแบบนี้...";
+	next;
+	mes "[Suspicious Cat]";
+	mes "แต่ให้ตายเถอะ พวกมันประหลาดมาก! พวกมันคือมัมมี่นะ! ก็แค่พวกมัมมี่ เข้าใจไหม? พวกมันไม่ควรจะแข็งแกร่งขนาดนั้นสิ!";
+	next;
+	if(select("มัมมี่ที่แข็งแกร่งเหรอ? พวกมันอยู่ที่ไหน?:จบการสนทนา") == 2) {
+		mes "[Suspicious Cat]";
+		mes "อะไรรรนะ~ เจ้าไม่อยากฟังเรื่องของฉันงั้นเหรอ? ก็ได้! แต่อย่าเอาชื่อฉันไปเที่ยวบอกใครเชียวนะ!";
+		close;
+	}
+	mes "[Suspicious Cat]";
+	mes "ฮ่าๆ มันเป็นความลับน่ะ";
+	mes "ฉันไปเจอมาตอนที่กำลังขโมย... ไม่ใช่สิ ฉันหมายถึง ตอนที่กำลังเดินเล่นอยู่ในพีระมิดน่ะ";
+	next;
+	mes "[Suspicious Cat]";
+	mes "ตอนที่ฉันเห็นมัมมี่เดินตรงเข้ามาหา ฉันก็แบบ 'อะไรก็ได้' ไม่ได้สนใจอะไรเลย แต่แล้วมันก็ตบหน้าฉันจนล้มคว่ำ! มันทำแบบนั้นกับแมวน่ารักๆ อย่างฉันได้ยังไง! เจ้าพวกผ้าพันแผลเฮงซวย... คอยดูเถอะ!";
+	next;
+	if(select("ฉันอยากไปที่นั่นด้วยเหมือนกัน.:จบการสนทนา") == 2)
+		close;
+	mes "[Suspicious Cat]";
+	mes "ไม่มีทาง! ฉันเสียเวลาตั้งนานกว่าจะเจอทางนั้นนะ!!";
+	next;
+	mes "[Suspicious Cat]";
+	mes "หืม... แต่ถ้าเจ้าคะยั้นคะยอขนาดนั้นล่ะก็ ขอแค่ 5000 Zeny แล้วฉันจะนำทางให้";
+	mes "อะไรเล่า~? อย่ามามองกันแบบนั้นสิ! เจ้ารู้ไหมว่าการเป็นแมวที่ต้องเอาตัวรอดใน Midgard มันยากลำบากแค่ไหน!";
+	next;
+	mes "[Suspicious Cat]";
+	mes "^FF0000แต่พอมาคิดดูแล้ว กระจอกอย่างเจ้าคงไม่รอดที่นั่นหรอก อาจจะอยู่ได้สักวินาทีถ้าโชคดีล่ะมั้งนะ?^000000";
+	mes "เอาเถอะ มันไม่ใช่ธุระอะไรของฉัน แต่ยังไงฉันก็เตือนเจ้าแล้วนะ!";
+	next;
+	switch(select("จ่าย 5,000 zeny และออกเดินทาง.:ช่างมันเถอะ")) {
+	case 1:
+		if (Zeny < 5000) {
+			mes "[Suspicious Cat]";
+			mes "เจ้าจะไปไหนน่ะ! เจ้ามันถังแตกนี่นา!";
+			close;
+		}
+		set Zeny, Zeny-5000;
+		mes "[Suspicious Cat]";
+		mes "เหอะ เงินเก่าๆ พวกนี้มันอะไรกัน... เจ้าไม่มีอะไรที่มันระยิบระยับหรือแวววาวกว่านี้เลยเรอะ?!";
+		mes "อา ตามฉันมาก็แล้วกัน!";
+		close2;
+		warp "moc_prydn1",93,96;
+		end;
+	case 2:
+		mes "[Suspicious Cat]";
+		mes "พับผ่าสิ เจ้าไม่มีเงินแม้แต่ 5000 Zeny เลยงั้นเหรอ?";
+		close;
+	}
+}
+
+moc_prydn1,94,98,3	script	Suspicious Cat#night2	547,{
+	mes "[Suspicious Cat]";
+	mes "เจ้ามัมมี่โง่นั่นตบหน้าฉันอีกแล้วตอนที่เจ้ามองไปทางอื่น! ฮือ ฮือ... กลับกันเถอะ เมี๊ยว!";
+	next;
+	switch(select("กลับไปยัง Thief Guild:กำจัด Verit:กำจัด Ancient Mummy:ไม่มีอะไร")) {
+	case 1:
+		mes "[Suspicious Cat]";
+		mes "ใช่ๆ... กลับกันเถอะ";
+		close2;
+		warp "moc_prydb1",100,57;
+		end;
+	case 2:
+		set .@playtime, checkquest(2290,PLAYTIME);
+		if (.@playtime == 0 || .@playtime == 1) {
+			mes "[Suspicious Cat]";
+			mes "ดูเจ้า Verit นั่นสิ มันกลัวพวกเราล่ะ! คย่าฮ่าฮ่า! พวกเราปลอดภัยแล้ว อย่างน้อยก็สักพักล่ะนะ!";
+			close;
+		} else if (.@playtime == 2)
+			erasequest 2290;
+		set .@hunting, checkquest(2289,HUNTING);
+		if (.@hunting == -1) {
+			mes "[Suspicious Cat]";
+			mes "เจ้ารู้ไหมว่าแมวกับหมาน่ะไม่ถูกกัน?";
+			next;
+			mes "[Suspicious Cat]";
+			mes "ดูเจ้า Verit ที่น่าเกลียดและน่าขยะแขยงนั่นสิ มันกำลังแยกเขี้ยว ส่ายหาง และพยายามจะเข้ามาใกล้ๆ";
+			mes "โอ้ เจ้าไม่มีหางใช่ไหมล่ะ? มันมองว่าฉันเป็นเสี้ยนหนาม และตอนนี้มันกำลังพยายามจะเริ่มหาเรื่องแล้ว!";
+			next;
+			mes "[Suspicious Cat]";
+			mes "ดูมันสิ ทั้งตะกละทั้งน้ำลายสอ... ฉันไม่ชอบท่าทางตอนมันหายใจด้วย แถมยังรับไม่ได้ที่มันทำเสียงเหมือนกำลังเขมือบอะไรบางอย่างแบบนั้น...";
+			mes "เห็นชัดๆ เลยว่ามันกำลังรอจังหวะลอบโจมตีฉันจากข้างหลัง";
+			next;
+			mes "[Suspicious Cat]";
+			mes "ให้ตายสิ ฉันคงจะข่วนหน้ามันให้ยับไปแล้วถ้าไม่ใช่เพราะฉันปวดท้องอยู่น่ะ!";
+			mes "เฮ้ ไม่ใช่เพราะฉันกลัว Majoruros หรอกนะ!";
+			next;
+			mes "[Suspicious Cat]";
+			mes "ถ้าเจ้าอยากกลับบ้านล่ะก็ ไปจัดการเจ้าหมาน่าเกลียดนั่นซะ! ไม่อย่างนั้นมันจะกัดเจ้านะ!";
+			next;
+			switch(select("ช่วยเขา:อยู่ห่างๆ ไว้")) {
+			case 1:
+				mes "[Suspicious Cat]";
+				mes "ดีมาก จำนวนเป้าหมายคือ 20 ตัว! โชคดีนะ!";
+				setquest 2289;
+				close;
+			case 2:
+				mes "[Suspicious Cat]";
+				mes "เหอะ! เจ้าไม่สนใจฉันงั้นเหรอ? ก็ได้ เจ้าคนทรยศ!";
+				close;
+			}
+		} else if (.@hunting == 0 || .@hunting == 1) {
+			mes "[Suspicious Cat]";
+			mes "การฝึกเจ้า Verit เป็นยังไงบ้าง?";
+			next;
+			switch(select("เรียบร้อยดี.:ข้าอยากหยุดแล้ว")) {
+			case 1:
+				mes "[Suspicious Cat]";
+				mes "ดีมาก พยายามต่อไปนะ!";
+				close;
+			case 2:
+				mes "[Suspicious Cat]";
+				mes "อะไรนะ? เจ้ามันไร้ความรับผิดชอบจริงๆ!";
+				erasequest 2289;
+				close;
+			}
+		} else if (.@hunting == 2) {
+			mes "[Suspicious Cat]";
+			mes "เฮ้ เจ้านี่ก็มีประโยชน์เหมือนกันนะเนี่ย! ทำได้ดีมาก!";
+			mes "เจ้า Verit นั่นคงไม่กล้าโผล่หัวมาแถวนี้ไปอีกพักใหญ่เลยล่ะ จริงไหม? มุฮ่าฮ่า!";
+			changequest 2289,2290;
+			getexp 300000,100000;
+			close;
+		}
+	case 3:
+		set .@playtime, checkquest(2291,PLAYTIME);
+		if (.@playtime == 0 || .@playtime == 1) {
+			mes "[Suspicious Cat]";
+			mes "ดีมาก ฉันจะใช้เวลาที่เจ้าซื้อมาให้คุ้มค่าเลย! แต่ฉันต้องจัดการกับอาการปวดท้องนี่ก่อนนะ.....";
+			close;
+		} else if (.@playtime == 2)
+			erasequest 2291;
+		set .@hunting, checkquest(2292,HUNTING);
+		if (.@hunting == -1) {
+			mes "[Suspicious Cat]";
+			mes "สมบัติล้ำค่าน่ะมักจะถูกซ่อนอยู่ในที่ลับลึกๆ ของที่นี่นั่นแหละ!";
+			mes "ฉันมั่นใจว่าสมบัติล้ำค่าของมัมมี่ต้องถูกซ่อนอยู่ที่ชั้นใต้ดินชั้นที่ 2 แน่ๆ";
+			next;
+			mes "[Suspicious Cat]";
+			mes "แต่เจ้า Ancient Mummies พวกนั้นดันจับฉันได้ตอนเผลอแล้วตีกบาลฉันก่อนที่ฉันจะทันรู้ตัวซะอีก!";
+			next;
+			mes "[Suspicious Cat]";
+			mes "ฉันมั่นใจว่าพวกมันพยายามขัดขวางไม่ให้ฉันหาสมบัติเจอ ด้วยการทำลายเซลล์สมองอันชาญฉลาดของฉัน!!";
+			next;
+			mes "[Suspicious Cat]";
+			mes "พวกมันหยุดฉันไม่ได้หรอก! ไปกำจัดเจ้าพวก Ancient Mummies กันเถอะ!!";
+			next;
+			mes "[Suspicious Cat]";
+			mes "ไม่ต้องถามว่าทำไม! ฉันมั่นใจว่าเจ้าเองก็คงไม่อยากให้สมบัติสวยงามพวกนั้นถูกซ่อนอยู่ในที่มืดๆ เหมือนกันใช่ไหมล่ะ!";
+			next;
+			switch(select("ช่วยเขา:อยู่ห่างๆ ไว้")) {
+			case 1:
+				mes "[Suspicious Cat]";
+				mes "ตกลง จำนวนเป้าหมายคือ 20 ตัว! โชคดีนะ!";
+				setquest 2292;
+				close;
+			case 2:
+				mes "[Suspicious Cat]";
+				mes "เหอะ เจ้ามันคนใจดำ";
+				close;
+			}
+		} else if (.@hunting == 0 || .@hunting == 1) {
+			mes "[Suspicious Cat]";
+			mes "การสู้กับพวก Ancient Mummies เป็นยังไงบ้าง?";
+			next;
+			switch(select("เรียบร้อยดี.:ข้าอยากหยุดแล้ว")) {
+			case 1:
+				mes "[Suspicious Cat]";
+				mes "ดีมาก พยายามต่อไปนะ!";
+				close;
+			case 2:
+				mes "[Suspicious Cat]";
+				mes "อะไรนะ? เจ้ามันไร้ความรับผิดชอบจริงๆ!";
+				erasequest 2292;
+				close;
+			}
+		} else if (.@hunting == 2) {
+			mes "[Suspicious Cat]";
+			mes "เฮ้ เจ้านี่ก็มีประโยชน์เหมือนกันนะเนี่ย! ทำได้ดีมาก!";
+			mes "เจ้า Ancient Mummy นั่นคงไม่กล้าโผล่หัวมาแถวนี้ไปอีกพักใหญ่เลยล่ะ จริงไหม? มุฮ่าฮ่า!";
+			changequest 2292,2291;
+			getexp 600000,200000;
+			close;
+		}
+	case 4:
+		close;
+	}
+}

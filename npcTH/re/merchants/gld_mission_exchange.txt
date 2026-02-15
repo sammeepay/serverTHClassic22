@@ -1,0 +1,469 @@
+//===== rAthena Script =======================================
+//= Guild Dungeon Daily Quest Coin Exchange
+//===== Description: =========================================
+//= [Official Conversion]
+//= NPCs reward from Guild Dungeon's Daily Missions.
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [Cydh]
+//= 1.1 Minified the script. [Secretdataz]
+//= 1.2 Script cleanup. [aleos]
+//= 1.3 Minified Kvasir's ring part. [Lemongrass]
+//============================================================
+
+// Templates
+-	script	#GldDungeonReward	-1,{
+	if (checkweight(1304,3) == 0) {
+		mes "คุณมีไอเทมมากเกินไปที่จะดำเนินเควสต่อ";
+		mes "กรุณาลดน้ำหนักสัมภาระของคุณแล้วลองใหม่อีกครั้ง";
+		close;
+	}
+
+	mes "มันคือเครื่องจักรที่ใช้แลกเปลี่ยน Commemorative Siege Guild Coin เป็นไอเทมพิเศษ";
+	mes "เลือกไอเทมที่ต้องการและใส่เหรียญตามจำนวนที่จำเป็น";
+	next;
+	while(1) {
+		switch(select("ดูไอเทมที่แลกได้","แลกเปลี่ยน Investment Certificate","แลกเปลี่ยนยารักษาชั้นดี","แลกเปลี่ยนของขวัญ","Kvasir's Ring","ออก")) {
+			case 1:
+				mes "[ClickClick MeowMeow-GX]";
+				mes "ขอบคุณที่เลือกใช้บริการ ClickClick MeowMeow!";
+				mes "นี่คือรายการไอเทมที่คุณสามารถซื้อได้ด้วย Commemorative Siege Guild Coin";
+				next;
+				mes "= Blood of Frost Giant =";
+				mes "ยารักษาชนิดใหม่ที่พัฒนาขึ้นโดยความร่วมมือของสมาคม Alchemist จาก 3 ประเทศ มอบพลังเหนือธรรมชาติให้แก่ผู้ใช้ในช่วงเวลาสั้นๆ";
+				mes "^4d4dffลด HP 3000 หน่วย แต่จะเพิ่มความเสียหายทางกายภาพและเวทมนตร์ต่อผู้เล่นฝ่ายตรงข้าม 100% เป็นเวลา 10 วินาที";
+				mes "เลเวลที่ต้องการ: 80 ขึ้นไป^000000";
+				next;
+				mes "= Core of Golem =";
+				mes "ยารักษาชนิดใหม่ที่พัฒนาขึ้นโดยความร่วมมือของสมาคม Alchemist จาก 3 ประเทศ มอบพลังเหนือธรรมชาติให้แก่ผู้ใช้ในช่วงเวลาสั้นๆ";
+				mes "^4d4dffลด SP 300 หน่วย แต่จะลดความเสียหายที่ได้รับจากผู้เล่นฝ่ายตรงข้ามลง 50% เป็นเวลา 10 วินาที";
+				mes "เลเวลที่ต้องการ: 80 ขึ้นไป^000000";
+				next;
+				setarray .@status$, "Stun", "Petrify", "Frozen", "Sleep", "Curse", "Silence", "Blind";
+				.@size = getarraysize(.@status$);
+				for(.@i = 0; .@i < .@size; ++.@i) {
+					mes "= Fairy's Tear (" + .@status$[.@i] + ") =";
+					mes "โพชั่นที่พัฒนาโดย Vicent อัจฉริยะด้านเภสัชกรรม มอบพลังเหนือธรรมชาติให้แก่ผู้ใช้ในช่วงเวลาสั้นๆ";
+					mes "^4d4dffลด HP 3000 หน่วย แต่จะทำให้ผู้ใช้มีภูมิคุ้มกันต่อสถานะ " + (.@i == 1 ? "Petrification" : .@status$[.@i]) + " เป็นเวลา 10 วินาที^000000";
+					next;
+				}
+				mes "= Feather Beret[1] =";
+				mes "หมวกสีฟ้าอ่อนแสนสบาย ตกแต่งด้วยขนนก";
+				mes "^4d4dffMDEF + 1, ลดความเสียหายที่ได้รับจากผู้เล่นฝ่ายตรงข้ามลง 10%";
+				mes "มี Slot [1], ใส่ได้ทุกอาชีพยกเว้น Novice";
+				next;
+				mes "= Feather Beret Costume =";
+				mes "หมวกสีฟ้าอ่อนแสนสบาย ตกแต่งด้วยขนนก";
+				mes "^4d4dffไอเทมคอสตูม, ใส่ได้ทุกอาชีพ^000000";
+				next;
+				mes "สิ้นสุดรายการเพียงเท่านี้";
+				break;
+
+			case 2:
+				mes "[ClickClick MeowMeow-GX]";
+				mes "เราขอแลกเปลี่ยน ^4d4dffInvestment Certificate 1 ใบ^000000 ของกลุ่มพ่อค้า Cat's Paw สำหรับ ^4d4dffCommemorative Coin 10 เหรียญ!^000000";
+				mes "คุณต้องการแลกเปลี่ยนหรือไม่?";
+				next;
+				switch(select("ใช่","ดูไอเทมอื่น")) {
+					case 1:
+						mes "[ClickClick MeowMeow-GX]";
+						if (countitem(6615) > 9) {
+							mes "ขอบคุณที่ใช้บริการของเรา เมี๊ยว!";
+							delitem 6615,10; // Siege_Guild_Coin
+							getitem 6489,1; // Cats_Invest_Certif
+						} else {
+							mes "คุณมีเหรียญไม่พอสำหรับแลก Investment Certificate";
+							mes "Investment Certificate 1 ใบ มีค่าเท่ากับ 10 เหรียญ";
+						}
+						break;
+
+					case 2:
+						mes "[ClickClick MeowMeow-GX]";
+						mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+						break;
+				}
+				break;
+
+			case 3:
+				mes "[ClickClick MeowMeow-GX]";
+				mes "คุณได้เลือกรายการยารักษาชั้นดี!";
+				mes "ไอเทมทั้งหมดที่ระบุไว้ด้านล่างนี้มีราคา ^4d4dffชิ้นละ 300 เหรียญ^000000 นะเมี๊ยว!";
+				next;
+				switch(select("Blood of Frost Giants", "Core of Golem", "Fairy's Tear (Stun)", "Fairy's Tear (Frozen)", "Fairy's Tear (Sleep)", "Fairy's Tear (Curse)", "Fairy's Tear (Petrify)", "Fairy's Tear (Silence)", "Fairy's Tear (Blind)", "ดูไอเทมอื่น")) {
+					case 1:
+						callsub S_PurchaseMedicine, "Blood of Frost Giant", 12874;
+						break;
+					case 2:
+						callsub S_PurchaseMedicine, "Core of Golem", 12875;
+						break;
+					case 3:
+						callsub S_PurchaseMedicine, "Fairy's Tear(Stun)", 12876;
+						break;
+					case 4:
+						callsub S_PurchaseMedicine, "Fairy's Tear(Frozen)", 12878;
+						break;
+					case 5:
+						callsub S_PurchaseMedicine, "Fairy's Tear(Sleep)", 12879;
+						break;
+					case 6:
+						callsub S_PurchaseMedicine, "Fairy's Tear(Curse)", 12880;
+						break;
+					case 7:
+						callsub S_PurchaseMedicine, "Fairy's Tear(Petrify)", 12877;
+						break;
+					case 8:
+						callsub S_PurchaseMedicine, "Fairy's Tear(Silence)", 12881;
+						break;
+					case 9:
+						callsub S_PurchaseMedicine, "Fairy's Tear(Blind)", 12882;
+						break;
+					case 10:
+						mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+						break;
+				}
+				break;
+
+			case 4:
+				mes "[ClickClick MeowMeow-GX]";
+				mes "คุณได้เลือกรายการของขวัญล้ำค่า!";
+				mes "ราคาของแต่ละไอเทมจะแยกกันนะเมี๊ยว!";
+				next;
+				switch(select("Old Card Album - 500 เหรียญ", "Old Purple Box - 300 เหรียญ", "Old Blue Box - 100 เหรียญ", "Jewelry Box - 500 เหรียญ", "Wrapped Mask - 500 เหรียญ", "Feather Beret","ออก")) {
+					case 1:
+						callsub S_PurchaseGift, "Old Card Album", 616, 500;
+						break;
+					case 2:
+						callsub S_PurchaseGift, "Old Purple box", 617, 300;
+						break;
+					case 3:
+						callsub S_PurchaseGift, "Old Blue Box", 603, 100;
+						break;
+					case 4:
+						callsub S_PurchaseGift, "Jewelry Box", 12106, 500;
+						break;
+					case 5:
+						callsub S_PurchaseGift, "Wrapped Mask", 12107, 500;
+						break;
+					case 6:
+						mes "[ClickClick MeowMeow-GX]";
+						mes "คุณได้เลือกหมวกเบเร่ต์แสนสวยที่ตกแต่งด้วยขนนก!";
+						mes "เรามีทั้ง Feather Beret และ Feather Beret Costume ที่คุณสามารถใส่การ์ดได้นะเมี๊ยว!";
+						next;
+						switch(select("Feather Beret[1] - 1500 เหรียญ","Feather Beret Costume - 800 เหรียญ","ซื้อเบเร่ต์","ดูไอเทมอื่น")) {
+							case 1:
+								mes "[ClickClick MeowMeow-GX]";
+								mes "มันคือ Feather Beret ที่คุณสามารถใส่การ์ดได้!";
+								mes "ราคา 1500 Commemorative Coins คุณต้องการซื้อหรือไม่?";
+								next;
+								switch(select("ใช่!","ไม่!")) {
+									case 1:
+										mes "[ClickClick MeowMeow-GX]";
+										if (countitem(6615) > 1499) {
+											mes "ขอบคุณที่ใช้บริการของเรา เมี๊ยว!";
+											delitem 6615,1500; // Siege_Guild_Coin
+											getitem 18755,1; // Feather_Beret_
+										} else {
+											mes "คุณต้องมี 1500 Commemorative Coins เพื่อซื้อไอเทมที่เลือก";
+											mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+										}
+										break;
+
+									case 2:
+										mes "[ClickClick MeowMeow-GX]";
+										mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+										break;
+								}
+								break;
+
+							case 2:
+								mes "[ClickClick MeowMeow-GX]";
+								mes "มันคือ Feather Beret Costume!";
+								mes "ราคา 800 Commemorative Coins คุณต้องการซื้อหรือไม่?";
+								next;
+								switch(select("ใช่!","ไม่!")) {
+									case 1:
+										mes "[ClickClick MeowMeow-GX]";
+										if (countitem(6615) > 799) {
+											mes "ขอบคุณที่ใช้บริการของเรา เมี๊ยว!";
+											delitem 6615,800; // Siege_Guild_Coin
+											getitem 19585,1; // C_Feather_Beret
+										} else {
+											mes "คุณต้องมี 800 Commemorative Coins เพื่อซื้อไอเทมที่เลือก";
+											mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+										}
+										break;
+
+									case 2:
+										mes "[ClickClick MeowMeow-GX]";
+										mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+										break;
+								}
+								break;
+
+							case 3:
+								mes "[ClickClick MeowMeow-GX]";
+								mes "การเตรียมการสำหรับเปลี่ยนสีของ Feather Beret Costume กำลังดำเนินการอยู่";
+								mes "กรุณากลับมาใหม่ภายหลัง!";
+								mes "ให้ฉันแสดงไอเทมชิ้นอื่นให้ดูแทนนะ!";
+								break;
+
+							case 4:
+								mes "[ClickClick MeowMeow-GX]";
+								mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+								break;
+						}
+						break;
+
+					case 7:
+						mes "[ClickClick MeowMeow-GX]";
+						mes "ไม่ได้ใช้งานเครื่องแลกเปลี่ยน";
+						break;
+				}
+				break;
+
+			case 5:
+				mes "[ClickClick MeowMeow-GX]";
+				mes "นี่คือหมวดหมู่ของ Kvasir's Rings";
+				mes "คุณสามารถดูคำอธิบายของแหวนแต่ละวงและสั่งซื้อได้ที่นี่";
+				next;
+				switch(select("แลกเปลี่ยน Kvasir's Ring (Blue)", "แลกเปลี่ยน Kvasir's Ring (Red)", "แลกเปลี่ยน Kvasir's Ring (Green)", "แลกเปลี่ยน Kvasir's Ring (Brown)", "ออก")) {
+					case 1:
+						mes "= Kvasir's Ring (Blue) =";
+						mes "แหวนที่มีข่าวลือว่าเต็มไปด้วยพลังของ Kvasir เทพเจ้าแห่งปราชญ์";
+						mes "^4d4dffMSP + 30. สามารถใช้สกิล 'Snow Flip' เลเวล 1^000000";
+						mes "เครื่องประดับ. ใส่ได้ทุกอาชีพ. เลเวลที่ต้องการ: 1";
+						next;
+						mes "[ClickClick MeowMeow-GX]";
+						mes "Kvasir's Ring (Blue) สามารถซื้อได้ด้วย ^4d4dffBlood of Frost Giant 20 ชิ้น และ Core of Golem 20 ชิ้น^000000";
+						mes "หรือ ^4d4dffKvasir's Ring สีอื่น 1 วง และ 10 Commemorative Coins!^000000";
+						mes "คุณต้องการซื้อหรือไม่?";
+						next;
+						switch(select("จ่ายด้วย Blood และ Core","จ่ายด้วย Kvasir's Ring (Red)","จ่ายด้วย Kvasir's Ring (Green)","จ่ายด้วย Kvasir's Ring (Brown)","ออก")) {
+							case 1:
+								mes "[ClickClick MeowMeow-GX]";
+								if ((countitem(12874) > 19) & (countitem(12875) > 19)) {
+									mes "ซื้อ Kvasir's Ring (Blue) เรียบร้อยแล้ว";
+									delitem 12874,20; // Frost_Giant_Blood
+									delitem 12875,20; // Golem_Stone
+									getitem 2951,1; // Kvasir_Ring_Blue
+								} else {
+									mes "ดูเหมือนว่า Kvasir's Ring (Blue) จะต้องใช้ ^4d4dffBlood of Frost Giant 20 ชิ้น และ Core of Golem 20 ชิ้น ในการซื้อนะ^000000";
+									mes "คุณมีไอเทมไม่เพียงพอสำหรับการซื้อ ดูไอเทมชิ้นอื่น";
+								}
+								break;
+
+							case 2:
+								callsub S_Kvasir, "Kvasir's Ring (Red)", 2952, "Kvasir's Ring (Blue)", 2951;
+								break;
+
+							case 3:
+								callsub S_Kvasir, "Kvasir's Ring (Green)", 2953, "Kvasir's Ring (Blue)", 2951;
+								break;
+
+							case 4:
+								callsub S_Kvasir, "Kvasir's Ring (Brown)", 2954, "Kvasir's Ring (Blue)", 2951;
+								break;
+
+							case 5:
+								mes "[ClickClick MeowMeow-GX]";
+								mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+								break;
+						}
+					break;
+
+					case 2:
+						mes "= Kvasir's Ring (Red) =";
+						mes "แหวนที่มีข่าวลือว่าเต็มไปด้วยพลังของ Kvasir เทพเจ้าแห่งปราชญ์";
+						mes "^4d4dffMSP + 30. สามารถใช้สกิล 'Peony Mamy' เลเวล 1^000000";
+						mes "เครื่องประดับ. ใส่ได้ทุกอาชีพ. เลเวลที่ต้องการ: 1";
+						next;
+						mes "[ClickClick MeowMeow-GX]";
+						mes "Kvasir's Ring (Red) สามารถซื้อได้ด้วย ^4d4dffKvasir's Ring 1 วง และ 10 Commemorative Coins^000000";
+						mes "คุณต้องการใช้สิ่งใดแลกเปลี่ยนเป็น Kvasir's Ring (Red)?";
+						next;
+						switch(select("Kvasir's Ring (Blue)","Kvasir's Ring (Green)","Kvasir's Ring (Brown)","ออก")) {
+							case 1:
+								callsub S_Kvasir, "Kvasir's Ring (Blue)", 2951, "Kvasir's Ring (Red)", 2952;
+								break;
+
+							case 2:
+								callsub S_Kvasir, "Kvasir's Ring (Green)", 2953, "Kvasir's Ring (Red)", 2952;
+								break;
+
+							case 3:
+								callsub S_Kvasir, "Kvasir's Ring (Brown)", 2954, "Kvasir's Ring (Red)", 2952;
+								break;
+
+							case 4:
+								mes "[ClickClick MeowMeow-GX]";
+								mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+								break;
+						}
+						break;
+
+					case 3:
+						mes "= Kvasir's Ring (Green) =";
+						mes "แหวนที่มีข่าวลือว่าเต็มไปด้วยพลังของ Kvasir เทพเจ้าแห่งปราชญ์";
+						mes "^4d4dffMSP + 100. สามารถใช้สกิล 'Sada Ear' เลเวล 1^000000";
+						mes "เครื่องประดับ. ใส่ได้ทุกอาชีพ. เลเวลที่ต้องการ: 1";
+						next;
+						mes "[ClickClick MeowMeow-GX]";
+						mes "Kvasir's Ring (Green) สามารถซื้อได้ด้วย ^4d4dffKvasir's Ring 1 วง และ 10 Commemorative Coins^000000";
+						mes "คุณต้องการใช้สิ่งใดแลกเปลี่ยนเป็น Kvasir's Ring (Red)?";
+						next;
+						switch(select("Kvasir's Ring (Blue)","Kvasir's Ring (Red)","Kvasir's Ring (Brown)","ออก")) {
+							case 1:
+								callsub S_Kvasir, "Kvasir's Ring (Blue)", 2951, "Kvasir's Ring (Green)", 2953;
+								break;
+
+							case 2:
+								callsub S_Kvasir, "Kvasir's Ring (Red)", 2952, "Kvasir's Ring (Green)", 2953;
+								break;
+
+							case 3:
+								callsub S_Kvasir, "Kvasir's Ring (Brown)", 2954, "Kvasir's Ring (Green)", 2953;
+								break;
+
+							case 4:
+								mes "[ClickClick MeowMeow-GX]";
+								mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+								break;
+						}
+						break;
+
+					case 4:
+						mes "= Kvasir Ring Brown =";
+						mes "แหวนที่มีข่าวลือว่าเต็มไปด้วยพลังของ Kvasir เทพเจ้าแห่งปราชญ์";
+						mes "^4d4dffMSP + 100. สามารถใช้สกิล 'Dust of Galaxy' เลเวล 1^000000";
+						mes "เครื่องประดับ. ใส่ได้ทุกอาชีพ. เลเวลที่ต้องการ: 1";
+						next;
+						mes "[ClickClick MeowMeow-GX]";
+						mes "Kvasir's Ring (Brown) สามารถซื้อได้ด้วย ^4d4dffKvasir's Ring 1 วง และ 10 Commemorative Coins^000000";
+						mes "คุณต้องการใช้สิ่งใดแลกเปลี่ยนเป็น Kvasir's Ring (Red)?";
+						next;
+						switch(select("Kvasir's Ring (Blue)","Kvasir's Ring (Red)","Kvasir's Ring (Green)","ออก")) {
+							case 1:
+								callsub S_Kvasir, "Kvasir's Ring (Blue)", 2951, "Kvasir's Ring (Brown)", 2954;
+								break;
+
+							case 2:
+								callsub S_Kvasir, "Kvasir's Ring (Red)", 2952, "Kvasir's Ring (Brown)", 2954;
+								break;
+
+							case 3:
+								callsub S_Kvasir, "Kvasir's Ring (Green)", 2953, "Kvasir's Ring (Brown)", 2954;
+								break;
+
+							case 4:
+								mes "[ClickClick MeowMeow-GX]";
+								mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+								break;
+						}
+						break;
+
+					case 5:
+						mes "[ClickClick MeowMeow-GX]";
+						mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+						break;
+				}
+				break;
+
+			case 6:
+				mes "[ClickClick MeowMeow-GX]";
+				mes "ไม่ได้ใช้งานเครื่องแลกเปลี่ยน";
+				break;
+		}
+	}
+	close;
+
+S_PurchaseMedicine:
+	mes "[ClickClick MeowMeow-GX]";
+	mes "คุณกำลังจะซื้อ " + getarg(0) + " 1 ชิ้น เมี๊ยว!";
+	mes "คุณแน่ใจไหม?";
+	next;
+	switch(select("ใช่!","ไม่!")) {
+		case 1:
+			mes "[ClickClick MeowMeow-GX]";
+			if (countitem(6615) > 299) {
+				mes "ขอบคุณที่ใช้บริการของเรา เมี๊ยว!";
+				delitem 6615,300; // Siege_Guild_Coin
+				getitem getarg(1),1;
+			} else
+				mes "ยารักษาชั้นดีหนึ่งชิ้นมีค่าเท่ากับ 300 commemorative coins ที่คุณอุตส่าห์เก็บหอมรอมริบมาเลยนะ...";
+			break;
+
+		case 2:
+			mes "[ClickClick MeowMeow-GX]";
+			mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+			break;
+	}
+	return;
+	
+S_PurchaseGift:
+	.@itemid = getarg(1);
+	.@price = getarg(2);
+	mes "[ClickClick MeowMeow-GX]";
+	mes "คุณกำลังจะซื้อ " + getarg(0) + " 1 ชิ้น เมี๊ยว!";
+	mes "คุณแน่ใจไหม?";
+	next;
+	switch(select("ใช่!","ไม่!")) {
+		case 1:
+			mes "[ClickClick MeowMeow-GX]";
+			if (countitem(6615) >= .@price) {
+				mes "ขอบคุณที่ใช้บริการของเรา เมี๊ยว!";
+				delitem 6615,.@price; // Siege_Guild_Coin
+				getitem .@itemid,1;
+			} else {
+				mes "คุณต้องมี " + .@price + " Commemorative Coins เพื่อซื้อไอเทมที่เลือก";
+				mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+			}
+			break;
+
+		case 2:
+			mes "[ClickClick MeowMeow-GX]";
+			mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+			break;
+	}
+	return;
+
+S_Kvasir:
+	.@fromid = getarg(1);
+	.@fromname$ = getarg(2);
+	.@toid = getarg(3);
+	.@toname$ = getarg(4);
+	
+	mes "[ClickClick MeowMeow-GX]";
+	// One of Kvasir's Rings and 10 Siege_Guild_Coin
+	if( countitem( .@fromid ) > 0 && countitem( 6615 ) > 9 ){
+		mes "คุณมี " + .@fromname$ + " อยู่";
+		mes "คุณต้องการใช้มันแลกเปลี่ยนเป็น " + .@toname$ + " หรือไม่?";
+		next;
+		mes "[ClickClick MeowMeow-GX]";
+		switch( select( "ใช่!:ออก" ) ){
+			case 1:
+				// Recheck the items once more
+				if( countitem( .@fromid ) > 0 && countitem( 6615 ) > 9 ){
+					mes "คุณได้แลกเปลี่ยน " + .@fromname$ + " เป็น " + .@toname$ + " เรียบร้อยแล้ว";
+					delitem .@fromid, 1;
+					delitem 6615, 10; // Siege_Guild_Coin
+					getitem .@toid, 1;
+					close;
+				}
+				break;
+			case 2:
+				mes "คุณตัดสินใจดูไอเทมชิ้นอื่น";
+				return;
+		}
+	}
+	mes "คุณต้องใช้ 1 " + .@fromname$ + " และ 10 Commemorative Coins เพื่อทำการซื้อให้เสร็จสมบูรณ์";
+	return;
+}
+
+// Main NPCs
+alde_gld,180,163,3	duplicate(#GldDungeonReward)	ClickClick MeowMeow-GX#1	2_VENDING_MACHINE1
+pay_gld,196,176,5	duplicate(#GldDungeonReward)	ClickClick MeowMeow-GX#2	2_VENDING_MACHINE1
+gef_fild13,198,246,3	duplicate(#GldDungeonReward)	ClickClick MeowMeow-GX#3	2_VENDING_MACHINE1
+sch_gld,266,119,5	duplicate(#GldDungeonReward)	ClickClick MeowMeow-GX#4	2_VENDING_MACHINE1
+aru_gld,89,204,5	duplicate(#GldDungeonReward)	ClickClick MeowMeow-GX#5	2_VENDING_MACHINE1
+prt_gld,107,155,3	duplicate(#GldDungeonReward)	ClickClick MeowMeow-GX#6	2_VENDING_MACHINE1
+te_prt_gld,107,155,3	duplicate(#GldDungeonReward)	ClickClick MeowMeow-GX#7	2_VENDING_MACHINE1
+te_alde_gld,180,163,3	duplicate(#GldDungeonReward)	ClickClick MeowMeow-GX#8	2_VENDING_MACHINE1

@@ -1,0 +1,3238 @@
+//===== rAthena Script =======================================
+//= Instances: A Gathering Place of Wolves and Sanctuary Purification.
+//===== Description: =========================================
+//- [Walkthrough conversion]
+//- A Gathering Place of Wolves is a part of the episode 18.1 main quest.
+//- Sanctuary Purification is a daily quest.
+//===== Changelogs: ==========================================
+//= 1.0 First version. [Capuche]
+//============================================================
+
+// Main Quest: Step 54. (entrance npc is a part of the instance A Gathering Place of Wolves)
+rachel,167,244,5	duplicate(dummy_cloaked_npc)	Suad#sms03	4_EP18_SUAD
+
+rachel,169,245,3	script	Ordinary person#sms04	4_EP18_GW_WOMAN01,{
+		if (ep18_1_main < 50) {
+				end;
+		}
+		if (ep18_1_main == 50 || ep18_1_main == 51) {	// 17519 == 1
+				mes "[บุคคลธรรมดา]";
+				mes "สถานที่นี้กำลังอยู่ระหว่างการซ่อมแซม และห้ามเข้า";
+				next;
+				cutin "ep18_Suad_01.png",2;
+				cloakoffnpcself( "Suad#sms03" );
+				mes "[ซวด]";
+				mes "คุณไม่จำเป็นต้องระวัง นักผจญภัยคนนี้ก็อยู่กับเราด้วย";
+				next;
+				cutin "ep18_miriam_01.png",0;
+				cloakoffnpcself( "Miriam#sms03" );
+				mes "[มิเรียม]";
+				mes "พวกคุณอยู่ที่นี่กันหมดหรือยัง?";
+				next;
+				cutin "ep18_Suad_01.png",2;
+				mes "[ซวด]";
+				mes "ใช่ครับ เตรียมการเรียบร้อยแล้วครับ ส่งสัญญาณให้คนของเราแล้วเข้าวัดไปครับ";
+				next;
+				cutin "ep18_miriam_01.png",0;
+				mes "[มิเรียม]";
+				mes "ฉันจะต้องไปอย่างรวดเร็ว";
+				next;
+				cutin "ep18_Suad_01.png",2;
+				mes "[ซวด]";
+				mes "หากเข้ามาที่นี่ สามารถเข้าได้ทางประตูข้างของวิหาร นักผจญภัย คุณต้องการเข้าตอนนี้หรือไม่";
+				next;
+
+				.@md_name$ = "A Gathering Place of Wolves";
+
+				// player has party
+				if (is_party_leader()) {
+						// player is leader of the party
+						.@create$ = "Create " + .@md_name$;
+				}
+
+				switch( select( .@create$, "Enter.", "I need time." ) ) {
+				case 1:
+						if (instance_create(.@md_name$) < 0) {	// Note: not forced solo
+								mes "งานสังสรรค์:" + getpartyname(getcharid(1)) + "";
+								mes "ผู้นำ:" + strcharinfo(0) + "";
+								mes "^0000ff" + .@md_name$ + "^000000- ข้อผิดพลาดที่ไม่ทราบสาเหตุ";
+								close3;
+						}
+						mes "[มิเรียมปลอมตัว]";
+						mes "คุณควรจะรอสักหน่อยก่อนเข้าไป";
+						close3;
+				case 2:
+						switch( instance_enter(.@md_name$) ) {
+						case IE_OTHER:
+								mes "[ซวด]";
+								mes "^ff0000เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ^000000";
+								close3;
+						case IE_NOINSTANCE:
+								mes "[ซวด]";
+								mes "บอกให้หัวหน้าพรรคส่งสัญญาณเมื่อเขาพร้อม";
+								close3;
+						case IE_NOMEMBER:
+								mes "[ซวด]";
+								mes "^ff0000เฉพาะสมาชิกในกลุ่มเท่านั้นที่สามารถเข้าสู่ดันเจี้ยนอนุสรณ์ได้^000000";
+								close3;
+						case IE_OK:
+								mes "[ซวด]";
+								mes "สัญญาณมาแล้ว ไปกันต่อเลย";
+								if (ep18_1_main == 50) {
+										changequest 17519,17520;
+										ep18_1_main = 51;
+								}
+								cutin "",255;
+								mapannounce "rachel", "" + strcharinfo(0) + " of the party, " + getpartyname( getcharid(1) ) + ", is entering " + .@md_name$ + ".",bc_map,"0x00ff99",FW_NORMAL,12;
+								// warp "1@nyr",194,30;
+								close;
+						}
+						end;
+				case 3:
+						close3;
+				}
+				end;
+		}
+		mes "[บุคคลธรรมดา]";
+		mes "มีคนจากวัดกำลังรอคุณอยู่";
+		close2;
+		cloakoffnpcself( "Miriam#sms03" );
+		npctalk "ยินดีต้อนรับคุณนาย.", "Miriam#sms03", bc_self;
+		end;
+
+OnInit:
+		questinfo( QTYPE_QUEST, QMARK_YELLOW, "isbegin_quest(17519) == 1" );
+
+		// Sanctuary Purification
+		questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "checkquest(17527,PLAYTIME) == 2" );
+		questinfo( QTYPE_DAILYQUEST, QMARK_YELLOW, "ep18_1_main >= 52 && checkquest(17527,PLAYTIME) == -1 && isbegin_quest(17522) == 0 && isbegin_quest(17523) == 0" );
+		end;
+}
+
+// Instance Sanctuary Purification entrance
+rachel,167,242,7	script(CLOAKED)	Miriam#sms03	4_EP18_MIRIAM,{
+		if (checkweight(1000405,4) == 0) {
+				mes "- รอสักครู่ !! -";
+				mes "- ตอนนี้คุณกำลังพกพาอยู่ -";
+				mes "- มีของเยอะเกินไป -";
+				mes "- กรุณาลองอีกครั้ง -";
+				mes "- หลังจากที่คุณลดน้ำหนักได้บ้างแล้ว -";
+				close;
+		}
+		.@md_name$ = "Sanctuary Purification";
+		if (ep18_1_main >= 52) {	// repeatable instance Sanctuary Purification
+				if (BaseLevel < 170) {
+						mes "[บาทหลวง]";
+						mes "คุณต้องมี BaseLevel อย่างน้อย 170 สำหรับอินสแตนซ์นี้";
+						close;
+				}
+				if (isbegin_quest(17524) == 1 || isbegin_quest(17526) == 1) {
+						mes "[บาทหลวง]";
+						mes "ยินดีต้อนรับกลับมา นักผจญภัย คุณทำงานหนักมาก";
+						if (isbegin_quest(17524) == 1) {
+								erasequest 17524;
+								.@count = 2;
+						}
+						if (isbegin_quest(17526) == 1) {
+								erasequest 17526;
+								.@count += 2;
+						}
+						getitem 1000405,.@count;	// Ep18_Amethyst_Fragment
+						close;
+				}
+				switch( checkquest(17527,PLAYTIME) ) {
+				case -1:
+						if (isbegin_quest(17522) == 0 && isbegin_quest(17523) == 0)
+								callsub( S_Take, 0 );
+						break;
+				case 0:
+				case 1:
+						mes "[จิงวาน]";
+						mes "กรุณารอจนกว่าจะถึงเวลาสิ้นสุดภารกิจ";
+						close;
+				case 2:
+						mes "[บาทหลวง]";
+						mes "สวัสดี! คุณได้พักผ่อนอย่างเต็มที่หรือไม่? ฉันจะขอบคุณมากหากคุณสามารถช่วยฉันได้ในวันนี้ โปรดทราบว่าการผ่าตัดสามารถทำได้วันละครั้ง";
+						erasequest 17527;
+						if (isbegin_quest(17522) == 0 && isbegin_quest(17523) == 0)
+								callsub( S_Take, 1 );
+						break;
+				}
+				mes "[บาทหลวง]";
+				mes "คุณพร้อมหรือยัง? ฉันจะส่งสัญญาณให้คุณเข้าร่วม";
+				next;
+				switch( select( "Hey, send a signal", "I'll enter.", "I have a mission I haven't received yet!", "I need more preparation." ) ) {
+				case 1:
+						mes "[บาทหลวง]";
+						mes "คุณได้รับจุดเชื่อมต่อแล้ว หากคุณผ่านทางออกฉุกเฉินนี้ คุณสามารถเข้าร่วมได้ทันที เข้าไปเมื่อคุณพร้อม";
+						if (instance_create(.@md_name$) < 0) {
+								mes "งานสังสรรค์:" + getpartyname(getcharid(1)) + "";
+								mes "ผู้นำ:" + strcharinfo(0) + "";
+								mes "^0000ff" + .@md_name$ + "^000000- ข้อผิดพลาดที่ไม่ทราบสาเหตุ";
+								close;
+						}
+						end;
+				case 2:
+						switch( instance_enter(.@md_name$) ) {
+						case IE_OTHER:
+								mes "^ff0000เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ^000000";
+								close;
+						case IE_NOINSTANCE:
+								mes "คุกใต้ดินอนุสรณ์ไม่มีอยู่";
+								mes "หัวหน้าปาร์ตี้ยังไม่ได้สร้างดันเจี้ยน";
+								close;
+						case IE_NOMEMBER:
+								mes "^ff0000เฉพาะสมาชิกในกลุ่มเท่านั้นที่สามารถเข้าสู่ดันเจี้ยนอนุสรณ์ได้^000000";
+								close;
+						case IE_OK:
+								mes "[บาทหลวง]";
+								mes "สัญญาณมาแล้ว ไปต่อกันที่ทางแยกเลย";
+								mapannounce "rachel", "" + strcharinfo(0) + " of the party, " + getpartyname( getcharid(1) ) + ", is entering " + .@md_name$ + ".",bc_map,"0x00ff99",FW_NORMAL,12;
+								setquest 17527;
+								// warp "1@nyr",194,30;
+								end;
+						}
+						end;
+				case 3:
+						callsub( S_Take, 0 );
+				case 4:
+						end;
+				}
+		}
+		end;
+
+S_Take:
+		if (getarg(0) == 0) {
+				mes "[จิงวาน]";
+				mes "กองกำลังหลักที่แทรกซึมเข้ามาในวิหารได้หายไปแล้ว แต่ทหารรักษาวิหารที่ตกไปอยู่ฝ่ายนักล่าหัวใจ และซากศพของนักล่าหัวใจที่กำลังเล็งเป้าไปที่หัวใจยังคงอยู่ซึ่งเป็นปัญหา";
+				next;
+				mes "[จิงวาน]";
+				mes "เรากำลังดำเนินการสร้างกำแพงของเราเอง แต่เราจะขอบคุณมากหากมีนักผจญภัยมาช่วย โปรดทราบว่าการดำเนินการเคลียร์จะดำเนินการวันละครั้ง";
+		}
+		next;
+		switch( select( "Both of these quests.", "Clear the renegade Temple Guard", "Heart Hunter Sodang", "It must be difficult" ) ) {
+		case 1:
+				if (isbegin_quest(17522) == 0 && isbegin_quest(17524) == 0)
+						setquest 17522;
+				if (isbegin_quest(17523) == 0 && isbegin_quest(17526) == 0)
+						setquest 17523;
+				mes "[บาทหลวง]";
+				mes "ขอบคุณมาก แล้วบอกฉันเมื่อคุณพร้อม";
+				close;
+		case 2:
+				if (isbegin_quest(17522) == 0 && isbegin_quest(17524) == 0)
+						setquest 17522;
+				mes "[บาทหลวง]";
+				mes "ขอบคุณมาก แล้วบอกฉันเมื่อคุณพร้อม";
+				close;
+		case 3:
+				if (isbegin_quest(17523) == 0 && isbegin_quest(17526) == 0)
+						setquest 17523;
+				mes "[บาทหลวง]";
+				mes "ขอบคุณมาก แล้วบอกฉันเมื่อคุณพร้อม";
+				close;
+		case 4:
+				end;
+		}
+		end;
+}
+
+
+// Define the instance variables and disable the unused NPCs
+1@nyr,1,1,0	script	nyr_starter	-1,{
+		end;
+OnInstanceInit:
+		'nyr_main_step = 0;
+		'nyr_daily_step = 0;
+		'code = 0;
+		'map_1nyr$ = instance_mapname("1@nyr");
+		'map_2nyr$ = instance_mapname("2@nyr");
+
+		if (instance_live_info(ILI_NAME) == "A Gathering Place of Wolves") {	// Gathering Place of Wolves instance : disable the stater NPCs of Sanctuary Purification
+				disablenpc instance_npcname("#qar101sw");
+
+				for ( .@i = 1; .@i < 16; ++.@i ) {
+						if (.@i < 10)
+								.@string$ = "0" + .@i;
+						else
+								.@string$ = "" + .@i;
+						disablenpc instance_npcname("#cell" + .@string$);
+				}
+				disablenpc instance_npcname("#cell42");
+				disablenpc instance_npcname("#cell51");
+				disablenpc instance_npcname("#cell66");
+
+				// disablenpc instance_npcname("#cell41");	// duplicate of 8
+				disablenpc instance_npcname("#qmobg101");
+		}
+		else {	// Sanctuary Purification instance : disable the stater NPCs of A Gathering Place of Wolves
+				// Step 1 - Gathering Place of Wolves
+				disablenpc instance_npcname("Miriam#dms101");
+				disablenpc instance_npcname("Suad#dms101");
+				disablenpc instance_npcname("Ramachus#dms102");
+				disablenpc instance_npcname("Kun#dms112");
+				disablenpc instance_npcname("Yoppi#dms122");
+				disablenpc instance_npcname("Angry Crowd#dms171");
+				disablenpc instance_npcname("Temple Guard#dms101");
+				disablenpc instance_npcname("Temple Guard#dms111");
+				disablenpc instance_npcname("Temple Guard#dms121");
+				disablenpc instance_npcname("Temple Guard#dms131");
+				disablenpc instance_npcname("Temple Guard#dms141");
+				disablenpc instance_npcname("Temple Guard#dms151");
+				disablenpc instance_npcname("Temple Guard#dms181");
+				disablenpc instance_npcname("Temple Guard#dms191");
+				disablenpc instance_npcname("Angry Crowd#dms101");
+				disablenpc instance_npcname("Angry Crowd#dms111");
+				disablenpc instance_npcname("Angry Crowd#dms121");
+				disablenpc instance_npcname("Angry Crowd#dms131");
+				disablenpc instance_npcname("Angry Crowd#dms141");
+				disablenpc instance_npcname("Angry Crowd#dms151");
+				disablenpc instance_npcname("Angry Crowd#dms161");
+				disablenpc instance_npcname("Angry Crowd#dms181");
+				disablenpc instance_npcname("Angry Crowd#dms191");
+
+				// walls
+				setcell 'map_1nyr$,89,24,89,153,cell_walkable,0;
+				setcell 'map_1nyr$,150,24,150,153,cell_walkable,0;
+		}
+
+		// Sanctuary Purification instance - 1@nyr
+		disablenpc instance_npcname("Temple Guard#qdms01");
+		disablenpc instance_npcname("Temple Guard#qdms02");
+		disablenpc instance_npcname("Temple Guard#qdms03");
+		disablenpc instance_npcname("Temple Guard#qdms21");
+		disablenpc instance_npcname("Temple Guard#qdms22");
+		disablenpc instance_npcname("Temple Guard#qdms23");
+		disablenpc instance_npcname("Temple Guard#qdms31");
+		disablenpc instance_npcname("Temple Guard#qdms32");
+		disablenpc instance_npcname("Temple Guard#qdms33");
+		disablenpc instance_npcname("Temple Guard#qdms41");
+		disablenpc instance_npcname("Temple Guard#qdms42");
+
+		// disablenpc instance_npcname("#qmobg401");
+		// disablenpc instance_npcname("#qar201sw");
+
+		// warps
+		disablenpc instance_npcname("#qwpto01");
+		disablenpc instance_npcname("#qwpto02");
+		disablenpc instance_npcname("#qwpto03");
+		disablenpc instance_npcname("#areaw03");
+
+		// disablenpc instance_npcname("#qwptora");	// unknown
+
+		disablenpc instance_npcname("Temple Guard#qdms101");
+		disablenpc instance_npcname("Temple Guard#qdms111");
+		disablenpc instance_npcname("Temple Guard#qdms121");
+		disablenpc instance_npcname("Temple Guard#qdms131");
+		disablenpc instance_npcname("Temple Guard#qdms141");
+		disablenpc instance_npcname("Temple Guard#qdms151");
+		disablenpc instance_npcname("Temple Guard#qdms161");
+		disablenpc instance_npcname("Temple Guard#qdms171");
+		disablenpc instance_npcname("Temple Guard#qdms181");
+		disablenpc instance_npcname("Temple Guard#qdms102");
+		disablenpc instance_npcname("Temple Guard#qdms112");
+		disablenpc instance_npcname("Temple Guard#qdms122");
+		disablenpc instance_npcname("Temple Guard#qdms132");
+		disablenpc instance_npcname("Temple Guard#qdms142");
+		disablenpc instance_npcname("Temple Guard#qdms152");
+		disablenpc instance_npcname("Temple Guard#qdms162");
+		disablenpc instance_npcname("Temple Guard#qdms172");
+		disablenpc instance_npcname("Temple Guard#qdms182");
+
+		// Step 2 - Gathering Place of Wolves
+		disablenpc instance_npcname("Miriam#dms201");
+		disablenpc instance_npcname("Temple Guard#dms201");
+		disablenpc instance_npcname("Temple Guard#dms211");
+		disablenpc instance_npcname("Temple Guard#dms221");
+		disablenpc instance_npcname("Temple Guard#dms231");
+		disablenpc instance_npcname("Temple Guard#dms241");
+		disablenpc instance_npcname("#msna01");
+
+		// Step 3 - Gathering Place of Wolves
+		disablenpc instance_npcname("Miriam#dms301");
+		disablenpc instance_npcname("Ramachus#dms201");
+		disablenpc instance_npcname("Yoppi#dms221");
+		disablenpc instance_npcname("Kun#dms211");
+		disablenpc instance_npcname("Temple Guard#dms301");
+		disablenpc instance_npcname("Temple Guard#dms311");
+		disablenpc instance_npcname("Temple Guard#dms321");
+		disablenpc instance_npcname("Temple Guard#dms331");
+		disablenpc instance_npcname("Temple Guard#dms341");
+
+		// Step 4 - Gathering Place of Wolves
+		disablenpc instance_npcname("Miriam#dms401");
+		disablenpc instance_npcname("Ramachus#dms301");
+		disablenpc instance_npcname("Kun#dms311");
+		disablenpc instance_npcname("Yoppi#dms321");
+		disablenpc instance_npcname("Temple Guard#dms401");
+		disablenpc instance_npcname("Temple Guard#dms411");
+		disablenpc instance_npcname("Temple Guard#dms421");
+		disablenpc instance_npcname("Temple Guard#dms431");
+		disablenpc instance_npcname("Temple Guard#dms441");
+
+		// Step 5 - Gathering Place of Wolves
+		disablenpc instance_npcname("Miriam#dms501");
+		disablenpc instance_npcname("Ramachus#dms401");
+		disablenpc instance_npcname("Kun#dms411");
+		disablenpc instance_npcname("Yoppi#dms421");
+		disablenpc instance_npcname("Shulang#dms101");
+		disablenpc instance_npcname("Temple Guard#dms501");
+		disablenpc instance_npcname("Temple Guard#dms511");
+		disablenpc instance_npcname("Temple Guard#dms521");
+		disablenpc instance_npcname("Temple Guard#dms531");
+		disablenpc instance_npcname("Temple Guard#dms541");
+
+		// Step 6 - Gathering Place of Wolves
+		// disablenpc instance_npcname("#dmss101");
+		disablenpc instance_npcname("Miriam#dms601");
+		disablenpc instance_npcname("Ramachus#dms501");
+		disablenpc instance_npcname("Kun#dms511");
+		disablenpc instance_npcname("Yoppi#dms521");
+		disablenpc instance_npcname("Shulang#dms201");
+		disablenpc instance_npcname("Bagot#dms101");
+		disablenpc instance_npcname("Private Officer#dms101");
+		disablenpc instance_npcname("Temple Guard#dms601");
+		disablenpc instance_npcname("Temple Guard#dms611");
+		disablenpc instance_npcname("Temple Guard#dms621");
+		disablenpc instance_npcname("#effc01");
+
+		// Step 7 + 8 - Gathering Place of Wolves
+		// disablenpc instance_npcname("#dms701");
+		disablenpc instance_npcname("Miriam#dms701");
+		disablenpc instance_npcname("Ramachus#dms601");
+		disablenpc instance_npcname("Kun#dms611");
+		disablenpc instance_npcname("Yoppi#dms621");
+		disablenpc instance_npcname("Niren#dms101");
+		disablenpc instance_npcname("Private Officer#dms201");
+		disablenpc instance_npcname("Bagot#dms201");
+		disablenpc instance_npcname("Shulang#dms301");
+		disablenpc instance_npcname("Temple Guard#dms701");
+		disablenpc instance_npcname("Temple Guard#dms711");
+		disablenpc instance_npcname("Temple Guard#dms721");
+		disablenpc instance_npcname("Temple Guard#dms731");
+		disablenpc instance_npcname("Temple Guard#dms741");
+		disablenpc instance_npcname("Temple Guard#dms751");
+		disablenpc instance_npcname("Temple Guard#dms761");
+		disablenpc instance_npcname("Temple Guard#dms771");
+
+		// Step 9 - Gathering Place of Wolves
+		disablenpc instance_npcname("#dmswch02");
+		disablenpc instance_npcname("Miriam#dms801");
+
+		// Step 10 - Gathering Place of Wolves
+		disablenpc instance_npcname("Suad#dms102");
+
+		disablenpc instance_npcname("Zhed#dms101");
+		disablenpc instance_npcname("Niren#dms201");
+
+		disablenpc instance_npcname("Temple Guard#dms802");
+		disablenpc instance_npcname("Temple Guard#dms812");
+		disablenpc instance_npcname("Temple Guard#dms822");
+		disablenpc instance_npcname("Temple Guard#dms832");
+		disablenpc instance_npcname("Temple Guard#dms842");
+
+		disablenpc instance_npcname("Temple Guard#dms801");
+		disablenpc instance_npcname("Temple Guard#dms811");
+		disablenpc instance_npcname("Temple Guard#dms821");
+		disablenpc instance_npcname("Temple Guard#dms831");
+		disablenpc instance_npcname("Temple Guard#dms841");
+		disablenpc instance_npcname("Temple Guard#dms851");
+		disablenpc instance_npcname("Temple Guard#dms861");
+		disablenpc instance_npcname("Temple Guard#dms871");
+		disablenpc instance_npcname("Temple Guard#dms881");
+		disablenpc instance_npcname("Temple Guard#dms891");
+
+		disablenpc instance_npcname("Heart Hunter#dms101");
+		disablenpc instance_npcname("Heart Hunter#dms111");
+		disablenpc instance_npcname("Heart Hunter#dms121");
+		disablenpc instance_npcname("Heart Hunter#dms131");
+		disablenpc instance_npcname("Heart Hunter#dms141");
+		disablenpc instance_npcname("Heart Hunter#dms151");
+		disablenpc instance_npcname("Heart Hunter#dms161");
+		disablenpc instance_npcname("Heart Hunter#dms171");
+		disablenpc instance_npcname("Heart Hunter#dms181");
+		disablenpc instance_npcname("Heart Hunter#dms191");
+
+		disablenpc instance_npcname("Angry Crowd#dms201");
+		disablenpc instance_npcname("Angry Crowd#dms211");
+		disablenpc instance_npcname("Angry Crowd#dms221");
+		disablenpc instance_npcname("Angry Crowd#dms231");
+		disablenpc instance_npcname("Angry Crowd#dms241");
+		disablenpc instance_npcname("Angry Crowd#dms251");
+		disablenpc instance_npcname("Angry Crowd#dms261");
+		disablenpc instance_npcname("Angry Crowd#dms271");
+		disablenpc instance_npcname("Angry Crowd#dms281");
+		disablenpc instance_npcname("Angry Crowd#dms291");
+
+		disablenpc instance_npcname("Angry Crowd#dms202");
+		disablenpc instance_npcname("Angry Crowd#dms212");
+		disablenpc instance_npcname("Angry Crowd#dms222");
+		disablenpc instance_npcname("Angry Crowd#dms232");
+		disablenpc instance_npcname("Angry Crowd#dms242");
+
+		// daily (2@nyr)
+		disablenpc instance_npcname("Temple Guard#2dms221");
+		disablenpc instance_npcname("Temple Guard#2dms231");
+		disablenpc instance_npcname("Temple Guard#2dms241");
+		disablenpc instance_npcname("#2mstep11");
+		disablenpc instance_npcname("Temple Guard#2dms201");
+		disablenpc instance_npcname("Temple Guard#2dms251");
+		disablenpc instance_npcname("Temple Guard#2dms211");
+
+		disablenpc instance_npcname("#2ar101sw");
+		disablenpc instance_npcname("Temple Guard#2dms101");
+		disablenpc instance_npcname("Temple Guard#2dms111");
+		disablenpc instance_npcname("Temple Guard#2dms121");
+		disablenpc instance_npcname("Temple Guard#2dms131");
+		disablenpc instance_npcname("Temple Guard#2dms141");
+		disablenpc instance_npcname("Temple Guard#2dms151");
+		disablenpc instance_npcname("Temple Guard#2dms161");
+		disablenpc instance_npcname("#2mstep01");
+		disablenpc instance_npcname("#2mstep02");
+		disablenpc instance_npcname("Security Device#2dms10");
+		disablenpc instance_npcname("#2mstep03");
+		disablenpc instance_npcname("#2mstep04");
+		disablenpc instance_npcname("Security Device#2dms20");
+		disablenpc instance_npcname("#2mstep05");
+		disablenpc instance_npcname("#2mstep06");
+		disablenpc instance_npcname("Security Device#2dms30");
+		disablenpc instance_npcname("#2mstep07");
+		disablenpc instance_npcname("#2mstep08");
+		disablenpc instance_npcname("#2mstep09");
+		disablenpc instance_npcname("Security Device#2dms40");
+		disablenpc instance_npcname("#2mstep10");
+		disablenpc instance_npcname("#msnavi01");
+		disablenpc instance_npcname("Temple Guard#2dms261");
+
+		disablenpc instance_npcname("#2ar201sw");
+		disablenpc instance_npcname("Heart Hunter#2dms50");
+
+		disablenpc instance_npcname("Heart Hunter#2dms10");
+		disablenpc instance_npcname("Heart Hunter#2dms11");
+		disablenpc instance_npcname("Heart Hunter#2dms12");
+		disablenpc instance_npcname("Heart Hunter#2dms13");
+
+		disablenpc instance_npcname("Heart Hunter#2dms20");
+		disablenpc instance_npcname("Heart Hunter#2dms21");
+		disablenpc instance_npcname("Heart Hunter#2dms22");
+
+		disablenpc instance_npcname("Heart Hunter#2dms30");
+		disablenpc instance_npcname("Heart Hunter#2dms31");
+		disablenpc instance_npcname("Heart Hunter#2dms32");
+
+		disablenpc instance_npcname("Heart Hunter#2dms40");
+		disablenpc instance_npcname("Heart Hunter#2dms41");
+		disablenpc instance_npcname("Heart Hunter#2dms42");
+		disablenpc instance_npcname("Heart Hunter#2dms43");
+		disablenpc instance_npcname("Heart Hunter#2dms44");
+		disablenpc instance_npcname("Heart Hunter#2dms45");
+		disablenpc instance_npcname("Heart Hunter#2dms46");
+		disablenpc instance_npcname("Heart Hunter#2dms47");
+		disablenpc instance_npcname("Heart Hunter#2dms48");
+		disablenpc instance_npcname("Heart Hunter#2dms49");
+
+		// warps
+		disablenpc instance_npcname("#dmswp01");
+		disablenpc instance_npcname("#dmwrp02");
+
+		disablenpc instance_npcname("#mstep01");
+		disablenpc instance_npcname("#mstep02");
+		disablenpc instance_npcname("#mstep03");
+		disablenpc instance_npcname("#mstep04");
+		disablenpc instance_npcname("#mstep05");
+		disablenpc instance_npcname("#mstep06");
+		disablenpc instance_npcname("#mstep07");
+		disablenpc instance_npcname("#mstep08");
+		disablenpc instance_npcname("#mstep09");
+		disablenpc instance_npcname("#mstep10");
+		disablenpc instance_npcname("#mstep11");
+		end;
+}
+
+//------------------------------------------------------------
+// Warp NPCs
+//------------------------------------------------------------
+1@nyr,179,168,0	warp	#dmswp01	1,1,2@nyr,34,221
+
+1@nyr,43,26,0	script	#dmwrp02	WARPNPC,1,1,{
+		end;
+OnTouch_:
+		warp "rachel",117,197;
+		if ('nyr_main_step == 22) {
+				if (ep18_1_main == 51) {
+						changequest 17520,17521;
+						ep18_1_main = 52;
+				}
+		}
+		end;
+}
+
+2@nyr,56,104,0	warp	#mstep01	1,1,2@nyr,49,104
+
+2@nyr,49,55,0	script	#mstep02	WARPNPC,1,1,{
+		end;
+OnTouch_:
+		warp 'map_2nyr$,53,55;
+		if ('nyr_main_step == 8)
+				navigateto("2@nyr",119,73);
+		end;
+}
+
+2@nyr,119,73,0	warp	#mstep03	1,1,2@nyr,119,65
+
+2@nyr,119,67,0	script	#mstep04	WARPNPC,1,1,{
+		end;
+OnTouch_:
+		warp 'map_2nyr$,119,75;
+		if ('nyr_main_step == 10)
+				navigateto("2@nyr",183,104);
+		end;
+}
+
+2@nyr,183,104,0	warp	#mstep05	1,1,2@nyr,190,104
+
+2@nyr,186,104,0	script	#mstep06	WARPNPC,1,1,{
+		end;
+OnTouch_:
+		warp 'map_2nyr$,180,104;
+		if ('nyr_main_step == 12)
+				navigateto("2@nyr",133,109);
+		end;
+}
+
+2@nyr,120,123,0	warp	#mstep07	1,1,2@nyr,120,126
+
+2@nyr,120,137,0	script	#mstep08	WARPNPC,1,1,{
+		end;
+OnTouch_:
+		warp 'map_2nyr$,120,147;
+		if ('nyr_main_step == 13)
+				navigateto("2@nyr",118,199);
+		end;
+}
+
+2@nyr,120,141,0	script	#mstep09	WARPNPC,1,1,{
+		end;
+OnTouch_:
+		warp 'map_2nyr$,120,134;
+		if ('nyr_main_step == 16)
+				navigateto("2@nyr",151,131);
+		end;
+}
+
+2@nyr,151,131,0	script	#mstep10	WARPNPC,1,1,{
+		end;
+OnTouch_:
+		warp 'map_2nyr$,159,131;
+		if ('nyr_main_step == 16)
+				navigateto("2@nyr",203,220);
+		end;
+}
+
+2@nyr,203,220,0	warp	#mstep11	1,1,1@nyr,65,169
+
+
+//------------------------------------------------------------
+// Step 1
+//------------------------------------------------------------
+1@nyr,192,31,3	script	Miriam#dms101	EP18_NPC_MIRIAM,5,5,{
+		end;
+OnTouch:
+		if ('nyr_main_step == 1) {
+				navigateto("1@nyr",125,41);
+				end;
+		}
+		if ('nyr_main_step != 0)
+				end;
+
+		'nyr_main_step = 1;
+		setpcblock PCBLOCK_NPC, true;
+		npctalk "นักผจญภัย!";
+		emotion ET_SURPRISE;
+		sleep2 1000;
+		navigateto("1@nyr",125,41);
+		setpcblock PCBLOCK_NPC, false;
+		npctalk "ตรงหน้าฉันเป็นที่รวมตัว";
+		unitwalk getnpcid(0), 162,31, instance_npcname("Miriam#dms101") + "::OnMove1";
+		sleep 2000;
+		npctalk "ติดตามฉันสิ";
+		end;
+
+OnMove1:
+		unitwalk getnpcid(0), 137,31, instance_npcname("Miriam#dms101") + "::OnMove2";
+		end;
+OnMove2:
+		unitwalk getnpcid(0), 128,41, instance_npcname("Miriam#dms101") + "::OnMove3";
+		npctalk "มันอยู่ตรงหน้าฉันแล้ว.";
+		end;
+OnMove3:
+		if ('nyr_main_step != 1)
+				end;
+		'nyr_main_step = 2;
+
+		npctalk "ซ๊าด ตอนนี้สถานการณ์เป็นอย่างไรบ้าง?";
+		npctalk "ไม่อนุญาตให้เข้าอีกต่อไป!", instance_npcname("Temple Guard#dms101");
+		sleep 1000;
+		npctalk "มิเรียม นักผจญภัย ไปอีกหน่อย", instance_npcname("Suad#dms101");
+		sleep 1000;
+		npctalk "สุดยอด! พวกเขาปฏิบัติกับเราเหมือนเป็นอาชญากร!", instance_npcname("Kun#dms112");
+		npctalk "เราอยู่ในสถานที่ที่เข้าไม่ได้ใช่ไหม?", instance_npcname("Angry Crowd#dms131");
+		sleep 1500;
+		npctalk "เฮ้ นั่นคือที่ดินของยายทวดของเรา!", instance_npcname("Angry Crowd#dms121");
+		npctalk "เราก็มีสิทธิ์มาที่นี่ได้!", instance_npcname("Angry Crowd#dms161");
+		npctalk "หัวหน้าพรรคมาถึงแล้วหรือยัง?";
+		sleep 2000;
+		npctalk "เย้!! ออกไปจากที่นี่!", instance_npcname("Angry Crowd#dms191");
+		npctalk "คุณผลักเราออกไป!", instance_npcname("Angry Crowd#dms181");
+		sleep 2000;
+		npctalk "เราดูไม่เหมือนมนุษย์เหรอ?", instance_npcname("Angry Crowd#dms101");
+		npctalk "เรามีความสุขมากขนาดนั้นเลยเหรอ?", instance_npcname("Angry Crowd#dms131");
+		sleep 2000;
+		npctalk "เรากำลังเรียกร้องสิทธิของเรา!", instance_npcname("Angry Crowd#dms121");
+		npctalk "อะไรนะ เอาคืนมา!! แผ่นดินของเรา!!", instance_npcname("Angry Crowd#dms181");
+		sleep 2000;
+		npctalk "พวกเราคือเจ้าของเดิมของดินแดนแห่งนี้และเป็นผู้อพยพที่ถูกผู้ตั้งถิ่นฐานขับไล่ออกไป", instance_npcname("Angry Crowd#dms101");
+		npctalk "ใครมารบกวนเรา!", instance_npcname("Angry Crowd#dms141");
+		sleep 2000;
+		npctalk "เราได้มาเพื่อยืนยันสิทธิอันชอบธรรมของเราในฐานะเจ้าของดินแดนแห่งนี้มาช้านาน", instance_npcname("Angry Crowd#dms101");
+		npctalk "ปล่อยผู้บุกรุกดินแดนของเราไปอย่างผิดกฎหมาย!", instance_npcname("Angry Crowd#dms191");
+		sleep 2000;
+		npctalk "ห้ามประท้วงผิดกฎหมาย!ยุบวง!", instance_npcname("Temple Guard#dms101");
+		npctalk "ใครบอกว่ามันผิดกฎหมาย?", instance_npcname("Angry Crowd#dms151");
+		npctalk "คุณบอกเราแล้วไหมว่าตอนนี้มันผิดกฎหมาย?", instance_npcname("Angry Crowd#dms171");
+		sleep 2000;
+		npctalk "ความต้องการของเรามีดังต่อไปนี้!", instance_npcname("Angry Crowd#dms101");
+		sleep 2000;
+		npctalk "หนึ่ง! เราคือเจ้าของดินแดนแห่งนี้! กำจัดผู้บุกรุกเข้าเมืองโดยผิดกฎหมาย!", instance_npcname("Angry Crowd#dms101");
+		npctalk "ออกไปซะ!", instance_npcname("Angry Crowd#dms111");
+		npctalk "ออกไปซะ!", instance_npcname("Angry Crowd#dms121");
+		npctalk "ออกไปซะ!", instance_npcname("Angry Crowd#dms131");
+		npctalk "ออกไปซะ!", instance_npcname("Angry Crowd#dms141");
+		npctalk "ออกไปซะ!", instance_npcname("Angry Crowd#dms151");
+		sleep 300;
+		npctalk "หนีไป!", instance_npcname("Angry Crowd#dms161");
+		npctalk "ออกไปซะ!", instance_npcname("Angry Crowd#dms171");
+		npctalk "ออกไปซะ!", instance_npcname("Angry Crowd#dms181");
+		npctalk "ออกไปซะ!", instance_npcname("Angry Crowd#dms191");
+		sleep 2000;
+		npctalk "หนึ่ง! ยกเลิกนโยบายการเลือกปฏิบัติที่ไม่มีมูลความจริงและยอมรับสิทธิของเรา!", instance_npcname("Angry Crowd#dms101");
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms111");
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms121");
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms131");
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms141");
+		sleep 500;
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms151");
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms161");
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms171");
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms181");
+		npctalk "ยอมรับมันซะ!", instance_npcname("Angry Crowd#dms191");
+		end;
+
+OnStartMove2:
+		npcspeed 100;
+		unitwalk getnpcid(0), 137,31, instance_npcname("Miriam#dms101") + "::OnMove4";
+		end;
+OnMove4:
+		disablenpc instance_npcname("Miriam#dms101");
+		end;
+
+OnGuy1:
+		disablenpc instance_npcname("Ramachus#dms102");
+		end;
+OnGuy2:
+		disablenpc instance_npcname("Kun#dms112");
+		end;
+OnGuy3:
+		disablenpc instance_npcname("Yoppi#dms122");
+		end;
+}
+
+1@nyr,125,41,3	script	Suad#dms101	4_EP18_SUAD,{
+		if (is_party_leader() == false) {
+				cutin "ep18_Suad_01.png",0;
+				mes "[ซวด]";
+				mes "หัวหน้าพรรคอยู่ไหน?";
+				close3;
+		}
+		if ('nyr_main_step == 2) {
+				cutin "ep18_Suad_01.png",0;
+				mes "[ซวด]";
+				mes "สถานการณ์ขณะนี้ไม่ค่อยดีเท่าไหร่ ทหารติดอาวุธดูเหมือนจะเพิ่มกำลังทหารมากขึ้นแบบนั้น...";
+				next;
+				select( "You must have had a big problem with the top raid." );
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "หรือข้อมูลนั้นรั่วไหลออกไป ไม่เช่นนั้นเราคงไม่ได้เตรียมตัวมาแบบนี้";
+				next;
+				cutin "",255;
+				mes "[ทหารรักษาวัด]";
+				mes "ไม่มีการเข้าอีกแล้ว";
+				next;
+				mes "[ชาวพื้นเมือง]";
+				mes "นี่เราทำอะไรลงไปเนี่ย! เข้ามาที่นี่ไม่ได้เหรอ?";
+				next;
+				mes "[ชาวพื้นเมือง]";
+				mes "ที่แห่งนี้เคยเป็นที่ดินของเรา! ทำไมคุณถึงห้ามไม่ให้ฉันพูดว่าเจ้าของเดิมต้องการเข้ามาในที่ดินของเรา?";
+				next;
+				mes "[ชาวพื้นเมือง]";
+				mes "ตอนนี้เป็นคุณเองที่กำลังครอบครองอย่างผิดกฎหมาย!";
+				next;
+				mes "[ชาวพื้นเมือง]";
+				mes "อะไรนะ เอาคืนมา!! แผ่นดินของเรา!!";
+				next;
+				mes "[ผู้แทนประจำถิ่น]";
+				mes "เราเป็นเจ้าของที่ดินผืนนี้มายาวนานและเป็นผู้ที่ถูกขับไล่ออกไปเนื่องจากผู้อพยพ";
+				next;
+				mes "[ผู้แทนประจำถิ่น]";
+				mes "เราได้มาเพื่อยืนยันสิทธิอันชอบธรรมของเราในฐานะเจ้าของดินแดนแห่งนี้มายาวนาน";
+				next;
+				mes "[ผู้แทนประจำถิ่น]";
+				mes "ความต้องการของเรามีดังต่อไปนี้";
+				next;
+				mes "[ผู้แทนประจำถิ่น]";
+				mes "หนึ่ง! เราคือ...";
+				next;
+				npctalk "ตอนนี้แหละ ตามฉันมาเงียบๆ", instance_npcname("Ramachus#dms102");
+				unitwalk getnpcid(0,instance_npcname("Ramachus#dms102")), 145,34, instance_npcname("Miriam#dms101") + "::OnGuy1";
+				sleep2 1000;
+				unitwalk getnpcid(0,instance_npcname("Kun#dms112")), 145,32, instance_npcname("Miriam#dms101") + "::OnGuy2";
+				unitwalk getnpcid(0,instance_npcname("Yoppi#dms122")), 145,31, instance_npcname("Miriam#dms101") + "::OnGuy3";
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "ซ๊าด คุณได้ให้คำแนะนำพิเศษอะไรกับคนพวกนั้นบ้างไหม?";
+				cutin "ep18_Suad_01.png",0;
+				mes "[ซวด]";
+				mes "ไม่นะ? ทำไม?";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "เฮ้ คุณเห็นคนพวกนั้นไหม พวกเขาเคลื่อนไหวอย่างระมัดระวัง พวกเขาคือกลุ่มที่บุกโจมตีวิหาร";
+				next;
+				cutin "ep18_Suad_03.png",0;
+				mes "[ซวด]";
+				mes "ฉันไม่ได้ให้คำแนะนำที่ชัดเจน คุณพยายามทำคนเดียวใช่ไหม";
+				next;
+				select("You seem to be heading towards the temple.");
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "เป็นการแสดงเดี่ยวที่ไม่มีใครพูดถึงมาก่อน ฉันมีผลงานอยู่แล้ว ดังนั้นมันคงเป็นเรื่องดีใช่ไหม ฉันคงต้องติดตามต่ออย่างเงียบๆ ฉันไม่รู้ว่าจะเกิดอะไรขึ้นอีก";
+				next;
+				cutin "ep18_Suad_01.png",0;
+				mes "[ซวด]";
+				mes "คุณจะไปคนเดียวเหรอ?";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "หากต้องการติดตามคุณ จำเป็นต้องมีคนมาช่วยเป็นกลุ่มไหม แค่คนเดียวก็พอแล้ว คุณอยู่ที่นี่ ฉันจะส่งสัญญาณให้คุณทราบหากเกิดอะไรขึ้น";
+				next;
+				if ('nyr_main_step == 2) {
+						'nyr_main_step = 3;
+						enablenpc instance_npcname("#dmswp01");
+						enablenpc instance_npcname("Miriam#dms201");
+				}
+				donpcevent instance_npcname("Miriam#dms101") + "::OnStartMove2";
+				cutin "ep18_Suad_03.png",0;
+				mes "[ซวด]";
+				mes "โอเคไหม? พวกมันแค่ตามหลังมา แต่ฉันไม่รู้ว่าพวกมันมีจุดประสงค์อะไร พวกมันปลดอาวุธแล้ว แต่ฉันไม่รู้ว่าพวกมันซ่อนอะไรอยู่...";
+				next;
+				unittalk getcharid(3), "" + strcharinfo(0) + " : I'll follow.";
+				mes "[ซวด]";
+				mes "ปลอดภัยแล้ว ฉันขยับตัวไม่ได้ มิเรียมทิ้งรอยไว้ เธอจึงเดินตามรอยนั้นไป โปรดช่วยด้วย";
+				close2;
+				navigateto("1@nyr",179,164);
+				cutin "",255;
+				end;
+		}
+		if ('nyr_main_step == 3) {
+				cutin "ep18_Suad_01.png",0;
+				mes "[ซวด]";
+				mes "ระวัง.";
+				close2;
+				navigateto("1@nyr",179,164);
+				cutin "",255;
+				end;
+		}
+		end;
+}
+
+1@nyr,130,34,1	script	Ramachus#dms102	EP18_ARMED_VILLAGER01,{
+		end;
+OnInstanceInit:
+		npcspeed 100;
+		end;
+}
+1@nyr,132,32,1	duplicate(Ramachus#dms102)	Kun#dms112	EP18_ARMED_VILLAGER02
+1@nyr,130,31,1	duplicate(Ramachus#dms102)	Yoppi#dms122	EP18_ARMED_VILLAGER03
+
+1@nyr,117,38,7	duplicate(dummy_npc)	Angry Crowd#dms171	4_EP18_GW_MIDDLE02
+1@nyr,139,46,3	duplicate(dummy_npc)	Temple Guard#dms101	4_M_RASWORD
+1@nyr,132,46,3	duplicate(dummy_npc)	Temple Guard#dms111	4_M_RASWORD
+1@nyr,126,46,3	duplicate(dummy_npc)	Temple Guard#dms121	4_M_RASWORD
+1@nyr,122,46,3	duplicate(dummy_npc)	Temple Guard#dms131	4_M_RASWORD
+1@nyr,118,46,5	duplicate(dummy_npc)	Temple Guard#dms141	4_M_RASWORD
+1@nyr,110,46,5	duplicate(dummy_npc)	Temple Guard#dms151	4_M_RASWORD
+
+1@nyr,120,44,5	duplicate(dummy_npc)	Temple Guard#dms181	4_M_RASWORD
+1@nyr,124,44,3	duplicate(dummy_npc)	Temple Guard#dms191	4_M_RASWORD
+1@nyr,137,38,1	duplicate(dummy_npc)	Angry Crowd#dms101	4_EP18_GW_MAN01
+1@nyr,124,36,1	duplicate(dummy_npc)	Angry Crowd#dms111	4_EP18_GW_WOMAN01
+1@nyr,131,38,1	duplicate(dummy_npc)	Angry Crowd#dms121	4_EP18_GW_MAN02
+1@nyr,127,34,1	duplicate(dummy_npc)	Angry Crowd#dms131	4_M_MIDDLE
+1@nyr,121,40,7	duplicate(dummy_npc)	Angry Crowd#dms141	4_EP18_GW_WOMAN02
+1@nyr,122,37,7	duplicate(dummy_npc)	Angry Crowd#dms151	4_EP18_GW_MIDDLE01
+1@nyr,118,35,7	duplicate(dummy_npc)	Angry Crowd#dms161	4_M_RACHMAN1
+1@nyr,114,36,7	duplicate(dummy_npc)	Angry Crowd#dms181	4_F_SHABBY
+1@nyr,116,41,7	duplicate(dummy_npc)	Angry Crowd#dms191	4_EP18_GW_WOMAN01
+
+
+//------------------------------------------------------------
+// Step 2
+//------------------------------------------------------------
+// (disabled since we are using Miriam instead)
+// 2@nyr,37,219,0	script	#ar101sw	HIDDEN_WARP_NPC,5,5
+
+2@nyr,37,219,3	script	Miriam#dms201	4_EP18_MIRIAM,5,5,{
+		if (is_party_leader() == false) {
+				npctalk "ใครเป็นหัวหน้าพรรค?";
+				end;
+		}
+		if ('nyr_main_step != 4)
+				end;
+		mes "[ทหารรักษาวัด]";
+		mes "ที่นี่เป็นสถานที่ต้องห้าม";
+		next;
+		cutin "ep18_miriam_01.png",2;
+		mes "[มิเรียม]";
+		mes "ฉันชื่อมิเรียม ลูกสาวของเยาวชนมหาปุโรหิตอามัล ฉันเคยเห็นและติดตามบุคคลน่าสงสัยที่นี่";
+		next;
+		cutin "",255;
+		mes "[ทหารรักษาวัด]";
+		mes "คุณมาที่นี่เพื่อช่วยมหาปุโรหิตใช่ไหม?";
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "ทำงานช่วยหน่อย...คุณพ่ออยู่ไหม?";
+		next;
+		cutin "",255;
+		mes "[ทหารรักษาวัด]";
+		mes "อ่า...";
+		next;
+		mapannounce 'map_2nyr$, "Look.", bc_map, 0xFFCC;
+		mes "[ทหารรักษาวัด]";
+		mes "ที่นี่ไม่มีใครสงสัย กลับไปเถอะ";
+		next;
+		mapannounce 'map_2nyr$, "Be careful.", bc_map, 0xFFCC;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "มีคนน่าสงสัยอยู่จริงเหรอ? พวกเขาเข้ามาที่นี่แน่นอน ขอเวลาสักครู่ ฉันจะรีบตรวจสอบให้เร็วที่สุด";
+		next;
+		cutin "",255;
+		mes "[ทหารรักษาวัด]";
+		mes "หากคุณเข้ามาใกล้กว่านี้ฉันจะตอบกลับ";
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "...อดไม่ได้จริงๆ นักผจญภัย?";
+		next;
+		select("Yes, I'll deal with it, so keep track.");
+		mes "[มิเรียม]";
+		mes "งั้นโปรดเถอะ! ฉันจะทิ้งรอยเอาไว้ ดังนั้นมาหาฉันเถอะ";
+		next;
+		cutin "",255;
+		mes "[ทหารรักษาวัด]";
+		mes "ผู้บุกรุก...! อุ๊ยย!!!";
+		if ('nyr_main_step == 4) {
+				'nyr_main_step = 5;
+				donpcevent instance_npcname("nyr_step_2") + "::OnStart";
+		}
+		close;
+
+OnTouch:
+		// note: player can move
+		if ('nyr_main_step != 3)
+				end;
+		'nyr_main_step = 4;
+		npctalk "คุณเป็นนักผจญภัยใช่ไหม?";
+		npctalk "นักผจญภัย? คุณมาที่นี่ทำไม?";
+		sleep 2000;
+		npctalk "ต้องเป็นของซูอัดแน่นอน ไม่ต้องกังวล";
+		sleep 1000;
+		enablenpc instance_npcname("Temple Guard#dms201");
+		enablenpc instance_npcname("Temple Guard#dms211");
+		enablenpc instance_npcname("Temple Guard#dms221");
+		enablenpc instance_npcname("Temple Guard#dms231");
+		enablenpc instance_npcname("Temple Guard#dms241");
+		sleep 500;
+		npctalk "คุณเป็นใคร! เปิดเผยตัวตนของคุณ!", instance_npcname("Temple Guard#dms201");
+		npctalk "...มันคงผ่านไปอย่างเงียบๆดูเหมือนจะไปยากใช่ไหมล่ะ?";
+		end;
+}
+
+2@nyr,35,215,7	duplicate(dummy_npc)	Temple Guard#dms201	4_M_RASWORD
+2@nyr,34,212,7	duplicate(dummy_npc)	Temple Guard#dms211	4_M_RASWORD
+2@nyr,36,212,1	duplicate(dummy_npc)	Temple Guard#dms221	4_M_RASWORD
+2@nyr,33,209,7	duplicate(dummy_npc)	Temple Guard#dms231	4_M_RASWORD
+2@nyr,38,209,1	duplicate(dummy_npc)	Temple Guard#dms241	4_M_RASWORD
+
+
+2@nyr,1,1,0	script	nyr_step_2	-1,{
+		end;
+OnStart:
+		// disabled npcs from step 1
+		disablenpc instance_npcname("Miriam#dms101");
+		disablenpc instance_npcname("Suad#dms101");
+		disablenpc instance_npcname("Ramachus#dms102");
+		disablenpc instance_npcname("Kun#dms112");
+		disablenpc instance_npcname("Yoppi#dms122");
+		disablenpc instance_npcname("Angry Crowd#dms171");
+		disablenpc instance_npcname("Temple Guard#dms101");
+		disablenpc instance_npcname("Temple Guard#dms111");
+		disablenpc instance_npcname("Temple Guard#dms121");
+		disablenpc instance_npcname("Temple Guard#dms131");
+		disablenpc instance_npcname("Temple Guard#dms141");
+		disablenpc instance_npcname("Temple Guard#dms151");
+		disablenpc instance_npcname("Temple Guard#dms181");
+		disablenpc instance_npcname("Temple Guard#dms191");
+		disablenpc instance_npcname("Angry Crowd#dms101");
+		disablenpc instance_npcname("Angry Crowd#dms111");
+		disablenpc instance_npcname("Angry Crowd#dms121");
+		disablenpc instance_npcname("Angry Crowd#dms131");
+		disablenpc instance_npcname("Angry Crowd#dms141");
+		disablenpc instance_npcname("Angry Crowd#dms151");
+		disablenpc instance_npcname("Angry Crowd#dms161");
+		disablenpc instance_npcname("Angry Crowd#dms181");
+		disablenpc instance_npcname("Angry Crowd#dms191");
+		disablenpc instance_npcname("#dmswp01");
+
+		disablenpc instance_npcname("Miriam#dms201");
+		disablenpc instance_npcname("Temple Guard#dms201");
+		disablenpc instance_npcname("Temple Guard#dms211");
+		disablenpc instance_npcname("Temple Guard#dms221");
+		disablenpc instance_npcname("Temple Guard#dms231");
+		disablenpc instance_npcname("Temple Guard#dms241");
+		sleep 500;
+		.@label$ = instance_npcname("nyr_step_2") + "::OnMobDead";
+		monster 'map_2nyr$,35,215,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,34,212,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,36,212,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,33,209,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,38,209,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		end;
+OnMobDead:
+		if ('nyr_main_step != 5)
+				end;
+		if (mobcount('map_2nyr$, instance_npcname("nyr_step_2") + "::OnMobDead") < 1) {
+				'nyr_main_step = 6;
+				mapannounce 'map_2nyr$, "Did you hear a fight somewhere?", bc_map, 0xFFCC;
+				enablenpc instance_npcname("#mstep01");
+				enablenpc instance_npcname("Miriam#dms301");
+				enablenpc instance_npcname("Ramachus#dms201");
+				enablenpc instance_npcname("Yoppi#dms221");
+				enablenpc instance_npcname("Kun#dms211");
+				enablenpc instance_npcname("#msna01");
+		}
+		end;
+}
+
+2@nyr,37,145,0	script	#msna01	HIDDEN_WARP_NPC,5,5,{
+		end;
+OnTouch:
+		if ('nyr_main_step == 6)
+				navigateto("2@nyr",56,104);
+		end;
+}
+
+
+//------------------------------------------------------------
+// Step 3
+//------------------------------------------------------------
+2@nyr,43,94,3	script	Miriam#dms301	4_EP18_MIRIAM,5,5,{
+		end;
+OnTouch:
+		if ('nyr_main_step != 6)
+				end;
+		npctalk "ไม่เป็นไร ชู่ๆ เห็นคนพวกนั้นมั้ย?";
+		npctalk "ฉันง่วงเพราะได้กลิ่นหนังสือ", instance_npcname("Ramachus#dms201");
+		end;
+}
+
+2@nyr,37,93,5	script	Ramachus#dms201	EP18_ARMED_VILLAGER01,{
+		if ('nyr_main_step != 6)
+				end;
+		if (is_party_leader() == false)
+				end;
+		mes "[มิเรียม]";
+		mes "คุณมาทำอะไรที่นี่?";
+		next;
+		cutin "",255;
+		mes "[รามาคัส]";
+		mes "แอช! เซอร์ไพรส์สิ! คุณมาทำอะไรที่นี่ เป็นนักผจญภัยเหรอ?";
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "คุณไม่ควรอยู่ที่นี่ตอนนี้ เพราะจะทำให้สถานการณ์ของเราลำบากมากขึ้นหากฝ่ายวิหารรู้เรื่องนี้";
+		next;
+		cutin "",255;
+		mes "[รามาคัส]";
+		mes "มองไม่เห็นเหรอ? คุณกำลังเปิดห้องสมุดอยู่ ต้องมีความลับของผู้อพยพมากมายที่นี่";
+		npctalk "ลองคิดดูสิ ถ้าเราได้ทั้งหมดนี้ล่ะ?", instance_npcname("Kun#dms211");
+		npctalk "เราก็สามารถเอาจุดอ่อนของเราออกไปได้!", instance_npcname("Yoppi#dms221");
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "นั่นเป็นเรื่องที่ต้องคิดในภายหลัง ตอนนี้กลับไปก่อน กลับมาเถอะ การกระทำของคุณตอนนี้ทำให้เราอันตรายยิ่งขึ้น";
+		next;
+		cutin "",255;
+		mes "[โยปปี้]";
+		mes "กลับไปเถอะ มิเรียม ฉันจะไม่ทำแบบนั้นกับเธออีกแล้วถ้าเธอรู้สึกหงุดหงิด";
+		npctalk "อนาคตของเราจะเป็นเช่นไร?", instance_npcname("Kun#dms211");
+		next;
+		enablenpc instance_npcname("Temple Guard#dms301");
+		mes "[ทหารรักษาวัด]";
+		mes "นี่ ผู้บุกรุก!";
+		next;
+		enablenpc instance_npcname("Temple Guard#dms311");
+		enablenpc instance_npcname("Temple Guard#dms321");
+		enablenpc instance_npcname("Temple Guard#dms331");
+		enablenpc instance_npcname("Temple Guard#dms341");
+		mes "[ทหารรักษาวัด]";
+		mes "ทุกคนวางอาวุธและยกมือขึ้น!";
+		next;
+		select("How do I do this?");
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "ประการแรกคือมีไม่มาก ดังนั้นมาจัดการกับพวกมันดีกว่า";
+		next;
+		cutin "",255;
+		mes "[คุณ]";
+		mes "มาถูกเวลาแล้ว ไปกันเถอะ!";
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "เดี๋ยวก่อน!! นักผจญภัย!";
+		next;
+		select("Leave it here!");
+		if ('nyr_main_step == 6) {
+				'nyr_main_step = 7;
+				donpcevent instance_npcname("nyr_step_3") + "::OnStart";
+		}
+		cutin "",255;
+		end;
+}
+
+2@nyr,35,90,5	duplicate(dummy_npc)	Yoppi#dms221	EP18_ARMED_VILLAGER03
+2@nyr,32,93,1	duplicate(dummy_npc)	Kun#dms211	EP18_ARMED_VILLAGER02
+
+2@nyr,1,1,0	script	nyr_step_3	-1,{
+		end;
+OnStart:
+		disablenpc instance_npcname("Miriam#dms301");
+		disablenpc instance_npcname("Ramachus#dms201");
+		disablenpc instance_npcname("Yoppi#dms221");
+		disablenpc instance_npcname("Kun#dms211");
+		disablenpc instance_npcname("Temple Guard#dms301");
+		disablenpc instance_npcname("Temple Guard#dms311");
+		disablenpc instance_npcname("Temple Guard#dms321");
+		disablenpc instance_npcname("Temple Guard#dms331");
+		disablenpc instance_npcname("Temple Guard#dms341");
+		.@label$ = instance_npcname("nyr_step_3") + "::OnMobDead";
+		monster 'map_2nyr$,45,96,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,47,94,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,43,96,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,47,98,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,44,98,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		end;
+OnMobDead:
+		if ('nyr_main_step != 7)
+				end;
+		if (mobcount('map_2nyr$, instance_npcname("nyr_step_3") + "::OnMobDead") < 1) {
+				'nyr_main_step = 8;
+				mapannounce 'map_2nyr$, "Somehow, my back is chilling... It seems like someone is watching...?", bc_map, 0xFFCC;
+				disablenpc instance_npcname("#mstep01");
+				enablenpc instance_npcname("#mstep02");
+				enablenpc instance_npcname("#mstep03");
+				enablenpc instance_npcname("Miriam#dms401");
+				enablenpc instance_npcname("Ramachus#dms301");
+				enablenpc instance_npcname("Kun#dms311");
+				enablenpc instance_npcname("Yoppi#dms321");
+		}
+		end;
+}
+
+2@nyr,45,96,3	duplicate(dummy_npc)	Temple Guard#dms301	4_M_RASWORD
+2@nyr,47,94,3	duplicate(dummy_npc)	Temple Guard#dms311	4_M_RASWORD
+2@nyr,43,96,3	duplicate(dummy_npc)	Temple Guard#dms321	4_M_RASWORD
+2@nyr,47,98,3	duplicate(dummy_npc)	Temple Guard#dms331	4_M_RASWORD
+2@nyr,44,98,3	duplicate(dummy_npc)	Temple Guard#dms341	4_M_RASWORD
+
+
+//------------------------------------------------------------
+// Step 4
+//------------------------------------------------------------
+2@nyr,87,47,5	script	Miriam#dms401	4_EP18_MIRIAM,5,5,{
+		end;
+OnTouch:
+		npctalk "เสียงนั้นมาจากทางนี้.";
+		npctalk "ซิม...ช้าง...", instance_npcname("Ramachus#dms301");
+		end;
+}
+
+2@nyr,99,47,1	script	Ramachus#dms301	EP18_ARMED_VILLAGER01,{
+		if ('nyr_main_step != 8)
+				end;
+		if (is_party_leader() == false)
+				end;
+		mes "[รามาคัส]";
+		mes "เจอหรือยังครับ ที่นี่คุยแต่เรื่องนิกายอย่างเดียวเหรอครับ";
+		next;
+		mes "[คุณ]";
+		mes "ยังไม่มาค่ะ ไม่คิดว่าจะมาค่ะ อ๋อ... พระสันตปาปา...?";
+		next;
+		mes "[โยปปี้]";
+		mes "ปล่อยหนังสือที่ไม่เกี่ยวข้องไว้เฉยๆ นั่นไม่ใช่สิ่งที่เรากำลังมองหา";
+		next;
+		cutin "ep18_miriam_03.png",0;
+		mes "[มิเรียม]";
+		mes "คุณ...!";
+		next;
+		select("Shh- wait a minute.");
+		cutin "",255;
+		mes "[รามาคัส]";
+		mes "ถึงแม้จะเป็นห้องสมุดลับก็ไม่มีทางที่จะมีหนังสือดังกล่าวทิ้งไว้ในสถานที่เช่นนี้";
+		next;
+		mes "[คุณ]";
+		mes "แล้วมีห้องสมุดลับแห่งอื่นอยู่ภายในห้องสมุดลับอีกหรือ?";
+		next;
+		mes "[โยปปี้]";
+		mes "ผมไม่รู้เรื่องนั้นหรอก หาเอาเองแล้วกัน";
+		next;
+		mes "[คุณ]";
+		mes "จะดีถ้าทราบชื่อเรื่อง";
+		next;
+		mes "[รามาคัส]";
+		mes "ถ้ารู้ก็คงเป็นแบบนี้ เขาบอกให้เอาของที่หน้าตาคล้ายกันไปให้หมด หาให้เจอเร็วๆ";
+		next;
+		select("Find something specificDoesn't it seem like that?");
+		mes "[มิเรียม]";
+		mes "หนังสือเฉพาะเล่มเหรอ...? ไม่ใช่หนังสือสำหรับความอ่อนแอ?";
+		next;
+		cutin "ep18_miriam_03.png",0;
+		mes "[มิเรียม]";
+		mes "ไม่ใช่นี่เหรอ เฮ้ คุณกำลังมองหาอะไรอยู่ จุดประสงค์คืออะไร";
+		next;
+		cutin "",255;
+		mes "[โยปปี้]";
+		mes "อ้าวกลับมาอีกแล้ว ทำไมมาแอบฟังฉันล่ะ เหมือนกับว่าใจเธอสกปรก";
+		npctalk "ทำไมเธอถึงไล่ตามฉันอยู่เรื่อย ทำไมเธอถึงคอยขัดจังหวะฉันอยู่เรื่อย", instance_npcname("Kun#dms311");
+		next;
+		cutin "ep18_miriam_03.png",0;
+		mes "[มิเรียม]";
+		mes "ลืมไปแล้วเหรอ? แอบเข้ามาด้วยจิตใจสกปรกจริงๆ เหรอ? คุณกำลังมองหาหนังสืออะไรอยู่?";
+		next;
+		cutin "",255;
+		mes "[รามาคัส]";
+		mes "มันเจ็บจริงๆ นะคุณ เราแค่บอกว่าเราอยู่ร่วมกันได้ดีใช่ไหม คุณไม่รู้เหรอว่าเราทุกคนอยากอยู่ร่วมกัน";
+		npctalk "คุณกำลังวางแผนกับเราอยู่เหรอ?", instance_npcname("Yoppi#dms321");
+		npctalk "คุณพูดอะไรกับเรา?", instance_npcname("Kun#dms311");
+		next;
+		mes "[รามาคัส]";
+		mes "ผู้ใดไม่รู้ความจริงใจของเรา ถึงเวลาแล้ว...";
+		next;
+		cutin "ep18_miriam_03.png",0;
+		mes "[มิเรียม]";
+		mes "คุณจะต้องจับพวกมันแล้วทำให้พวกมันอ้าปาก...!";
+		next;
+		cutin "",255;
+		mes "[ทหารรักษาวัด]";
+		mes "นี่ไง ผู้บุกรุกมาแล้ว!!!";
+		enablenpc instance_npcname("Temple Guard#dms401");
+		enablenpc instance_npcname("Temple Guard#dms411");
+		enablenpc instance_npcname("Temple Guard#dms421");
+		enablenpc instance_npcname("Temple Guard#dms431");
+		enablenpc instance_npcname("Temple Guard#dms441");
+		npctalk "มาค่ะ!!! ทำได้ดีมาก! ลุยกันเลย!", instance_npcname("Ramachus#dms301");
+		npctalk "ฉันจะตามคุณไปหาคุณ นักผจญภัย จัดการคนพวกนี้ซะ!", instance_npcname("Miriam#dms401");
+		next;
+		mes "[ทหารรักษาวัด]";
+		mes "วางอาวุธของคุณลง!!";
+		if ('nyr_main_step == 8) {
+				'nyr_main_step = 9;
+				donpcevent instance_npcname("nyr_step_4") + "::OnStart";
+		}
+		close;
+}
+
+2@nyr,93,36,3	duplicate(dummy_npc)	Kun#dms311	EP18_ARMED_VILLAGER02
+2@nyr,99,38,5	duplicate(dummy_npc)	Yoppi#dms321	EP18_ARMED_VILLAGER03
+2@nyr,88,44,5	duplicate(dummy_npc)	Temple Guard#dms401	4_M_RASWORD
+2@nyr,87,46,5	duplicate(dummy_npc)	Temple Guard#dms411	4_M_RASWORD
+2@nyr,87,42,5	duplicate(dummy_npc)	Temple Guard#dms421	4_M_RASWORD
+2@nyr,85,46,5	duplicate(dummy_npc)	Temple Guard#dms431	4_M_RASWORD
+2@nyr,85,42,5	duplicate(dummy_npc)	Temple Guard#dms441	4_M_RASWORD
+
+
+2@nyr,1,1,0	script	nyr_step_4	-1,{
+		end;
+OnStart:
+		disablenpc instance_npcname("Miriam#dms401");
+		disablenpc instance_npcname("Ramachus#dms301");
+		disablenpc instance_npcname("Kun#dms311");
+		disablenpc instance_npcname("Yoppi#dms321");
+		disablenpc instance_npcname("Temple Guard#dms401");
+		disablenpc instance_npcname("Temple Guard#dms411");
+		disablenpc instance_npcname("Temple Guard#dms421");
+		disablenpc instance_npcname("Temple Guard#dms431");
+		disablenpc instance_npcname("Temple Guard#dms441");
+		.@label$ = instance_npcname("nyr_step_4") + "::OnMobDead";
+		monster 'map_2nyr$,88,44,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,87,46,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,87,42,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,85,46,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,85,42,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		end;
+OnMobDead:
+		if ('nyr_main_step != 9)
+				end;
+		if (mobcount('map_2nyr$, instance_npcname("nyr_step_4") + "::OnMobDead") < 1) {
+				'nyr_main_step = 10;
+				mapannounce 'map_2nyr$, "Somehow ominous. I think he's still following us.", bc_map, 0xFFCC;
+				disablenpc instance_npcname("#mstep02");
+				disablenpc instance_npcname("#mstep03");
+				enablenpc instance_npcname("#mstep04");
+				enablenpc instance_npcname("#mstep05");
+				enablenpc instance_npcname("Miriam#dms501");
+				enablenpc instance_npcname("Ramachus#dms401");
+				enablenpc instance_npcname("Kun#dms411");
+				enablenpc instance_npcname("Yoppi#dms421");
+		}
+		end;
+}
+
+
+//------------------------------------------------------------
+// Step 5
+//------------------------------------------------------------
+2@nyr,209,98,5	script	Miriam#dms501	4_EP18_MIRIAM,5,5,{
+		if (is_party_leader() == false)
+				npctalk "หัวหน้าพรรคไม่ตัดสินใจจะมาเหรอ?", instance_npcname("Miriam#dms501");
+		end;
+OnTouch:
+		npctalk "คุณเห็นชั้นหนังสือตรงนั้นไหม?";
+		npctalk "นิ้วของฉันคงจะเสื่อมแบบนี้", instance_npcname("Ramachus#dms401");
+		end;
+}
+
+2@nyr,212,104,1	script	Ramachus#dms401	EP18_ARMED_VILLAGER01,{
+		if ('nyr_main_step != 10)
+				end;
+		if (is_party_leader() == false)
+				end;
+		mes "[โยปปี้]";
+		mes "นี่ไม่ใช่ครั้งสุดท้ายแล้วเหรอ?";
+		next;
+		mes "[รามาคัส]";
+		mes "ถูกต้องแล้ว จะต้องมีห้องสมุดลับจริงๆ";
+		npctalk "อืม น่าเสียดายจริงๆ", instance_npcname("Yoppi#dms421");
+		npctalk "คุณจะไม่รับผิดชอบต่อความล้มเหลวของตัวเองเหรอ?", instance_npcname("Kun#dms411");
+		next;
+		mes "[รามาคัส]";
+		mes "ฉันไม่ได้ตั้งใจจะขอให้คุณไปหา แต่คุณขอให้ฉันหาให้ตั้งแต่แรก";
+		next;
+		mes "[คุณ]";
+		mes "ถามว่าผมสามารถถอนได้ไหม?";
+		next;
+		npctalk "นี่คือหมาป่า หมาป่า", instance_npcname("Ramachus#dms401");
+		sleep2 2000;
+		npctalk "???: คุณเจออะไรมั้ย?", instance_npcname("Ramachus#dms401");
+		sleep2 2000;
+		npctalk "นี่คือห้องสมุดแห่งสุดท้าย แต่ดูเหมือนจะไม่อยู่ที่นี่แล้ว", instance_npcname("Ramachus#dms401");
+		sleep2 2000;
+		npctalk "???: รอ.", instance_npcname("Ramachus#dms401");
+		sleep2 1000;
+		npctalk "คุณนี่ดื้อรั้นจริงๆ นะ ดูเหมือนคุณจะเก่งในการฆ่าทหารยามทุกคนอย่างน่าประหลาดใจเลยนะ", instance_npcname("Yoppi#dms421");
+		mes "[คุณ]";
+		mes "เดี๋ยวนะ ฉันดูโง่ไปไหมเนี่ย? มีมิเรียมและนักผจญภัยอยู่ตรงนั้น";
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "ตอนนี้คุณติดต่อกับใครอยู่?";
+		next;
+		select("Did you get an order?");
+		cutin "",255;
+		mes "[รามาคัส]";
+		mes "ซอสเหรอ? เราไม่เข้าใจเลยใช่ไหม?";
+		npctalk "ฉันเชื่อมั่นผู้ซื้อ", instance_npcname("Kun#dms411");
+		npctalk "เราไม่เคยทรยศ", instance_npcname("Yoppi#dms421");
+		next;
+		enablenpc instance_npcname("Temple Guard#dms501");
+		enablenpc instance_npcname("Temple Guard#dms511");
+		enablenpc instance_npcname("Temple Guard#dms521");
+		enablenpc instance_npcname("Temple Guard#dms531");
+		enablenpc instance_npcname("Temple Guard#dms541");
+		unitwalk getnpcid(0,instance_npcname("Temple Guard#dms501")),203,95;
+		unitwalk getnpcid(0,instance_npcname("Temple Guard#dms511")),201,96;
+		unitwalk getnpcid(0,instance_npcname("Temple Guard#dms521")),201,93;
+		unitwalk getnpcid(0,instance_npcname("Temple Guard#dms531")),199,98;
+		unitwalk getnpcid(0,instance_npcname("Temple Guard#dms541")),199,92;
+
+		sleep2 500;
+		npctalk "นี่มันใช่เลย!", instance_npcname("Temple Guard#dms501");
+		npctalk "เฮ้!! คุณอยู่ที่นี่!!", instance_npcname("Ramachus#dms401");
+		sleep2 1000;
+		enablenpc instance_npcname("Shulang#dms101");
+		unitwalk getnpcid(0,instance_npcname("Shulang#dms101")),206,96;
+		npctalk "-", instance_npcname("Shulang#dms101");
+		npctalk "คุณอยู่ที่นี่ไหม?", instance_npcname("Ramachus#dms401");
+		npctalk "คุณอยู่ที่นี่ไหม!", instance_npcname("Kun#dms411");
+		npctalk "คุณอยู่ที่นี่ไหม?", instance_npcname("Yoppi#dms421");
+		sleep2 2000;
+
+		cutin "ep18_Shulang.png",0;	// when almost finsh walking
+		mes "-";
+		mes "ที่นี่เป็นห้องสมุดสุดท้ายที่นี่ใช่ไหม?";
+		next;
+		cutin "",255;
+		mes "[รามาคัส]";
+		mes "ใช่.";
+		next;
+		cutin "ep18_Shulang.png",0;
+		mes "-";
+		mes "ฉันหวังว่าจะหาหนังสือเจอแต่หาไม่เจอ ฉันทำงานที่นั่นเสร็จแล้ว จึงต้องจากที่นี่ไป";
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "คุณเป็นใคร! คุณมีความสัมพันธ์อะไรกับพวกนี้หรือเปล่า?";
+		next;
+		cutin "ep18_Shulang.png",0;
+		mes "-";
+		mes "อะไรนะ ใส่อะไรเข้าไปคะ?";
+		next;
+		cutin "",255;
+		mes "[โยปปี้]";
+		mes "ฉันกลัวว่าจะมีใครสักคนที่ไม่ใช่หมาป่า ฉันจึงดมกลิ่นมันแล้วตามมันไป ฉันจะจัดการกับมันเร็วๆ นี้";
+		next;
+		cutin "ep18_Shulang.png",0;
+		mes "-";
+		mes "คุณไม่จำเป็นต้องทำอย่างนั้น คุณแค่ถอนตัวและปล่อยให้พวกหน้าใหม่จัดการ";
+		next;
+		cutin "",255;
+		mes "[รามาคัส]";
+		mes "ใช่!!";
+		next;
+		next;
+		disablenpc instance_npcname("Shulang#dms101");
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "รอ!!!";
+		next;
+		cutin "",255;
+		mes "[ทหารรักษาวัด]";
+		mes "จัดการกับผู้บุกรุกทั้งหมดแล้ว!";
+		unittalk getcharid(3), "" + strcharinfo(0) + " : who is the intruder?";
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "ดูเหมือนว่าเรื่องราวจะบิดเบี้ยวอย่างประหลาด แม้แต่ทหารรักษาวัดยังถูกติดสินบน เพื่อหาคำตอบว่าเกิดอะไรขึ้น...";
+		unittalk getcharid(3), "" + strcharinfo(0) + " : Leave these people to me.";
+		next;
+		cutin "",255;
+		mes "[ทหารรักษาวัด]";
+		mes "สู่การก่อตัวแห่งพลัง!";
+		next;
+		mes "[โยปปี้]";
+		mes "สวัสดี~ ฉันไม่น่าเจอคุณเลย เราอย่าเจอกันอีกเลยได้มั้ย?";
+		if ('nyr_main_step == 10) {
+				'nyr_main_step = 11;
+				donpcevent instance_npcname("nyr_step_5") + "::OnStart";
+		}
+		close;
+}
+
+2@nyr,220,98,5	duplicate(dummy_npc)	Kun#dms411	EP18_ARMED_VILLAGER02
+2@nyr,220,95,5	duplicate(dummy_npc)	Yoppi#dms421	EP18_ARMED_VILLAGER03
+
+2@nyr,197,96,5	duplicate(dummy_npc)	Shulang#dms101	EP18_MD_SCHULANG
+2@nyr,197,95,5	duplicate(dummy_npc)	Temple Guard#dms501	EP18_MD_GUARD_A
+2@nyr,197,96,5	duplicate(dummy_npc)	Temple Guard#dms511	EP18_MD_GUARD_A
+2@nyr,197,93,5	duplicate(dummy_npc)	Temple Guard#dms521	EP18_MD_GUARD_A
+2@nyr,197,98,5	duplicate(dummy_npc)	Temple Guard#dms531	EP18_MD_GUARD_A
+2@nyr,197,92,5	duplicate(dummy_npc)	Temple Guard#dms541	EP18_MD_GUARD_A
+
+
+2@nyr,1,1,0	script	nyr_step_5	-1,{
+		end;
+OnStart:
+		disablenpc instance_npcname("Temple Guard#dms501");
+		disablenpc instance_npcname("Temple Guard#dms511");
+		disablenpc instance_npcname("Temple Guard#dms521");
+		disablenpc instance_npcname("Temple Guard#dms531");
+		disablenpc instance_npcname("Temple Guard#dms541");
+		disablenpc instance_npcname("Ramachus#dms401");
+		disablenpc instance_npcname("Kun#dms411");
+		disablenpc instance_npcname("Yoppi#dms421");
+		disablenpc instance_npcname("Miriam#dms501");
+		.@label$ = instance_npcname("nyr_step_5") + "::OnMobDead";
+
+		monster 'map_2nyr$,203,95,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,201,96,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,201,93,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,199,98,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,199,92,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		end;
+OnMobDead:
+		if ('nyr_main_step != 11)
+				end;
+		if (mobcount('map_2nyr$, instance_npcname("nyr_step_5") + "::OnMobDead") < 1) {
+				'nyr_main_step = 12;
+				mapannounce 'map_2nyr$, "Beep - Enable Storage Room Unlock Protocol", bc_map, 0xFFCC;
+				disablenpc instance_npcname("#mstep04");
+				disablenpc instance_npcname("#mstep05");
+
+				enablenpc instance_npcname("#mstep06");
+				enablenpc instance_npcname("Miriam#dms601");
+				enablenpc instance_npcname("Ramachus#dms501");
+				enablenpc instance_npcname("Kun#dms511");
+				enablenpc instance_npcname("Yoppi#dms521");
+				enablenpc instance_npcname("Shulang#dms201");
+				enablenpc instance_npcname("Bagot#dms101");
+				enablenpc instance_npcname("Private Officer#dms101");
+				enablenpc instance_npcname("Temple Guard#dms601");
+				enablenpc instance_npcname("Temple Guard#dms611");
+				enablenpc instance_npcname("Temple Guard#dms621");
+		}
+		end;
+}
+
+
+//------------------------------------------------------------
+// Step 6
+//------------------------------------------------------------
+// 2@nyr,132,108,0	duplicate(dummy_npc)	#dmss101	HIDDEN_WARP_NPC,3,3
+
+2@nyr,133,109,3	script	Miriam#dms601	EP18_NPC_MIRIAM,5,5,{
+		if (is_party_leader() == false) {
+				npctalk "ฉันไม่คิดว่าปาร์ตี้จะมาถึงแล้ว";
+				end;
+		}
+		if ('nyr_main_step != 12)
+				end;
+		.@miriam$ = instance_npcname("Miriam#dms601");
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "พี่ทำอะไรอยู่ครับ มีคนกี่คนครับ มองจากตรงนี้ไม่เห็นเลย เห็นอะไรไหมครับ";
+		next;
+		select("Some people don't know.");
+		cutin "ep18_Shulang.png",1;
+		mes "-";
+		mes "คุณยังไกลอยู่ไหม?";
+		next;
+		cutin "",255;
+		mes "[รามาคัส]";
+		mes "ดูเหมือนคุณจะเกือบจะเสร็จแล้ว";
+		next;
+		cutin "ep18_bagot_01.png",1;
+		mes "-";
+		mes "จริงๆความปลอดภัยก็ทั่วถึงนะครับ";
+		next;
+		cutin "",255;
+		mes "-";
+		mes "...เค้าไม่มีระบบรักษาความปลอดภัยแบบนี้เหรอ?";
+		next;
+		cutin "ep18_bagot_02.png",1;
+		mes "-";
+		mes "ท่านไม่ทราบหรือว่าเป็นเรื่องน่าขัน? การรักษาความปลอดภัยที่เข้มงวดไม่ได้หมายถึงขั้นตอนที่ยุ่งยากและซับซ้อนใช่หรือไม่?";
+		next;
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "เสียงนี้...";
+		emotion ET_HUK, playerattached();
+		donpcevent .@miriam$ + "::OnEffect";
+		next;
+		select("Do you know anyone?");
+		mes "[มิเรียม]";
+		mes "ฉันไม่แน่ใจเพราะมันซ่อนอยู่...";
+		next;
+		cutin "",255;
+		mes "-";
+		mes "เข้าไปเลย.";
+		if ('nyr_main_step != 12)
+				close;
+		next;
+		'nyr_main_step = 13;
+		disablenpc instance_npcname("#mstep06");
+		enablenpc instance_npcname("#mstep07");
+		enablenpc instance_npcname("#mstep08");
+
+		enablenpc instance_npcname("Miriam#dms701");
+		enablenpc instance_npcname("Ramachus#dms601");
+		enablenpc instance_npcname("Kun#dms611");
+		enablenpc instance_npcname("Yoppi#dms621");
+		enablenpc instance_npcname("Shulang#dms301");
+		enablenpc instance_npcname("Bagot#dms201");
+		enablenpc instance_npcname("Temple Guard#dms721");
+		enablenpc instance_npcname("Temple Guard#dms731");
+		enablenpc instance_npcname("Temple Guard#dms741");
+
+		unitwalk getnpcid(0,instance_npcname("Ramachus#dms501")), 120,120, .@miriam$ + "::OnMove1";
+		sleep2 2000;
+		unitwalk getnpcid(0,instance_npcname("Kun#dms511")), 120,121, .@miriam$ + "::OnMove2";
+		unitwalk getnpcid(0,instance_npcname("Yoppi#dms521")), 122,121, .@miriam$ + "::OnMove3";
+		sleep2 1000;
+		unitwalk getnpcid(0,instance_npcname("Shulang#dms201")), 120,121, .@miriam$ + "::OnMove4";
+		sleep2 500;
+		disablenpc instance_npcname("Bagot#dms101");
+		disablenpc instance_npcname("Private Officer#dms101");
+		sleep2 1000;
+		npctalk "ทางนี้! รีบตามฉันมาเร็ว!";
+		cutin "ep18_miriam_03.png",2;
+		mes "[มิเรียม]";
+		mes "เข้าไปกันด้วยนะครับ.";
+		sleep2 1000;
+		unitwalk getnpcid(0,instance_npcname("Temple Guard#dms601")), 118,121, .@miriam$ + "::OnMove5";
+		unitwalk getnpcid(0,instance_npcname("Temple Guard#dms611")), 118,121, .@miriam$ + "::OnMove6";
+		unitwalk getnpcid(0,instance_npcname("Temple Guard#dms621")), 117,121, .@miriam$ + "::OnMove7";
+		close2;
+		unitwalk getnpcid(0,.@miriam$), 122,119, .@miriam$ + "::OnMove8";
+		cutin "",255;
+		end;
+
+OnEffect:
+		enablenpc instance_npcname("#effc01");
+		specialeffect EF_MAPPILLAR2, AREA, instance_npcname("#effc01");
+		sleep 1000;
+		npctalk "จิง-ปรบมือ-", instance_npcname("#effc01");
+		end;
+
+OnMove1:
+		disablenpc instance_npcname("Ramachus#dms501");
+		end;
+OnMove2:
+		disablenpc instance_npcname("Kun#dms511");
+		end;
+OnMove3:
+		disablenpc instance_npcname("Yoppi#dms521");
+		end;
+OnMove4:
+		disablenpc instance_npcname("Shulang#dms201");
+		end;
+OnMove5:
+		disablenpc instance_npcname("Temple Guard#dms601");
+		end;
+OnMove6:
+		disablenpc instance_npcname("Temple Guard#dms611");
+		end;
+OnMove7:
+		disablenpc instance_npcname("Temple Guard#dms621");
+		end;
+OnMove8:
+		disablenpc instance_npcname("Miriam#dms601");
+		end;
+
+OnTouch:
+		if ('nyr_main_step == 12)
+				npctalk "เฮ้ย มีคนอื่นอีกเหรอ คุณกำลังพูดเรื่องอะไร";
+		end;
+}
+2@nyr,125,111,3	duplicate(dummy_npc)	Ramachus#dms501	EP18_ARMED_VILLAGER01
+2@nyr,128,107,3	duplicate(dummy_npc)	Kun#dms511	EP18_ARMED_VILLAGER02
+2@nyr,128,104,3	duplicate(dummy_npc)	Yoppi#dms521	EP18_ARMED_VILLAGER03
+2@nyr,125,101,1	duplicate(dummy_npc)	Shulang#dms201	EP18_MD_SCHULANG
+2@nyr,122,106,3	duplicate(dummy_npc)	Bagot#dms101	4_EP18_Bagot
+2@nyr,120,107,3	duplicate(dummy_npc)	Private Officer#dms101	4_M_RACHOLD
+2@nyr,115,102,5	duplicate(dummy_npc)	Temple Guard#dms601	EP18_MD_GUARD_A
+2@nyr,116,106,5	duplicate(dummy_npc)	Temple Guard#dms611	EP18_MD_GUARD_A
+2@nyr,117,98,7	duplicate(dummy_npc)	Temple Guard#dms621	EP18_MD_GUARD_A
+2@nyr,119,103,0	duplicate(dummy_npc)	#effc01	HIDDEN_WARP_NPC
+
+
+
+//------------------------------------------------------------
+// Step 7 + 8
+//------------------------------------------------------------
+// 2@nyr,118,199,0	duplicate(dummy_npc)	#dms701	HIDDEN_WARP_NPC,1,5
+
+2@nyr,118,199,1	script	Miriam#dms701	4_EP18_MIRIAM,5,5,{
+		if (is_party_leader() == false) {
+				npctalk "ใครเป็นหัวหน้าพรรค?";
+				end;
+		}
+		if ('nyr_main_step == 13) {
+				mes "-";
+				mes "ชูหลาง คุณจัดการมันเสร็จหรือยัง? กระเป๋าใบนี้กำลังจะหมดความอดทนแล้ว";
+				next;
+				mes "[รามาคัส]";
+				mes "แต่เรายังต้องใส่แบบนี้มั้ย?";
+				npctalk "มันน่าเบื่อ.", instance_npcname("Yoppi#dms621");
+				next;
+				cutin "ep18_Shulang.png",0;
+				mes "[ชูหลาง]";
+				mes "สำคัญอะไร มาที่นี่เลย ทำอะไรก็ได้ตามใจชอบ";
+				next;
+				// Requires number as the aegis monster name is not a constant for now
+				setnpcdisplay( instance_npcname("Ramachus#dms601"), 21308 );	// EP18_MD_HEARTHUNTER_A
+				setnpcdisplay( instance_npcname("Kun#dms611"), 21308 );	// EP18_MD_HEARTHUNTER_A
+				setnpcdisplay( instance_npcname("Yoppi#dms621"), 21308 );	// EP18_MD_HEARTHUNTER_A
+				npctalk "คิดว่าจะตายซะแล้วเพราะมันยุ่งยากเหลือเกิน!", instance_npcname("Kun#dms611");
+				cutin "",255;
+				mes "[โยปปี้]";
+				mes "ฮี่- ฉันจะอยู่แล้ว";
+				next;
+				select("Heart Hunter disguised himself.");
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "นักล่าหัวใจ... หนึ่งในนักวิทยาศาสตร์สุดเพี้ยนที่คุณพูดถึง... แล้วตั้งแต่แรกเลย...!";
+				next;
+				cutin "",255;
+				mes "-" + strcharinfo(0) + "-";
+				mes "ยังมี Heart Hunters จำนวนมากที่ถูกแปลงร่างเป็นหัวใจของ Ymir อยู่ไม่ใช่หรือ?";
+				next;
+				cutin "ep18_Shulang.png",0;
+				mes "[ชูหลาง]";
+				mes "พวกเราเป็นทรงกลมเหรอ? อ๋อ พวกคนแคระที่ตามล่าคุณน่ะ ฉันได้ยินข่าวมา";
+				npctalk "โอ้ คนพวกนั้นเหรอ? คุณแปลกใจเหรอที่พวกเขาติดตามเรามาโดยตลอด คุณเป็นหนี้เราโดยไม่รู้ตัว?", instance_npcname("Bagot#dms201");
+				next;
+				select("That must be Illusion.");
+				cutin "ep18_bagot_02.png",1;
+				mes "[บากอต]";
+				mes "อ๋อ ฉันแปลกใจนะ คุณรู้มั้ยว่าต้องทำยังไง มันยากที่จะขายหน้าตัวเอง";
+				npctalk "สำคัญอะไรล่ะ ก็มันหายไปอยู่แล้ว", instance_npcname("Shulang#dms301");
+				next;
+				enablenpc instance_npcname("Private Officer#dms201");
+				enablenpc instance_npcname("Temple Guard#dms701");
+				enablenpc instance_npcname("Temple Guard#dms711");
+				cutin "",255;
+				mes "-";
+				mes "พร้อมแล้ว.";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "...พ่อ??";
+				next;
+				cutin "",255;
+				mes "[เยาวชนอามัล]";
+				mes "มิเรียม คุณทำได้ดีมากแล้ว คุณทำส่วนของคุณเสร็จแล้ว กลับไปได้แล้ว";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "คุณเป็นยังไงบ้าง...? อะไรนะ?";
+				next;
+				cutin "ep18_bagot_03.png",1;
+				mes "[บากอต]";
+				mes "ว้าว ฉันได้รับคำชมจากพ่อของฉัน ฉันหวังว่านะ คำชมสำหรับการเลี้ยงลูกนั้นสำคัญมาก";
+				mes "บากอต ฉันจำไม่ได้ด้วยซ้ำว่าได้มันมาเมื่อไหร่ อืม... อ๋อ! ฉันไม่เคยได้มันมาเลย เลยจำไม่ได้!";
+				npctalk "ฉันได้รับคำชม ดังนั้นฉันจึงสามารถกลับบ้านไปล้างเท้าแล้วเข้านอนได้", instance_npcname("Bagot#dms201");
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "เกิดอะไรขึ้น ทำไมพ่อฉัน...ฉันทำอะไรลงไป";
+				next;
+				cutin "",255;
+				mes "[เยาวชนอามัล]";
+				mes "... เมื่อคุณได้สิ่งที่คุณต้องการแล้ว ก็จัดการกับมันแล้วไปได้เลย";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "พ่อ! พ่อ!!!";
+				next;
+				cutin "ep18_bagot_01.png",4;
+				disablenpc instance_npcname("Private Officer#dms201");
+				mes "[บากอต]";
+				mes "ไอ้เวรเอ๊ย! พ่อที่ชมคุณแต่กลับไม่รัก?";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "คุณกำลังทำอะไรกับพ่อของคุณ?";
+				next;
+				cutin "ep18_bagot_03.png",1;
+				mes "[บากอต]";
+				mes "โอ้ คุณไม่รู้เหรอ คุณบอกว่าคุณอยากขับไล่ชาวพื้นเมืองทั้งหมดออกจาก Arunafeltz เราช่วยได้นิดหน่อย แน่นอนว่ามันไม่ฟรี";
+				npctalk "คุณต้องทำทุกอย่างที่อยากทำและซื้อ ไม่เช่นนั้นคุณจะป่วย", instance_npcname("Bagot#dms201");
+				npctalk "อิอิ-เลียนแบบได้มั๊ยคะ ชมเชยเราบ้างก็ได้", instance_npcname("Ramachus#dms601");
+				next;
+				cutin "",255;
+				mes "[นักล่าหัวใจ]";
+				mes "มิเรียม ขอบคุณคุณและเพื่อนๆ ที่ทำให้เราสามารถถ่ายภาพจลาจลนี้สำเร็จได้ ขอบคุณมาก!";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "คุณคิดว่ามันสมเหตุสมผลมั้ย?";
+				next;
+				cutin "ep18_bagot_01.png",1;
+				mes "[บากอต]";
+				mes "คุยอะไรกันครับ ไปวัดประท้วงกี่ครั้งแล้วครับ";
+				next;
+				cutin "ep18_bagot_03.png",1;
+				mes "[บากอต]";
+				mes "การประท้วงข้างนอกจะกลายเป็นจลาจลในไม่ช้านี้หรือไม่? แล้วความปรารถนาของคุณจะเป็นจริง แล้วคุณจะขอพรอีกครั้งหรือไม่? เราจะได้เงินอีกหรือไม่?";
+				next;
+				cutin "ep18_Shulang.png",0;
+				mes "[ชูหลาง]";
+				mes "จะคุยเรื่องนี้กันอีกนานแค่ไหน ไปกันเถอะ";
+				mes "มาทำความสะอาดกันเถอะ";
+				next;
+				cutin "",255;
+				mes "[รามาคัส]";
+				mes "สี่!";
+				next;
+				disablenpc instance_npcname("Shulang#dms301");
+				disablenpc instance_npcname("Bagot#dms201");
+				mes "[นักล่าหัวใจ]";
+				mes "ฉันหวังว่าจะมีซูอัดอยู่ที่นี่ ฉันอยากจะลองดูสักครั้ง";
+				next;
+				mes "[นักล่าหัวใจ]";
+				mes "สวัสดี ขอแนะนำตัวอย่างเป็นทางการก่อนนะคะ พวกเราคือนักล่าหัวใจ พวกเรากำลังจะฝังคุณไว้ที่นี่เร็วๆ นี้";
+				npctalk "ฉันไม่ใช่แค่นักล่าหัวใจ ฉันเป็นนักล่าหัวใจที่แข็งแกร่งมาก", instance_npcname("Kun#dms611");
+				select("Be careful, they're modified ones.");
+				next;
+				cutin "ep18_miriam_03.png",2;
+				specialeffect EF_UNDEADBODY, AREA, instance_npcname("Ramachus#dms601");
+				specialeffect EF_NPC_STOP, AREA, instance_npcname("Ramachus#dms601");
+				mes "[มิเรียม]";
+				mes "คุณรู้สึกไม่สบายใจนิดหน่อยแบบนั้นหรือเปล่า?";
+				next;
+				select("It seems to resonate with Ymir's heart here.");
+				mes "[มิเรียม]";
+				mes "สรุปแล้วนับไหม? โอเค รีบตามไปจับมันให้ได้";
+				if ('nyr_main_step == 13) {
+						'nyr_main_step = 14;
+						donpcevent instance_npcname("nyr_step_7") + "::OnStart";
+						removespecialeffect EF_UNDEADBODY, AREA, instance_npcname("Ramachus#dms601");
+						removespecialeffect EF_NPC_STOP, AREA, instance_npcname("Ramachus#dms601");
+				}
+				close3;
+		}
+		if ('nyr_main_step == 15) {
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "ฮ่า...ฮ่า... นักผจญภัย คุณโอเคมั้ย?";
+				next;
+				select("Where did they all go?");
+				enablenpc instance_npcname("Niren#dms101");
+				enablenpc instance_npcname("Temple Guard#dms751");
+				enablenpc instance_npcname("Temple Guard#dms761");
+				enablenpc instance_npcname("Temple Guard#dms771");
+				npctalk "ทั้งหมดนี้มันคืออะไร?", instance_npcname("Niren#dms101");
+				cutin "ra_gwoman.bmp",0;
+				mes "[นิเรน]";
+				mes "นี่มันเรื่องอะไรกัน มีเรื่องวุ่นวายมากมายขนาดนี้";
+				mes "นักผจญภัย...? คุณมาที่นี่ทำไม?";
+				next;
+				select("Here...");
+				mes "[นิเรน]";
+				mes "คุณติดตามเพื่อนร่วมงานของคุณเพื่อดูว่ามีพฤติกรรมที่น่าสงสัยหรือไม่ แต่จริงๆ แล้วพวกเขาเป็นสายลับ";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "คุณก็อยู่กลุ่มเดียวกับพ่อฉันใช่มั้ย?";
+				next;
+				cutin "ra_gwoman.bmp",0;
+				mes "[นิเรน]";
+				mes "บาทหลวง?? แล้วมันหมายความว่าอะไรอีก?";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "ฉันคิดว่าพ่อของฉันอาจเกี่ยวข้องกับเรื่องนี้";
+				next;
+				cutin "ra_gwoman.bmp",0;
+				mes "[นิเรน]";
+				mes "นั่นอะไรน่ะ... แม้แต่มหาปุโรหิต... จะต้องถูกสอบสวนซะแล้ว";
+				mes "แม้แต่ในหมู่ผู้ที่รวมตัวกันอยู่ข้างนอกก็ต้องมีผู้ยุยงที่ซ่อนเร้นซึ่งถูกปลูกฝังโดยพวกอันธพาล...";
+				next;
+				select("Also in Temple Guard.");
+				mes "[นิเรน]";
+				mes "จำเป็นต้องมีการยกเครื่องครั้งใหญ่ ก่อนอื่นเราต้องค้นหาว่าเราทำอะไรลงไป มีวัตถุอันตรายหรือไม่ หรือมีวัตถุที่หายไปหรือไม่...";
+				next;
+				mes "[นิเรน]";
+				mes "-";
+				mes "ไม่ต้องสืบหาหรอก หัวใจของ Ymir หายไปแล้ว มันควรจะอยู่ตรงนั้น";
+				next;
+				select("Also...");
+				mes "[นิเรน]";
+				mes "ฉันไม่สามารถจินตนาการได้เลยว่าจะทำอะไรกับมัน...";
+				mes "ไม่ใช่แบบนี้นะครับ เราต้องแจ้งข้อเท็จจริงและติดตามต่อไป...!!";
+				next;
+				mes "[นิเรน]";
+				mes "อ่า...! ฉันบอกว่าจะมีกองกำลังศัตรูอยู่ท่ามกลางกองทหารรักษาวัด ก่อนอื่นฉันต้องเลือกคนที่เชื่อถือได้";
+				next;
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "ฉันจะไป มันคงถูกพ่อของฉันเอาไป ฉันเดาได้แค่ว่ามันไปอยู่ที่ไหน";
+				next;
+				cutin "ra_gwoman.bmp",0;
+				mes "[นิเรน]";
+				mes "เรามาคุยเรื่องนี้กันก่อนดีกว่า เพราะสถานการณ์ข้างนอกไม่ค่อยดีนัก";
+				close2;
+				cutin "",255;
+				if ('nyr_main_step == 15) {
+						'nyr_main_step = 16;
+						disablenpc instance_npcname("Niren#dms101");
+						disablenpc instance_npcname("Temple Guard#dms751");
+						disablenpc instance_npcname("Temple Guard#dms761");
+						disablenpc instance_npcname("Temple Guard#dms771");
+						disablenpc instance_npcname("Miriam#dms701");
+
+						enablenpc instance_npcname("#mstep09");
+						enablenpc instance_npcname("#mstep10");
+						enablenpc instance_npcname("#mstep11");
+						enablenpc instance_npcname("Miriam#dms801");
+						enablenpc instance_npcname("#dmswch02");
+
+						enablenpc instance_npcname("Miriam#dms801");
+
+						enablenpc instance_npcname("Temple Guard#dms801");
+						enablenpc instance_npcname("Temple Guard#dms811");
+						enablenpc instance_npcname("Temple Guard#dms821");
+						enablenpc instance_npcname("Temple Guard#dms831");
+						enablenpc instance_npcname("Temple Guard#dms841");
+						enablenpc instance_npcname("Temple Guard#dms851");
+						enablenpc instance_npcname("Temple Guard#dms861");
+						enablenpc instance_npcname("Temple Guard#dms871");
+						enablenpc instance_npcname("Temple Guard#dms881");
+						enablenpc instance_npcname("Temple Guard#dms891");
+						enablenpc instance_npcname("Angry Crowd#dms211");
+						enablenpc instance_npcname("Angry Crowd#dms221");
+						enablenpc instance_npcname("Angry Crowd#dms231");
+						enablenpc instance_npcname("Angry Crowd#dms241");
+						enablenpc instance_npcname("Angry Crowd#dms251");
+						enablenpc instance_npcname("Angry Crowd#dms261");
+						enablenpc instance_npcname("Angry Crowd#dms271");
+						enablenpc instance_npcname("Angry Crowd#dms281");
+						enablenpc instance_npcname("Angry Crowd#dms291");
+
+						enablenpc instance_npcname("Angry Crowd#dms202");
+						enablenpc instance_npcname("Angry Crowd#dms212");
+						enablenpc instance_npcname("Angry Crowd#dms222");
+						enablenpc instance_npcname("Angry Crowd#dms232");
+						enablenpc instance_npcname("Angry Crowd#dms242");
+
+						enablenpc instance_npcname("Temple Guard#dms802");
+						enablenpc instance_npcname("Temple Guard#dms812");
+						enablenpc instance_npcname("Temple Guard#dms822");
+						enablenpc instance_npcname("Temple Guard#dms832");
+						enablenpc instance_npcname("Temple Guard#dms842");
+				}
+				navigateto("2@nyr",120,141);
+				end;
+		}
+		end;
+
+OnTouch:
+		if ('nyr_main_step == 13)
+				npctalk "ทุกคนมารวมตัวกันอยู่ที่นั่น";
+		end;
+}
+
+2@nyr,120,206,3	duplicate(dummy_npc)	Ramachus#dms601	EP18_ARMED_VILLAGER01
+2@nyr,119,207,3	duplicate(dummy_npc)	Kun#dms611	EP18_ARMED_VILLAGER02
+2@nyr,111,207,5	duplicate(dummy_npc)	Yoppi#dms621	EP18_ARMED_VILLAGER03
+2@nyr,115,204,5	duplicate(dummy_npc)	Shulang#dms301	4_EP18_Shulang
+2@nyr,117,205,3	duplicate(dummy_npc)	Bagot#dms201	4_EP18_Bagot
+
+2@nyr,112,201,5	duplicate(dummy_npc)	Temple Guard#dms721	4_M_RASWORD
+2@nyr,121,203,3	duplicate(dummy_npc)	Temple Guard#dms731	4_M_RASWORD
+2@nyr,121,201,3	duplicate(dummy_npc)	Temple Guard#dms741	4_M_RASWORD
+
+2@nyr,115,202,5	duplicate(dummy_npc)	Private Officer#dms201	4_M_RACHOLD
+
+2@nyr,113,203,5	duplicate(dummy_npc)	Temple Guard#dms701	4_M_RASWORD
+2@nyr,118,203,3	duplicate(dummy_npc)	Temple Guard#dms711	4_M_RASWORD
+2@nyr,120,202,3	duplicate(dummy_npc)	Temple Guard#dms751	4_M_RASWORD
+2@nyr,114,203,5	duplicate(dummy_npc)	Temple Guard#dms761	4_M_RASWORD
+2@nyr,115,199,7	duplicate(dummy_npc)	Temple Guard#dms771	4_M_RASWORD
+2@nyr,117,204,3	duplicate(dummy_npc)	Niren#dms101	4_F_MADAME
+
+
+
+2@nyr,1,1,0	script	nyr_step_7	-1,{
+		end;
+OnStart:
+		disablenpc instance_npcname("#mstep07");
+		disablenpc instance_npcname("#mstep08");
+		disablenpc instance_npcname("Miriam#dms701");
+		disablenpc instance_npcname("Ramachus#dms601");
+		disablenpc instance_npcname("Kun#dms611");
+		disablenpc instance_npcname("Yoppi#dms621");
+		disablenpc instance_npcname("Temple Guard#dms701");
+		disablenpc instance_npcname("Temple Guard#dms711");
+		disablenpc instance_npcname("Temple Guard#dms721");
+		disablenpc instance_npcname("Temple Guard#dms731");
+		disablenpc instance_npcname("Temple Guard#dms741");
+		sleep 500;
+		.@label$ = instance_npcname("nyr_step_7") + "::OnMobDead";
+		monster 'map_2nyr$,120,206,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_2nyr$,119,207,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_2nyr$,111,207,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_2nyr$,113,203,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,118,203,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,112,201,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,121,203,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		monster 'map_2nyr$,121,201,"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+		end;
+OnMobDead:
+		if ('nyr_main_step != 14)
+				end;
+		if (mobcount('map_2nyr$, instance_npcname("nyr_step_7") + "::OnMobDead") < 1) {
+				'nyr_main_step = 15;
+				enablenpc instance_npcname("Miriam#dms701");
+		}
+		end;
+}
+
+
+//------------------------------------------------------------
+// Step 9
+//------------------------------------------------------------
+1@nyr,65,169,0	script	#dmswch02	HIDDEN_WARP_NPC,3,3,{
+		end;
+OnTouch:
+		if ('nyr_main_step == 17) {
+				navigateto("1@nyr",129,165);
+				end;
+		}
+		if ('nyr_main_step != 16)
+				end;
+		'nyr_main_step = 17;
+		donpcevent instance_npcname("Miriam#dms801") + "::OnMove1";
+		navigateto("1@nyr",129,165);
+		mapannounce 'map_1nyr$, "We are alive too! Get to know us!", bc_map, 0xFFCC;
+		npctalk "ดูเหมือนว่าสิ่งต่างๆ จะไม่ถูกต้อง ลองพิจารณาดูให้ละเอียดขึ้น", instance_npcname("Miriam#dms801");
+		sleep 2000;
+		npctalk "นี่มันมัน", instance_npcname("Miriam#dms801");
+		mapannounce 'map_1nyr$, "We are alive! We are alive!", bc_map, 0xFFCC;
+		sleep 3000;
+		mapannounce 'map_1nyr$, "We exist! We exist!", bc_map, 0xFFCC;
+		sleep 5000;
+		mapannounce 'map_1nyr$, "Give back the rights to the owner of this land! Give it back!", bc_map, 0xFFCC;
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms201");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms211");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms221");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms231");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms241");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms251");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms261");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms271");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms281");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms291");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms202");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms212");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms222");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms232");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms242");
+		sleep 5000;
+		mapannounce 'map_1nyr$, "We are alive! We are alive!", bc_map, 0xFFCC;
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms201");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms211");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms221");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms231");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms241");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms251");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms261");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms271");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms281");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms291");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms202");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms212");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms222");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms232");
+		npctalk "มีชีวิตอยู่!", instance_npcname("Angry Crowd#dms242");
+		sleep 5000;
+		mapannounce 'map_1nyr$, "We exist! We exist!", bc_map, 0xFFCC;
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms201");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms211");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms221");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms231");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms241");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms251");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms261");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms271");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms281");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms291");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms202");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms212");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms222");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms232");
+		npctalk "มีอยู่จริง!", instance_npcname("Angry Crowd#dms242");
+		sleep 5000;
+		mapannounce 'map_1nyr$, "Give back the rights to the owner of this land! Give it back!", bc_map, 0xFFCC;
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms201");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms211");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms221");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms231");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms241");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms251");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms261");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms271");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms281");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms291");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms202");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms212");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms222");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms232");
+		npctalk "เอาคืนมา!", instance_npcname("Angry Crowd#dms242");
+		end;
+}
+
+1@nyr,68,163,5	script	Miriam#dms801	EP18_NPC_MIRIAM,{
+		if (is_party_leader() == false) {
+				npctalk "หัวหน้าพรรคยังไม่มาอีกเหรอ?";
+				end;
+		}
+		if ('nyr_main_step == 18) {
+				mes "[ฝูงชน]";
+				mes "มารู้จักพวกเราสิ!";
+				next;
+				mes "[ฝูงชน]";
+				mes "เราก็มีชีวิตเช่นกัน! มาแล้วจ้า!!";
+				next;
+				mes "[ฝูงชน]";
+				mes "นี่คือดินแดนของเรา!";
+				next;
+				mes "[ฝูงชน]";
+				mes "คืนที่ดินให้เจ้าของที่ดิน!";
+				next;
+				mes "[ทหารรักษาวัด]";
+				mes "ถ้าตอนนี้คุณแยกย้ายกันไป ฉันจะไม่ขอให้คุณบุกเข้าไปในวัด!";
+				next;
+				mes "[ทหารรักษาวัด]";
+				mes "ฉันให้เวลาคุณครึ่งชั่วโมงพอดี! กลับไปตรงเวลาซะ!";
+				next;
+				mes "[ฝูงชน]";
+				mes "คุณกำลังคุกคามเราอยู่เหรอ?";
+				next;
+				mes "[ฝูงชน]";
+				mes "คุณจะทำอะไรกับเรา?";
+				next;
+				mes "[ฝูงชน]";
+				mes "จะจับพวกมันทั้งหมดแล้วขังคุกเลยไหม?";
+				next;
+				mes "[ฝูงชน]";
+				mes "ขอแบบนี้เราก็โจมตีก่อนเลยลุย!!!";
+				next;
+				cutin "ep18_miriam_03.png",1;
+				mes "[มิเรียม]";
+				mes "มีบางอย่างแปลก ๆ ผู้คนพยายามจะเป็นคนหัวรุนแรง";
+				next;
+				mes "[มิเรียม]";
+				mes "ดูเหมือนเรื่องจะไม่ค่อยดี ฉันต้องโทรหาซูอัด แต่มหาปุโรหิตอยู่ที่ไหน";
+				npctalk "เรียกใครมาซะดีๆ เร็วเข้า!", instance_npcname("Miriam#dms801");
+				next;
+				enablenpc instance_npcname("Niren#dms201");
+				enablenpc instance_npcname("Zhed#dms101");
+				cutin "ra_gwoman.bmp",2;
+				mes "[นิเรน]";
+				mes "คุณมาที่นี่ ฉันยังพามหาปุโรหิตเจดมาด้วย";
+				next;
+				cutin "ra_gman2.bmp",2;
+				mes "[เจด]";
+				mes "เกิดอะไรขึ้นครับ เกี่ยวข้องกับคนเยอะไหมครับ หรือภายในวัด...";
+				next;
+				if ('nyr_main_step == 18) {
+						'nyr_main_step = 19;
+						disablenpc instance_npcname("#mstep09");
+						disablenpc instance_npcname("#mstep10");
+						disablenpc instance_npcname("#mstep11");
+						disablenpc instance_npcname("#dmswch02");
+						enablenpc instance_npcname("Suad#dms102");
+						npctalk "เกิดอะไรขึ้น? คุณบอกว่าคุณเจอมันอย่างรีบร้อนเหรอ?", instance_npcname("Suad#dms102");
+				}
+				cutin "ep18_Suad_04.png",0;
+				mes "[ซวด]";
+				mes "เกิดอะไรขึ้น? คุณบอกว่าคุณเจอมันอย่างรีบร้อนเหรอ?";
+				close3;
+		}
+		if ('nyr_main_step == 21) {
+				'nyr_main_step = 22;
+				disablenpc instance_npcname("Miriam#dms801");
+				enablenpc instance_npcname("#dmwrp02");
+				navigateto("1@nyr",45,28);
+				cutin "ep18_miriam_03.png",2;
+				mes "[มิเรียม]";
+				mes "หากสถานการณ์ไม่แน่นอน ให้รีบเคลื่อนตัวไป ทุกคนกำลังรออยู่ในที่ปลอดภัย";
+				close3;
+		}
+		end;
+
+OnMove1:
+		unitwalk getnpcid(0),90,153, instance_npcname("Miriam#dms801") + "::OnMove2";
+		end;
+OnMove2:
+		unitwalk getnpcid(0),107,165, instance_npcname("Miriam#dms801") + "::OnMove3";
+		end;
+OnMove3:
+		unitwalk getnpcid(0),128,165, instance_npcname("Miriam#dms801") + "::OnMove4";
+		end;
+OnMove4:
+		'nyr_main_step = 18;
+		end;
+}
+
+
+//------------------------------------------------------------
+// Step 10
+//------------------------------------------------------------
+1@nyr,127,163,5	script	Suad#dms102	4_EP18_SUAD,{
+		if (is_party_leader() == false) {
+				npctalk "ผมหวังว่าท่านผู้นำจะแจ้งให้ผมทราบในฐานะตัวแทน";
+				end;
+		}
+		if ('nyr_main_step != 19)
+				end;
+		cutin "ep18_Suad_04.png",0;
+		mes "[ซวด]";
+		mes "เกิดอะไรขึ้น?";
+		next;
+		cutin "ep18_miriam_03.png",1;
+		mes "[มิเรียม]";
+		mes "มีสายลับอยู่ท่ามกลางพวกเรา";
+		next;
+		cutin "ep18_Suad_04.png",0;
+		mes "[ซวด]";
+		mes "สายลับ? ที่ไหน?";
+		next;
+		cutin "ep18_miriam_03.png",1;
+		mes "[มิเรียม]";
+		mes "ซูอัด ขออธิบายสถานการณ์ตรงนี้ก่อน ฉันคิดว่าเราคงกำลังจะเกิดจลาจลใช่ไหม สวัสดี มหาปุโรหิตเซด";
+		next;
+		cutin "ep18_Suad_02.png",0;
+		mes "[ซวด]";
+		mes "เหตุใดมหาปุโรหิตจึงมาอยู่ที่นี่?";
+		next;
+		cutin "ra_gman2.bmp",2;
+		mes "[เจด]";
+		mes "มิเรียม? มิเรียมมีส่วนเกี่ยวข้องกับเรื่องนี้ด้วยเหรอ?";
+		next;
+		cutin "ep18_miriam_03.png",1;
+		mes "[มิเรียม]";
+		mes "มีอีกสาเหตุหนึ่งครับ ก่อนอื่นฟังสถานการณ์ก่อนครับ ว่า ซวยหรือยังครับ";
+		next;
+		cutin "ep18_Suad_03.png",0;
+		mes "[ซวด]";
+		mes "ตอนนี้ไม่ค่อยดีเลย เริ่มควบคุมไม่ได้แล้ว ฝั่งวัดก็ออกมาแข็งกร้าวแนะนำให้ยุบวง เวลาเหลือไม่มากแล้ว เตรียมถอนตัว";
+		next;
+		cutin "ep18_Suad_01.png",0;
+		mes "[ซวด]";
+		mes "คนที่คุณไล่ตามเป็นยังไงบ้าง?";
+		next;
+		select("I'll explain.");
+		cutin "",255;
+		mes "- ฉันเล่าให้คุณฟังว่าภายในวัดเกิดอะไรขึ้น -";
+		next;
+		cutin "ep18_miriam_03.png",1;
+		mes "[มิเรียม]";
+		mes "พ่อของฉันและกองกำลังภายนอกร่วมมือกันทำสิ่งนี้ เพื่อแบ่งแยกอรุณาเฟลตซ์และกดขี่ชาวพื้นเมือง";
+		next;
+		cutin "ep18_Suad_04.png",0;
+		mes "[ซวด]";
+		mes "ในหมู่พวกเรา...มีคนทรยศอยู่หรือเปล่า?";
+		next;
+		cutin "ep18_miriam_03.png",1;
+		mes "[มิเรียม]";
+		mes "จะถูกต้องกว่าถ้าจะบอกว่าเขาเป็นพวกซ่อนตัวมากกว่าเป็นคนทรยศ เขาไม่เคยอยู่ข้างเราตั้งแต่แรก";
+		next;
+		cutin "ep18_Suad_02.png",0;
+		mes "[ซวด]";
+		mes "ดังนั้นคุณเกือบที่จะเข้าไปพัวพันกับจลาจลที่วางแผนไว้ตั้งแต่เริ่มต้นใช่ไหม?";
+		next;
+		cutin "ra_gwoman.bmp",2;
+		mes "[นิเรน]";
+		mes "นี่ไม่ใช่เวลา เขาบอกว่าพวกเขายังรวมตัวอยู่ในฝั่งวิหารด้วย ดังนั้นเราต้องยึดครองทั้งสองกองกำลังก่อน";
+		next;
+		mapannounce 'map_1nyr$, "beep--------", bc_map, 0xFF0000;
+		cutin "ep18_Suad_04.png",0;
+		mes "[ซวด]";
+		mes "นี่นกหวีดอะไร ไม่ใช่สัญญาณเราเหรอ?";
+		next;
+		cutin "",255;
+		setnpcdisplay( instance_npcname("Temple Guard#dms802"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Temple Guard#dms812"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Temple Guard#dms822"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Temple Guard#dms832"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Temple Guard#dms842"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Angry Crowd#dms202"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Angry Crowd#dms212"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Angry Crowd#dms222"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Angry Crowd#dms232"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		setnpcdisplay( instance_npcname("Angry Crowd#dms242"), 21308 );	// EP18_MD_HEARTHUNTER_A
+		npctalk "ตอนนี้?", instance_npcname("Angry Crowd#dms202");
+		npctalk "ตอนนี้!", instance_npcname("Temple Guard#dms832");
+		mes "[ฝูงชน]";
+		mes "ทำไมคุณถึงถอดเสื้อผ้า?";
+		next;
+		disablenpc instance_npcname("Temple Guard#dms802");
+		disablenpc instance_npcname("Temple Guard#dms812");
+		disablenpc instance_npcname("Temple Guard#dms822");
+		disablenpc instance_npcname("Temple Guard#dms832");
+		disablenpc instance_npcname("Temple Guard#dms842");
+		disablenpc instance_npcname("Angry Crowd#dms202");
+		disablenpc instance_npcname("Angry Crowd#dms212");
+		disablenpc instance_npcname("Angry Crowd#dms222");
+		disablenpc instance_npcname("Angry Crowd#dms232");
+		disablenpc instance_npcname("Angry Crowd#dms242");
+
+		enablenpc instance_npcname("Heart Hunter#dms101");
+		enablenpc instance_npcname("Heart Hunter#dms111");
+		enablenpc instance_npcname("Heart Hunter#dms121");
+		enablenpc instance_npcname("Heart Hunter#dms131");
+		enablenpc instance_npcname("Heart Hunter#dms141");
+		enablenpc instance_npcname("Heart Hunter#dms151");
+		enablenpc instance_npcname("Heart Hunter#dms161");
+		enablenpc instance_npcname("Heart Hunter#dms171");
+		enablenpc instance_npcname("Heart Hunter#dms181");
+		enablenpc instance_npcname("Heart Hunter#dms191");
+		mes "[ทหารรักษาวัด]";
+		mes "อย่าตื่นตระหนก!";
+		next;
+		mes "[ฝูงชน]";
+		mes "คุณทำอะไรอยู่? คุณทำอะไรอยู่?";
+		next;
+		npctalk "ขออภัยครับ ผมไม่มีความรู้สึกส่วนตัวครับ", instance_npcname("Heart Hunter#dms101");
+		npctalk "คุณควรทำแบบนั้นตอนที่ถูกบอกให้แยกย้าย!", instance_npcname("Heart Hunter#dms121");
+		npctalk "คุณยังไม่รู้ว่าเกิดอะไรขึ้นเหรอ?", instance_npcname("Heart Hunter#dms141");
+		npctalk "เทพธิดาองค์ไหนคือเทพธิดา เชื่อฉันเถอะ!", instance_npcname("Heart Hunter#dms171");
+		npctalk "คุณชอบรสชาติของการกดขี่หรือไม่?", instance_npcname("Heart Hunter#dms191");
+		specialeffect EF_M03, AREA, instance_npcname("Heart Hunter#dms101");
+		specialeffect EF_M03, AREA, instance_npcname("Heart Hunter#dms111");
+		specialeffect EF_M02, AREA, instance_npcname("Heart Hunter#dms121");
+		specialeffect EF_M03, AREA, instance_npcname("Heart Hunter#dms131");
+		specialeffect EF_M03, AREA, instance_npcname("Heart Hunter#dms141");
+		specialeffect EF_M02, AREA, instance_npcname("Heart Hunter#dms151");
+		specialeffect EF_M03, AREA, instance_npcname("Heart Hunter#dms161");
+		specialeffect EF_M02, AREA, instance_npcname("Heart Hunter#dms171");
+		specialeffect EF_M02, AREA, instance_npcname("Heart Hunter#dms181");
+		specialeffect EF_M03, AREA, instance_npcname("Heart Hunter#dms191");
+		mes "[ฝูงชน]";
+		mes "อ๊ากกก!!! ยามวัดจับคน!!!";
+		next;
+		mes "[ทหารรักษาวัด]";
+		mes "จลาจลมาแล้ว! จัดการกันได้เลย!!";
+		next;
+		cutin "ep18_miriam_03.png",1;
+		mes "[มิเรียม]";
+		mes "อ่า...สายแล้ว...!!";
+		next;
+		cutin "ep18_Suad_02.png",0;
+		mes "[ซวด]";
+		mes "คุณต้องหยุดการโจมตีด้วยกำลังดุร้าย";
+		next;
+		cutin "ra_gwoman.bmp",2;
+		mes "[นิเรน]";
+		mes "ฉันจะอพยพผู้คนออกไป";
+		if ('nyr_main_step == 19) {
+				'nyr_main_step = 20;
+				donpcevent instance_npcname("nyr_step_10") + "::OnStart";
+		}
+		close3;
+}
+
+1@nyr,1,1,0	script	nyr_step_10	-1,{
+		end;
+OnStart:
+		disablenpc instance_npcname("Suad#dms102");
+		disablenpc instance_npcname("Miriam#dms801");
+		disablenpc instance_npcname("Niren#dms201");
+		disablenpc instance_npcname("Zhed#dms101");
+		disablenpc instance_npcname("Temple Guard#dms801");
+		disablenpc instance_npcname("Temple Guard#dms811");
+		disablenpc instance_npcname("Temple Guard#dms821");
+		disablenpc instance_npcname("Temple Guard#dms831");
+		disablenpc instance_npcname("Temple Guard#dms841");
+		disablenpc instance_npcname("Temple Guard#dms851");
+		disablenpc instance_npcname("Temple Guard#dms861");
+		disablenpc instance_npcname("Temple Guard#dms871");
+		disablenpc instance_npcname("Temple Guard#dms881");
+		disablenpc instance_npcname("Temple Guard#dms891");
+
+		disablenpc instance_npcname("Angry Crowd#dms201");
+		disablenpc instance_npcname("Angry Crowd#dms211");
+		disablenpc instance_npcname("Angry Crowd#dms221");
+		disablenpc instance_npcname("Angry Crowd#dms231");
+		disablenpc instance_npcname("Angry Crowd#dms241");
+		disablenpc instance_npcname("Angry Crowd#dms251");
+		disablenpc instance_npcname("Angry Crowd#dms261");
+		disablenpc instance_npcname("Angry Crowd#dms271");
+		disablenpc instance_npcname("Angry Crowd#dms281");
+		disablenpc instance_npcname("Angry Crowd#dms291");
+
+		disablenpc instance_npcname("Heart Hunter#dms101");
+		disablenpc instance_npcname("Heart Hunter#dms111");
+		disablenpc instance_npcname("Heart Hunter#dms121");
+		disablenpc instance_npcname("Heart Hunter#dms131");
+		disablenpc instance_npcname("Heart Hunter#dms141");
+		disablenpc instance_npcname("Heart Hunter#dms151");
+		disablenpc instance_npcname("Heart Hunter#dms161");
+		disablenpc instance_npcname("Heart Hunter#dms171");
+		disablenpc instance_npcname("Heart Hunter#dms181");
+		disablenpc instance_npcname("Heart Hunter#dms191");
+		.@label$ = instance_npcname("nyr_step_10") + "::OnMobDead";
+		monster 'map_1nyr$,123,168,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,118,168,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,113,165,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,114,171,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,128,170,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,115,176,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,120,174,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,125,175,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,126,177,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		monster 'map_1nyr$,128,172,"Heart Hunter",21308,1, .@label$;	// EP18_MD_HEARTHUNTER_A
+		end;
+OnMobDead:
+		if ('nyr_main_step != 20)
+				end;
+		if (mobcount('map_1nyr$, instance_npcname("nyr_step_10") + "::OnMobDead") < 1) {
+				'nyr_main_step = 21;
+				npctalk "นักผจญภัย คุณปลอดภัยมั้ย?", instance_npcname("Miriam#dms801");
+				enablenpc instance_npcname("Miriam#dms801");
+		}
+		end;
+}
+
+1@nyr,113,172,5	duplicate(dummy_npc)	Temple Guard#dms802	4_M_RASWORD
+1@nyr,126,172,3	duplicate(dummy_npc)	Temple Guard#dms812	4_M_RASWORD
+1@nyr,112,178,5	duplicate(dummy_npc)	Temple Guard#dms822	4_M_RASWORD
+1@nyr,127,178,3	duplicate(dummy_npc)	Temple Guard#dms832	4_M_RASWORD
+1@nyr,118,172,5	duplicate(dummy_npc)	Temple Guard#dms842	4_M_RASWORD
+1@nyr,130,163,1	duplicate(dummy_npc)	Niren#dms201	4_F_MADAME
+1@nyr,131,165,3	duplicate(dummy_npc)	Zhed#dms101	4_M_RACHOLD1
+
+1@nyr,130,172,3	duplicate(dummy_npc)	Temple Guard#dms801	4_M_RASWORD
+1@nyr,127,174,3	duplicate(dummy_npc)	Temple Guard#dms811	4_M_RASWORD
+1@nyr,112,174,5	duplicate(dummy_npc)	Temple Guard#dms821	4_M_RASWORD
+1@nyr,109,172,5	duplicate(dummy_npc)	Temple Guard#dms831	4_M_RASWORD
+1@nyr,116,172,5	duplicate(dummy_npc)	Temple Guard#dms841	4_M_RASWORD
+1@nyr,120,172,3	duplicate(dummy_npc)	Temple Guard#dms851	4_M_RASWORD
+1@nyr,123,172,3	duplicate(dummy_npc)	Temple Guard#dms861	4_M_RASWORD
+1@nyr,117,176,5	duplicate(dummy_npc)	Temple Guard#dms871	4_M_RASWORD
+1@nyr,122,176,3	duplicate(dummy_npc)	Temple Guard#dms881	4_M_RASWORD
+1@nyr,119,178,5	duplicate(dummy_npc)	Temple Guard#dms891	4_M_RASWORD
+
+1@nyr,123,168,3	duplicate(dummy_npc)	Heart Hunter#dms101	EP18_MD_HEARTHUNTER_A
+1@nyr,118,168,5	duplicate(dummy_npc)	Heart Hunter#dms111	EP18_MD_HEARTHUNTER_A
+1@nyr,113,165,5	duplicate(dummy_npc)	Heart Hunter#dms121	EP18_MD_HEARTHUNTER_A
+1@nyr,114,171,5	duplicate(dummy_npc)	Heart Hunter#dms131	EP18_MD_HEARTHUNTER_A
+1@nyr,128,170,3	duplicate(dummy_npc)	Heart Hunter#dms141	EP18_MD_HEARTHUNTER_A
+1@nyr,115,176,5	duplicate(dummy_npc)	Heart Hunter#dms151	EP18_MD_HEARTHUNTER_A
+1@nyr,120,174,3	duplicate(dummy_npc)	Heart Hunter#dms161	EP18_MD_HEARTHUNTER_A
+1@nyr,125,175,3	duplicate(dummy_npc)	Heart Hunter#dms171	EP18_MD_HEARTHUNTER_A
+1@nyr,123,177,3	duplicate(dummy_npc)	Heart Hunter#dms181	EP18_MD_HEARTHUNTER_A
+1@nyr,128,172,3	duplicate(dummy_npc)	Heart Hunter#dms191	EP18_MD_HEARTHUNTER_A
+
+// Note: dms201 and dms231 on the same cells on official
+1@nyr,109,167,7	duplicate(dummy_npc)	Angry Crowd#dms201	4_EP18_GW_MAN01
+1@nyr,117,164,1	duplicate(dummy_npc)	Angry Crowd#dms211	4_EP18_GW_WOMAN01
+1@nyr,109,167,7	duplicate(dummy_npc)	Angry Crowd#dms231	4_M_MIDDLE
+1@nyr,112,166,1	duplicate(dummy_npc)	Angry Crowd#dms221	4_EP18_GW_MAN02
+1@nyr,122,166,1	duplicate(dummy_npc)	Angry Crowd#dms241	4_EP18_GW_WOMAN02
+1@nyr,115,166,7	duplicate(dummy_npc)	Angry Crowd#dms251	4_EP18_GW_MIDDLE01
+1@nyr,120,167,1	duplicate(dummy_npc)	Angry Crowd#dms261	4_M_RACHMAN1
+1@nyr,116,170,1	duplicate(dummy_npc)	Angry Crowd#dms271	4_EP18_GW_MIDDLE02
+1@nyr,112,168,1	duplicate(dummy_npc)	Angry Crowd#dms281	4_F_SHABBY
+1@nyr,124,171,1	duplicate(dummy_npc)	Angry Crowd#dms291	4_EP18_GW_WOMAN01
+
+1@nyr,118,171,1	duplicate(dummy_npc)	Angry Crowd#dms202	4_M_RACHMAN2
+1@nyr,127,166,7	duplicate(dummy_npc)	Angry Crowd#dms212	4_M_DESERT
+1@nyr,125,168,7	duplicate(dummy_npc)	Angry Crowd#dms222	4_M_RACHMAN1
+1@nyr,123,164,7	duplicate(dummy_npc)	Angry Crowd#dms232	4_M_MIDDLE1
+1@nyr,127,169,7	duplicate(dummy_npc)	Angry Crowd#dms242	4_F_SHABBY
+
+
+
+
+//-------------------------------------------------------------------------
+// Daily quest
+//-------------------------------------------------------------------------
+1@nyr,153,145,0	warp	#qwpto01	1,7,1@nyr,146,145
+1@nyr,91,33,0	warp	#qwpto03	1,7,1@nyr,86,33
+1@nyr,120,181,0	script	#qwpto02	WARPNPC,7,1,{
+		end;
+OnTouch:
+		if ('nyr_daily_step > 12 && isbegin_quest(17522) == 1)
+				changequest 17522,17524;
+		warp 'map_2nyr$,35,222;
+		end;
+}
+1@nyr,88,146,0	warp	#areaw03	1,5,1@nyr,94,158
+// 1@nyr,43,26,0	duplicate(dummy_npc)	#qwptora	WARPNPC,7,1	// unknown
+
+// probably starter npcs
+// 1@nyr,194,30,0	script	#mson101	HIDDEN_WARP_NPC,5,5
+1@nyr,196,30,0	script	#qar101sw	HIDDEN_WARP_NPC,5,5,{
+		end;
+OnTouch:
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 0)
+				end;
+		'nyr_daily_step = 1;
+		disablenpc instance_npcname("#qar101sw");
+
+		enablenpc instance_npcname("Temple Guard#qdms101");
+		enablenpc instance_npcname("Temple Guard#qdms111");
+		enablenpc instance_npcname("Temple Guard#qdms121");
+		enablenpc instance_npcname("Temple Guard#qdms131");
+		enablenpc instance_npcname("Temple Guard#qdms141");
+		enablenpc instance_npcname("Temple Guard#qdms151");
+		enablenpc instance_npcname("Temple Guard#qdms161");
+		enablenpc instance_npcname("Temple Guard#qdms171");
+		enablenpc instance_npcname("Temple Guard#qdms181");
+
+		sleep 1000;	// note: player can walk
+		npctalk "ยินดีต้อนรับนักผจญภัย ขอบคุณที่เข้าร่วมกับเราในปฏิบัติการกวาดล้างครั้งนี้", instance_npcname("Temple Guard#qdms101");
+		sleep 1500;
+		npctalk "ทุกคนมารวมตัวกันแล้วหรือยัง?", instance_npcname("Temple Guard#qdms101");
+		sleep 1000;
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms111");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms121");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms131");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms141");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms151");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms161");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms171");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms181");
+		sleep 1000;
+		npctalk "ไอ้พวกทรยศที่ 'ผิดคำสาบานและละทิ้งชีวิตแห่งการรับใช้เทพธิดา' กำลังก่อเรื่องวุ่นวายอยู่ที่นี่!", instance_npcname("Temple Guard#qdms101");
+		sleep 1500;
+		npctalk "และภารกิจของเราก็คือ การใช้พระประสงค์ของเทพีกับพวกเขา!!!", instance_npcname("Temple Guard#qdms101");
+		sleep 1500;
+		npctalk "จากตรงนี้ได้ปิดกั้นบริเวณสวน 3 แห่ง บริเวณทางเข้าวัด 1 แห่ง และถังน้ำ 4 ใบ ดังนั้นจึงควรทำความสะอาด", instance_npcname("Temple Guard#qdms101");
+		sleep 1500;
+		npctalk "ไป!!", instance_npcname("Temple Guard#qdms101");
+		enablenpc instance_npcname("Temple Guard#qdms01");
+		sleep 1500;
+
+		disablenpc instance_npcname("Temple Guard#qdms101");
+		disablenpc instance_npcname("Temple Guard#qdms111");
+		disablenpc instance_npcname("Temple Guard#qdms121");
+		disablenpc instance_npcname("Temple Guard#qdms131");
+		disablenpc instance_npcname("Temple Guard#qdms141");
+		disablenpc instance_npcname("Temple Guard#qdms151");
+		disablenpc instance_npcname("Temple Guard#qdms161");
+		disablenpc instance_npcname("Temple Guard#qdms171");
+		disablenpc instance_npcname("Temple Guard#qdms181");
+		end;
+}
+
+// Guards entrance daily
+1@nyr,190,31,1	duplicate(dummy_npc)	Temple Guard#qdms101	4_M_RASWORD
+1@nyr,186,31,5	duplicate(dummy_npc)	Temple Guard#qdms111	4_M_RASWORD
+1@nyr,187,32,5	duplicate(dummy_npc)	Temple Guard#qdms121	4_M_RASWORD
+1@nyr,188,33,5	duplicate(dummy_npc)	Temple Guard#qdms131	4_M_RASWORD
+1@nyr,189,34,5	duplicate(dummy_npc)	Temple Guard#qdms141	4_M_RASWORD
+1@nyr,185,32,5	duplicate(dummy_npc)	Temple Guard#qdms151	4_M_RASWORD
+1@nyr,186,33,5	duplicate(dummy_npc)	Temple Guard#qdms161	4_M_RASWORD
+1@nyr,187,34,5	duplicate(dummy_npc)	Temple Guard#qdms171	4_M_RASWORD
+1@nyr,188,35,5	duplicate(dummy_npc)	Temple Guard#qdms181	4_M_RASWORD
+
+
+// 1@nyr,120,173,0	duplicate(dummy_npc)	#qar201sw	HIDDEN_WARP_NPC,5,5
+// 1@nyr,108,167,0	duplicate(dummy_npc)	#qmobg401	HIDDEN_WARP_NPC,5,5
+
+// 1@nyr,165,32,0	duplicate(dummy_npc)	#qmobg101	HIDDEN_WARP_NPC,5,5
+1@nyr,1,1,0	script	#qmobg101	-1,{
+		end;
+OnStart01:
+		callsub( S_Call, 1, "Nobody can stop us!", "Temple Guard#qdms01", 165,45, 170,58 );	// basic routine to spawn the monsters
+OnMobDead1:
+		callsub( S_Next, 2, "There are still enemies in Area 1! Search!", "Temple Guard#qdms02" );	// basic routine to enable the next npcs
+
+OnStart02:
+		callsub( S_Call, 2, "We are stronger now!", "Temple Guard#qdms02", 159,114, 183,111, 186,122 );
+OnMobDead2:
+		callsub( S_Next, 3, "There are still enemies in Area 1! Search!", "Temple Guard#qdms03" );
+
+OnStart03:
+		callsub( S_Call, 3, "You're driving us like prey!! I can't stand it!", "Temple Guard#qdms03", 163,141, 164,132 );
+OnMobDead3:
+		callsub( S_Next, 4, "Clear Area 1! Move to Area 2!!", "Temple Guard#qdms21", "#qwpto01" );
+
+OnStart21:
+		callsub( S_Call, 4, "Do you know my heart?", "Temple Guard#qdms21", 137,124 );
+OnMobDead4:
+		callsub( S_Next, 5, "The magic enemy in Area 2 remains! Search for it!", "Temple Guard#qdms22" );
+
+OnStart22:
+		callsub(S_Call, 5, "You must avoid it!", "Temple Guard#qdms22", 114,111, 102,98, 108,78, 120,78, 126,110 );
+OnMobDead5:
+		callsub( S_Next, 6, "There are still enemies in Area 2! Search!", "Temple Guard#qdms23" );
+
+OnStart23:
+		callsub( S_Call, 6, "Do you think I'll just be beaten?", "Temple Guard#qdms23", 138,61, 130,47, 125,36, 105,47, 103,35 );
+OnMobDead6:
+		callsub( S_Next, 7, "Clear Area 2! Move to Area 3!!", "Temple Guard#qdms31", "#qwpto03" );
+
+OnStart31:
+		callsub( S_Call, 7, "Are we wrong??", "Temple Guard#qdms31", 74,39, 60,32, 54,47 );
+OnMobDead7:
+		callsub( S_Next, 8, "There are still enemies in Area 3! Search for it!", "Temple Guard#qdms32" );
+
+OnStart32:
+		callsub( S_Call, 8, "You must avoid it!!", "Temple Guard#qdms32", 62,61, 54,76, 73,97, 73,87 );
+OnMobDead8:
+		callsub( S_Next, 9, "There is another magical enemy in Area 3! Search for it!!", "Temple Guard#qdms33" );
+
+OnStart33:
+		callsub( S_Call, 9, "Ike!!!", "Temple Guard#qdms33", 55,111, 69,114, 54,122, 49,119, 64,141, 80,141 );
+OnMobDead9:
+		callsub( S_Next, 10, "Clear Area 3! Move to Area 4!", "Temple Guard#qdms41", "#areaw03" );
+
+OnStart41:
+		callsub( S_Call, 10, "It's really tough.", "Temple Guard#qdms41", 94,183, 80,180, 62,183 );
+OnMobDead10:
+		callsub( S_Next, 11, "There are still enemies in Area 4!", "Temple Guard#qdms42" );
+
+OnStart42:
+		callsub( S_Call, 11, "You must avoid it!", "Temple Guard#qdms42", 119,173, 146,181, 178,182 );
+OnMobDead11:
+		if ('nyr_daily_step != 12)
+				end;
+		if (mobcount('map_1nyr$, instance_npcname("#qmobg101") + "::OnMobDead11") > 0)
+				end;
+		mapannounce 'map_1nyr$, "All areas clear! Gather at the temple entrance!", bc_map, 0xFFCC;
+		for ( .@i = 0; .@i < 9; ++.@i )
+				enablenpc instance_npcname("Temple Guard#qdms1" + .@i + "2");
+		end;
+
+S_Next:	// basic routine to mapannounce and enable the npcs
+		if ('nyr_daily_step != getarg(0))
+				end;
+		if (mobcount('map_1nyr$, instance_npcname("#qmobg101") + "::OnMobDead" + ('nyr_daily_step-1)) > 0)
+				end;
+		mapannounce 'map_1nyr$, getarg(1), bc_map, 0xFFCC;
+		for ( .@i = 2; .@i < getargcount(); ++.@i )
+				enablenpc instance_npcname( getarg(.@i) );
+		end;
+
+S_Call:	// basic routine to display the message and spawn the monsters
+		.@num = getarg(0);
+		if ('nyr_daily_step != .@num)
+				end;
+		'nyr_daily_step = .@num + 1;
+		npctalk getarg(1), instance_npcname( getarg(2) );
+		sleep 500;
+		disablenpc instance_npcname( getarg(2) );
+		getmapxy .@map$, .@x, .@y, BL_NPC, getarg(2);
+		.@label$ = instance_npcname("#qmobg101") + "::OnMobDead" + .@num;
+		areamonster 'map_1nyr$, .@x-2, .@y-2, .@x+2, .@y+2, "Abandoned Temple Guard",21311,1, .@label$;	// EP18_MD_GUARD_B
+		for ( .@i = 3; .@i < getargcount(); .@i += 2 ) {
+				if (rand(2))
+						monster 'map_1nyr$, getarg(.@i), getarg(.@i+1),"Temple Guard",21310,1, .@label$;	// EP18_MD_GUARD_A
+				else
+						monster 'map_1nyr$, getarg(.@i), getarg(.@i+1),"Traditional Shrine Guard",21311,1, .@label$;	// EP18_MD_GUARD_B
+		}
+		end;
+}
+
+1@nyr,165,32,5	script	Temple Guard#qdms01	4_M_RASWORD,5,5,{
+		end;
+OnTouch:
+		if (is_party_leader() == false)
+				end;
+		.@string$ = replacestr( strnpcinfo(2), "qdms", "" );
+		donpcevent instance_npcname("#qmobg101") + "::OnStart" + .@string$;
+		end;
+}
+1@nyr,165,98,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms02	4_M_RASWORD,5,5
+1@nyr,184,141,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms03	4_M_RASWORD,5,5
+1@nyr,139,134,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms21	4_M_RASWORD,5,5
+1@nyr,102,109,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms22	4_M_RASWORD,5,5
+1@nyr,137,78,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms23	4_M_RASWORD,5,5
+1@nyr,74,32,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms31	4_M_RASWORD,5,5
+1@nyr,54,61,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms32	4_M_RASWORD,5,5
+1@nyr,65,108,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms33	4_M_RASWORD,5,5
+1@nyr,108,167,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms41	4_M_RASWORD,5,5
+1@nyr,107,178,5	duplicate(Temple Guard#qdms01)	Temple Guard#qdms42	4_M_RASWORD,5,5
+
+// Final map 1
+1@nyr,119,175,3	script	Temple Guard#qdms102	4_M_RASWORD,2,2,{
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 12)
+				end;
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms112");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms122");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms132");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms142");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms152");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms162");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms172");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#qdms182");
+
+		mes "[หัวหน้ากองรักษาวัด]";
+		mes "ทำได้ดีมาก! การกวาดบ้านจะดำเนินต่อไปทุกวัน! วันนี้เรามาพักกันก่อน!";
+		next;
+		mes "[หัวหน้ากองรักษาวัด]";
+		mes "นักผจญภัย ขอบคุณสำหรับความช่วยเหลือของคุณ";
+		next;
+		mes "[หัวหน้ากองรักษาวัด]";
+		mes "ฉันได้ยินมาว่าคุณยังเข้าร่วมปฏิบัติการกวาดล้างภายในวัดด้วย ขอบคุณมาก!";
+		close2;
+		if ('nyr_daily_step != 12)
+				end;
+		'nyr_daily_step = 13;
+		enablenpc instance_npcname("#qwpto02");
+		enablenpc instance_npcname("#2ar101sw");
+		end;
+}
+1@nyr,116,171,7	duplicate(dummy_npc)	Temple Guard#qdms112	4_M_RASWORD
+1@nyr,118,171,7	duplicate(dummy_npc)	Temple Guard#qdms122	4_M_RASWORD
+1@nyr,120,171,1	duplicate(dummy_npc)	Temple Guard#qdms132	4_M_RASWORD
+1@nyr,122,171,1	duplicate(dummy_npc)	Temple Guard#qdms142	4_M_RASWORD
+1@nyr,116,173,7	duplicate(dummy_npc)	Temple Guard#qdms152	4_M_RASWORD
+1@nyr,118,173,7	duplicate(dummy_npc)	Temple Guard#qdms162	4_M_RASWORD
+1@nyr,120,173,1	duplicate(dummy_npc)	Temple Guard#qdms172	4_M_RASWORD
+1@nyr,122,173,1	duplicate(dummy_npc)	Temple Guard#qdms182	4_M_RASWORD
+
+// nowalk delimiter npcs
+1@nyr,89,24,5	duplicate(dummy_npc)	#cell01	2_MONEMUS
+1@nyr,89,37,5	duplicate(dummy_npc)	#cell02	2_MONEMUS
+1@nyr,89,58,5	duplicate(dummy_npc)	#cell03	2_MONEMUS
+1@nyr,89,65,5	duplicate(dummy_npc)	#cell04	2_MONEMUS
+1@nyr,89,106,5	duplicate(dummy_npc)	#cell05	2_MONEMUS
+1@nyr,89,113,5	duplicate(dummy_npc)	#cell06	2_MONEMUS
+1@nyr,89,134,5	duplicate(dummy_npc)	#cell07	2_MONEMUS
+1@nyr,89,153,5	duplicate(dummy_npc)	#cell08	2_MONEMUS
+1@nyr,150,134,5	duplicate(dummy_npc)	#cell09	2_MONEMUS
+1@nyr,150,153,5	duplicate(dummy_npc)	#cell10	2_MONEMUS
+1@nyr,150,24,5	duplicate(dummy_npc)	#cell11	2_MONEMUS
+1@nyr,150,37,5	duplicate(dummy_npc)	#cell12	2_MONEMUS
+1@nyr,150,58,5	duplicate(dummy_npc)	#cell13	2_MONEMUS
+1@nyr,150,65,5	duplicate(dummy_npc)	#cell14	2_MONEMUS
+1@nyr,150,106,5	duplicate(dummy_npc)	#cell15	2_MONEMUS
+1@nyr,150,113,5	duplicate(dummy_npc)	#cell66	2_MONEMUS
+
+// 1@nyr,89,153,5	duplicate(dummy_npc)	#cell41	2_MONEMUS	// duplicate of 8
+1@nyr,98,153,5	duplicate(dummy_npc)	#cell42	2_MONEMUS
+1@nyr,141,153,5	duplicate(dummy_npc)	#cell51	2_MONEMUS
+
+
+// map 2
+2@nyr,35,200,0	script	#2ar101sw	HIDDEN_WARP_NPC,5,5,{
+		end;
+OnTouch:
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 13)
+				end;
+		'nyr_daily_step = 14;
+		for ( .@i = 0; .@i < 7; ++.@i )
+				enablenpc instance_npcname("Temple Guard#2dms1" + .@i + "1");
+		npctalk "นี่คือหัวใจของวัดนี้!", instance_npcname("Temple Guard#2dms101");
+		sleep 2000;
+		npctalk "ตรวจสอบทุกวิธีการอำนวยความสะดวก ปลอดภัยเข้าสูง และรับมือกับทุกคนที่แสวงหาความแข็งแกร่ง!", instance_npcname("Temple Guard#2dms101");
+		sleep 2000;
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms111");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms121");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms131");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms141");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms151");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms161");
+		sleep 2000;
+		npctalk "ไป!", instance_npcname("Temple Guard#2dms101");
+		sleep 2000;
+		for ( .@i = 1; .@i < 7; ++.@i )
+				disablenpc instance_npcname("Temple Guard#2dms1" + .@i + "1");
+		npctalk "นักผจญภัย ขอบคุณสำหรับการเข้าร่วมในปฏิบัติการกวาดล้าง!", instance_npcname("Temple Guard#2dms101");
+		sleep 2000;
+		npctalk "นักผจญภัยทั้งหลาย ข้าอยากขอให้ท่านทำภารกิจอื่นนอกเหนือจากการจัดการกับผู้บุกรุกด้วย", instance_npcname("Temple Guard#2dms101");
+		sleep 2000;
+		npctalk "ฉันจะออกสิทธิ์ผู้ดูแลระบบให้กับหัวหน้ากลุ่มเป็นการชั่วคราว ดังนั้นกรุณาตั้งหมายเลขรักษาความปลอดภัยใหม่สำหรับระบบรักษาความปลอดภัยทุกวัน", instance_npcname("Temple Guard#2dms101");
+		sleep 2000;
+		'code = rand(1000,9999);
+		npctalk "เลขประกันสังคมวันนี้คือ" + 'code + ". อย่าลืมตั้งค่าหลังจากที่ยืนยันว่าห้องสมุดและพื้นที่เก็บข้อมูลว่างเปล่า", instance_npcname("Temple Guard#2dms101");
+		sleep 2000;
+		npctalk "ถ้าอย่างนั้นเราไปออกภารกิจกันเถอะ!", instance_npcname("Temple Guard#2dms101");
+		enablenpc instance_npcname("Heart Hunter#2dms10");
+		end;
+}
+
+2@nyr,35,187,7	script	Temple Guard#2dms101	4_M_RASWORD,{
+		if ('code > 0)
+				npctalk "ลืมหมายเลขความปลอดภัยของคุณใช่ไหม หมายเลขความปลอดภัยประจำวันนี้คือ" + 'code + ".รีบๆหน่อยนะคะ เดี๋ยวจะตามไปค่ะ.";
+		end;
+}
+
+2@nyr,37,191,3	duplicate(dummy_npc)	Temple Guard#2dms111	4_M_RASWORD
+2@nyr,35,191,3	duplicate(dummy_npc)	Temple Guard#2dms121	4_M_RASWORD
+2@nyr,33,191,3	duplicate(dummy_npc)	Temple Guard#2dms131	4_M_RASWORD
+2@nyr,33,189,5	duplicate(dummy_npc)	Temple Guard#2dms141	4_M_RASWORD
+2@nyr,35,189,5	duplicate(dummy_npc)	Temple Guard#2dms151	4_M_RASWORD
+2@nyr,37,189,5	duplicate(dummy_npc)	Temple Guard#2dms161	4_M_RASWORD
+
+
+// mobs spawn npcs
+2@nyr,1,1,0	script	#nyr_puri_mob_2	-1,{
+		end;
+OnStart10:
+		callsub( S_Call, 14, "Ah! Surprise!", "Heart Hunter#2dms10" );
+OnMobDead14:
+		callsub( S_Next, 15, "There are still enemies in Area 1! Search for it!!", "Heart Hunter#2dms11" );
+
+OnStart11:
+		callsub( S_Call, 15, "What? Why are they doing this??", "Heart Hunter#2dms11" );
+OnMobDead15:
+		callsub( S_Next, 16, "There are still enemies in Area 1! Search for it!!", "Heart Hunter#2dms12" );
+
+OnStart12:
+		callsub( S_Call, 16, "Ike!!!", "Heart Hunter#2dms12" );
+OnMobDead16:
+		callsub( S_Next, 17, "Corridor clear near the library 1! Move up to library 1!", "Heart Hunter#2dms13", "#2mstep01" );
+
+OnStart13:
+		callsub( S_Call, 17, "Mayu! Annoying! Leave us alone!", "Heart Hunter#2dms13", 33,104, 31,79, 31,67, 18,81 );
+OnMobDead17:
+		callsub( S_Next, 18, "Library 1 clear! Waiting for Security reset", "#2mstep02" );
+
+OnStart20:
+		callsub( S_Call, 20, "Why are you so diligent!!", "Heart Hunter#2dms20" );
+OnMobDead20:
+		callsub( S_Next, 21, "There is a beautiful man in the second area! Search for it!!", "Heart Hunter#2dms21" );
+
+OnStart21:
+		callsub( S_Call, 21, "Leave us alone!", "Heart Hunter#2dms21" );
+OnMobDead21:
+		callsub( S_Next, 22, "Second area clear! 2 sets transferred!!", "Heart Hunter#2dms22", "#2mstep03" );
+
+OnStart22:
+		callsub( S_Call, 22, "If you just find that book...!! Who are you?", "Heart Hunter#2dms22", 94,62, 132,62, 156,48, 156,36, 132,17, 100,16 , 83,33, 91,44);
+OnMobDead22:
+		callsub( S_Next, 23, "Second area clear! Waiting for Security reset", "#2mstep04" );
+
+OnStart30:
+		callsub( S_Call, 25, "I'll just make it!!", "Heart Hunter#2dms30" );
+OnMobDead25:
+		callsub( S_Next, 26, "There are still enemies in Area 3, Search!", "Heart Hunter#2dms31" );
+
+OnStart31:
+		callsub( S_Call, 26, "Really persistent! Tired!", "Heart Hunter#2dms31" );
+OnMobDead26:
+		callsub( S_Next, 27, "Corridor clear near the Library 3! Enter Library 3!", "Heart Hunter#2dms32", "#2mstep05" );
+
+OnStart32:
+		callsub( S_Call, 27, "I need to go to the Mercer archive!!!", "Heart Hunter#2dms32", 195,99, 215,101, 192,80, 205,64, 214,57 );
+OnMobDead27:
+		callsub( S_Next, 28, "Library 3 clear! Waiting for security number reset", "#2mstep06" );
+
+OnStart40:
+		callsub( S_Call, 30, "I haven't gotten what I want yet!", "Heart Hunter#2dms40" );
+OnMobDead30:
+		callsub( S_Next, 31, "Central clear! Enter storage room!", "#2mstep07", "#2mstep08", "Heart Hunter#2dms41", "Heart Hunter#2dms42", "Heart Hunter#2dms43", "Heart Hunter#2dms44", "Heart Hunter#2dms45",
+				"Heart Hunter#2dms46", "Heart Hunter#2dms47", "Heart Hunter#2dms48", "Heart Hunter#2dms49", "#2ar201sw" );
+
+S_Next:
+		if ('nyr_daily_step != getarg(0))
+				end;
+		if (mobcount('map_2nyr$, instance_npcname("#nyr_puri_mob_2") + "::OnMobDead" + ('nyr_daily_step-1)) > 0)
+				end;
+		mapannounce 'map_2nyr$, getarg(1), bc_map, 0xFFCC;
+		for ( .@i = 2; .@i < getargcount(); ++.@i )
+				enablenpc instance_npcname( getarg(.@i) );
+		end;
+
+S_Call:
+		.@num = getarg(0);
+		if ('nyr_daily_step != .@num)
+				end;
+		'nyr_daily_step = .@num + 1;
+		npctalk getarg(1), instance_npcname( getarg(2) );
+		sleep 500;
+		disablenpc instance_npcname( getarg(2) );
+		.@label$ = instance_npcname("#nyr_puri_mob_2") + "::OnMobDead" + .@num;
+		if (getargcount() < 4) {
+				getmapxy .@map$, .@x, .@y, BL_NPC, getarg(2);
+				monster 'map_2nyr$, .@x, .@y,"Heart Hunter at the Villa",21312,1, .@label$;	// EP18_MD_HEARTHUNTER_R
+		}
+		else {
+				for ( .@i = 3; .@i < getargcount(); .@i += 2 ) {
+						monster 'map_2nyr$, getarg(.@i), getarg(.@i+1),"Heart Hunter at the Villa",21312,1, .@label$;	// EP18_MD_HEARTHUNTER_R
+				}
+		}
+		end;
+
+OnFinal:
+		if ('nyr_daily_step != 32)
+				end;
+		if (mobcount('map_2nyr$, instance_npcname("#nyr_puri_mob_2") + "::OnFinal") > 0)
+				end;
+		mapannounce 'map_2nyr$, "Waiting for Vault number reset!", bc_map, 0xFFCC;
+		disablenpc instance_npcname("#2mstep07");
+		disablenpc instance_npcname("#2mstep08");
+		enablenpc instance_npcname("#2mstep09");
+		enablenpc instance_npcname("#2mstep10");
+		end;
+}
+
+2@nyr,35,171,5	script	Heart Hunter#2dms10	EP18_MD_HEARTHUNTER_R,5,5,{
+		end;
+OnTouch:
+		if (is_party_leader() == false)
+				end;
+		.@string$ = replacestr( strnpcinfo(2), "2dms", "" );
+		donpcevent instance_npcname("#nyr_puri_mob_2") + "::OnStart" + .@string$;
+		end;
+}
+2@nyr,36,146,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms11	EP18_MD_HEARTHUNTER_R,5,5
+2@nyr,64,131,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms12	EP18_MD_HEARTHUNTER_R,5,5
+2@nyr,42,104,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms13	EP18_MD_HEARTHUNTER_R,5,5
+
+2@nyr,69,103,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms20	EP18_MD_HEARTHUNTER_R,5,5
+2@nyr,106,78,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms21	EP18_MD_HEARTHUNTER_R,5,5
+2@nyr,94,62,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms22	EP18_MD_HEARTHUNTER_R,5,5
+
+2@nyr,129,75,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms30	EP18_MD_HEARTHUNTER_R,5,5
+2@nyr,158,104,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms31	EP18_MD_HEARTHUNTER_R,5,5
+2@nyr,195,99,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms32	EP18_MD_HEARTHUNTER_R,5,5
+
+2@nyr,174,109,5	duplicate(Heart Hunter#2dms10)	Heart Hunter#2dms40	EP18_MD_HEARTHUNTER_R,5,5
+
+
+// final battle
+2@nyr,115,177,3	script	Heart Hunter#2dms41	EP18_MD_HEARTHUNTER_R,5,5,{
+		end;
+OnTouch:
+		npctalk "เอ่อ~ ฉันว่าเนื้อกำลังมาแล้ว~";
+		end;
+}
+
+2@nyr,126,174,5	script	Heart Hunter#2dms42	EP18_MD_HEARTHUNTER_R,5,5,{
+		end;
+OnTouch:
+		npctalk "คุณนั่งแล้ว!!";
+		end;
+}
+
+2@nyr,117,207,1	duplicate(dummy_npc)	Heart Hunter#2dms43	EP18_MD_HEARTHUNTER_R,2,2
+2@nyr,115,206,7	duplicate(dummy_npc)	Heart Hunter#2dms44	EP18_MD_HEARTHUNTER_R,2,2
+2@nyr,119,206,1	duplicate(dummy_npc)	Heart Hunter#2dms45	EP18_MD_HEARTHUNTER_R,2,2
+2@nyr,129,199,5	duplicate(dummy_npc)	Heart Hunter#2dms46	EP18_MD_HEARTHUNTER_R,2,2
+2@nyr,113,194,3	duplicate(dummy_npc)	Heart Hunter#2dms47	EP18_MD_HEARTHUNTER_R,2,2
+2@nyr,111,209,5	duplicate(dummy_npc)	Heart Hunter#2dms48	EP18_MD_HEARTHUNTER_R,2,2
+2@nyr,112,206,5	duplicate(dummy_npc)	Heart Hunter#2dms49	EP18_MD_HEARTHUNTER_R,2,2
+2@nyr,115,201,5	duplicate(dummy_npc)	Heart Hunter#2dms50	EP17_1_BELLARE1
+
+2@nyr,118,200,0	script	#2ar201sw	HIDDEN_WARP_NPC,5,5,{
+		end;
+OnTouch:
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 31)
+				end;
+		'nyr_daily_step = 32;
+		disablenpc();
+		enablenpc instance_npcname("Heart Hunter#2dms50");
+		emotion ET_QUESTION, getnpcid(0,instance_npcname("Heart Hunter#2dms50"));
+		sleep 500;
+		npctalk "อะไรนะ? มีผู้บุกรุกเข้ามาเหรอ?", instance_npcname("Heart Hunter#2dms50");
+		sleep 2000;
+		npctalk "แล้วทำอะไรอยู่ถึงไม่มีใครเข้ามาได้ ใจเย็นๆ นะ!", instance_npcname("Heart Hunter#2dms50");
+		sleep 2000;
+		npctalk "อืมมม~ ฉันเมาแล้ว~ ฉันเมาเวทมนตร์แห่งหัวใจของฉัน~", instance_npcname("Heart Hunter#2dms48");
+		sleep 2000;
+		npctalk "นั่นไม่ใช่เวทมนตร์เดียวที่รัฐอนุญาตหรือ?", instance_npcname("Heart Hunter#2dms48");
+		npctalk "หมายความว่าไงครับ รัฐก็ไม่ได้อนุญาตด้วยซ้ำ ลืมไปแล้วหรือครับ?", instance_npcname("Heart Hunter#2dms44");
+		sleep 2000;
+		npctalk "อ๋อ ใช่แล้ว เราบุกรุกใช่ไหม", instance_npcname("Heart Hunter#2dms49");
+		sleep 200;
+		npctalk "มันน่าตื่นเต้นมากกว่าเพราะว่ามันมีรสชาติผิดกฎหมายใช่ไหม?", instance_npcname("Heart Hunter#2dms48");
+		npctalk "เฮ้ย! นี่มันแปลกๆ นะ พลังเวทย์ของหัวใจมันยังไม่ปลดปล่อยออกมาเต็มที่แม้จะทำสำเร็จแล้วหรือเปล่า", instance_npcname("Heart Hunter#2dms43");
+		npctalk "ก็ถอยออกมาซะสิ! ฉันจะลองดู!!", instance_npcname("Heart Hunter#2dms45");
+		sleep 2000;
+		npctalk "อะไรนะ? แล้วความตื่นเต้นที่ไหลเวียนอยู่ในร่างกายของฉันตอนนี้คืออะไร?", instance_npcname("Heart Hunter#2dms48");
+		sleep 2000;
+		npctalk "ดูดีๆนะครับอาจมีไฟฟ้าลัดวงจร", instance_npcname("Heart Hunter#2dms49");
+		npctalk "เฮ้ มันก็ตื่นเต้นบ้างเป็นครั้งคราว", instance_npcname("Heart Hunter#2dms48");
+		npctalk "คุณบอกว่าคุณเคยเห็นปุ่มควบคุมเหนือไหล่ของคุณมาก่อนเหรอ? เชื่อใจคุณเท่านั้นเหรอ?", instance_npcname("Heart Hunter#2dms50");
+		sleep 1000;
+		npctalk "นั่นมัน... เดี๋ยวนะ มันบอกว่าหมายเลขความปลอดภัยไม่ตรงกันเหรอ?", instance_npcname("Heart Hunter#2dms43");
+		sleep 2000;
+		npctalk "รหัสความปลอดภัยไม่ตรงกันเหรอ? หืม... ฉันว่ามันน่าจะเกี่ยวกับนักผจญภัยที่นี่นะ? ไม่ใช่เหรอ?", instance_npcname("Heart Hunter#2dms50");
+		sleep 2000;
+		npctalk "คุณสามารถกรอกรหัสรักษาความปลอดภัยของตั๋วได้หรือไม่? แล้วเราทุกคนจะดีใจมาก", instance_npcname("Heart Hunter#2dms50");
+		sleep 2000;
+		npctalk "หลีกทางหน่อย เครื่องจักรบอกว่าคุณต้องตีมันถึงจะได้ยิน!", instance_npcname("Heart Hunter#2dms45");
+		npctalk "เฮ้ย ใครเขาทำกับเครื่องจักรแบบนั้น", instance_npcname("Heart Hunter#2dms43");
+		specialeffect EF_HIT1, AREA, instance_npcname("Heart Hunter#2dms45");
+		sleep 2000;
+		npctalk "อ๋อ!!! จู่ๆ ก็ตื่นเต้นขึ้นมา!! นี่คืออารมณ์ของคุณเหรอ?", instance_npcname("Heart Hunter#2dms48");
+		npctalk "ดูเหมือนคุณจะพูดถูก! จู่ๆ เด็กชายก็เรืองแสง!", instance_npcname("Heart Hunter#2dms44");
+		specialeffect EF_MAGICALATTHIT, AREA, instance_npcname("Heart Hunter#2dms48");
+		sleep 2000;
+		npctalk "อ๊ากกกก!!!", instance_npcname("Heart Hunter#2dms48");
+		npctalk "อ๋อ!! เท่โคตร!!!", instance_npcname("Heart Hunter#2dms44");
+		npctalk "ทำไมมีแต่เขาคนเดียวล่ะ... ? มีอะไรแปลกๆ หรือเปล่า?", instance_npcname("Heart Hunter#2dms43");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms48");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms48");
+		sleep 2000;
+		npctalk "อะไร...?", instance_npcname("Heart Hunter#2dms43");
+		npctalk "นี่มันอะไร?", instance_npcname("Heart Hunter#2dms44");
+		npctalk "คุณควรเคาะเครื่องที่พังด้วย!", instance_npcname("Heart Hunter#2dms45");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms43");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms44");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms45");
+		sleep 2000;
+		npctalk "ฉันโดนไฟดูดด้วยมั้ย? ฉันหน้าตาไม่ค่อยดีเลย?", instance_npcname("Heart Hunter#2dms49");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms43");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms44");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms45");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms49");
+		sleep 2000;
+		npctalk "ไม่ใช่ว่าฉันทำสำเร็จนะ ดูสิ เราทุกคนสามารถสอดคล้องกับหัวใจได้หรือไม่?", instance_npcname("Heart Hunter#2dms45");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms49");
+		sleep 200;
+		npctalk "-", instance_npcname("Heart Hunter#2dms48");
+		sleep 2000;
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms41");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms42");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms46");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms47");
+		specialeffect EF_NPC_STOP, AREA, instance_npcname("Heart Hunter#2dms50");
+		npctalk "มันคืออะไร ฉันไม่สามารถดึงพลังเวทย์ของหัวใจออกมาได้ แต่มันก็สั่นสะเทือนได้ดี ถ้าอย่างนั้น ฉันควรลองพลังนี้ดูไหม?", instance_npcname("Heart Hunter#2dms50");
+		npctalk "มีนักผจญภัยอยู่น่ะสมบูรณ์แบบเลย", instance_npcname("Heart Hunter#2dms49");
+		npctalk "โอเค ไม่อย่างนั้น ทุกคนก็คงจะเข้าใจใช่ไหม?", instance_npcname("Heart Hunter#2dms45");
+		npctalk "อ๋อ! ฉันไปฟรอนเทรามาแล้วเห็นแบบนั้น ทุกคนกำลังตีไข่กันอยู่เหรอ", instance_npcname("Heart Hunter#2dms44");
+		sleep 2000;
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms41");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms42");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms46");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms47");
+		specialeffect EF_UNDEADBODY, AREA, instance_npcname("Heart Hunter#2dms50");
+		npctalk "ผมไม่ได้มีความรู้สึกส่วนตัวอะไรนะครับ แต่ถ้าปล่อยไว้แบบนี้เราคงเดือดร้อนแน่", instance_npcname("Heart Hunter#2dms50");
+		sleep 2000;
+		npctalk "สิ่งที่คงจะดีถ้าเราแค่ผ่านไปโดยไม่รู้ตัวก็ไม่มีอะไรที่เราทำได้เลย ลาก่อน", instance_npcname("Heart Hunter#2dms50");
+
+		for ( .@i = 41; .@i < 51; ++.@i ) {
+				hideonnpc instance_npcname("Heart Hunter#2dms" + .@i );
+				disablenpc instance_npcname("Heart Hunter#2dms" + .@i );
+		}
+
+		.@label$ = instance_npcname("#nyr_puri_mob_2") + "::OnFinal";
+		monster 'map_2nyr$,122,194,"Heart Hunter at the Villa",21312,1, .@label$;	// EP18_MD_HEARTHUNTER_R
+		monster 'map_2nyr$,118,196,"Heart Hunter at the Villa",21312,1, .@label$;
+		monster 'map_2nyr$,117,207,"Heart Hunter at the Villa",21312,1, .@label$;
+		monster 'map_2nyr$,115,206,"Heart Hunter at the Villa",21312,1, .@label$;
+		monster 'map_2nyr$,119,206,"Heart Hunter at the Villa",21312,1, .@label$;
+		monster 'map_2nyr$,113,194,"Heart Hunter at the Villa",21312,1, .@label$;
+		monster 'map_2nyr$,111,209,"Heart Hunter at the Villa",21312,1, .@label$;
+		monster 'map_2nyr$,112,206,"Heart Hunter at the Villa",21312,1, .@label$;
+		monster 'map_2nyr$,115,201,"Heart Hunter at the Villa",21313,1, .@label$;	// EP18_MD_HEARTHUNTER_F
+		end;
+}
+
+
+// warp npcs
+2@nyr,56,104,0	warp	#2mstep01	1,1,2@nyr,49,104
+
+2@nyr,49,55,0	script	#2mstep02	WARPNPC,1,1,{
+		end;
+OnTouch:
+		warp 'map_2nyr$,53,55;
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 18)
+				end;
+		'nyr_daily_step = 19;
+		disablenpc instance_npcname("#2mstep01");
+		enablenpc instance_npcname("Security Device#2dms10");
+		end;
+}
+
+2@nyr,119,71,0	warp	#2mstep03	1,1,2@nyr,119,65
+
+2@nyr,119,66,0	script	#2mstep04	WARPNPC,1,1,{
+		end;
+OnTouch:
+		warp 'map_2nyr$,117,73;
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 23)
+				end;
+		'nyr_daily_step = 24;
+		disablenpc instance_npcname("#2mstep03");
+		enablenpc instance_npcname("Security Device#2dms20");
+		end;
+}
+
+2@nyr,183,104,0	warp	#2mstep05	1,1,2@nyr,190,104
+
+2@nyr,186,104,0	script	#2mstep06	WARPNPC,1,1,{
+		end;
+OnTouch:
+		warp 'map_2nyr$,180,104;
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 28)
+				end;
+		'nyr_daily_step = 29;
+		disablenpc instance_npcname("#2mstep05");
+		enablenpc instance_npcname("Security Device#2dms30");
+		end;
+}
+
+2@nyr,120,123,0	script	#2mstep07	WARPNPC,1,1,{
+		end;
+OnTouch:
+		warp 'map_2nyr$,120,126;
+		navigateto("2@nyr",120,137);
+		end;
+}
+
+2@nyr,120,137,0	script	#2mstep08	WARPNPC,1,1,{
+		end;
+OnTouch:
+		warp 'map_2nyr$,120,147;
+		navigateto("2@nyr",120,197);
+		end;
+}
+
+2@nyr,120,141,0	script	#2mstep09	WARPNPC,1,1,{
+		end;
+OnTouch:
+		warp 'map_2nyr$,120,134;
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 32)
+				end;
+		'nyr_daily_step = 33;
+		enablenpc instance_npcname("Security Device#2dms40");
+		end;
+}
+
+2@nyr,151,131,0	script	#2mstep10	WARPNPC,1,1,{
+		end;
+OnTouch:
+		warp 'map_2nyr$,159,131;
+		navigateto("2@nyr",203,220);
+		end;
+}
+
+2@nyr,203,220,0	script	#2mstep11	WARPNPC,1,1,{
+		end;
+OnTouch:
+		if ('nyr_daily_step == 35 && isbegin_quest(17523) == 1)
+				changequest 17523,17526;
+		warp "rachel",167,240;
+		end;
+}
+
+
+// Code
+2@nyr,51,57,5	script	Security Device#2dms10	4_POINT_BLUE,5,5,{
+		if (is_party_leader() == false)
+				end;
+		switch( atoi( replacestr( strnpcinfo(2), "2dms", "" ) ) ) {
+		case 10:
+				.@step = 19;
+				.@mes$ = "หมายเลขรักษาความปลอดภัยของห้องสมุดแรกได้รับการรีเซ็ตแล้ว";
+				.@enable$ = "Heart Hunter#2dms20";
+				setarray .@xy[0],119,71;
+				break;
+		case 20:
+				.@step = 24;
+				.@mes$ = "หมายเลขรักษาความปลอดภัยของห้องสมุดที่สองได้รับการรีเซ็ตแล้ว";
+				.@enable$ = "Heart Hunter#2dms30";
+				setarray .@xy[0],183,104;
+				break;
+		case 30:
+				.@step = 29;
+				.@mes$ = "หมายเลขรักษาความปลอดภัยของห้องสมุดที่ 3 ได้รับการรีเซ็ตแล้ว";
+				.@enable$ = "Heart Hunter#2dms40";
+				setarray .@xy[0],120,123;
+				break;
+		default:
+				end;
+		}
+		if ('nyr_daily_step != .@step)
+				end;
+		mes "กำลังรอการรีเซ็ตรหัสความปลอดภัย กรุณาใส่รหัสความปลอดภัยใหม่";
+		next;
+		input .@num;
+		if (.@num != 'code) {
+				mes "ยกเลิกการป้อนข้อมูล";
+				close;
+		}
+		mes .@mes$;
+		if ('nyr_daily_step == .@step) {
+				'nyr_daily_step = .@step + 1;
+				enablenpc instance_npcname( .@enable$ );
+		}
+		navigateto("2@nyr",.@xy[0],.@xy[1]);
+		close;
+OnTouch:
+		npctalk "กำลังรอการรีเซ็ตหมายเลขความปลอดภัย";
+		end;
+}
+2@nyr,115,69,5	duplicate(Security Device#2dms10)	Security Device#2dms20	4_POINT_BLUE,5,5
+2@nyr,184,100,5	duplicate(Security Device#2dms10)	Security Device#2dms30	4_POINT_BLUE,5,5
+
+2@nyr,124,138,5	script	Security Device#2dms40	4_POINT_BLUE,5,5,{
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 33)
+				end;
+		mes "กำลังรอการรีเซ็ตรหัสความปลอดภัย กรุณาใส่รหัสความปลอดภัยใหม่";
+		next;
+		input .@num;
+		if (.@num != 'code) {
+				mes "ยกเลิกการป้อนข้อมูล";
+				close;
+		}
+		mes "หมายเลขรักษาความปลอดภัยห้องล็อคเกอร์ได้รับการรีเซ็ตแล้ว";
+		if ('nyr_daily_step == 33) {
+				'nyr_daily_step = 34;
+				enablenpc instance_npcname("#2mstep10");
+				enablenpc instance_npcname("#2mstep11");
+				enablenpc instance_npcname("Temple Guard#2dms201");
+				enablenpc instance_npcname("Temple Guard#2dms211");
+				enablenpc instance_npcname("Temple Guard#2dms221");
+				enablenpc instance_npcname("Temple Guard#2dms231");
+				enablenpc instance_npcname("Temple Guard#2dms241");
+				enablenpc instance_npcname("Temple Guard#2dms251");
+				enablenpc instance_npcname("Temple Guard#2dms261");
+				enablenpc instance_npcname("#msnavi01");
+				mapannounce 'map_2nyr$, "Do you think the crowd will give up because of the delay? The taste of baboons dried up? Leave it!", bc_map, 0xFFCC;
+				sleep2 1000;
+				mapannounce 'map_2nyr$, "Look, the whole area screams towards the clearer power outlets!", bc_map, 0xFFCC;
+		}
+		navigateto("2@nyr",151,131);
+		close;
+OnTouch:
+		npctalk "กำลังรอการรีเซ็ตหมายเลขความปลอดภัย";
+		end;
+}
+
+2@nyr,174,135,5	script	Temple Guard#2dms201	4_M_RASWORD,5,5,{
+		end;
+OnTouch:
+		if (is_party_leader() == false)
+				end;
+		if ('nyr_daily_step != 34)
+				end;
+		'nyr_daily_step = 35;
+		npctalk "ทุกคนทำงานหนัก!";
+		sleep 2000;
+		npctalk "ควรทำบุญชำระวัดทุกวันเพียงหยิบมือเดียว!";
+		sleep 2000;
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms211");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms221");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms231");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms241");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms251");
+		npctalk "ใช่!!", instance_npcname("Temple Guard#2dms261");
+		// npctalk "ที่จะยุบทั้งหมดใต้!";
+		sleep 2000;
+		npctalk "ก็จะทำอีกครับเพราะวัดมีปัญหาเยอะ";
+		end;
+}
+
+2@nyr,177,134,1	duplicate(dummy_npc)	Temple Guard#2dms211	4_M_RASWORD,3,0
+2@nyr,176,133,1	duplicate(dummy_npc)	Temple Guard#2dms221	4_M_RASWORD
+2@nyr,175,132,1	duplicate(dummy_npc)	Temple Guard#2dms231	4_M_RASWORD
+2@nyr,178,133,1	duplicate(dummy_npc)	Temple Guard#2dms241	4_M_RASWORD
+2@nyr,177,132,1	duplicate(dummy_npc)	Temple Guard#2dms251	4_M_RASWORD
+2@nyr,176,131,1	duplicate(dummy_npc)	Temple Guard#2dms261	4_M_RASWORD
+
+// 2@nyr,179,131,0	duplicate(dummy_npc)	#msnavi01	WARPNPC,3,3
+2@nyr,179,131,0	script	#msnavi01	HIDDEN_WARP_NPC,3,3,{
+		end;
+OnTouch_:
+		navigateto("2@nyr",203,220);
+		end;
+}

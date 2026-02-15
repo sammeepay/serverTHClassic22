@@ -1,0 +1,91 @@
+//===== rAthena Script =======================================
+//= Coin Merchants
+//===== By: ==================================================
+//= rAthena Dev Team
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Coin redemption NPCs.
+//===== Additional Comments: =================================
+//= 1.0 First version 
+//= 1.1 Fixed checkweight. [Gepard]
+//= 1.2 Optimized and merged into one file. [Euphy]
+//============================================================
+
+// Manuk & Splendide
+//============================================================
+-	script	::merchant_13_2	-1,{
+	set .@n$, "["+strnpcinfo(1)+"]";
+	mes .@n$;
+	// ตรวจสอบว่าสวมใส่ Ring of the Wise King (2782) และผ่านเควส ep13_2_rhea หรือยัง
+	if (isequipped(2782) && ep13_2_rhea == 100) {
+		if (!checkweight(1201,1)) {
+			mes "ดูเหมือนว่าเจ้ากำลังแบกของหนักเกินไปนะ";
+			mes "ลองเอาของบางอย่างไปฝากในคลังเก็บของแล้วค่อยกลับมาดีไหม?";
+			close;
+		}
+		mes "สวัสดี";
+		mes "เจ้ากำลังมองหาอะไรอยู่ล่ะ?";
+		next;
+		if (strnpcinfo(1) == "Merchant of Manuk") {
+			setarray .@Items[2],12342,12343,12348;
+			set .@Book,11019; //รายการสินค้าที่ขายใน Manuk (Manuk_Selling_Item)
+			set .@Coin,6080; //เหรียญ Manuk (Manuk_Coin)
+			set .@i, select("ดูรายละเอียดไอเทม:Manuk's Opportunity:Manuk's Courage:Manuk's Faith:ยกเลิก");
+		}
+		else {
+			setarray .@Items[2],12344,12345,12349;
+			set .@Book,11018; //รายการสินค้าที่ขายใน Splendide (Splendide_Selling_Item)
+			set .@Coin,6081; //เหรียญ Splendide (Splendide_Coin)
+			set .@i, select("ดูรายละเอียดไอเทม:ซื้อ Pinguicula's Fruit Jam:ซื้อ Luciola's Honey Jam:ซื้อ Cornus' Tears:ไม่ทำอะไร");
+		}
+		mes .@n$;
+		if (.@i == 1) {
+			mes "นี่คือรายละเอียดของไอเทมจ้ะ";
+			close2;
+			readbook .@Book,1;
+			end;
+		}
+		else if (.@i < 5) {
+			mes "ข้าสามารถขาย "+getitemname(.@Items[.@i])+" จำนวน 3 ชิ้น ให้เจ้าได้ในราคา ^3131FFเหรียญ 1 เหรียญ^000000 นะ";
+			next;
+			switch(select("ซื้อ:ไม่ซื้อ")) {
+			case 1:
+				if (countitem(.@Coin)) {
+					mes .@n$;
+					mes "ขอบคุณที่แวะมานะ";
+					delitem .@Coin,1; 
+					getitem .@Items[.@i],3;
+					close;
+				}
+				else {
+					mes .@n$;
+					mes "เจ้ามีเหรียญไม่เพียงพอจ้ะ";
+					close;
+				}
+			case 2:
+				mes .@n$;
+				break;
+			}
+		}
+		mes "แวะมาใหม่นะถ้าเจ้าเปลี่ยนใจ";
+		close;
+	}
+	else {
+		// หากไม่ได้ใส่แหวน Ring of the Wise King จะคุยไม่รู้เรื่อง (ภาษาพื้นเมือง)
+		if (strnpcinfo(1) == "Merchant of Manuk") {
+			mes "Rtt od d";
+			mes "Qwo hd is d irr";
+		}
+		else {
+			mes "BurWehAla";
+			mes "tasnarAndu Ie Ru";
+		}
+		close;
+	}
+}
+man_in01,286,16,1	duplicate(merchant_13_2)	Merchant of Manuk	454
+spl_in01,110,326,5	duplicate(merchant_13_2)	Merchant of Splendide	439

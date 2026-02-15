@@ -1,0 +1,248 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Added Monster Killing quests. (Dialog is semi-custom)
+//= Repeatable EXP Quest (Powder of Butterfly)
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+prt_fild04,356,148,3	script	Laertes#Creamy_Hunt	798,{
+	if (checkquest(60122) != -1) { // ตรวจสอบเควสต์ล่า 50 ตัว
+		if (checkquest(60122,HUNTING) != 2 ) {
+			mes "[Laertes]";
+			mes "คุณล่า Creamy ครบ 50 ตัวหรือยัง?";
+			next;
+			switch(select("ใช่:ไม่:ฉันต้องการยกเลิก")) {
+			case 1:
+				mes "[Laertes]";
+				mes "หืม ฉันยังไม่คิดว่าคุณล่าครบ 50 ตัวนะ...";
+				close;
+			case 2:
+				mes "[Laertes]";
+				mes "จำไว้นะ ฉันต้องการความช่วยเหลือในการล่า Creamy เพราะฉะนั้นไปล่าพวกมันมา 50 ตัว";
+				close;
+			case 3:
+				mes "[Laertes]";
+				mes "คุณแน่ใจนะว่าต้องการหยุดการล่า?";
+				mes "ความคืบหน้าใดๆ ที่คุณทำมาจะถูกลบทิ้งทั้งหมด";
+				next;
+				switch(select("ใช่:ไม่")) {
+				case 1:
+					mes "[Laertes]";
+					mes "ตกลง ถ้าอย่างนั้นก็กลับมาที่นี่ถ้าคุณเปลี่ยนใจ";
+					erasequest 60122;
+					close;
+				case 2:
+					mes "[Laertes]";
+					mes "โปรดไปกำจัด Creamy 50 ตัว";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Laertes]";
+			mes "มหัศจรรย์มาก คุณทำได้รวดเร็วเหลือเกิน";
+			getexp 2950,1125;
+			erasequest 60122;
+			close;
+		}
+	}
+	if (checkquest(60123) != -1) { // ตรวจสอบเควสต์ล่า 100 ตัว
+		if (checkquest(60123,HUNTING) != 2 ) {
+			mes "[Laertes]";
+			mes "คุณล่า Creamy ครบ 50 ตัวหรือยัง?"; // หมายเหตุ: ต้นฉบับเขียน 50 ทั้งที่เป็นเควสต์ 100
+			next;
+			switch(select("ใช่:ไม่:ฉันต้องการยกเลิก")) {
+			case 1:
+				mes "[Laertes]";
+				mes "หืม ฉันยังไม่คิดว่าคุณล่าครบ 100 ตัวนะ...";
+				close;
+			case 2:
+				mes "[Laertes]";
+				mes "จำไว้นะ ฉันต้องการความช่วยเหลือในการล่า Creamy เพราะฉะนั้นไปล่าพวกมันมา 100 ตัว";
+				close;
+			case 3:
+				mes "[Laertes]";
+				mes "คุณแน่ใจนะว่าต้องการหยุดการล่า?";
+				mes "ความคืบหน้าใดๆ ที่คุณทำมาจะถูกลบทิ้งทั้งหมด";
+				next;
+				switch(select("ใช่:ไม่")) {
+				case 1:
+					mes "[Laertes]";
+					mes "ตกลง ถ้าอย่างนั้นก็กลับมาที่นี่ถ้าคุณเปลี่ยนใจ";
+					erasequest 60123;
+					close;
+				case 2:
+					mes "[Laertes]";
+					mes "โปรดไปกำจัด Creamy 100 ตัว";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Laertes]";
+			mes "มหัศจรรย์มาก คุณทำได้รวดเร็วเหลือเกิน";
+			getexp 2950,1125;
+			getexp 2950,1125;
+			erasequest 60123;
+			close;
+		}
+	}
+	if (checkquest(60124) != -1) { // ตรวจสอบเควสต์ล่า 150 ตัว
+		if (checkquest(60124,HUNTING) != 2 ) {
+			mes "[Laertes]";
+			mes "คุณล่า Creamy ครบ 150 ตัวหรือยัง?";
+			next;
+			switch(select("ใช่:ไม่:ฉันต้องการยกเลิก")) {
+			case 1:
+				mes "[Laertes]";
+				mes "หืม ฉันยังไม่คิดว่าคุณล่าครบ 150 ตัวนะ...";
+				close;
+			case 2:
+				mes "[Laertes]";
+				mes "จำไว้นะ ฉันต้องการความช่วยเหลือในการล่า Creamy เพราะฉะนั้นไปล่าพวกมันมา 150 ตัว";
+				close;
+			case 3:
+				mes "[Laertes]";
+				mes "คุณแน่ใจนะว่าต้องการหยุดการล่า?";
+				mes "ความคืบหน้าใดๆ ที่คุณทำมาจะถูกลบทิ้งทั้งหมด";
+				next;
+				switch(select("ใช่:ไม่")) {
+				case 1:
+					mes "[Laertes]";
+					mes "ตกลง ถ้าอย่างนั้นก็กลับมาที่นี่ถ้าคุณเปลี่ยนใจ";
+					erasequest 60124;
+					close;
+				case 2:
+					mes "[Laertes]";
+					mes "โปรดไปกำจัด Creamy 150 ตัว";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Laertes]";
+			mes "มหัศจรรย์มาก คุณทำได้รวดเร็วเหลือเกิน";
+			getexp 2950,1125;
+			getexp 2950,1125;
+			getexp 2950,1125;
+			erasequest 60124;
+			close;
+		}
+	}
+	// สำหรับเลเวลขั้นต่ำ
+	if (BaseLevel > 14) {
+		// สำหรับเลเวลสูงสุด
+		if (BaseLevel < 45) {
+			mes "[Laertes]";
+			mes "อรุณสวัสดิ์!";
+			mes "บางทีคุณอาจจะช่วยอะไรฉันหน่อยได้ไหม?";
+			next;
+			switch(select("แน่นอน:ไม่")) {
+			case 1:
+				mes "[Laertes]";
+				mes "ฉันทำงานให้ร้านขายยาใน Prontera น่ะ";
+				mes "ฉันมาที่นี่เพื่อเก็บรวบรวมวัตถุดิบสำหรับทำยา";
+				next;
+				switch(select("รวบรวมไอเทม:ล่า Creamy:ยกเลิก")) {
+				case 1:
+					// ส่งมอบไอเทม
+					mes "[Laertes]";
+					mes "ฉันจำเป็นต้องมีสต็อกของ ^FF0000Powder of Butterfly^000000 ให้เพียงพอน่ะ";
+					next;
+					switch(select("ฉันมี Powder of Butterfly มาแล้ว:คุณต้องการอะไรนะ?")) {
+					case 1:
+						/*
+						if (checkweight(502,5) == 0) {
+							mes "[Laertes]";
+							mes "เฮ้ ดูเหมือนว่าน้ำหนักบนหลังของคุณ";
+							mes "จะทับคุณแบนนะ กลับมาใหม่";
+							mes "หลังจากที่คุณลดน้ำหนักลงบ้างแล้ว";
+							close;
+						}
+						*/
+						if (countitem(924) > 24) {
+							mes "[Laertes]";
+							mes "เฮ้ ขอบคุณอีกครั้งนะ";
+							mes "นี่คือรางวัลของคุณตามที่สัญญาไว้";
+							delitem 924,25; //Powder_Of_Butterfly
+							getexp 2950,1125;
+							//getitem 502,5; //Orange_Potion
+							close;
+						}
+						else {
+							mes "[Laertes]";
+							mes "ดูเหมือนว่าคุณจะยังมีไม่พอนะ";
+							next;
+							mes "[Laertes]";
+							mes "ถ้าคุณนำ ^FF0000Powder of Butterfly 25 อัน^000000 มาให้ฉัน";
+							mes "ฉันจะมอบเวชภัณฑ์บางอย่างให้คุณเป็นรางวัล";
+							close;
+						}
+					case 2:
+						mes "[Laertes]";
+						mes "ถ้าคุณนำ ^FF0000Powder of Butterfly 25 อัน^000000 มาให้ฉัน";
+						mes "ฉันจะมอบเวชภัณฑ์บางอย่างให้คุณเป็นรางวัล";
+						close;
+					}
+				case 2:
+					// เควสต์นับจำนวนการกำจัด (Kill Count)
+					mes "[Laertes]";
+					mes "อา ตกลง ฉันคิดว่าคุณสามารถช่วยฉันได้โดยการไปล่า Creamy สักหน่อย";
+					mes "คุณต้องการจะล่ากี่ตัวดีล่ะ?";
+					next;
+					switch(select("50 Creamy:100 Creamy:150 Creamy")) {
+					case 1:
+						mes "[Laertes]";
+						mes "กลับมาเมื่อคุณทำภารกิจเสร็จแล้ว แล้วฉันจะให้รางวัลเล็กๆ น้อยๆ";
+						setquest 60122;
+						close;
+					case 2:
+						mes "[Laertes]";
+						mes "กลับมาเมื่อคุณทำภารกิจเสร็จแล้ว แล้วฉันจะให้รางวัลเล็กๆ น้อยๆ";
+						setquest 60123;
+						close;
+					case 3:
+						mes "[Laertes]";
+						mes "กลับมาเมื่อคุณทำภารกิจเสร็จแล้ว แล้วฉันจะให้รางวัลเล็กๆ น้อยๆ";
+						setquest 60124;
+						close;
+					}
+				case 3:
+					mes "[Laertes]";
+					mes "ถ้าคุณเปลี่ยนใจ โปรดกลับมาใหม่นะ";
+					close;
+				}
+			case 2:
+				mes "[Laertes]";
+				mes "ถ้าคุณเปลี่ยนใจ โปรดกลับมาใหม่นะ";
+				close;
+			}
+		}
+		else {
+			mes "[Laertes]";
+			mes "อรุณสวัสดิ์!";
+			next;
+			mes "[Laertes]";
+			mes "ฉันทำงานให้ร้านขายยาใน Prontera น่ะ";
+			mes "ฉันมาที่นี่เพื่อเก็บรวบรวมวัตถุดิบสำหรับทำยา";
+			close;
+		}
+	}
+	else {
+		mes "[Laertes]";
+		mes "เลเวลของคุณต่ำเกินไป!";
+		next;
+		mes "[Laertes]";
+		mes "ไปล่า Poring เพิ่มก่อนเถอะ!";
+		close;
+	}
+}

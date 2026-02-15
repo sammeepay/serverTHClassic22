@@ -1,0 +1,282 @@
+//===== rAthena Script ======================================= 
+//= Izlude Town Renewal
+//===== By: ================================================== 
+//= Masao
+//===== Current Version: ===================================== 
+//= 1.2
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Izlude town NPCs.
+//===== Additional Comments: ================================= 
+//= 1.0 First Version. Still missing many new NPCs and their dialogues. [Masao]
+//= 1.1 Updated to match the official script. [Euphy]
+//= 1.2 Added Channel Warper and Izlude duplicates. [Euphy]
+//============================================================
+
+// Izlude
+//============================================================
+izlude,197,205,1	duplicate(Sailor_izlude)	Sailor#izlude	4W_SAILOR
+izlude_a,197,205,1	duplicate(Sailor_izlude)	Sailor#izlude_a	4W_SAILOR
+izlude_b,197,205,1	duplicate(Sailor_izlude)	Sailor#izlude_b	4W_SAILOR
+izlude_c,197,205,1	duplicate(Sailor_izlude)	Sailor#izlude_c	4W_SAILOR
+izlude_d,197,205,1	duplicate(Sailor_izlude)	Sailor#izlude_d	4W_SAILOR
+
+izlude,71,92,2	duplicate(Bonne_izlude)	Bonne#izlude	4_F_01
+izlude_a,71,92,2	duplicate(Bonne_izlude)	Bonne#izlude_a	4_F_01
+izlude_b,71,92,2	duplicate(Bonne_izlude)	Bonne#izlude_b	4_F_01
+izlude_c,71,92,2	duplicate(Bonne_izlude)	Bonne#izlude_c	4_F_01
+izlude_d,71,92,2	duplicate(Bonne_izlude)	Bonne#izlude_d	4_F_01
+
+izlude,172,215,4	duplicate(Charfri_izlude)	Charfri#izlude	4_F_02
+izlude_a,172,215,4	duplicate(Charfri_izlude)	Charfri#izlude_a	4_F_02
+izlude_b,172,215,4	duplicate(Charfri_izlude)	Charfri#izlude_b	4_F_02
+izlude_c,172,215,4	duplicate(Charfri_izlude)	Charfri#izlude_c	4_F_02
+izlude_d,172,215,4	duplicate(Charfri_izlude)	Charfri#izlude_d	4_F_02
+
+izlude,174,164,4	duplicate(Cuskoal_izlude)	Cuskoal#izlude	4_F_TELEPORTER
+izlude_a,174,164,4	duplicate(Cuskoal_izlude)	Cuskoal#izlude_a	4_F_TELEPORTER
+izlude_b,174,164,4	duplicate(Cuskoal_izlude)	Cuskoal#izlude_b	4_F_TELEPORTER
+izlude_c,174,164,4	duplicate(Cuskoal_izlude)	Cuskoal#izlude_c	4_F_TELEPORTER
+izlude_d,174,164,4	duplicate(Cuskoal_izlude)	Cuskoal#izlude_d	4_F_TELEPORTER
+
+izlude,85,103,4	duplicate(Dega_izlude)	Dega#izlude	4_M_02
+izlude_a,85,103,4	duplicate(Dega_izlude)	Dega#izlude_a	4_M_02
+izlude_b,85,103,4	duplicate(Dega_izlude)	Dega#izlude_b	4_M_02
+izlude_c,85,103,4	duplicate(Dega_izlude)	Dega#izlude_c	4_M_02
+izlude_d,85,103,4	duplicate(Dega_izlude)	Dega#izlude_d	4_M_02
+
+izlude,140,186,4	duplicate(Kylick_izlude)	Kylick#izlude	4W_M_01
+izlude_a,140,186,4	duplicate(Kylick_izlude)	Kylick#izlude_a	4W_M_01
+izlude_b,140,186,4	duplicate(Kylick_izlude)	Kylick#izlude_b	4W_M_01
+izlude_c,140,186,4	duplicate(Kylick_izlude)	Kylick#izlude_c	4W_M_01
+izlude_d,140,186,4	duplicate(Kylick_izlude)	Kylick#izlude_d	4W_M_01
+
+izlude,57,159,2	duplicate(Red_izlude)	Red#izlude	4_M_03
+izlude_a,57,159,2	duplicate(Red_izlude)	Red#izlude_a	4_M_03
+izlude_b,57,159,2	duplicate(Red_izlude)	Red#izlude_b	4_M_03
+izlude_c,57,159,2	duplicate(Red_izlude)	Red#izlude_c	4_M_03
+izlude_d,57,159,2	duplicate(Red_izlude)	Red#izlude_d	4_M_03
+
+izlude,55,159,2	duplicate(Cebalis_izlude)	Cebalis#izlude	4W_M_02
+izlude_a,55,159,2	duplicate(Cebalis_izlude)	Cebalis#izlude_a	4W_M_02
+izlude_b,55,159,2	duplicate(Cebalis_izlude)	Cebalis#izlude_b	4W_M_02
+izlude_c,55,159,2	duplicate(Cebalis_izlude)	Cebalis#izlude_c	4W_M_02
+izlude_d,55,159,2	duplicate(Cebalis_izlude)	Cebalis#izlude_d	4W_M_02
+
+izlude,165,156,2	duplicate(Soldier_izlude)	Soldier#izlude	8W_SOLDIER
+izlude_a,165,156,2	duplicate(Soldier_izlude)	Soldier#izlude_a	8W_SOLDIER
+izlude_b,165,156,2	duplicate(Soldier_izlude)	Soldier#izlude_b	8W_SOLDIER
+izlude_c,165,156,2	duplicate(Soldier_izlude)	Soldier#izlude_c	8W_SOLDIER
+izlude_d,165,156,2	duplicate(Soldier_izlude)	Soldier#izlude_d	8W_SOLDIER
+
+-	script	::Guard_izlude	-1,{
+	mes "[ทหารยาม Izlude]";
+	mes "ยินดีต้อนรับสู่ Izlude";
+	close;
+}
+prt_fild08,350,219,4	duplicate(Guard_izlude)	Guard#izlude	8W_SOLDIER
+prt_fild08a,350,219,4	duplicate(Guard_izlude)	Guard#izlude_a	8W_SOLDIER
+prt_fild08b,350,219,4	duplicate(Guard_izlude)	Guard#izlude_b	8W_SOLDIER
+prt_fild08c,350,219,4	duplicate(Guard_izlude)	Guard#izlude_c	8W_SOLDIER
+prt_fild08d,350,219,4	duplicate(Guard_izlude)	Guard#izlude_d	8W_SOLDIER
+
+// Channel Warper :: channel
+//============================================================
+function	script	F_IzludeChannel	{
+	mes "[เจ้าหน้าที่บริการแชนแนล]";
+	mes "เมือง Izlude แห่งนี้ช่างดูคึกคักมีชีวิตชีวามากเลยว่าไหมครับ?";
+	mes "ผมมาที่นี่เพื่อช่วยให้การเดินทางในเมืองนี้ราบรื่นยิ่งขึ้น!";
+	mes "ผมสามารถส่งคุณไปยังเมือง Izlude ในแชนแนลอื่นได้นะ";
+	mes "คุณต้องการจะย้ายไปยังแชนแนลอื่นไหมครับ?";
+	next;
+	set .@i, select(getarg(0)+":ไม่เป็นไร ขอบคุณ");
+	if (.@i < 6) {
+		setarray .@maps$[1],"izlude","izlude_a","izlude_b","izlude_c","izlude_d";
+		// ตั้งจุดเซฟและวาร์ปไปยังพิกัดกึ่งกลางเมือง
+		savepoint .@maps$[.@i],128,98,1,1;
+		warp .@maps$[.@i],128,98;
+		end;
+	}
+	close;
+}
+//izlude,122,105,5	script	Channel Warp Official	1_M_WIZARD,{ callfunc "F_IzludeChannel",":Go to copy 2:Go to copy 3:Go to copy 4:Go to copy 5"; }
+//izlude_a,122,105,5	script	Channel Warp Official#_a	1_M_WIZARD,{ callfunc "F_IzludeChannel","Go to copy 1::Go to copy 3:Go to copy 4:Go to copy 5"; }
+//izlude_b,122,105,5	script	Channel Warp Official#_b	1_M_WIZARD,{ callfunc "F_IzludeChannel","Go to copy 1:Go to copy 2::Go to copy 4:Go to copy 5"; }
+//izlude_c,122,105,5	script	Channel Warp Official#_c	1_M_WIZARD,{ callfunc "F_IzludeChannel","Go to copy 1:Go to copy 2:Go to copy 3::Go to copy 5"; }
+//izlude_d,122,105,5	script	Channel Warp Official#_d	1_M_WIZARD,{ callfunc "F_IzludeChannel","Go to copy 1:Go to copy 2:Go to copy 3:Go to copy 4:"; }
+izlude,122,105,5	script	เจ้าหน้าที่บริการแชนแนล	1_M_WIZARD,{ callfunc "F_IzludeChannel",":ไปยังแชนแนล 2:ไปยังแชนแนล 3:ไปยังแชนแนล 4:ไปยังแชนแนล 5"; }
+izlude_a,122,105,5	script	เจ้าหน้าที่บริการแชนแนล#_a	1_M_WIZARD,{ callfunc "F_IzludeChannel","ไปยังแชนแนล 1::ไปยังแชนแนล 3:ไปยังแชนแนล 4:ไปยังแชนแนล 5"; }
+izlude_b,122,105,5	script	เจ้าหน้าที่บริการแชนแนล#_b	1_M_WIZARD,{ callfunc "F_IzludeChannel","ไปยังแชนแนล 1:ไปยังแชนแนล 2::ไปยังแชนแนล 4:ไปยังแชนแนล 5"; }
+izlude_c,122,105,5	script	เจ้าหน้าที่บริการแชนแนล#_c	1_M_WIZARD,{ callfunc "F_IzludeChannel","ไปยังแชนแนล 1:ไปยังแชนแนล 2:ไปยังแชนแนล 3::ไปยังแชนแนล 5"; }
+izlude_d,122,105,5	script	เจ้าหน้าที่บริการแชนแนล#_d	1_M_WIZARD,{ callfunc "F_IzludeChannel","ไปยังแชนแนล 1:ไปยังแชนแนล 2:ไปยังแชนแนล 3:ไปยังแชนแนล 4:"; }
+
+// Talking NPCs
+//============================================================
+izlude,143,205,7	script	เด็กน้อยช่างพูด#iz	4_F_KID2,{
+	end;
+
+OnTimer64000:
+	npctalk "เด็กน้อยช่างพูด : ผมใช้ Novice Red Potion หมดแล้วอ่ะ ทำยังไงดี?";
+	end;
+
+OnTimer72000:
+	npctalk "เด็กน้อยช่างพูด : ร้านค้าอยู่ตรงไหนเหรอ?";
+	end;
+
+OnTimer136000:
+	npctalk "เด็กน้อยช่างพูด : เจ้างั่ง! นี่ไม่รู้จัก 'หน้าต่างคีย์ลัด' (Shortcut Window) งั้นเหรอ?";
+	end;
+
+OnTimer144000:
+	npctalk "เด็กน้อยช่างพูด : ไอเทมในช่องเก็บของน่ะ สามารถลากไปวางในหน้าต่างคีย์ลัดได้นะ";
+	end;
+
+OnTimer212000:
+	npctalk "เด็กน้อยช่างพูด : ผมได้ไอเทมสำหรับมือใหม่จาก Academy มาเพียบเลย!";
+	end;
+
+OnTimer276000:
+	npctalk "เด็กน้อยช่างพูด : แถมเขายังให้ทั้งอาวุธและโล่มาด้วยนะ!";
+	end;
+
+OnTimer284000:
+	npctalk "เด็กน้อยช่างพูด : แค่กดปุ่ม <Ctrl + ~> เพื่อเปิดดูแผนที่ที่มีอยู่ได้เลย";
+	end;
+
+OnTimer344000:
+	npctalk "เด็กน้อยช่างพูด : แล้วอยากไป Criatura Academy กับผมไหมล่ะ? ผมกำลังหัดสู้กับครูฝึก Subino อยู่พอดี!";
+	end;
+
+OnTimer348000:
+	npctalk "เด็กน้อยช่างพูด : Academy อยู่ทางทิศเหนือของเมือง Izlude นะ ไปกันเถอะ~!";
+	end;
+
+OnTimer416000:
+	npctalk "เด็กน้อยช่างพูด : มันเป็นระบบที่จะช่วยนำทางเจ้าไปยังจุดหมายน่ะ";
+	end;
+
+OnTimer424000:
+	npctalk "เด็กน้อยช่างพูด : ในเมนูหลัก ลองคลิกที่ปุ่ม [Navigation] (นำทาง) ดูสิ";
+	end;
+
+OnTimer492000:
+	npctalk "เด็กน้อยช่างพูด : วู้ฮู้ว~ ไม่อยากใช้สมองจำเองเหรอ? งั้นลองพิมพ์ /where ในช่องแชทดูสิ!";
+	end;
+
+OnTimer552000:
+	npctalk "เด็กน้อยช่างพูด : ในกรณีแบบนี้ เจ้าสามารถกดปุ่ม <Enter> ได้เลยนะ";
+	end;
+
+OnTimer560000:
+	npctalk "เด็กน้อยช่างพูด : พวกเรากำลังคุยเรื่องเดิมซ้ำไปซ้ำมานะเนี่ย ฮ่าฮ่าฮ่า";
+	end;
+
+OnTimer565000:
+OnInit:
+	initnpctimer;
+	end;
+}
+
+izlude_a,143,205,7	duplicate(เด็กน้อยช่างพูด#iz)	เด็กน้อยช่างพูด#iza	4_F_KID2
+izlude_b,143,205,7	duplicate(เด็กน้อยช่างพูด#iz)	เด็กน้อยช่างพูด#izb	4_F_KID2
+izlude_c,143,205,7	duplicate(เด็กน้อยช่างพูด#iz)	เด็กน้อยช่างพูด#izc	4_F_KID2
+izlude_d,143,205,7	duplicate(เด็กน้อยช่างพูด#iz)	เด็กน้อยช่างพูด#izd	4_F_KID2
+
+izlude,146,205,7	script	นักผจญภัยช่างพูด#iz	4_M_KID1,{
+	end;
+
+OnTimer69000:
+	npctalk "นักผจญภัยช่างพูด : นายซื้อ Potion ได้จากเหล่าพ่อค้านะ";
+	end;
+
+OnTimer77000:
+	npctalk "นักผจญภัยช่างพูด : สังเกตรูปขวด Potion ในแผนที่เล็กดูสิ";
+	end;
+
+OnTimer131000:
+	npctalk "นักผจญภัยช่างพูด : มีวิธีไหนที่ทำให้ใช้ไอเทมได้ง่ายๆ บ้างไหมนะ?";
+	end;
+
+OnTimer141000:
+	npctalk "นักผจญภัยช่างพูด : หน้าต่างคีย์ลัดเหรอ? ไอ้ช่องๆ ที่อยู่บนหน้าจอน่ะนะ? มันใช้ยังไงกันล่ะ?";
+	end;
+
+OnTimer149000:
+	npctalk "นักผจญภัยช่างพูด : ส่วนช่องเก็บของ... นายหมายถึงเมนู 'ไอเทม' ใช่ไหม? อ๋อ ใช่จริงๆ ด้วย!";
+	end;
+
+OnTimer217000:
+	npctalk "นักผจญภัยช่างพูด : นี่ฉันมี Potion ตั้งเยอะแยะเลยเหรอเนี่ย?";
+	end;
+
+OnTimer281000:
+	npctalk "นักผจญภัยช่างพูด : อะไรนะ?! ฉันควรจะรีบไปที่ Academy เดี๋ยวนี้เลย!";
+	end;
+
+OnTimer279000:
+	npctalk "นักผจญภัยช่างพูด : แล้ว Izlude อยู่ตรงไหนล่ะ? ตรงใจกลางนี่เลยเหรอ?";
+	end;
+
+OnTimer339000:
+	npctalk "นักผจญภัยช่างพูด : ฉันไม่รู้เลยว่าต้องทำอะไรต่อไปดี";
+	end;
+
+OnTimer349000:
+	npctalk "นักผจญภัยช่างพูด : อ๋อเหรอ? ฉันมีสิ่งที่อยากรู้อีกเยอะแยะเลย~ งั้นฉันจะไปกับนายด้วย!";
+	end;
+
+OnTimer411000:
+	npctalk "นักผจญภัยช่างพูด : ระบบนำทาง (Navigation) งั้นเหรอ มันคืออะไรน่ะ?";
+	end;
+
+OnTimer421000:
+	npctalk "นักผจญภัยช่างพูด : โอ๊ะ-! ฉันควรจะลองค้นหาพนักงาน Kafra ดูดีไหมนะ?";
+	end;
+
+OnTimer487000:
+	npctalk "นักผจญภัยช่างพูด : เมืองนี้ชื่อว่าอะไรนะ?";
+	end;
+
+OnTimer497000:
+	npctalk "นักผจญภัยช่างพูด : ฉันมองไม่เห็นช่องที่ไว้สำหรับพิมพ์ข้อความในหน้าต่างแชทเลยแฮะ?";
+	end;
+
+OnTimer557000:
+	npctalk "นักผจญภัยช่างพูด : โห นายเนี่่ยฉลาดจริงๆ...";
+	end;
+
+OnTimer555000:
+	npctalk "นักผจญภัยช่างพูด : เมื่อกี้มี Novice คนนึงมาทักฉันด้วยนะว่า 'เฮ้ นักผจญภัยช่างพูด' ล่ะ ฮ่าฮ่าฮ่า";
+	end;
+
+OnTimer565000:
+OnInit:
+	initnpctimer;
+	end;
+}
+
+izlude_a,146,205,7	duplicate(นักผจญภัยช่างพูด#iz)	นักผจญภัยช่างพูด#iza	4_M_KID1
+izlude_b,146,205,7	duplicate(นักผจญภัยช่างพูด#iz)	นักผจญภัยช่างพูด#izb	4_M_KID1
+izlude_c,146,205,7	duplicate(นักผจญภัยช่างพูด#iz)	นักผจญภัยช่างพูด#izc	4_M_KID1
+izlude_d,146,205,7	duplicate(นักผจญภัยช่างพูด#iz)	นักผจญภัยช่างพูด#izd	4_M_KID1
+
+prt_fild08,338,217,7	script	นักผจญภัยพักผ่อน#iz	4_F_SITDOWN,{
+	end;
+
+OnTimer60000:
+	npctalk "นักผจญภัยพักผ่อน : นี่เจ้ารู้ไหม? ถ้าเจ้านั่งลง HP และ SP จะฟื้นฟูได้เร็วขึ้นนะ";
+	end;
+
+OnTimer65000:
+	npctalk "นักผจญภัยพักผ่อน : เจ้าจะนั่งได้ก็ต่อเมื่อมี Basic Skill เลเวล 3 ขึ้นไป และสามารถกดปุ่ม <INSERT> เป็นคีย์ลัดเพื่อนั่งได้เลย";
+OnInit:
+	initnpctimer;
+	end;
+}
+
+prt_fild08a,338,217,7	duplicate(นักผจญภัยพักผ่อน#iz)	นักผจญภัยพักผ่อน#iza	4_F_SITDOWN
+prt_fild08b,338,217,7	duplicate(นักผจญภัยพักผ่อน#iz)	นักผจญภัยพักผ่อน#izb	4_F_SITDOWN
+prt_fild08c,338,217,7	duplicate(นักผจญภัยพักผ่อน#iz)	นักผจญภัยพักผ่อน#izc	4_F_SITDOWN
+prt_fild08d,338,217,7	duplicate(นักผจญภัยพักผ่อน#iz)	นักผจญภัยพักผ่อน#izd	4_F_SITDOWN

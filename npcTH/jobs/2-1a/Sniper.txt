@@ -1,0 +1,83 @@
+//===== rAthena Script ======================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== By: ==================================================
+//= Nana
+//= finished, optimized and tested by Lupus
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== Additional Comments: ================================= 
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//============================================================ 
+
+valkyrie,44,55,5	script	Sniper#Valkyrie	727,{
+	if (ADVJOB == 0 || Upper != 1) {
+		set .@karma_d,rand(1,10);
+		if (.@karma_d > 4) {
+			mes "[Sniper]";
+			mes "ขอแสดงความยินดีด้วย";
+			mes "เกียรติยศแด่เหล่านักรบ!";
+			close;
+		}
+		mes "[Sniper]";
+		mes "นัดเดียว";
+		mes "ปลิดชีพ";
+		mes "มันไม่ได้ยากเย็นนักหรอก";
+		mes "เมื่อเจ้าได้พัฒนา";
+		mes "วิสัยทัศน์สำหรับการต่อสู้";
+		mes "ในรูปแบบนั้นแล้ว";
+		close;
+	}
+	else if (ADVJOB == Job_Sniper && Class == Job_Archer_High && JobLevel > 39) {
+		mes "[Sniper]";
+		mes "โลกใบนี้กำลัง";
+		mes "ต้องการพลธนูที่แข็งแกร่ง";
+		mes "อย่างเจ้า เจ้าพร้อมสำหรับ";
+		mes "ความรับผิดชอบอันยิ่งใหญ่นี้หรือยัง?";
+		next;
+		mes "[Sniper]";
+		mes "เจ้าปรารถนาที่จะ";
+		mes "ก้าวไปสู่อีกขั้นและ";
+		mes "กลายเป็น Sniper หรือไม่?";
+		next;
+		if (select("ไม่:ตกลง") == 1) {
+			mes "[Sniper]";
+			mes "เมื่อเจ้าพร้อมแล้ว";
+			mes "เชิญกลับมาได้ทุกเมื่อ";
+			mes "เกียรติยศแด่เหล่านักรบ!";
+			close;
+		}
+		if (SkillPoint) {
+			mes "[Sniper]";
+			mes "เจ้ายังสามารถเรียนรู้ทักษะเพิ่มเติมได้อีก โปรดใช้";
+			mes "Skill Points ที่เหลืออยู่ทั้งหมดของเจ้าก่อนที่จะกลับมาหาข้า";
+			close;
+		}
+		jobchange Job_Sniper;
+		set ADVJOB,0;
+		mes "[Sniper]";
+		mes "ขอแสดงความยินดีด้วย!";
+		mes "ในฐานะ Sniper ข้าหวัง";
+		mes "ว่าเหล่าสมุนแห่งความชั่วร้าย";
+		mes "จะไม่มีวันอยู่อย่างปลอดภัย";
+		mes "ตราบเท่าที่พวกมันยัง";
+		mes "อยู่ในสายตาของเจ้า!";
+		close;
+	}
+	mes "[Sniper]";
+	mes "ยินดีต้อนรับ";
+	mes "สู่ Valhalla";
+	mes "วิหารแห่งเกียรติยศ";
+	next;
+	mes "[Sniper]";
+	mes "โปรดทำตัว";
+	mes "ตามสบาย";
+	mes "ในระหว่างที่เจ้าอยู่ที่นี่";
+	mes "เกียรติยศแด่เหล่านักรบ!";
+	close;
+}

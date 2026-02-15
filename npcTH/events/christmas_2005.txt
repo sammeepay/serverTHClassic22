@@ -1,0 +1,1664 @@
+//===== rAthena Script =======================================
+//= 2005 ChristMas Event
+//===== By: ==================================================
+//= Brainstorm
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Event 1: Louise's Kim creates Louise's Santa Hat.
+//= Event 2: Enjoy Happymerry Chistmas Event summons monsters.
+//= Event 3: Oholy requires you to hunt Deviruchi NPCs.
+//==========================================
+//= Break down of arguments used in the function:
+//=	arg(0) Originating NPC (disable)
+//=	arg(1) Next NPC to be enabled
+//=	arg(2) Map name of originating NPC
+//=	arg(3) Coordinate X to be teleported to
+//=	arg(4) Coordinate Y to be teleported to
+//===== Additional Comments: =================================
+//= 1.0 First semi-working conversion. [Brainstorm]
+//= 1.1 Refined Brainstorm's conversion. [L0ne_W0lf]
+//= 1.2 Replaced effect numerics with constants. [L0ne_W0lf]
+//= 1.2a Small update to the checkweight. (bugreport:2553). [Paradox924X]
+//============================================================
+
+// Louise's Santa Hat (Event 1)
+xmas_in,89,92,5	script	Louise Kim#designer	714,{
+	mes "[Designer Louise Kim]";
+	mes "หมวกซานต้าสีแดงทรงกรวยเนี่ยมันธรรมดาเกินไปแล้ว";
+	mes "มันเชยสุดๆ ไปเลยล่ะ";
+	mes "นี่มันยุค 1980 หรือไงกัน?!";
+	mes "ฮ่าฮ่า~";
+	next;
+	mes "[Designer Louise Kim]";
+	mes "ถ้าเจ้าปล่อยให้เป็นหน้าที่ของข้าล่ะก็";
+	mes "ข้าจะเปลี่ยนมันให้เป็นรุ่นล่าสุดเอง";
+	mes "เจ้าก็น่าจะรู้ว่าข้าหมายถึงอะไร~!";
+	next;
+	mes "[Designer Louise Kim]";
+	mes "เจ้ารู้จักหมวกของ Antonio ใช่ไหมล่ะ?";
+	mes "ทายซิว่าใครเป็นคนทำมัน?";
+	mes "อย่างที่เจ้ารู้ Antonio น่ะจับตัวยากสุดๆ";
+	mes "นั่นก็เพราะข้าใส่พลังบางอย่างลงไปในหมวกใบนั้นยังไงล่ะ";
+	next;
+	mes "[Designer Louise Kim]";
+	mes "ถ้าเจ้าไม่ชอบหมวกใบเดิมของเจ้าล่ะก็";
+	mes "เอามาให้ข้าสิ";
+	mes "ข้าจะเปลี่ยนมันให้เป็นของใหม่เอี่ยมเลย";
+	mes "หมวกของ Louise ผู้นำแฟชั่นใบนี้ไงล่ะ";
+	emotion ET_THROB;
+	next;
+	if (countitem(2236) > 0) {
+		if (select("นี่ครับ/ค่ะ:ไม่เป็นไรครับ/ค่ะ") == 1) {
+			mes "[Designer Louise Kim]";
+			mes "เป็นการตัดสินใจที่ยอดเยี่ยม!!";
+			mes "ถ้าข้าทำแบบนี้ ...";
+			mes "แล้วก็แบบนี้ แล้วก็...";
+			mes "ในที่สุดมันก็จะกลายเป็นหมวกที่มหัศจรรย์สุดๆ";
+			mes "แต่ก่อนจะถึงตอนนั้น ข้าต้องใช้ปัตถุดิบในการทำนิดหน่อยนะ";
+			next;
+			if (select("ต้องใช้ปัตถุดิบอะไรบ้าง?:แล้วไง? ข้าไม่อยากรู้หรอก") == 1) {
+				mes "[Designer Louise Kim]";
+				mes "อืม ก็ไม่มีอะไรพิเศษหรอก";
+				mes "พื้นฐานเลย เจ้าต้องมีหมวก Santa's Hat แน่นอนอยู่แล้ว";
+				mes "และด้วยการสัมผัสจากนิ้วมืออันมีเวทมนตร์ของข้า";
+				mes "มันก็จะกลายเป็นของที่พิเศษสุดๆ ไปเลย";
+				mes "ก็นะ... มันจะสวยขึ้นอีกนิดและ";
+				mes "ใช้งานได้จริงขึ้นอีกหน่อย ฮ่าฮ่า...";
+				next;
+				mes "[Designer Louise Kim]";
+				mes "เอาล่ะ สรุปเลยนะ วัตถุดิบที่ต้องใช้คือ....";
+				mes "หลักๆ เลยคือ ^0000FFSanta's Hat^000000 และ";
+				mes " ^0000FF 1 Cactus Needle ^000000 สำหรับเย็บ, ";
+				mes "^0000FF 10 Holy Water ^000000 สำหรับการให้พร, ";
+				mes "^0000FF 1 Rosary ^000000 เพื่อความโชคดี";
+				mes "เท่านี้ก็เพียงพอที่จะทำ Louise Hat แล้วล่ะ";
+				next;
+				if (countitem(952) > 0 && countitem(523) > 9 && countitem(2608) > 0) {
+					select("นี่ครับ/ค่ะ วัตถุดิบทั้งหมด.....");
+					mes "[Designer Louise Kim]";
+					mes "ว้าว~~!! รวดเร็วทันใจจริงๆ!!";
+					mes "ข้าชอบสไตล์ของเจ้าจัง~";
+					mes "โอเค!! ในเมื่อทุกอย่างพร้อมแล้ว ก็ไม่มีอะไรต้องลังเล";
+					mes "ข้าจะแสดงให้เห็นเองว่าพลังของดีไซน์เนอร์ Louise Kim คืออะไร";
+					emotion ET_BEST;
+					next;
+					mes "- เธอจุ่มหมวกลงไปในถัง -";
+					mes "- ที่เต็มไปด้วย Holy Water -";
+					mes "- เธอหยิบมันขึ้นมาอย่างรวดเร็วและเริ่มซ่อมแซมหมวก -";
+					mes "- พร้อมกับฮัมเพลงไปด้วย -";
+					next;
+					mes "[Designer Louise Kim]";
+					mes "~ด้วยฝีมือดีไซน์เนอร์อันดับหนึ่ง Louise Kim~";
+					mes "~เจ้าคือวิญญาณที่ได้รับพรมากที่สุด~";
+					emotion ET_DELIGHT;
+					misceffect EF_BLESSING;
+					next;
+					mes "- ทันใดนั้น เธอใส่ Rosary ลงไปใน -";
+					mes "- ของเหลวปริศนาแล้วละลายมัน -";
+					mes "- แล้วใช้แปรง -";
+					mes "- ทาของเหลวนั้นลงบน -";
+					mes "- เส้นด้ายของหมวกอย่างประณีต -";
+					next;
+					mes "[Designer Louise Kim]";
+					mes "~ด้วยฝีมือดีไซน์เนอร์อันดับหนึ่ง Louise Kim~";
+					mes "~เจ้าคือวิญญาณที่โชคดีที่สุด~";
+					emotion ET_DELIGHT;
+					misceffect EF_GLORIA;
+					next;
+					mes "- เธอเริ่มเย็บหมวกด้วย -";
+					mes "- เข็ม Cactus Needle และเส้นด้าย -";
+					mes " ";
+					next;
+					mes "[Designer Louise Kim]";
+					mes "~นี่แหละที่เรียกว่าปาฏิหาริย์ของ Louise~";
+					mes "~ดีไซน์เนอร์ผู้เปี่ยมไปด้วยพรสวรรค์ที่สุด~";
+					mes "~L_O_U_I_S_E K_I_M~";
+					emotion ET_THROB;
+					misceffect EF_BENEDICTIO;
+					next;
+					mes "[Designer Louise Kim]";
+					mes "นี่ไง!! เสร็จเรียบร้อยแล้ว~~";
+					mes "เจ้าชอบมันไหมล่ะ?";
+					mes "มันดูวิเศษมากเลยใช่ไหม?";
+					mes "รับไปสิ!! นี่คือของขวัญนะ";
+					next;
+					mes "[Designer Louise Kim]";
+					mes "จริงๆ ข้าควรจะคิดราคาแพงๆ สำหรับงานนี้";
+					mes "แต่ก็นะ อย่างที่รู้กันว่ามันคือวันคริสต์มาส!";
+					mes "นี่คือของขวัญสำหรับเจ้า!";
+					mes "ข้าจะไม่คิดเงินสักแดงเดียว";
+					mes "แค่ไปบอกคนอื่นๆ ก็พอว่ามันยอดเยี่ยมแค่ไหน";
+					emotion ET_SMILE;
+					next;
+					mes "[Designer Louise Kim]";
+					mes "ไม่ว่าเจ้าจะไปที่ไหน";
+					mes "ไม่ว่าเจ้าจะทำอะไร";
+					mes "จงอย่าถอดหมวกใบนี้ออกเชียวนะ";
+					mes "เจ้าจะไม่มีโอกาสได้ซื้อมันอีกแล้วล่ะ";
+					mes "ไม่ว่าเจ้าจะจ่ายหนักแค่ไหนก็ตาม";
+					next;
+					mes "[Designer Louise Kim]";
+					mes "เอาล่ะ~ ไปได้แล้ว~";
+					mes "ไปอวดคนอื่นให้เต็มที่เลย!";
+					mes "~ใครจะมีความสุขไปมากกว่าการ~";
+					mes "~ได้อยู่กับ Louise กันล่ะ~";
+					emotion ET_DELIGHT;
+					delitem 2236,1; //Santa's_Hat (หมวกซานต้าธรรมดา)
+					delitem 952,1; //Cactus_Needle (เข็มกระบองเพชร)
+					delitem 523,10; //Holy_Water (น้ำมนต์)
+					delitem 2608,1; //Rosary (สร้อยกางเขน)
+					getitem 5136,1; //Santa's_Hat_ (หมวก Louise Santa Hat)
+					close;
+				}
+				else {
+					mes "[Designer Louise Kim]";
+					mes "โธ่เอ๋ย~ ถ้าเจ้าแค่เอาวัตถุดิบมาให้ข้า";
+					mes "ข้าก็จะไม่คิดเงินเจ้าเลยแท้ๆ";
+					mes "เรียกข้าแล้วกันถ้าเปลี่ยนใจ";
+					emotion ET_THROB;
+					close;
+				}
+			}
+			mes "[Designer Louise Kim]";
+			mes "เจ้าจะต้องเสียใจ!";
+			mes "คิดดูอีกทีนะ!";
+			emotion ET_SMILE;
+			close;
+		}
+		mes "[Designer Louise Kim]";
+		mes "โอเค~ ตามใจแล้วกัน~";
+		mes "ไม่ใช่ข้าสักหน่อย";
+		mes "ที่จะเป็นฝ่ายเสียโชคของตัวเองไปน่ะ";
+		emotion ET_SMILE;
+		close;
+	}
+	else {
+		mes "[Designer Louise Kim]";
+		mes "บางทีถ้าเจ้ามีโอกาสได้ Santa's Hat มาในภายหลัง";
+		mes "ก็ลองคิดดูดีๆ อีกทีนะ";
+		mes "เจ้าสามารถได้หมวกที่ออกแบบมาดีกว่าเดิม";
+		mes "และข้าก็ได้โชว์พรสวรรค์ของข้าด้วยยังไงล่ะ";
+		emotion ET_SMILE;
+		close;
+	}
+}
+
+// Enjoy Happymerry Chistmas Event (Event 2)
+prontera,155,285,3	script	Enjoy#enjoy	753,{
+	if (!christ_solo05){
+		mes "[Enjoy]";
+		mes "โอ๊ย~~~";
+		mes "ฤดูหนาววนกลับมาอีกแล้วสินะเนี่ย~~!";
+		mes "อากาศที่หนาวเหน็บแบบนี้มันทำให้";
+		mes "ร่างกายของฉันแข็งไปหมดแล้ว~";
+		mes "แถมยังทำให้หัวใจของฉันด้านชาไปด้วย";
+		mes "ใครกันที่บอกว่าคริสต์มาสมีไว้สำหรับพวกคนมีคู่เท่านั้น~";
+		mes "โอย~~ ฉันเหงาเหลือเกิน~!!!";
+		next;
+		mes "[Enjoy]";
+		mes "พี่สาวใจร้าย!!";
+		mes "ทิ้งฉันไว้คนเดียวในวันคริสต์มาสแบบนี้ได้ยังไง~";
+		mes "'จงใช้เวลาวันคริสต์มาสร่วมกับครอบครัว'";
+		mes "นั่นมันคือคติประจำตระกูลของเราไม่ใช่เหรอ";
+		mes "อืม... ฉันต้องพักผ่อนบ้างแล้วล่ะ";
+		mes "ช่วงนี้ฉันรู้สึกหงุดหงิดง่ายเหลือเกิน~";
+		next;
+		mes "[Enjoy]";
+		mes "พวกเรามาสร้างคริสต์มาสที่แสนสนุก";
+		mes "สำหรับคนโสดผู้โดดเดี่ยวกันดีกว่า";
+		mes "ใครจะเอาด้วยกับฉันบ้าง?!!";
+		mes "!!!!!!!!!!!";
+		mes "!!!!!!!!!!!!!";
+		next;
+		switch(select("ว้าว!:หืม... ฉันไม่สนใจหรอก:ฉันมีลูกโป่งนะ ~")){
+		case 1:
+			mes "[Enjoy]";
+			mes "ยอดเยี่ยม~~!!!";
+			mes "มาลุยกันให้สุดเหวี่ยงเลย!!";
+			mes "นี่คือแผนของฉัน!!";
+			mes "พวกเราจะไปลงโทษพวกคู่รัก";
+			mes "ที่ดูตื่นเต้นดีใจกับวันคริสต์มาสนักหนา";
+			mes "ฉันแค่ไม่อยากเห็นพวกเขามีความสุขน่ะ";
+			next;
+			mes "[Enjoy]";
+			mes "ในการจะเริ่มลงมือ";
+			mes "พวกเราต้องรวบรวมพรรคพวก (phalanges) ให้ได้มากๆ";
+			mes "โอเค!! ไปตามหาพรรคพวกของเราในทุกๆ เมืองแล้วพากลับมาที่นี่";
+			mes "ตกลงไหม? ไปกันเลย!!";
+			next;
+			mes "[Enjoy]";
+			mes "แต่ละคนควรจะมีเบอร์โทรศัพท์ของคนคนหนึ่งติดตัวไว้";
+			mes "เราต้องเก็บมันเป็นความลับก่อนจะเริ่มลงมือ";
+			mes "เพราะฉะนั้นเราต้องระวังให้มาก";
+			mes "อืม...";
+			mes "ฉันรู้เบอร์โทรศัพท์ของ ^0000FFHappymerry^000000 ล่ะ";
+			next;
+			mes "[Enjoy]";
+			mes "ก่อนอื่นเลย ไปตามหา ^0000FFHappymerry^000000";
+			mes "แล้วบอกเขาเกี่ยวกับแผนการของเรา";
+			mes "ขากลับมา ก็พาพรรคพวกมาให้ได้มากที่สุดเท่าที่จะทำได้เลยนะ";
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "รับทราบครับ/ค่ะ ท่านผู้นำ!!!";
+			next;
+			mes "[Enjoy]";
+			mes "โอ้ แล้วก็อย่าลืมนำ";
+			mes "Branch of Dead Tree มา 5 อันด้วยล่ะ!!!";
+			mes "ต้องนำไอเทมนี้มาเพื่อถล่มเมืองยังไงล่ะ~";
+			mes "ฮ่าฮ่าฮ่าฮ่า~~";
+			emotion ET_KIK;
+			next;
+			mes "[Enjoy]";
+			mes "เข้าใจไหม?!!!!";
+			mes "ไปลงโทษพวกเขากันเถอะ!!!";
+			mes "พวกเราไม่ได้อิจฉาหรอกนะ";
+			mes "แต่มันไม่ถูกต้องที่จะปล่อยให้ใช้ชีวิตสำมะเลเทเมากันแบบนั้น!";
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "ไปลงโทษกันเลย!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+			set christ_solo05,1;
+			close;
+		case 2:
+			mes "[Enjoy]";
+			mes "ถ้าเจ้าไม่ได้อยู่ข้างเดียวกับฉัน ก็ไปไกลๆ เลย~!!";
+			mes "ไปให้พ้นหน้าฉันเดี๋ยวนี้!!!!";
+			close;
+		case 3:
+			mes "[Enjoy]";
+			mes "......";
+			specialeffect EF_BLESSING;
+			next;
+			mes "[Enjoy]";
+			mes ".............";
+			specialeffect EF_INCAGIDEX;
+			next;
+			mes "[Enjoy]";
+			mes "........................";
+			specialeffect EF_STEELBODY;
+			next;
+			mes "[Enjoy]";
+			mes "........................";
+			mes "ไปลงนรกซะ เจ้าปีศาจ!!!!!!";
+			specialeffect EF_BEGINASURA;
+			specialeffect2 EF_HIT2;
+			set Hp,Hp/2;
+			set Hp,Hp/2;
+			close2;
+			warp "prontera",155,230;
+			end;
+		}
+	}
+	else if ((christ_solo05 > 0) && (christ_solo05 < 5)){
+		mes "[Enjoy]";
+		mes "แต่ละคนควรจะมีเบอร์โทรศัพท์ของคนคนหนึ่งติดตัวไว้";
+		mes "เราต้องเก็บมันเป็นความลับก่อนจะเริ่มลงมือ";
+		mes "เพราะฉะนั้นเราต้องระวังให้มาก";
+		mes "อืม...";
+		mes "ฉันรู้เบอร์โทรศัพท์ของ ^0000FFHappymerry^000000 ล่ะ";
+		next;
+		mes "[Enjoy]";
+		mes "ก่อนอื่นเลย ไปตามหา ^0000FFHappymerry^000000";
+		mes "แล้วบอกเขาเกี่ยวกับแผนการของเรา";
+		mes "ขากลับมา ก็พาพรรคพวกมาให้ได้มากที่สุดเท่าที่จะทำได้";
+		next;
+		mes "[Enjoy]";
+		mes "โอ้ แล้วก็อย่าลืมนำ";
+		mes "Branch of Dead Tree มา 5 อันด้วยนะ!!!";
+		mes "ไปลงโทษพวกคู่รักกันเถอะ!!!";
+		close;
+	}
+	else if (christ_solo05 == 5) {
+		if (countitem(604) > 4){
+			mes "[Enjoy]";
+			mes "เจ้าทำตามที่ฉันสั่งเรียบร้อยแล้วใช่ไหม?!!!";
+			mes "เอาไม้ผี (Branch of Dead Tree) มาหรือเปล่า? ขอดูหน่อยซิ~~!!";
+			next;
+			mes "[Enjoy]";
+			mes "เยี่ยม!!";
+			mes "เจ้าพร้อมแล้ว!!!";
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "เดี๋ยวก่อน!!";
+			mes "แล้วคนอื่นๆ อยู่ไหนกันหมดล่ะ??";
+			next;
+			mes "[Enjoy]";
+			mes "เจ้าพูดเรื่องอะไรน่ะ?!";
+			mes "พวกเขาก็อยู่ที่นี่กันหมดแล้วไง.......";
+			next;
+			mes "[Enjoy]";
+			mes "เจ้ามองไม่เห็นเหรอ?!";
+			mes "ได้โปรดเถอะ~!!!! เจ้ายังสบายดีอยู่ใช่ไหม?!!!";
+			donpcevent "Happymerry#happymerry02::OnCommandOn";
+			donpcevent "Christ#christ02::OnCommandOn";
+			donpcevent "Mas#mas02::OnCommandOn";
+			donpcevent "Event#event02::OnCommandOn";
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "โอ้.. ใช่ครับ/ค่ะ!!!";
+			next;
+			mes "[Enjoy]";
+			mes "ยินดีต้อนรับ!! ยินดีต้อนรับ เหล่าพรรคพวกของฉัน!!!";
+			mes "การเป็นคนโสดไม่ใช่บาป";
+			mes "ทำไมเราต้องคอยหลบซ่อนตัว";
+			mes "ไปจากสายตาพวกมันด้วย!";
+			mes "ฉันเกลียดพวกคนมีคู่จริงๆ!!";
+			mes "คนโสดผู้น่าสงสารทั้งหลาย!!";
+			next;
+			mes "[Enjoy]";
+			mes "สำหรับคนที่มีเพื่อนที่เพิ่งจะไปพบรักใหม่,";
+			mes "หรือคนที่ต้องเบือนหน้าหนีเวลาเห็นคู่รักจูบกัน!!";
+			mes "จะรอช้าอยู่ทำไม!!";
+			mes "ทำไมเราต้องตกเป็นเหยื่อด้วยล่ะ!!";
+			next;
+			mes "[Enjoy]";
+			mes "ฤดูกาลคริสต์มาสกลับมาอีกครั้งแล้ว!!";
+			next;
+			mes "[Enjoy]";
+			mes "เราคือเหล่านักรบ";
+			mes "ที่เคยอัดสัตว์ประหลาดด้วยมือเปล่ามาแล้วนะ";
+			mes "จำวันเก่าๆ ไม่ได้เหรอ?!! พวกเราเคยกระโดดลงมาจากเรือเหาะเชียวนะ!!";
+			mes "พวกเราคือคนโสดที่ผ่านการฝึกฝนมาอย่างดี!! ฮ่าฮ่า~!";
+			next;
+			mes "[Enjoy]";
+			mes "พวกเราไม่ต้องคอยเช็ดน้ำตา";
+			mes "เวลาเห็นพวกที่มากันเป็นปาร์ตี้อีกต่อไปแล้ว";
+			mes "ไม่จำเป็นต้องอิจฉา!!";
+			mes "คริสต์มาสปีนี้มีไว้เพื่อคนโสด!! ";
+			mes "ยาฮู้~";
+			next;
+			mes "[All]";
+			mes "คริสต์มาสเพื่อคนโสด!!!";
+			mes "ไม่ต้องอิจฉาอีกต่อไป!! ไม่ต้องโศกเศร้า!! ไม่ต้องโกรธแค้น!!!";
+			mes "คริสต์มาสเพื่อคนโสด!!!";
+			next;
+			mes "-Enjoy รับเอาไม้ผี (branches of dead trees) ไป";
+			mes "-และกำพวกมันไว้แน่น-";
+			next;
+			mes "[Enjoy]";
+			mes "ไปลงโทษพวกคู่รักกันเถอะ";
+			mes "ไอ้พวกที่ใช้ชีวิตกันอย่างสำมะเลเทเมานั่น!!";
+			mes " ";
+			mes "[All]";
+			mes "ไปลงโทษกันเลย!!!!!";
+			emotion ET_GO;
+			emotion ET_GO, playerattached();
+			donpcevent "Happymerry#happymerry02::OnCommandEmotion";
+			donpcevent "Christ#christ02::OnCommandEmotion";
+			donpcevent "Mas#mas02::OnCommandEmotion";
+			donpcevent "Event#event02::OnCommandEmotion";
+			misceffect EF_HITLINE2;
+			delitem 604,5; //Branch_of_Dead_Tree (ไม้ผี)
+			set christ_solo05,6;
+			donpcevent "Happymerry#happymerry02::OnCommandOff";
+			donpcevent "Christ#christ02::OnCommandOff";
+			donpcevent "Mas#mas02::OnCommandOff";
+			donpcevent "Event#event02::OnCommandOff";
+			close2;
+			mapannounce "prontera", "ความเศร้าโศกของเหล่านักรบคนโสด "+ strcharinfo(0) +" ได้แพร่กระจายไปทั่วทั้งเมือง",bc_map,0x66FFCC;
+			monster "prontera",155,300,"ความทรมานของ "+ strcharinfo(0) +"",1062,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",156,300,"ความอิจฉาของ "+ strcharinfo(0) +"",1062,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",157,300,"ความสิ้นหวังของ "+ strcharinfo(0) +"",1062,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",158,300,"ความท้อแท้ของ "+ strcharinfo(0) +"",1062,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",154,300,"ระเบิดพลีชีพของ "+ strcharinfo(0) +"",1062,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",158,299,"ความอาฆาตของ "+ strcharinfo(0) +"",1246,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",157,299,"คำสาปแช่งของ "+ strcharinfo(0) +"",1246,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",156,299,"ความโกรธของ "+ strcharinfo(0) +"",1246,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",155,299,"ความโศกเศร้าของ "+ strcharinfo(0) +"",1246,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",154,299,"ความเกลียดชังของ "+ strcharinfo(0) +"",1246,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",158,298,"รสชาติอันขมขื่นของความโสดของ "+ strcharinfo(0) +"",1245,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",157,298,"ผู้ลงโทษคู่รักของ "+ strcharinfo(0) +"",1245,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",156,298,"ความเหงาของ "+ strcharinfo(0) +"",1245,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",155,298,"เสียงสะอื้นของ "+ strcharinfo(0) +"",1245,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",154,298,"ความมืดมิดของ "+ strcharinfo(0) +"",1245,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",158,297,"ความซึมเศร้าของ "+ strcharinfo(0) +"",1244,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",157,297,"ความห่างเหินของ "+ strcharinfo(0) +"",1244,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",156,297,"ฝันร้ายของ "+ strcharinfo(0) +"",1244,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",155,297,"เสียงคร่ำครวญของ "+ strcharinfo(0) +"",1244,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",154,297,"เสียงกระซิบของ "+ strcharinfo(0) +"",1244,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",158,296,"ความเสียใจของ "+ strcharinfo(0) +"",1588,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",157,296,"เงาของ "+ strcharinfo(0) +"",1588,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",156,296,"มือปราบคู่รักของ "+ strcharinfo(0) +"",1588,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",155,296,"ความเสียใจของ "+ strcharinfo(0) +"",1588,1,"Enjoy#enjoy::OnMyMobDead";
+			monster "prontera",154,296,"สัญลักษณ์แห่งความอกหักของ "+ strcharinfo(0) +"",1588,1,"Enjoy#enjoy::OnMyMobDead";
+			donpcevent "Enjoy#enjoy::OnCommandGo";
+			end;
+		}
+		else {
+			mes "[Enjoy]";
+			mes "เหลือเวลาไม่มากแล้วนะ!!!";
+			mes "ไม่มีเวลามาลังเลแล้ว!!";
+			mes "พวกคู่รักกำลังจะหาความสุขในวันคริสต์มาส";
+			mes "กันอย่างสำราญใจ";
+			mes "เจ้าจะปล่อยให้พวกเขาทำแบบนั้นจริงๆ เหรอ!!!!!";
+			mes "ไปเลย ไปเลย!!";
+			mes "ไปเอา ^0000FF 5 branch of dead tree^000000 มาเดี๋ยวนี้!!!";
+			close;
+		}
+	}
+	else {
+		mes "[Enjoy]";
+		mes "หืม.... ";
+		mes "มันไม่มีประโยชน์อะไรหรอกที่จะเอาแต่โทษตัวเอง!";
+		mes "พวกเราเหล่าคนโสดสามารถสร้างอนาคตที่มีความหวังของเราเองได้";
+		mes "ไปกันเถอะ!!";
+		mes "ไปกันเลยเหล่าพรรคพวก!!!";
+		next;
+		mes "[Enjoy]";
+		mes "เพื่อวันที่เราทุกคนจะมีความสุข~!!";
+		mes "สู้ตายเพื่อมันกันเถอะ!!!";
+		mes "ร่าเริงเข้าไว้ทุกคน!!!";
+		mes "มาสนุกกันจนกว่าเจ้าจะมีความสุขนะ~!";
+		set christ_solo05,0;
+		close;
+	}
+
+OnMyMobDead:
+	end;
+
+OnCommandGo:
+	disablenpc "Enjoy#enjoy";
+	initnpctimer;
+	end;
+
+OnCommandStop:
+	enablenpc "Enjoy#enjoy";
+	killmonster "prontera","Enjoy#enjoy::OnMyMobDead";
+	stopnpctimer;
+	end;
+
+OnTimer3000:
+	mapannounce "prontera", "เจ้าต้องตีบวกด้วยตัวเองถึงจะสะใจ!!!!",bc_map,0x66FFCC;
+	end;
+
+OnTimer5000:
+	mapannounce "prontera", "มันเสียของนะที่ไปตั้งตี้ในดันเจี้ยนเนี่ย!!!",bc_map,0x66FFCC;
+	end;
+
+OnTimer7000:
+	mapannounce "prontera", "มี NPC มาจีบฉันด้วยล่ะ!!!",bc_map,0x66FFCC;
+	end;
+
+OnTimer9000:
+	mapannounce "prontera", "ฉันอยู่ตัวคนเดียวมาตั้งแต่เกิดแล้ว!!",bc_map,0x66FFCC;
+	end;
+
+OnTimer11000:
+	mapannounce "prontera", "วันคริสต์มาสเราก็ยังต้องมาขุดสมุนไพรกันอีกเหรอ!!",bc_map,0x66FFCC;
+	end;
+
+OnTimer13000:
+	mapannounce "prontera", "...พวกเราคือเหล่านักรบคนโสดที่ไร้เทียมทาน!!!",bc_map,0x66FFCC;
+	end;
+
+OnTimer180000:
+	mapannounce "prontera", "ขอให้เหล่านักรบคนโสดทุกคนมีเมอร์รี่คริสต์มาส!!",bc_map,0x66FFCC;
+	donpcevent "Enjoy#enjoy::OnCommandStop";
+	end;
+}
+
+prontera,150,286,5	script	Happymerry#happymerry02	869,{
+	end;
+
+OnInit:
+	disablenpc "Happymerry#happymerry02";
+	stopnpctimer;
+	end;
+
+OnCommandOn:
+	initnpctimer;
+	enablenpc "Happymerry#happymerry02";
+OnCommandEmotion:
+	emotion ET_GO;
+	end;
+
+OnCommandOff:
+	disablenpc "Happymerry#happymerry02";
+	stopnpctimer;
+	end;
+
+OnTimer60000:
+	donpcevent "Happymerry#happymerry02::OnCommandOff";
+	donpcevent "Christ#christ02::OnCommandOff";
+	donpcevent "Mas#mas02::OnCommandOff";
+	donpcevent "Event#event02::OnCommandOff";
+	stopnpctimer;
+	end;
+}
+
+prontera,161,286,4	script	Christ#christ02	875,{
+	end;
+OnInit:
+	disablenpc "Christ#christ02";
+	end;
+
+OnCommandOn:
+	enablenpc "Christ#christ02";
+OnCommandEmotion:
+	emotion ET_GO;
+	end;
+
+OnCommandOff:
+	disablenpc "Christ#christ02";
+	end;
+}
+
+prontera,161,281,1	script	Mas#mas02	748,{
+	end;
+OnInit:
+	disablenpc "Mas#mas02";
+	end;
+
+OnCommandOn:
+	enablenpc "Mas#mas02";
+OnCommandEmotion:
+	emotion ET_GO;
+	end;
+
+OnCommandOff:
+	disablenpc "Mas#mas02";
+	end;
+}
+
+prontera,150,281,7	script	Event#event02	881,{
+	end;
+OnInit:
+	disablenpc "Event#event02";
+	end;
+
+OnCommandOn:
+	enablenpc "Event#event02";
+OnCommandEmotion:
+	emotion ET_GO;
+	end;
+
+OnCommandOff:
+	disablenpc "Event#event02";
+	end;
+}
+
+prontera,188,177,4	script	Happymerry#happymerry	869,{
+	if (christ_solo05==1) {
+		mes "[Happymerry]";
+		mes "Holgren~~!!";
+		mes "ฉันไม่เคยคิดเลยว่าเจ้าจะทรยศฉัน! ไม่อยากตีบวกแล้วโว้ย~!!!";
+		mes "ฉันเกลียดวันคริสต์มาสที่สุด~!";
+		emotion ET_CRY;
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "คุณ... คือ...?";
+		next;
+		mes "[Happymerry]";
+		mes "หัวเราะเยาะอะไรน่ะ? หือ~!";
+		mes "อย่างน้อย ฉันก็ไม่เคยยืมมือใคร";
+		mes "มาช่วยตีบวกอุปกรณ์ของฉันหรอกนะ!";
+		mes "ฉันกล้าหาญเสมอ!!";
+		mes "Blessing? Gloria~~?!";
+		mes "ไอ้พวกคนมีคู่~~ ชิ~!!!!!!";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "คุณดูเหมือนจะเป็นคนที่ฉันตามหาอยู่พอดีเลย!!!";
+		mes "Enjoy กำลังรอคุณอยู่นะ";
+		mes "ไปกันเถอะ!!!";
+		next;
+		mes "[Happymerry]";
+		mes "...!";
+		mes "วันนั้นมาถึงแล้วเหรอ?";
+		mes "เขาช่วยฉันไว้เมื่อคริสต์มาสปีที่แล้ว";
+		mes "ตอนที่ฉันตีบวกพลาดจนอุปกรณ์พังยับเยิน";
+		mes "โอ้ ท่าน Enjoy ผู้ศักดิ์สิทธิ์~";
+		next;
+		mes "[Happymerry]";
+		mes "ตกลง! ฉันรอคอยวันนี้มาเป็นปีแล้ว!!";
+		mes "ฉันพร้อมที่จะพังงานวันคริสต์มาสแล้ว~!!";
+		mes "แล้ว Enjoy อยู่ที่ไหนล่ะ?";
+		mes "เขาอยู่ที่ไหน?!";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "เขากำลังรอคุณอยู่!";
+		mes "ไปก่อนเลยครับ/ค่ะ~";
+		mes "เดี๋ยวฉันจะตามไปหลังจากติดต่อคนอื่นๆ เสร็จแล้ว";
+		next;
+		mes "[Happymerry]";
+		mes "ได้เลย!";
+		mes "จริงๆ ฉันต้องเป็นคนโทรหา ^0000FFChrist^000000 สินะ!";
+		mes "งั้นฝากนาย/เธอเรียกเขาให้ฉันที!";
+		mes "ฉันจะรีบเก็บของแล้วล่วงหน้าไปก่อน";
+		mes "แล้วเจอกัน!";
+		set christ_solo05,2;
+		close;
+	}
+	else if (christ_solo05 > 1) {
+		mes "[Happymerry]";
+		mes "หืม... มีของต้องเก็บมากกว่าที่ฉันคิดแฮะ";
+		mes "ก็นะ... มันผ่านมาตั้งปีนึงแล้วนี่นา.....";
+		mes "เอาเป็นว่า";
+		mes "อย่าลืมเรียก ^0000FFChrist^000000 ล่ะ!";
+		mes "แล้วเจอกัน!";
+		close;
+	}
+	else {
+		mes "[Happymerry]";
+		mes "Holgren!!";
+		mes "ฉันไม่เคยคิดเลยว่าเจ้าจะทรยศฉัน! ไม่อยากตีบวกแล้วโว้ย~!!!";
+		mes "ฉันเกลียดวันคริสต์มาสที่สุด~!";
+		emotion ET_CRY;
+		next;
+		mes "[Happymerry]";
+		mes "หัวเราะเยาะอะไรน่ะ? หือ~!";
+		mes "อย่างน้อย ฉันก็ไม่เคยยืมมือใคร";
+		mes "มาช่วยตีบวกอุปกรณ์ของฉันหรอกนะ!";
+		mes "ฉันกล้าหาญเสมอ!!";
+		mes "Blessing? Gloria~~?!";
+		mes "ไอ้พวกคนมีคู่~~ ชิ~!!!!!!";
+		close;
+	}
+}
+
+prontera,62,339,3	script	Christ#christ	875,{
+	if (christ_solo05 == 2) {
+		mes "[Christ]";
+		mes "ในที่สุด~ เสียที!!!";
+		mes "ข้าก็ได้ขี่ Pecopeco สักที~!";
+		mes "ทำไมต้องไปตั้งปาร์ตี้กับพวก Priest ด้วยล่ะ?!";
+		mes "ข้าไม่ต้องการของพรรค์นั้นหรอก";
+		mes "สิ่งเดียวที่ข้าต้องการคือ Pecopeco ตัวอ้วนกลมตัวนี้ต่างหาก~!";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "เอ่อ...";
+		next;
+		mes "[Christ]";
+		mes "แกเป็นใครน่ะ!";
+		mes "อย่าได้คิดจะมาเข้าใกล้ Peco ของข้านะ!";
+		mes "โอ้~ Peco สุดที่รักของข้า~~ กลัวหรือเปล่าจ๊ะ? ไม่เป็นไรนะที่รัก";
+		mes "Enjoy น่ะโดดเดี่ยวตัวคนเดียวมาตั้งแต่เกิด~";
+		mes "แต่ข้าเหรอ?!! ไม่ใช่เลย!!";
+		mes "ข้ามี Peco สุดที่รักอยู่เคียงข้างยังไงล่ะ!!";
+		next;
+		mes "[Christ]";
+		mes "ข้าจะจัดปาร์ตี้กับ Peco ของข้า";
+		mes "พวกเราจะกินเค้กคริสต์มาสด้วยกัน และ.....";
+		mes "ข้าจะไม่เหงาหรอก~";
+		mes "ไม่มีทางเหงาแน่นอน!!!";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "คือว่า จริงๆ แล้ว Enjoy บอกผม/ฉันว่า...";
+		next;
+		mes "[Christ]";
+		mes "หือ? เมื่อกี้แกพูดว่าอะไรนะ?";
+		mes "Enjoy เหรอ? แกรู้จักเขาด้วยเหรอ? งั้นแกก็ต้องเป็นคนที่ Happymerry ส่งมาน่ะสิ!?";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "ใช่แล้วครับ/ค่ะ~ Happymerry ส่งฉันมา...";
+		next;
+		mes "[Christ]";
+		mes "ในที่สุด วันนั้นก็มาถึงเสียที!!";
+		mes "ได้ยินไหม Peco จ๊ะ~";
+		mes "...พวกเรามีแผนการที่น่าทึ่งสุดๆ เลยล่ะ!";
+		mes "คริสต์มาสปีนี้จะต้องยอดเยี่ยมที่สุด!!";
+		mes "ไม่เห็นต้องไปอิจฉาพวกคนมีคู่เลย!!";
+		next;
+		mes "[Christ]";
+		mes "เอาล่ะ!!";
+		mes "ข้าจะรีบพา Peco วิ่งไปหา Enjoy เดี๋ยวนี้เลย~!";
+		mes "ฝากไปบอก ^0000FFMas^000000";
+		mes "เกี่ยวกับเรื่องนี้ด้วยนะ!!!";
+		mes "แล้วเจอกัน~~!";
+		set christ_solo05,3;
+		close;
+	}
+	else if (christ_solo05 > 2) {
+		mes "[Christ]";
+		mes "ถ้าอย่างนั้น ไว้เจอกันที่นั่นนะ!!";
+		mes "ข้าจะไปหา Enjoy ก่อน!";
+		mes "อย่าลืมบอก ^0000FFMas^000000";
+		mes "เกี่ยวกับเรื่องนี้ด้วยล่ะ!!!";
+		mes "แล้วเจอกัน~~!";
+		close;
+	}
+	else {
+		mes "[Christ]";
+		mes "ในที่สุด~ เสียที!!!";
+		mes "ข้าก็ได้ขี่ Pecopeco สักที~!";
+		mes "ทำไมต้องไปตั้งปาร์ตี้กับพวก Priest ด้วยล่ะ?!";
+		mes "ข้าไม่ต้องการของพรรค์นั้นหรอก";
+		mes "สิ่งเดียวที่ข้าต้องการคือ Pecopeco ตัวอ้วนกลมตัวนี้ต่างหาก~!";
+		next;
+		mes "[Christ]";
+		mes "แกเป็นใครน่ะ!";
+		mes "อย่าได้คิดจะมาเข้าใกล้ Peco ของข้านะ!";
+		mes "โอ้~ Peco สุดที่รักของข้า~~ กลัวหรือเปล่าจ๊ะ? ไม่เป็นไรนะที่รัก";
+		mes "Enjoy น่ะโดดเดี่ยวตัวคนเดียวมาตั้งแต่เกิด~";
+		mes "แต่ข้าเหรอ?!! ไม่ใช่เลย!!";
+		mes "ข้ามี Peco สุดที่รักอยู่เคียงข้างยังไงล่ะ!!";
+		next;
+		mes "[Christ]";
+		mes "ข้าจะจัดปาร์ตี้กับ Peco ของข้า";
+		mes "พวกเราจะกินเค้กคริสต์มาสด้วยกัน และ.....";
+		mes "ข้าจะไม่เหงาหรอก~";
+		mes "ไม่มีทางเหงาแน่นอน!!!";
+		close;
+	}
+}
+
+prontera,163,66,7	script	Mas#mas	748,{
+	if (christ_solo05 == 3) {
+		mes "[Mas]";
+		mes "สมุนไพร!!!!! ทำไมมันใช้เวลานานขนาดนี้เนี่ย!";
+		mes "มีใครรู้เวลาเกิดใหม่ของพวก Herb บ้างไหม?!!";
+		mes "ข้าจะขุดสมุนไพรไปทำยาแล้วเอาไปขายให้พวกคนโสด!!";
+		mes "ฮ่าฮ่าฮ่าฮ่า!!";
+		next;
+		mes "[Mas]";
+		mes "อา~~";
+		mes "ทำไมข้าถึงรู้สึกว่างเปล่าแบบนี้แฮะ~";
+		mes "ทั้งที่มีสมุนไพรเต็มคลังสินค้าไปหมด";
+		mes "ไม่นะ~~!!!!!!";
+		mes "ไม่มีเวลามามัวเสียเที่ยวแล้ว~~";
+		mes "ขุดสมุนไพรต่อดีกว่า.......";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "นี่~ คุณโอเคไหม? คุณคือ Mas ใช่หรือเปล่า?";
+		next;
+		mes "[Mas]";
+		mes "ใคร... แกเป็นใครน่ะ?!!!";
+		mes "ก็นะ มันนานมากแล้วที่ข้าไม่ได้คุยกับคนแปลกหน้า";
+		mes "หืม...";
+		mes "ข้ารู้สึกถึงความอบอุ่นบางอย่างในหัวใจ.......";
+		mes "ช่างมันเถอะ!! ข้ากำลังคิดอะไรอยู่เนี่ย?!!";
+		mes "ถอยไปเลย~ ข้าต้องขุดสมุนไพรต่อ~";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "Mas!!";
+		mes "คุณยังไหวไหม?!";
+		mes "Christ ส่งฉันมาน่ะ";
+		next;
+		mes "[Mas]";
+		mes "อะไรนะ!!! มาถึงแล้วเหรอ!!";
+		mes "เออ~ จริงด้วย!";
+		mes "ข้าไม่ต้องมานั่งเสียเวลาขุดสมุนไพรพวกนี้แล้วนี่นา!!";
+		mes "ถ้าหาก Enjoy สั่งการลงมาล่ะก็!?!";
+		mes "ข้าจะรีบไปที่นั่นเดี๋ยวนี้เลย~!!!!!";
+		next;
+		mes "[Mas]";
+		mes "...จะไปพร้อมกับข้าไหมล่ะ?";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "ไม่ล่ะ~~";
+		mes "ฉันยังมีงานที่ต้องทำต่อ";
+		mes "ต้องไปบอกคนอื่นๆ เกี่ยวกับเรื่องนี้ด้วย";
+		next;
+		mes "[Mas]";
+		mes "โอ้ ใช่แล้ว จริงด้วย!!!";
+		mes "จงไปตามหา ^0000FFEvent^000000 ซะ";
+		mes "งั้นไปก่อนนะ ลาละ~";
+		mes "เดี๋ยวเจอกันที่นั่น!!...";
+		mes "สมุนไพรเหรอ~?! คู่รักเหรอ?! ช่างหัวมันเถอะ~~";
+		set christ_solo05,4;
+		close;
+	}
+	else if (christ_solo05 > 3) {
+		mes "[Mas]";
+		mes "ถ้าไม่ว่าอะไร ข้าขอตัวล่วงหน้าไปพบ Enjoy ก่อนนะ";
+		mes "และอย่าลืมบอกเรื่องนี้กับ ^0000FFEvent^000000 ด้วยล่ะ";
+		mes "สมุนไพร~ คู่รัก~~ ช่างหัวมันเถอะ~~";
+		mes "คริสต์มาสปีนี้จะต้องมหัศจรรย์สุดๆ!!";
+		mes "ฮ่าฮ่าฮ่าฮ่า~";
+		close;
+	}
+	else {
+		mes "[Mas]";
+		mes "สมุนไพร!!!!! ทำไมมันใช้เวลานานขนาดนี้เนี่ย!";
+		mes "มีใครรู้เวลาเกิดใหม่ของพวก Herb บ้างไหม?!!";
+		mes "ข้าจะขุดสมุนไพรไปทำยาแล้วเอาไปขายให้พวกคนโสด!!";
+		mes "ฮ่าฮ่าฮ่าฮ่า!!";
+		next;
+		mes "อา~~";
+		mes "ทำไมข้าถึงรู้สึกว่างเปล่าแบบนี้แฮะ~";
+		mes "ทั้งที่มีสมุนไพรเต็มคลังสินค้าไปหมด";
+		mes "ไม่นะ~~!!!!!!";
+		mes "ไม่มีเวลามามัวเสียเที่ยวแล้ว~~";
+		mes "ขุดสมุนไพรต่อดีกว่า.......";
+		close;
+	}
+}
+
+prontera,35,209,5	script	Event#event	881,{
+	if (christ_solo05 == 4) {
+		mes "[Event]";
+		mes "........................";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "...คุณ... คือ...?";
+		next;
+		mes "[Event]";
+		mes "...ฉันก็รักเธอเหมือนกันนะ~!!!";
+		emotion ET_HUK, playerattached();
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "(โอ้ พระช่วย..)";
+		next;
+		mes "[Event]";
+		mes "ไม่เป็นไรนะ Tinybee ฉันไม่เหงาเลยสักนิด";
+		mes "ฉันยังมีคุณ Bathory และคุณ Orclady อยู่กับฉัน";
+		mes "ฮ่าฮ่าฮ่าฮ่า~~~";
+		next;
+		mes "-เขาหัวเราะในขณะที่กำลังพูดอยู่กับมือขวาของตัวเอง-";
+		//Emotion "Event#event" ET_KIK
+		emotion ET_CHUP;
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "Mas ส่งฉันมาที่นี่";
+		mes "คุณรู้เรื่องแผนการของ Enjoy แล้วใช่ไหม?";
+		mes "...นี่คุณฟังอยู่หรือเปล่า?";
+		next;
+		mes "[Event]";
+		mes "...ได้ยินไหม?? Tinybee?";
+		mes "วันนั้นมาถึงแล้วล่ะ!!";
+		mes "ฮ่าฮ่าฮ่าฮ่า~~~~";
+		next;
+		mes "[Event]";
+		mes "รอฉันก่อนนะคุณ Kafra~~~";
+		mes "อย่าเพิ่งเหงาไปเลยนะ~";
+		mes "ฉันจะทำให้คริสต์มาสของเธอวิเศษจนลืมไม่ลงเลยล่ะ";
+		mes "ไปกันเถอะ Tinybee";
+		next;
+		mes "-เขาพูดกับมือขวาของตัวเองไม่หยุด-";
+		mes "-พลางเก็บข้าวของและก้มหัวคำนับคุณ Kafra-";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "ในที่สุด!!! บอกทุกคนครบเสียที!!";
+		mes "ตอนนี้ฉันควรจะไปเตรียม ^0000FFBranch of Dead Tree^000000 ให้พร้อม";
+		mes "แล้วไปลงโทษพวกคู่รักกันเลย!!!";
+		mes "ฮ่าฮ่าฮ่าฮ่า..";
+		set christ_solo05,5;
+		close;
+	}
+	else if (christ_solo05 > 4) {
+		mes "[Event]";
+		mes "รอฉันก่อนนะคุณ Kafra~~~";
+		mes "อย่าเพิ่งเหงาไปเลยนะ~";
+		mes "ฉันจะทำให้คริสต์มาสของเธอวิเศษจนลืมไม่ลงเลยล่ะ";
+		mes "ไปกันเถอะ Tinybee";
+		next;
+		mes "-เขาพูดกับมือขวาของตัวเอง-";
+		mes "-พลางเก็บข้าวของและก้มหัวคำนับคุณ Kafra-";
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "ในที่สุด!!! บอกทุกคนครบเสียที!!";
+		mes "ตอนนี้ฉันควรจะเตรียมข้าวของให้พร้อม";
+		mes "แล้วไปลงโทษพวกคู่รักกันเลย!!!";
+		mes "ฮ่าฮ่าฮ่าฮ่า..";
+		close;
+	}
+	else {
+		mes "[Event]";
+		mes "........................";
+		next;
+		mes "[Event]";
+		mes "...ฉันก็รักเธอเหมือนกันนะ~!!!";
+		emotion ET_HUK, playerattached();
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "(โอ้ พระช่วย~)";
+		next;
+		mes "[Event]";
+		mes "ไม่เป็นไรนะ Tinybee ฉันไม่เหงาเลยสักนิด";
+		mes "ฉันยังมีคุณ Bathory และคุณ Orclady อยู่กับฉัน";
+		mes "ฮ่าฮ่าฮ่าฮ่า~~~";
+		next;
+		mes "-เขาหัวเราะในขณะที่กำลังพูดอยู่กับมือขวาของตัวเอง-";
+		emotion ET_CHUP;
+		close;
+	}
+}
+
+// Oholy (Event 3)
+prontera,156,242,0	script	Oholy#pron::OholyDup	79,{
+	if (!christ_carol05) {
+		mes "[Oholy]";
+		mes "Joy to the world! (ความยินดีสู่ชาวโลก!)";
+		mes "พระเจ้าทรงเสด็จมาแล้ว";
+		specialeffect EF_GLORIA;
+		next;
+		if (Sex == SEX_MALE) {
+			mes "[Oholy]";
+			mes "เมอร์รี่คริสต์มาส!";
+			mes "พี่ชายที่รัก สิ่งแรกที่เข้ามาใน";
+			mes "ความคิดของเจ้าเมื่อนึกถึงคริสต์มาสคืออะไรล่ะ?";
+			next;
+		}
+		else {
+			mes "[Oholy]";
+			mes "เมอร์รี่คริสต์มาส!";
+			mes "น้องสาวที่รัก สิ่งแรกที่เข้ามาใน";
+			mes "ความคิดของเจ้าเมื่อนึกถึงคริสต์มาสคืออะไรล่ะ?";
+			next;
+		}
+		switch(select("ซานตาคลอส:ของขวัญคริสต์มาส:เพลงคริสต์มาส:หมวกซานต้า:ฉันไม่ชอบพวกคนมีคู่")) {
+		case 1:
+			mes "[Oholy]";
+			mes "ซานตาคลอสอย่างนั้นเหรอ!";
+			mes "เจ้ายังมีความไร้เดียงสา";
+			mes "แบบเด็กๆ อยู่เลยนะเนี่ย เจ้าหนู!!!";
+			mes "โฮ่โฮ่โฮ่";
+			next;
+			mes "[Oholy]";
+			mes "มีข่าวลือว่าซานตาคลอสน่ะ";
+			mes "อยู่ในเมืองที่วันคริสต์มาส";
+			mes "ไม่มีวันสิ้นสุด เรื่องนี้รู้แค่";
+			mes "ระหว่างเราสองคนนะ ตกลงไหม?";
+			next;
+			mes "[Oholy]";
+			mes "นี่คือข่าวพาดหัวล่าสุดโดย Oholy";
+			mes "มันสุดยอดไปเลยใช่ไหมล่ะ?";
+			emotion ET_SMILE;
+			close;
+		case 2:
+			mes "[Oholy]";
+			mes "ของขวัญเหรอ! เยี่ยมเลย!";
+			mes "มันน่าตื่นเต้นอะไรขนาดนี้!!!";
+			mes "การที่เจ้าตื่นมาแล้วพบกับ";
+			mes "ของขวัญคริสต์มาสวางอยู่ข้างหมอนน่ะ!";
+			next;
+			mes "[Oholy]";
+			mes "เจ้าเคยได้ยินไหมว่า";
+			mes "ซานต้าตัวร้ายที่มักจะออกมา";
+			mes "จู่โจมในทุกๆ คริสต์มาส ได้";
+			mes "แย่งชิงของขวัญของซานตาคลอสที่";
+			mes "เตรียมไว้ให้เด็กดีไปน่ะ!";
+			next;
+			mes "[Oholy]";
+			mes "ดังนั้น ซานตาคลอสในเมืองคริสต์มาส";
+			mes "จึงได้มอบรางวัลสำหรับการ";
+			mes "จับตัวซานต้าจอมปลอมที่ชื่อ Antonio";
+			next;
+			mes "[Oholy]";
+			mes "นี่คือข่าวพาดหัวล่าสุดโดย Oholy";
+			mes "มันสุดยอดไปเลยใช่ไหมล่ะ?";
+			emotion ET_SMILE;
+			close;
+		case 3:
+			mes "[Oholy]";
+			mes "ถูกต้องที่สุด!";
+			mes "เพลงคริสต์มาสคือหัวใจสำคัญของ";
+			mes "เทศกาลคริสต์มาสเลยล่ะ! ตอนที่ฉันยัง";
+			mes "เด็กๆ หัวใจของฉันมักจะ";
+			mes "เต้นรัวด้วยความสุขจากเสียงเพลง";
+			mes "ในช่วงคริสต์มาสเสมอ";
+			next;
+			mes "[Oholy]";
+			mes "แต่ว่าในทุกวันนี้ กลับมีไม่มากนัก";
+			mes "ที่ผู้คนจะร้องเพลงคริสต์มาสกัน";
+			mes "มันเลยทำให้รู้สึกยากเหลือเกินว่า";
+			mes "คริสต์มาสนั้นกำลังใกล้เข้ามาแล้ว";
+			mes " ";
+			next;
+			mes "[Oholy]";
+			mes "ด้วยเหตุนี้ ฉันเลยตัดสินใจที่จะส่งความสุข";
+			mes "เมอร์รี่คริสต์มาสให้กับทุกคน";
+			mes "ด้วยการร้องเพลงและมอบของขวัญ";
+			mes "ให้เด็กๆ ตามบ้านแต่ละหลัง แต่โชคร้ายที่";
+			mes "เจ้าปีศาจนิสัยเสียดันฉีกสมุดโน้ตเพลงของฉันไปน่ะสิ!!!";
+			next;
+			mes "[Oholy]";
+			mes "ฉันมีบ้านอีกหลายหลังที่ต้องไปเยี่ยม";
+			mes "ฉันรู้สึกเศร้าใจแทนเด็กๆ ที่ต้องผิดหวัง";
+			mes "เพราะไม่ได้ยินเสียงเพลงคริสต์มาสจริงๆ";
+			next;
+			menu "...ให้ฉันช่วยอะไรไหม?",-;
+			mes "[Oholy]";
+			mes "คุณพระช่วย! เจ้าพูดจริงเหรอ?";
+			mes "โอ้? ชู่ว... เจ้าได้ยินไหม?";
+			mes "เด็กๆ ทุกคนต่างขอบคุณในความใจดีของเจ้านะ";
+			emotion ET_SMILE;
+			mes "ไม่ต้องกลัวไป ฉันไม่ขอให้เจ้า";
+			mes "แต่งเพลงคริสต์มาสขึ้นมาใหม่หรอก";
+			next;
+			mes "[Oholy]";
+			mes "ถ้าเจ้ามีปณิธานอันแรงกล้าแล้ว";
+			mes "เราก็ไม่มีเวลามามัวรอช้า";
+			mes "ไปมอบความหวังให้กับเด็กๆ กันเถอะ!";
+			next;
+			mes "[Oholy]";
+			mes "เอาล่ะ ช่วยนำสมุดโน้ตเพลง";
+			mes "คริสต์มาสกลับมาให้ฉันด้วยนะ "+ strcharinfo(0) +"";
+			mes "เจ้าปีศาจตัวน้อยนั่นน่าจะยังอยู่";
+			mes "ในเมืองนี้ เพราะเรื่องมันเพิ่งเกิดขึ้นเมื่อไม่กี่นาทีก่อนเอง";
+			next;
+			mes "[Oholy]";
+			mes "ได้โปรดระวังตัวด้วยล่ะ";
+			mes "เพราะเจ้ากำลังรับมือกับปีศาจ";
+			mes "ถ้าอย่างนั้น ก็ขอให้โชคดีนะ!!!";
+			mes " ";
+			emotion ET_BEST;
+			set christ_carol05,1;
+			close;
+		case 4:
+			mes "[Oholy]";
+			mes "หมวกซานต้าอย่างนั้นเหรอ!!";
+			mes "เจ้ารู้ไหมว่าหมวกซานต้า";
+			mes "ของจริงน่ะ แตกต่างอย่างสิ้นเชิง";
+			mes "จากใบที่พวกมอนสเตอร์";
+			mes "ใส่อยู่น่ะ?! ฉันได้ยินข่าวลือมาว่า";
+			mes "มีดีไซน์เนอร์นิรนามคนหนึ่ง";
+			mes "ใน Lutie เป็นคนทำหมวกเหล่านั้นทั้งหมด";
+			next;
+			mes "[Oholy]";
+			mes "นอกจากนี้ ยังมีข่าวลืออีกอย่าง";
+			mes "เกี่ยวกับซานต้าจอมปลอม Antonio";
+			mes "เขาถูกเหล่านักผจญภัยตามล่ามากมาย";
+			mes "แต่ไม่เคยถูกจับได้เลย ก็เพราะ";
+			mes "ชุดซานต้าที่เขาใส่อยู่นั่นแหละ";
+			next;
+			mes "[Oholy]";
+			mes "บางทีหมวกและเสื้อผ้าของเขาอาจจะ";
+			mes "มีความสามารถพิเศษซ่อนอยู่ข้างใน...";
+			mes "บางทีดีไซน์เนอร์คนนั้นอาจจะ";
+			mes "ยังอาศัยอยู่ใน Lutie ลองไป";
+			mes "เยี่ยมเขาและขอให้เขาทำหมวก";
+			mes "ซานต้าใบใหม่ให้เจ้าดูสิ?";
+			next;
+			mes "[Oholy]";
+			mes "นี่คือข่าวพาดหัวล่าสุดโดย Oholy";
+			mes "มันสุดยอดไปเลยใช่ไหมล่ะ?";
+			emotion ET_SMILE;
+			close;
+		case 5:
+			mes "[Oholy]";
+			mes "โอ้ ที่รัก ฉันเองก็กำลังคิด";
+			mes "แบ..บ..เดี..ยว..กัน... อุ๊ปส์ โฮ่..โฮ่โฮ่";
+			mes "เอาเถอะ ไม่ใช่แค่ฉันหรอก แต่คน";
+			mes "จำนวนมากก็คิดแบบเดียวกันในคริสต์มาสนี้";
+			next;
+			mes "[Oholy]";
+			mes "ฉันได้ยินข่าวลือแปลกๆ ว่า";
+			mes "คนกลุ่มนั้นกำลังวางแผนทำ";
+			mes "บางอย่างในคริสต์มาสนี้";
+			mes "...หวังว่ามันจะไปได้สวยนะ (*พึมพัม*)";
+			next;
+			mes "[Oholy]";
+			mes "นี่คือข่าวพาดหัวล่าสุดโดย Oholy";
+			mes "มันสุดยอดไปเลยใช่ไหมล่ะ?";
+			emotion ET_SMILE;
+			close;
+		}
+	}
+	else if (christ_carol05 == 1) {
+		mes "[Oholy]";
+		mes "มันไม่น่าจะหนีออกไปจากเมืองได้";
+		mes "ได้โปรดตามหาเจ้าปีศาจนั่น";
+		mes "และนำสมุดโน้ตเพลงคริสต์มาส";
+		mes "ของฉันกลับมาที";
+		mes "จงลงโทษเจ้าปีศาจร้ายที่มาทำลายคริสต์มาสซะ!!!";
+		close;
+	}
+	else if (christ_carol05 == 2) {
+		if (!checkweight(1201,1)) {
+			mes "^3355FFเดี๋ยวก่อน!";
+			mes "ตอนนี้เจ้าถือของ";
+			mes "หนักเกินไปแล้ว";
+			mes "กรุณากลับมาใหม่หลังจาก";
+			mes "ใช้บริการคาฟรา";
+			mes "เพื่อฝากไอเทมบางส่วนของเจ้าก่อนนะ^000000";
+			close;
+		}
+		if (MaxWeight - Weight < 2000) {
+			mes "^3355FFเดี๋ยวก่อน!";
+			mes "ตอนนี้เจ้าถือของ";
+			mes "หนักเกินไปแล้ว";
+			mes "กรุณากลับมาใหม่หลังจาก";
+			mes "ใช้บริการคาฟรา";
+			mes "เพื่อฝากไอเทมบางส่วนของเจ้าก่อนนะ^000000";
+			close;
+		}
+		if (countitem(1097) > 0) {
+			mes "[Oholy]";
+			mes "โอ้ คุณพระช่วย! ";
+			mes "เจ้านำสมุดโน้ตกลับมาให้ฉันแล้ว!";
+			mes "เจ้าปีศาจนั่นไม่ได้สร้างปัญหาให้เจ้าใช่ไหม?";
+			mes "ฉันดีใจจริงๆ ที่เจ้ายลับมาได้อย่างปลอดภัย";
+			next;
+			mes "[Oholy]";
+			mes "เพื่อเป็นการตอบแทน ฉันจะร้องเพลง";
+			mes "คริสต์มาสจากสมุดโน้ตเล่มนี้ให้ฟังนะ";
+			next;
+			mes "[Oholy]";
+			mes "ฮึ่ม! ฮึมม!!";
+			mes "~หลับฝันดีนะ เด็กน้อยทั้งหลาย~";
+			mes "~ไม่ว่าพวกเจ้าจะอยู่ที่ใด~";
+			mes "~พรุ่งนี้คือวันคริสต์มาส~";
+			mes "~ภายใต้แสงดาวพร่างพราย~";
+			specialeffect EF_GLORIA;
+			next;
+			mes "-จิตใจของเจ้าเคลิบเคลิ้มไปกับเสียงร้องของเธอ-";
+			mes "-เจ้าเริ่มฮัมเพลงตาม จากนั้นจึง-";
+			mes "-เริ่มร้องเพลงในท่อนถัดไป-";
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "~ในไม่ช้าเกล็ดหิมะจะโปรยปราย~";
+			mes "~และเมื่อรุ่งเช้ามาถึงเจ้าจะพบ~";
+			mes "~ทุกคำอธิษฐาน ทุกๆ สิ่ง~";
+			mes "~เฝ้ารอเจ้าอยู่ใต้ต้นคริสต์มาส~";
+			specialeffect2 EF_GLORIA;
+			next;
+			mes "[Oholy]";
+			mes "โอ้ ตายจริง เจ้านี่มีเสียงที่";
+			mes "ไพเราะมากเลย!! เอาล่ะ!!!";
+			mes "จริงๆ ฉันว่าจะเอาของพวกนี้";
+			mes "ไปให้เด็กๆ แต่ในเมื่อเจ้าช่วยหา";
+			mes "สมุดเพลงมาคืน แถมยังร้องเพลงให้ฉันฟังด้วย!";
+			next;
+			mes "-เธอหยิบถุงใบใหญ่ออกมา-";
+			mes "-และเปิดมันออกตรงหน้าเจ้า-";
+			next;
+			mes "[Oholy]";
+			mes "เอาล่ะ! อย่าแอบมองข้างในนะ";
+			mes "แค่ยื่นมือเข้าไปแล้ว";
+			mes "หยิบชิ้นที่เจ้าต้องการออกมาเลย";
+			next;
+			switch(rand(1,15)) {
+			case 1:
+				mes "[Oholy]";
+				mes "ถุงคุกกี้!";
+				mes "ฉันห่อพวกมันทีละชิ้นเลยนะ";
+				mes "มีขนมหวานมากมายอยู่ในนั้นล่ะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page (หน้าสมุดที่ขาดหายไป)
+				set christ_carol05,3;
+				getitem 12130,7;//Cookie_Bag
+				close;
+			case 2:
+				mes "[Oholy]";
+				mes "ลูกกวาด!";
+				mes "พวกนี้ทำโดย";
+				mes "หัวหน้าแม่บ้านเลยนะ";
+				mes "หวานและอร่อยมากเลยล่ะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 529,20;//Candy
+				close;
+			case 3:
+				mes "[Oholy]";
+				mes "Candy Canes!";
+				mes "พวกนี้ทำโดย";
+				mes "หัวหน้าแม่บ้านเลยนะ";
+				mes "หวานและอร่อยมากเลยล่ะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 530,15;//Candy_Striper
+				close;
+			case 4:
+				mes "[Oholy]";
+				mes "เค้กสักชิ้น!";
+				mes "พวกนี้อบโดย";
+				mes "หัวหน้า Acolyte เชียวนะ";
+				mes "นุ่มและอร่อยมากเลยล่ะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 539,5;//Piece_of_Cake
+				close;
+			case 5:
+				mes "[Oholy]";
+				mes "คุกกี้!";
+				mes "พวกนี้อบโดย";
+				mes "หัวหน้า Acolyte เชียวนะ";
+				mes "กรอบและอร่อยมากเลยล่ะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 538,10;//Well_baked_Cookie
+				close;
+			case 6:
+				mes "[Oholy]";
+				mes "ตุ๊กตา Spore!";
+				mes "มันถูกทำอย่างประณีตโดย";
+				mes "Bishop Tomas เลยล่ะ";
+				mes "น่ารักมากเลยนะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 743,1;//Spore_Doll
+				close;
+			case 7:
+				mes "[Oholy]";
+				mes "ตุ๊กตา Baphomet!";
+				mes "..........?!..........";
+				mes "มันเข้ามาอยู่ในนี้ได้ยังไงกัน..?!";
+				mes "อุ๊ปส์ ช่างเถอะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 750,1;//Baphomet_Doll
+				close;
+			case 8:
+				mes "[Oholy]";
+				mes "ตุ๊กตา Osiris!";
+				mes "..........?!..........";
+				mes "มันเข้ามาอยู่ในนี้ได้ยังไงกัน..?!";
+				mes "อุ๊ปส์ ช่างเถอะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 751,1;//Osiris_Doll
+				close;
+			case 9:
+				mes "[Oholy]";
+				mes "ตุ๊กตา Rocker!";
+				mes "ชิ้นนี้ได้รับบริจาคมาจาก";
+				mes "อัศวินที่ชื่อ Lighten";
+				mes "เขาช่างใจดีจริงๆ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 752,1;//Grasshopper_Doll
+				close;
+
+			case 10:
+				mes "[Oholy]";
+				mes "ตุ๊กตา Yoyo!";
+				mes "ชิ้นนี้ได้รับบริจาคมาจาก";
+				mes "แอสซาสซินที่ชื่อ Marzia";
+				mes "เขาช่างใจดีจริงๆ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 753,1;//Monkey_Doll
+				close;
+			case 11:
+				mes "[Oholy]";
+				mes "ตุ๊กตา Racoon!";
+				mes "ชิ้นนี้ได้รับบริจาคมาจาก";
+				mes "ฮันเตอร์ที่ชื่อ Raiden Kurs";
+				mes "เขาช่างใจดีจริงๆ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 754,1;//Raccoondog_Doll
+				close;
+			case 12:
+				mes "[Oholy]";
+				mes "ตุ๊กตาแมวดำ!";
+				mes "ซิสเตอร์ Magareta ไปเจอไอเทมนี้";
+				mes "จากมอนสเตอร์ Loli Ruri น่ะ";
+				mes "เธอใจดีมากเลยนะ";
+				mes "หวังว่าเธอจะยังสบายดี";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 7206,1;//Black_Kitty_Doll
+				close;
+			case 13:
+				mes "[Oholy]";
+				mes "ตุ๊กตาแขวน!";
+				mes "ฉันทำตุ๊กตาตัวนี้เองกับมือเลยนะ";
+				mes "มันน่ารักใช่ไหมล่ะ?!";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 7212,1;//Hanging_Doll
+				close;
+			case 14:
+				mes "[Oholy]";
+				mes "ตุ๊กตา Munak!";
+				mes "นั่นมาจากประเทศบางประเทศ";
+				mes "ที่อยู่อีกฟากของมหาสมุทรน่ะ";
+				mes "ช่างฝีมือสร้างตุ๊กตาตัวนี้ขึ้นมา";
+				mes "ด้วยจิตวิญญาณของเขาเลยล่ะ";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 7277,1;//Munak_Doll
+				close;
+			case 15:
+				mes "[Oholy]";
+				mes "หมวกซานต้า!";
+				mes "ใบนี้จะผลิตออกมาเฉพาะ";
+				mes "ช่วงฤดูกาลคริสต์มาสเท่านั้นนะ";
+				mes "มันไม่ใช่หมวกธรรมดาๆ ทั่วไปหรอก";
+				mes "เมอร์รี่คริสต์มาส!";
+				emotion ET_SMILE;
+				delitem 1097,1;//Worn_Out_Page
+				set christ_carol05,3;
+				getitem 2236,1;//Santa's_Hat
+				close;
+			}
+		}
+		else {
+			mes "[Oholy]";
+			mes "ยินดีต้อนรับกลับมา!! ดูดีนี่นา";
+			mes "แขน 2 ขา 2 ยังอยู่ครบ เจ้าดูดีมาก";
+			mes "แต่ว่า สมุดโน้ตเพลงของฉันล่ะอยู่ที่ไหน?!";
+			close;
+		}
+	}
+	else {
+		mes "[Oholy]";
+		mes "ขอบคุณเจ้ามากนะ";
+		mes "ทั้งผู้คนหรือแม้แต่พวกปีศาจเองต่างก็";
+		mes "พากันตื่นเต้นในวันคริสต์มาส";
+		mes "ดังนั้นไม่มีใครรู้หรอกว่าจะเกิด";
+		mes "อะไรขึ้นบ้าง เจ้าจะช่วยฉัน";
+		mes "ใช่ไหมล่ะ? นะ.. ได้โปรด~";
+		next;
+		mes "[Oholy]";
+		mes "เรามานึกถึงเพื่อนบ้าน";
+		mes "และทำความดีกันในช่วงคริสต์มาสเถอะ!";
+		set christ_carol05,0;
+		close;
+	}
+}
+
+// Deviruchi functions
+function	script	F_carol_devi	{
+	if (christ_carol05 == 1) {
+		mes "[Deviruchi]";
+		mes "เฮ้เฮ้ มนุษย์!!";
+		mes "ไม่อยากลองขายวิญญาณ";
+		mes "แล้วมาทำสัญญาที่ได้ประโยชน์ร่วมกับข้าดูหน่อยเหรอ?";
+		emotion ET_CHUP;
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "เฮ้ แกนั่นแหละ! Deviruchi!!!";
+		mes "ไอ้เด็กแสบ!!! จับได้แล้ว!";
+		next;
+		mes "-คุณรีบตะครุบเข้าที่-";
+		mes "-หลังคอของ Deviruchi อย่างรวดเร็ว-";
+		next;
+		switch(rand(1,4)) {
+		case 1:
+			mes "[Deviruchi]";
+			mes "แกทำอะไรของแกน่ะ!?";
+			mes "มนุษย์?";
+			mes "ปล่อยข้าเดี๋ยวนี้... ทันทีเลยนะ!";
+			emotion ET_HUK;
+			emotion ET_HUK, playerattached();
+			next;
+			mes "-Deviruchi รีบวิ่งหนีไปอย่างรวดเร็ว-";
+			mes "-^4d4dffตรงที่ที่ Deviruchi เพิ่งจากไป,-";
+			mes "-มีเศษกระดาษเก่าๆ ตกอยู่ใบหนึ่ง^000000-";
+			mes "-ลองอ่านกระดาษแผ่นนั้นดูสิ-";
+			enablenpc getarg(1);
+			disablenpc getarg(0);
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "รูดอล์ฟ... ถ้าหาก... หมอกลง...";
+			mes "เลื่อนหิมะ... กวางเรนเดียร์...";
+			mes "หืม ฉันคิดว่าฉันได้สิ่งที่ต้องการแล้วล่ะ";
+			mes "กลับไปหาคุณ Oholy กันเถอะ";
+			set christ_carol05,2;
+			getitem 1097,1; //Worn_Out_Page (หน้าสมุดที่ขาดหายไป)
+			close;
+		case 2:
+			mes "[Deviruchi]";
+			mes "แกทำอะไรของแกน่ะ!?";
+			mes "มนุษย์?";
+			mes "ปล่อยข้าเดี๋ยวนี้... ทันทีเลยนะ!";
+			emotion ET_HUK;
+			emotion ET_HUK, playerattached();
+			next;
+			mes "-Deviruchi วิ่งหนีไปอย่างรวดเร็ว-";
+			mes "-และพึมพำบางอย่างออกมา-";
+			enablenpc getarg(1);
+			disablenpc getarg(0);
+			next;
+			mes "-ตอนนี้คุณติดคำสาป!!!-";
+			sc_start SC_Curse,5000,0;
+			emotion ET_HUK, playerattached();
+			close;
+		case 3:
+			mes "[Deviruchi]";
+			mes "แกทำอะไรของแกน่ะ!?";
+			mes "มนุษย์?";
+			mes "ปล่อยข้าเดี๋ยวนี้... ทันทีเลยนะ!";
+			emotion ET_HUK;
+			emotion ET_HUK, playerattached();
+			next;
+			mes "-Deviruchi วิ่งหนีไปอย่างรวดเร็ว-";
+			mes "-และพึมพำบางอย่างออกมา-";
+			enablenpc getarg(1);
+			disablenpc getarg(0);
+			next;
+			mes "-คุณตาบอดชั่วขณะ!!!-";
+			sc_start SC_Blind,5000,0;
+			emotion ET_HUK, playerattached();
+			close;
+		case 4:
+			mes "[Deviruchi]";
+			mes "แกทำอะไรของแกน่ะ!?";
+			mes "มนุษย์?";
+			mes "ปล่อยข้าเดี๋ยวนี้... ทันทีเลยนะ!";
+			emotion ET_HUK;
+			emotion ET_HUK, playerattached();
+			next;
+			mes "-Deviruchi วิ่งหนีไปอย่างรวดเร็ว-";
+			mes "-และพึมพำบางอย่างออกมา-";
+			enablenpc getarg(1);
+			disablenpc getarg(0);
+			next;
+			mes "-คุณติดสถานะพิษ!!!-";
+			sc_start SC_Poison,5000,0;
+			emotion ET_HUK, playerattached();
+			close;
+		}
+	}
+	else {
+		mes "[Deviruchi]";
+		mes "เฮ้เฮ้ มนุษย์!!";
+		mes "ไม่อยากลองขายวิญญาณ";
+		mes "แล้วมาทำสัญญาที่ได้ประโยชน์ร่วมกับข้าดูหน่อยเหรอ?";
+		emotion ET_HUK;
+		next;
+		mes "["+ strcharinfo(0) +"]";
+		mes "เฮ้ แกนั่นแหละ! Deviruchi!!!";
+		mes "ไอ้เด็กแสบ!!! จับได้แล้ว!";
+		next;
+		mes "-คุณรีบตะครุบเข้าที่-";
+		mes "-หลังคอของ Deviruchi อย่างรวดเร็ว-";
+		next;
+		mes "[Deviruchi]";
+		mes "แกทำอะไรของแกน่ะ!?";
+		mes "มนุษย์?";
+		mes "ปล่อยข้าเดี๋ยวนี้... ทันทีเลยนะ!";
+		emotion ET_HUK;
+		emotion ET_HUK, playerattached();
+		next;
+		mes "-Deviruchi วิ่งหนีไปอย่างรวดเร็ว-";
+		mes "-และพึมพำบางอย่างออกมา-";
+		mes "-ทันใดนั้น ร่างกายของคุณก็ลอยขึ้น-";
+		close2;
+		warp getarg(2),getarg(3),getarg(4);
+		end;
+	}
+}
+
+function	script	F_carol_devi2	{
+	mes "[Deviruchi]";
+	mes "เฮ้เฮ้ มนุษย์!!";
+	mes "ไม่อยากลองขายวิญญาณ";
+	mes "แล้วมาทำสัญญาที่ได้ประโยชน์ร่วมกับข้าดูหน่อยเหรอ?";
+	emotion ET_HUK;
+	next;
+	mes "["+ strcharinfo(0) +"]";
+	mes "เฮ้ แกนั่นแหละ! Deviruchi!!!";
+	mes "ไอ้เด็กแสบ!!! จับได้แล้ว!";
+	next;
+	mes "-คุณรีบตะครุบเข้าที่-";
+	mes "-หลังคอของ Deviruchi อย่างรวดเร็ว-";
+	next;
+	mes "[Deviruchi]";
+	mes "แกทำอะไรของแกน่ะ!?";
+	mes "มนุษย์?";
+	mes "ปล่อยข้าเดี๋ยวนี้... ทันทีเลยนะ!";
+	emotion ET_HUK;
+	emotion ET_HUK, playerattached();
+	next;
+	mes "-Deviruchi วิ่งหนีไปอย่างรวดเร็ว-";
+	mes "-และพึมพำบางอย่างออกมา-";
+	mes "-ทันใดนั้น ร่างกายของคุณก็ลอยขึ้น-";
+	close2;
+	warp getarg(0),getarg(1),getarg(2);
+	end;
+}
+
+prontera,94,297,3	script	Deviruchi#pron_01	738,3,3,{
+	callfunc("F_carol_devi2","prontera",155,230);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#pron_01","Deviruchi#pron_02","prontera",155,230);
+	end;
+}
+
+prontera,205,242,3	script	Deviruchi#pron_02	738,3,3,{
+	callfunc("F_carol_devi2","prontera",155,230);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#pron_02","Deviruchi#pron_03","prontera",155,230);
+	end;
+}
+
+prontera,126,118,3	script	Deviruchi#pron_03	738,3,3,{
+	callfunc("F_carol_devi2","prontera",155,230);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#pron_03","Deviruchi#pron_01","prontera",155,230);
+	end;
+}
+
+// Payon
+payon,165,153,3	duplicate(OholyDup)	Oholy#payon	79
+payon,142,203,3	script	Deviruchi#payon_01	738,3,3,{
+	callfunc("F_carol_devi2","payon",166,60);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#payon_01","Deviruchi#payon_02","payon",166,60);
+	end;
+}
+
+payon,248,239,3	script	Deviruchi#payon_02	738,3,3,{
+	callfunc("F_carol_devi2","payon",166,60);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#payon_02","Deviruchi#payon_03","payon",166,60);
+	end;
+}
+
+payon,140,56,3	script	Deviruchi#payon_03	738,3,3,{
+	callfunc("F_carol_devi2","payon",166,60);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#payon_03","Deviruchi#payon_01","payon",166,60);
+	end;
+}
+
+morocc,161,85,0	duplicate(OholyDup)	Oholy#morocc	79
+morocc,52,134,3	script	Deviruchi#morocc_01	738,3,3,{
+	callfunc("F_carol_devi2","morocc",160,51);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#morocc_01","Deviruchi#morocc_02","morocc",160,51);
+	end;
+}
+
+morocc,210,264,3	script	Deviruchi#morocc_02	738,3,3,{
+	callfunc("F_carol_devi2","morocc",160,51);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#morocc_02","Deviruchi#morocc_03","morocc",160,51);
+	end;
+}
+
+morocc,223,74,3	script	Deviruchi#morocc_03	738,3,3,{
+	callfunc("F_carol_devi2","morocc",160,51);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#morocc_03","Deviruchi#morocc_01","morocc",160,51);
+	end;
+}
+
+// Geffen
+geffen,120,188,0	duplicate(OholyDup)	Oholy#geffen	79
+geffen,173,163,3	script	Deviruchi#geffen_01	738,3,3,{
+	callfunc("F_carol_devi2","geffen",120,34);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#geffen_01","Deviruchi#geffen_02","geffen",120,34);
+	end;
+}
+
+geffen,49,95,3	script	Deviruchi#geffen_02	738,3,3,{
+	callfunc("F_carol_devi2","geffen",120,34);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#geffen_02","Deviruchi#geffen_03","geffen",120,34);
+	end;
+}
+
+geffen,111,101,3	script	Deviruchi#geffen_03	738,3,3,{
+	callfunc("F_carol_devi2","geffen",120,34);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#geffen_03","Deviruchi#geffen_01","geffen",120,34);
+	end;
+}
+
+// Alberta
+alberta,54,237,0	duplicate(OholyDup)	Oholy#alberta	79
+alberta,97,86,3	script	Deviruchi#alberta_01	738,3,3,{
+	callfunc("F_carol_devi2","alberta",28,235);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#alberta_01","Deviruchi#alberta_02","alberta",28,235);
+	end;
+}
+
+alberta,180,48,3	script	Deviruchi#alberta_02	738,3,3,{
+	callfunc("F_carol_devi2","alberta",28,235);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#alberta_02","Deviruchi#alberta_03","alberta",28,235);
+	end;
+}
+
+alberta,54,132,3	script	Deviruchi#alberta_03	738,3,3,{
+	callfunc("F_carol_devi2","alberta",28,235);
+	end;
+
+OnTouch:
+	callfunc("F_carol_devi","Deviruchi#alberta_03","Deviruchi#alberta_01","alberta",28,235);
+	end;
+}

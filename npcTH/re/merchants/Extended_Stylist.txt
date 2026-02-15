@@ -1,0 +1,117 @@
+//===== rAthena Script ======================================= 
+//= Stylist Extension - (Style UI)
+//===== Changelogs: ==========================================
+//= 1.0 First Version. [JohnnyPlayy]
+//===== Description: ========================================= 
+// แปลภาษาไทยตามสไตล์ NPC แต่ละเมือง
+//============================================================
+
+//= Stylist of Alberta
+//===================================================
+alberta_in,55,142,7	script	Stylist#alberta	4_F_02,{
+	mes "[Sweet Veronica]";
+	mes "ยินดีต้อนรับสู่ Veronica Beauty Salon ค่ะ! ตอนนี้เรายกระดับเป็นสไตลิสต์ระดับโลกแล้วนะ ฮิฮิ";
+	next;
+	switch(select("เปลี่ยนสไตล์ของฉัน:จบการสนทนา")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		next;
+		mes "[Sweet Veronica]";
+		mes "ทุกคนมีสิทธิ์ที่จะดูดีนะคะ... หวังว่าคุณจะพบสไตล์ที่ใช่สำหรับคุณในเร็วๆ นี้ค่ะ";
+		close;
+	}
+}
+
+//= Stylist of Prontera
+//===================================================
+prt_in,243,168,4	script	Stylist#prontera	4_F_02,{
+	mes "[Jovovich]";
+	mes "ยินดีต้อนรับค่ะ ฉัน Jovovich สไตลิสต์ชื่อดังแห่ง Prontera มีอะไรให้ฉันช่วยดูแลไหมคะ?";
+	next;
+	switch(select("เปลี่ยนสไตล์ของฉัน:จบการสนทนา")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Jovovich]";
+		mes "แล้วแวะมาหาเราอีกนะคะ~";
+		close;
+	}
+}
+
+//= Stylist of Lighthalzen
+//===================================================
+lhz_in02,100,143,4	script	Stylist#lhz	2_M_DYEINGER,{
+	mes "[Prince Shami]";
+	mes "ข้ากลับมาแล้วในฐานะสุดยอดสไตลิสต์ที่เก่งที่สุดในปฐพี! ข้าคือ Prince Shami สไตลิสต์มือโปรผู้ได้รับพรสวรรค์อันล้ำเลิศมาตั้งแต่เกิด! <3";
+	next;
+	switch(select("เปลี่ยนสไตล์ของฉัน:จบการสนทนา")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Prince Shami]";
+		mes "นี่เจ้ากำลังจะบอกว่าเจ้าไม่ชอบสไตล์ของข้ารั้นหรือ? เป็นไปได้อย่างไรกัน!";
+		close;
+	}
+}
+
+//= Stylist of Lasagna
+//===================================================
+lasagna,134,113,3	script	Stylist#lasagna	4_DR_F_02,{
+	mes "[Lonza]";
+	mes "ถ้าเจ้าเป็นชาว Doram ที่มีแฟชั่นอยู่ในสายเลือดล่ะก็ เชื่อใจข้าได้เลย มาขยับไปตามจังหวะดนตรีกันเถอะ~";
+	next;
+	switch(select("เปลี่ยนสไตล์ของฉัน:จบการสนทนา")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Lonza]";
+		mes "ไม่มีวันที่อากาศแย่สำหรับการแต่งตัวหรอก จริงไหม? สักวันเจ้าต้องยอมเชื่อใจข้าแน่ๆ";
+		mes "ข้าคือ Lonza ผู้ที่จะบันดาลความเป๊ะปังให้เจ้าเอง แวะมาหาข้าได้ทุกเมื่อเลยนะ";
+		close;
+	}
+}
+
+//= Stylist of Rachel
+//===================================================
+ra_in01,186,148,5	script	Stylist#rachel	4_F_MASK1,{
+	mes "[Isop]";
+	mes "เหะๆ ยินดีต้อนรับจ้า ข้าคือ Isop สไตลิสต์ประจำร้าน <Shook Shook-Store> เอง";
+	next;
+	switch(select("เปลี่ยนสไตล์ของฉัน:จบการสนทนา")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Isop]";
+		mes "มีส่วนไหนที่อยากให้ตัดออกไหมจ๊ะ?";
+		close;
+	}
+}
+
+//= Stylist of Yuno
+//===================================================
+yuno_in04,186,21,1	script	Stylist#yuno	4_M_BARBER,{
+	mes "[Maxi]";
+	mes "ยินดีที่ได้รู้จักครับคุณลูกค้า สนใจจะแปลงโฉมกับ Maxi สุดยอดสไตลิสต์แห่ง Schwarzwald คนนี้ดูไหมครับ?";
+	next;
+	switch(select("เปลี่ยนสไตล์ของฉัน:จบการสนทนา")) {
+	case 1:
+		close2;
+		openstylist();
+		end;
+	case 2:
+		mes "[Maxi]";
+		mes "ไว้แวะมาใหม่นะครับ";
+		close;
+	}
+}

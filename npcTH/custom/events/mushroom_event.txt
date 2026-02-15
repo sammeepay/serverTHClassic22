@@ -1,0 +1,73 @@
+//===== rAthena Script ======================================= 
+//= Find the Mushroom
+//===== By: ================================================== 
+//= Mysterious
+//===== Current Version: ===================================== 
+//= 3.6a
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Find the Mushroom - random amount of Mushrooms spawns in random maps.
+//= Players need to find these mushrooms and kill them to gain prizes!
+//===== Additional Comments: =================================
+//= 3.0 Fully Functional with Rewritten script. [Mysterious]
+//= 3.6a Slightly edited. [Euphy]
+//============================================================ 
+
+prontera,142,228,6	script	ตามหาเห็ด	1084,{
+	mes "[ ตามหาเห็ด ]";
+	if (.status == 1) {
+		.@count = mobcount( .event_map$, strnpcinfo(0) + "::OnMobKilled" );
+		if (.@count > 0) {
+			mes "เห็ดเหลืออยู่ " + .@count + " ต้น ในแมพ " + .event_map$ + "!";
+			mes "ตามหาและกำจัดเห็ดเพื่อรับ " + getitemname(.prize) + "!";
+			close;
+		}
+		.event_map$ = "";
+		.status = 0;
+		mes "เห็ดทั้งหมดถูกกำจัดเหรอ?";
+	}
+	mes "ไม่มีกิจกรรมใดๆ ในขณะนี้!";
+	if (.status || getgmlevel() < .GM) close;
+	mes "เริ่มกิจกรรมแล้วเหรอ?";
+	next;
+	if (select("- ไม่:- ใช่") == 1) close;
+	donpcevent strnpcinfo(0) + "::OnMinute10";
+	mes "[ ตามหาเห็ด ]";
+	mes "กิจกรรมเริ่มแล้ว!";
+	close;
+
+OnInit:
+	.prize = 617;	// Reward item ID
+	.amount = 10;	// Reward item amount
+	.GM = 60;		// GM level required to access NPC
+	setarray .maps_list$[0],"izlude","geffen","morocc","prontera"; // Possible maps
+	end;
+
+OnMinute10:	// Start time (every hour)
+	if (.status) end;
+	.status = 1;
+	.@spawn = rand(1,10);	// How many Mushrooms should spawn?
+	.event_map$ = .maps_list$[ rand(getarraysize(.maps_list$)) ];
+	.@label$ = strnpcinfo(0) + "::OnMobKilled";
+	killmonster .event_map$, .@label$;
+	monster .event_map$,0,0,"ขอร้องอย่าฆ่าฉันเลย!",1084,.@spawn, .@label$;
+	announce "ตามหาเห็ด : มีเห็ดทั้งหมด " + .@spawn + " ต้น(ตัว) ที่เกิดขึ้นในแมพ " + .event_map$ + "!",0;
+	sleep 2500;
+	announce "ตามหาเห็ด : เห็ดทุกตัวที่คุณกำจัด จะทำให้คุณได้รับ " + getitemname(.prize) + "!",0;
+	end;
+
+OnMobKilled:
+	if (playerattached() == 0)
+		end;
+	getitem .prize, .amount;
+	.@spawn = mobcount( .event_map$, strnpcinfo(0) + "::OnMobKilled" );
+	if (.@spawn > 0)
+		announce "[ " + strcharinfo(0) + " ] ได้กำจัดเห็ดไปแล้ว ตอนนี้เหลือเห็ดอยู่ " + .@spawn + " ต้น(ตัว)",bc_map;
+	else {
+		announce "กิจกรรมตามหาเห็ดสิ้นสุดลงแล้ว เห็ดทั้งหมดถูกฆ่าหมดแล้ว",0;
+		.status = 0;
+		.event_map$ = "";
+	}
+	end;
+}

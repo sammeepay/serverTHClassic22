@@ -1,0 +1,111 @@
+//===== rAthena Script ======================================= 
+//= Quest NPCs related to Aldebaran 
+//===== By: ================================================== 
+//= rAthena Dev Team
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project; 7.15 +
+//===== Description: ========================================= 
+//= 'Doctor Band', 'Feather Bonnet', 'Opera Masque', 'Sakkat Hat' Quests.
+//===== Additional Comments: ================================= 
+//= Fully working
+//= 1.1 Fixed Doctor Band items [Lupus]
+//= 1.2 Removed Duplicates [Silent]
+//= 1.3 Updated headgear NPC. [L0ne_W0lf]
+//============================================================ 
+
+// 'Doctor Band', 'Feather Bonnet', 'Opera Masque', 'Sakkat Hat' Quest
+//============================================================
+aldeba_in,152,166,4	script	Trader#01	86,{
+	mes "[Trader]";
+	mes "ชายผู้ลึกลับคนนี้คือใครกันนะ?";
+	mes "ตัวฉันผู้เต็มไปด้วยปริศนาและมาดโก้เก๋ 'Trader' อย่างนั้นรึ?";
+	next;
+	mes "[Trader]";
+	mes "เดินทางไปทั่วทวีป Midgard พร้อมกับหมวกที่แสนวิเศษมากมายของเขา? ไม่มีใครล่วงรู้ได้เลย...";
+	next;
+	mes "[Trader]";
+	mes "ด้วยเหตุผลกลใดกันที่ฉันต้องรวบรวมและแลกเปลี่ยนหมวกพวกนี้จากทั่วทุกมุมโลก? เลือกหมวกมาสักใบสิ แล้วจะขยับเข้าใกล้การไขปริศนานี้อีกนิด...";
+	next;
+	mes " (1) ^3355FFDoctor Band^000000:";
+	mes "1 Red Bandana + 50 Irons + 1 Cracked Diamond + 3500 Zeny";
+	mes " (2)^3355FFFeather Bonnet^000000:";
+	mes "1 Romantic Gent + 300 Feather of Birds + 500 Zeny";
+	mes " (3) ^3355FFPhantom of Opera^000000:";
+	mes "20 Iron + 1 Singing Plant + 5000 Zeny ";
+	mes " (4) ^3355FFSakkat^000000:";
+	mes "120 Trunks + 10000 Zeny ";
+	next;
+	switch(select(" Doctor Band : Feather Bonnet : Phantom of Opera : Sakkat ")) {
+	case 1:
+		if ((countitem(2275) > 0) && (countitem(998) > 49) && (countitem(733) > 0) && (Zeny > 3499)) {
+			delitem 2275,1; //Red_Bandana
+			delitem 998,50; //Iron
+			delitem 733,1; //Crystal_Jewel___
+			set Zeny, Zeny-3500;
+			mes "[Trader]";
+			mes "หึ! คุณไม่มีใบประกอบวิชาชีพแพทย์ใช่ไหมล่ะ? ไม่เป็นไรหรอก ฉันเคยได้ยินเรื่องเกี่ยวกับแพทย์เถื่อนไร้ใบอนุญาตที่สร้างปาฏิหาริย์ทางการแพทย์มาแล้ว! แต่... นั่นมันอาจจะเป็นเนื้อหาในหนังสือการ์ตูนก็ได้นะ";
+			next;
+			mes "[Trader]";
+			mes "ช่างมันเถอะ แค่อย่าโดนจับได้ก็พอ";
+			getitem 2273,1; //Doctor_Cap
+			close;
+		}
+		else {
+			mes "[Trader]";
+			mes "คุณนี่นะ~";
+			mes "ไปตรวจสอบเงื่อนไขที่ต้องการมาใหม่อีกรอบสิ";
+			mes "หน้าตาก็ไม่ดูเหมือนคนโง่นะ เพราะงั้นทำตัวให้มันสมเหตุสมผลหน่อยสิเพื่อน";
+			close;
+		}
+	case 2:
+		if ((countitem(2247) > 0) && (countitem(916) > 299) && (Zeny > 499)) {
+			delitem 2247,1; //Oldman's_Romance
+			delitem 916,300; //Feather_Of_Birds
+			set Zeny, Zeny-500;
+			mes "[Trader]";
+			mes "โอ้~! คุณมีรสนิยมทางแฟชั่นที่ดีนะเนี่ย ฉันรู้ว่าคุณลำบากแค่ไหนในการสะสมของพวกนี้ แต่หมวกใบนี้มันคุ้มค่าแน่นอน รับไปสิ ตอนนี้สิ่งที่คุณขาดก็มีแค่เสื้อโค้ทขนสัตว์กับไม้เท้าเท่านั้นแหละ!";
+			getitem 5018,1; //Feather_Bonnet
+			close;
+		}
+		else {
+			mes "[Trader]";
+			mes "คุณนี่นะ~";
+			mes "ไปตรวจสอบเงื่อนไขที่ต้องการมาใหม่อีกรอบ หน้าตาก็ไม่ดูเหมือนคนโง่นะ เอาหน่อยเพื่อน ทำตัวให้มันสมเหตุสมผลหน่อย";
+			close;
+		}
+	case 3:
+		if ((countitem(998) > 19) && (countitem(707) > 0) && (Zeny > 4999)){ //Iron Singing_Plant 
+			delitem 998,20; //Iron
+			delitem 707,1; //Singing_Plant
+			set Zeny, Zeny-5000;
+			mes "[Trader]";
+			mes "ใบนี้เหรอ? มันดูน่ากลัวนิดหน่อยนะ แต่มันก็แฝงไปด้วยความโรแมนติกบางอย่าง คุณคิดว่าไงล่ะ? ชอบไหม? เอาล่ะ รับไปเลย มันเป็นของคุณแล้ว!";
+			getitem 2281,1; //Phantom_Of_Opera
+			close;
+		}
+		else {
+			mes "[Trader]";
+			mes "เจ้าคนเซ่อ ไปตรวจสอบเงื่อนไขที่ต้องการมาใหม่ซะ ^3355FFPhantom of Opera^000000 ไม่ได้จะได้มาง่ายๆ นะ เพราะงั้นเอาหน่อยเพื่อน ทำตัวให้มันสมจริงหน่อย";
+			close;
+		}
+	case 4:
+		if ((countitem(1019) > 119) && (Zeny > 9999)){ //Wooden_Block 
+			delitem 1019,120; //Wooden_Block
+			set Zeny, Zeny-10000;
+			mes "[Trader]";
+			mes "หากคุณมีโอกาสได้ไปเยี่ยมเยียนหมู่บ้านชาวดอย Payon โปรดไปพบกับช่างทำ Sakkat ด้วยนะ";
+			next;
+			mes "[Trader]";
+			mes "เขาไม่เคยขาย Sakkat ให้กับพ่อค้าคนอื่นนอกจากฉันเลย เพราะมีแค่ฉันเท่านั้นที่มองเห็นคุณภาพของมัน ด้วยความหายากนี้ Sakkat จึงกลายเป็นสินค้าที่พิเศษและโดดเด่นมาก โอเค! รับไปเลย มันเป็นของคุณแล้ว!";
+			getitem 2280,1; //Sahkkat
+			close;
+		}
+		else {
+			mes "[Trader]";
+			mes "ไอ้คนทึ่ม~ ตรวจสอบเงื่อนไขที่ต้องการมาใหม่อีกทีสิ เอาหน่อยเพื่อน คุณก็ดูไม่เหมือนคนโง่นะ เพราะงั้นทำตัวให้มันจริงจังหน่อย~";
+			close;
+		}
+	}
+}

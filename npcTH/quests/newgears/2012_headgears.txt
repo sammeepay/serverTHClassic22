@@ -1,0 +1,605 @@
+//===== rAthena Script =======================================
+//= 2012 Headgear Quests
+//===== By: ==================================================
+//= Euphy, -SkittleNugget-
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Enhance gears by synthesizing them with Energy Crystals.
+//===== Additional Comments: =================================
+//= 1.0 First version. [Euphy]
+//=     Script is a little messy, could use some cleaning.
+//============================================================
+
+// Main NPC :: 2012_hat_quest
+//============================================================
+moc_para01,41,169,3	script	Reno#2012hat	64,{
+
+	// iRO มีความแตกต่างของบทสนทนาเล็กน้อยจากสคริปต์ต้นฉบับ
+	// หากต้องการใช้เวอร์ชันของ iRO ให้เอาเครื่องหมายคอมเมนต์ออกจากบรรทัดด้านล่าง
+	//set .@features_iRO,1;
+
+	//custom translation - ตรวจสอบเงื่อนไขทั้งหมดด้านล่าง
+	if (checkweight(1301,1) == 0 || MaxWeight - Weight < 800) {
+		mes "- น้ำหนักสัมภาระมากเกินไป ไม่สามารถดำเนินการต่อได้ -";
+		close;
+	}
+
+	setarray .@type$[0],"ระดับต่ำ","ระดับกลาง","ระดับสูง","ระดับสูงสุด";
+	setarray .@crystal$[0],"Rough","Purified","High";
+
+	// การตรวจสอบเวลาการเล่น (playtime checks)
+	setarray .@quests_playtime[0],5161,5169,5174,5225,5226,5227;
+	for (set .@i,0; .@i<6; set .@i,.@i+1) {
+		if (checkquest(.@quests_playtime[.@i],PLAYTIME) == 2) {
+			erasequest .@quests_playtime[.@i];
+			mes "[Reno]";
+			if (.@i < 3)	// เวลารอคอยของเควสล่ามอนสเตอร์
+				mes "เวลารอคอยสำหรับเควสสะสม "+.@type$[.@i]+" สิ้นสุดลงแล้ว คุณสามารถรับคำร้องใหม่ได้";
+			else        	// เวลารอคอยของบัฟ
+				mes "เวลารอคอยสำหรับการสะสมพลังงาน "+.@crystal$[.@i]+" Energy Crystals สิ้นสุดลงแล้ว คุณสามารถเริ่มสะสมได้อีกครั้ง";
+			close;
+		}
+	}
+
+	// การตรวจสอบเควสล่ามอนสเตอร์ (hunting quest checks)
+	callsub L_CheckHunting,5161,5162,7,.@type$[0],6623,10; //Rough_Energy_Crystal
+	callsub L_CheckHunting,5169,5170,4,.@type$[1],6624,10; //Purified_Energy_Crystal
+	callsub L_CheckHunting,5174,5175,4,.@type$[2],6625,5;  //High_Purity_Energy_Xtal
+	callsub L_CheckHunting,5174,5179,4,.@type$[3],6625,10; //High_Purity_Energy_Xtal
+
+	// การตรวจสอบบัฟ (buff checks)
+	set .@energy_buf00, getstatus(SC_QUEST_BUFF1) + getstatus(SC_QUEST_BUFF2) + getstatus(SC_QUEST_BUFF3);
+	if (!.@energy_buf00) {
+		for (set .@i,0; .@i<3; set .@i,.@i+1) {
+			if (isbegin_quest(.@i + 5222)) {
+				set .@item, 6623 + .@i;
+				set .@amount, 2 + rand(3);
+				mes "[Reno]";
+				mes "การสะสม "+getitemname(.@item)+" เสร็จสมบูรณ์แล้ว";
+				next;
+				setquest 5225 + .@i;
+				erasequest 5222 + .@i;
+				getitem .@item,.@amount;
+				mes "[Reno]";
+				mes "สกัดออกมาได้ ^0000FF"+.@amount+" "+getitemname(.@item)+"^000000";
+				close;
+			}
+		}
+	}
+
+	mes "[Reno]";
+	mes "สวัสดี? ฉันคือ Reno จากสมาคมวิจัยผลึกพลังงาน หรือ ECRA";
+	next;
+	switch(select("ECRA คืออะไร?:เควสเพื่อรับ Energy Crystals:รับบัฟ Energy Crystal:บีบอัด Energy Crystals:แลกเปลี่ยนผลึกเพื่อรับหมวก:สุ่มอุปกรณ์จากผลึก" + ((.@features_iRO)?":ดูรายการอุปกรณ์":""))) {
+	case 1:
+		mes "[Reno]";
+		mes "ECRA คือสถาบันที่วิจัยเกี่ยวกับ '^0000FFEnergy Crystals^000000' ที่จะถูกนำมาใช้เป็นแหล่งพลังงานทางเลือกในอาณาจักร Rune-Midgarts ซึ่งกำลังประสบปัญหาการขาดแคลนพลังงาน";
+		next;
+		select("เหตุผลที่ต้องทำเช่นนี้คือ?");
+		mes "[Reno]";
+		mes "ฉันอยากจะอธิบายว่าเราไม่ได้พยายามหาข้ออ้างเพื่อหลีกเลี่ยงการเผชิญหน้ากับปัญหา ก่อนที่ฉันจะอธิบายเหตุผล ไม่แน่นอน! ดังนั้นได้โปรดฟังฉันให้จบ";
+		next;
+		mes "[Reno]";
+		mes "ทีมวิจัยได้ส่งผลการค้นพบที่พวกเขาเจอมาให้ฉัน";
+		next;
+		mes "[Reno]";
+		mes "Energy Crystals ปรากฏว่าถูก ^0000FFสร้างขึ้นภายในร่างกายของมอนสเตอร์บางชนิด^000000 และจากการวิจัย มอนสเตอร์ที่แข็งแกร่งกว่าจะสร้างผลึกพลังงานระดับที่สูงกว่าในร่างกายของพวกมัน";
+		next;
+		mes "[Reno]";
+		mes "ทีมวิจัยจึงตัดสินใจที่จะเก็บรวบรวม Energy Crystals โดยการยื่นคำร้องต่อเหล่านักผจญภัย พร้อมกับให้รางวัลที่เหมาะสม นั่นทำให้เราสามารถเก็บรวบรวมได้ดีขึ้นและมี ^FF0000ประสิทธิภาพ^000000 มากขึ้น";
+		next;
+		mes "[Reno]";
+		mes "Energy Crystals ที่สะสมผ่านการล่ามอนสเตอร์ตามคำขอของฉัน จะถูกนำไปใช้ในการวิจัย ^0000FFบางส่วนของผลึกเหล่านั้นมีแผนที่จะส่งคืนให้กับเหล่านักผจญภัย^000000";
+		next;
+		mes "[Reno]";
+		mes "นักผจญภัยสามารถใช้ Energy Crystals ที่สะสมได้เพื่อ ^FF0000อัปเกรดอุปกรณ์^000000 ผ่านทางฉัน";
+		next;
+		mes "[Reno]";
+		mes "หากมันไปได้ด้วยดี ก็น่าจะเป็นผลดีต่อทั้ง ECRA และเหล่านักผจญภัย";
+		close;
+	case 2:
+		mes "[Reno]";
+		mes "เควสล่ามอนสเตอร์จะถูกจัดอันดับตามเลเวลของมอนสเตอร์และความยาก โดยมีตั้งแต่ระดับต่ำ, ระดับกลาง, และระดับสูง ซึ่งสามารถทำได้เพียงวันละครั้งเท่านั้น";
+		next;
+
+		setarray .@quest_status[0],
+			isbegin_quest(5162) + isbegin_quest(5163) + isbegin_quest(5164) + isbegin_quest(5165) + isbegin_quest(5166) + isbegin_quest(5167) + isbegin_quest(5168),
+			isbegin_quest(5170) + isbegin_quest(5171) + isbegin_quest(5172) + isbegin_quest(5173),
+			isbegin_quest(5175) + isbegin_quest(5176) + isbegin_quest(5177) + isbegin_quest(5178) + isbegin_quest(5179) + isbegin_quest(5180) + isbegin_quest(5181) + isbegin_quest(5182);
+		setarray .@quest_index[0],5161,5169,5174;
+
+		set .@select, select("การล่าระดับต่ำ [61-80]:การล่าระดับกลาง [80-99]:การล่าระดับสูง [90 ขึ้นไป]:ยกเลิกเควสปัจจุบันของฉัน") - 1;
+		if (.@select < 3) {
+			setarray .@min_level[0],60,80,90,100;
+			if (BaseLevel < .@min_level[.@select]) {
+				mes "[Reno]";
+				mes "ฉันขอโทษด้วย แต่คำร้องสำหรับการสะสมใน"+.@type$[.@select]+"นั้นมีให้สำหรับผู้ที่มีเลเวล "+.@min_level[.@select]+" ขึ้นไปเท่านั้น ดูเหมือนว่าคุณจะยังไม่สามารถทำตามคำร้องนี้ได้";
+				close;
+			}
+			if (.@quest_status[.@select]) {
+				mes "[Reno]";
+				mes "ดูเหมือนว่าคุณกำลังอยู่ในระหว่างการทำคำร้องสะสมใน"+.@type$[.@select]+"อื่นอยู่ หากเควสดูเหมือนจะยากเกินไป... สนใจจะ ^FF0000ยกเลิกคำร้อง^000000 นี้ไหม?";
+				close;
+			}
+			set .@playtime, checkquest(.@quest_index[.@select],PLAYTIME);
+			if (.@playtime == 0 || .@playtime == 1) {
+				mes "[Reno]";
+				mes "ในขณะนี้กำลังรอการอนุมัติคำร้องสะสมใน"+.@type$[.@select]+" งานในแต่ละการสะสมสามารถทำได้เพียงวันละครั้งเท่านั้น"; //custom translation
+				close;
+			}
+			mes "[Reno]";
+			mes "คุณได้เลือกที่จะล่ามอนสเตอร์จากการสะสมใน"+.@type$[.@select]+" หลังจากล่ามอนสเตอร์เหล่านี้แล้ว คุณจะได้รับ "+((.@features_iRO)?"10 ":"")+"^0000FF"+.@crystal$[.@select]+" Energy Crystals^000000 เมื่อคุณกลับมาหาฉัน";
+			next;
+			mes "[Reno]";
+			mes "โปรดเลือกมอนสเตอร์ที่คุณคิดว่าสามารถล่าได้ง่ายจากรายการ";
+			next;
+			switch (.@select) {
+			case 0:
+				set .@quest, select(
+					"[ระดับต่ำ] Requiem",
+					"[ระดับต่ำ] Bathory",
+					"[ระดับต่ำ] Spring Rabbit",
+					"[ระดับต่ำ] Sleeper",
+					"[ระดับต่ำ] Evil Druid",
+					"[ระดับต่ำ] Ground Petite",
+					"[ระดับต่ำ] Clock"
+				);
+				break;
+			case 1:
+				set .@quest, select(
+					"[ระดับกลาง] Siroma",
+					"[ระดับกลาง] Dark Priest",
+					"[ระดับกลาง] Stapo",
+					"[ระดับกลาง] Solider"
+				);
+				break;
+			case 2:
+				set .@quest, select(
+					"[ระดับสูง] Desert Wolf",
+					"[ระดับสูง] Medusa",
+					"[ระดับสูง] Pinguicula",
+					"[ระดับสูง] Majoruros",
+					"[ระดับสูงสุด] Raydric",
+					"[ระดับสูงสุด] Naga",
+					"[ระดับสูงสุด] Ancient Mummy",
+					"[ระดับสูงสุด] Ancient Mimic"
+				);
+				if (.@quest > 4 && BaseLevel < .@min_level[3]) {
+					mes "[Reno]";
+					mes "ฉันขอโทษด้วย แต่คำร้องสำหรับการสะสมระดับสูงสุดนั้นมีให้สำหรับผู้ที่มีเลเวล "+.@min_level[3]+" ขึ้นไปเท่านั้น ดูเหมือนว่าคุณจะยังไม่สามารถทำตามคำร้องนี้ได้";
+					close;
+				}
+				break;
+			}
+			setquest .@quest_index[.@select] + .@quest;
+			mes "[Reno]";
+			mes "คำร้องสำหรับการสะสมมอนสเตอร์ใน"+.@type$[.@select]+"ได้รับการออกให้แล้ว โปรดตรวจสอบรายละเอียดในเอกสารที่ออกให้";
+			close;
+		} else {
+			setarray .@quest_count[0],7,4,8;
+			for (set .@i,0; .@i<3; set .@i,.@i+1) {
+				if (.@quest_status[.@i]) {
+					mes "[Reno]";
+					mes "ตอนนี้คุณอยู่ภายใต้คำร้องของการสะสมใน"+.@type$[.@i]+" หากคุณล้มเลิกในตอนนี้ ประวัติทั้งหมดของคุณจะหายไป คุณต้องการจะยกเลิกจริงๆ หรือ?";
+					next;
+					set .@erase_quest, select("ใช่:ไม่ใช่");
+					switch (.@erase_quest) {
+					case 1:
+						for (set .@quest,.@quest_index[.@i]+1; .@quest<=.@quest_index[.@i]+.@quest_count[.@i]; set.@quest,.@quest+1) {
+							if (isbegin_quest(.@quest))
+								erasequest .@quest;
+						}
+						break;
+					case 2:
+						break;
+					}
+				}
+			}
+			switch (.@erase_quest) {
+			case 0:
+				mes "[Reno]";
+				mes "คุณไม่ได้อยู่ภายใต้คำร้องใดๆ";
+				close;
+			case 1:
+				mes "[Reno]";
+				mes "คำร้องที่เป็นลายลักษณ์อักษรของคุณถูกถอนออกแล้ว";
+				close;
+			case 2:
+				mes "[Reno]";
+				mes "ได้โปรดทำมันต่อไปนะ";
+				close;
+			}
+		}
+	case 3:
+		mes "[Reno]";
+		mes "คุณต้องการสะสม Energy Crystals ไว้ในร่างกายเพื่อรับบัฟหรือไม่?";
+		next;
+		set .@select, select("การสะสม Energy Crystals คืออะไร?:สะสม Rough Energy Crystal:สะสม Purified Energy Crystal:สะสม High Energy Crystal");
+		switch (.@select) {
+		case 1:
+			mes "[Reno]";
+			mes "Energy Crystals จะถูกสะสมในร่างกายของคุณเมื่อคุณล่ามอนสเตอร์ตามที่เราขอ";
+			next;
+			mes "[Reno]";
+			mes "งานวิจัยของเราแสดงให้เห็นว่ามีบางวิธีที่ทำให้มนุษย์สามารถสะสมผลึกพลังงานไว้ในร่างกายในรูปแบบของบัฟได้";
+			next;
+			mes "[Reno]";
+			mes "หากคุณใช้เวลาประมาณ 3 ชั่วโมง คุณจะสามารถได้รับ Energy Crystals ในจำนวนเล็กน้อย ดังนั้นคุณต้องการจะรับบัฟหรือไม่?";
+			close;
+		case 2:
+			set .@playtime, checkquest(5225,PLAYTIME);
+			set .@quest,5222;
+			set .@min_level,60;
+			set .@rate,1;
+			set .@buff, SC_QUEST_BUFF1;
+			break;
+		case 3:
+			set .@playtime, checkquest(5226,PLAYTIME);
+			set .@quest,5223;
+			set .@min_level,80;
+			set .@rate,2;
+			set .@buff, SC_QUEST_BUFF2;
+			break;
+		case 4:
+			set .@playtime, checkquest(5227,PLAYTIME);
+			set .@quest,5224;
+			set .@min_level,90;
+			set .@rate,3;
+			set .@buff, SC_QUEST_BUFF3;
+			break;
+		}
+		if (.@playtime == 0 || .@playtime == 1) {
+			mes "[Reno]";
+			mes "คุณทำสำเร็จไหม? ในขณะที่การสะสม Energy Crystal ชนิดอื่นจะไม่ส่งผลกระทบต่อร่างกายมากนัก แต่การสะสมชนิดเดิมซ้ำอาจทำให้เกิดอันตรายได้"; //custom translation
+			close;
+		}
+		if (BaseLevel < .@min_level) {
+			mes "[Reno]";
+			mes "ด้วยร่างกายแบบนั้น คุณไม่สามารถสะสม "+.@crystal$[.@select-2]+" Energy Crystals ได้ คุณต้องมีเลเวลอย่างน้อย "+.@min_level+" ไม่อย่างนั้นร่างกายของคุณจะได้รับอันตรายในระหว่างกระบวนการ"; //custom translation
+			close;
+		}
+		if (.@energy_buf00) {
+			mes "[Reno]";
+			mes "การสะสม Energy Crystal ได้เริ่มขึ้นแล้ว ฉันขอโทษด้วยแต่มันเป็นไปไม่ได้ที่จะสะสม Energy Crystals สองชนิดพร้อมกัน";
+			close;
+		}
+		if (isbegin_quest(.@quest) > 0) {
+			erasequest .@quest;
+			mes "[Reno]";
+			mes "เกิดข้อผิดพลาดขึ้น ได้โปรดยกโทษให้ฉันสำหรับความไม่สะดวกนี้ด้วย"; //custom translation
+			close;
+		}
+		mes "[Reno]";
+		mes "ต้องใช้เวลา 3 ชั่วโมงเพื่อให้ร่างกายของคุณสะสม "+.@crystal$[.@select-2]+" Energy Crystals ได้ 2 ถึง 4 ชิ้น คุณต้องการเริ่มเลยไหม?";
+		next;
+		if(select("ยกเลิก:เริ่ม") == 1) {
+			mes "[Reno]";
+			mes "ฉันแนะนำให้คุณลองสะสม Energy Crystal เมื่อคุณมีเวลาว่าง";
+			close;
+		}
+		mes "[Reno]";
+		mes "คุณอาจจะรู้สึกเสียวซ่านเล็กน้อย";
+		next;
+		specialeffect2 EF_BASH3D;
+		percentheal .@rate * -5,0;
+		//consumeitem ??; //Keep_Connection_[.@rate]
+		sc_start .@buff,10800000,.@rate;	// Atk/Matk + 5*rate (+5, +10, +15)
+		setquest .@quest;
+		mes "[Reno]";
+		mes "- ปึก -";
+		next;
+		mes "[Reno]";
+		mes "ทุกอย่างดูเหมือนจะเรียบร้อยดี มาเริ่มสะสม "+.@crystal$[.@select-2]+" Energy Crystals กันเถอะ อย่าลืมกลับมาหาฉันหลังจากผ่านไป 3 ชั่วโมงเพื่อรับ "+.@crystal$[.@select-2]+" Energy Crystals นะ";
+		close;
+	case 4:
+		mes "[Reno]";
+		mes "คุณต้องการที่จะบีบอัด Energy Crystals หรือไม่?";
+		next;
+		switch(select("การบีบอัดทำอะไรได้บ้าง?:บีบอัด Rough เป็น Purified Crystal:บีบอัด Purified เป็น High Crystal")) {
+		case 1:
+			mes "[Reno]";
+			mes "คุณสงสัยเกี่ยวกับการบีบอัด Energy Crystal งั้นเหรอ? ฉันสามารถบีบอัดผลึกพลังงานระดับต่ำให้เป็นระดับที่สูงขึ้นได้";
+			next;
+			mes "[Reno]";
+			mes "นี่คือสิ่งที่ฉันสามารถทำได้";
+			mes "^FF000010 Rough Energy Crystals^000000 = ^FF00001 Purified Energy Crystal^000000";
+			mes "^FF00005 Purified Energy Crystals^000000 = ^FF00001 High Energy Crystal^000000";
+			next;
+			mes "[Reno]";
+			mes "หากคุณต้องการผลึกพลังงานเกรดที่สูงขึ้น นี่เป็นวิธีที่ดีในการได้รับมัน เนื่องจากระดับที่ต่ำกว่านั้นหาได้ง่ายกว่า";
+			close;
+		case 2:
+			set .@crystal,6623;  //Rough_Energy_Crystal
+			set .@crystal_,6624; //Purified_Energy_Crystal
+			set .@rate,10;
+			break;
+		case 3:
+			set .@crystal,6624;  //Purified_Energy_Crystal
+			set .@crystal_,6625; //High_Purity_Energy_Xtal
+			set .@rate,5;
+			break;
+		}
+		set .@crystal_count, countitem(.@crystal);
+		set .@crystal_get, .@crystal_count / .@rate;
+		mes "[Reno]";
+		mes sprintf("^FF0000%d %s^000000 = ^FF00001 %s^000000",.@rate,getitemname(.@crystal),getitemname(.@crystal_));
+		next;
+		mes "[Reno]";
+		mes sprintf("%d %s จะถูกบีบอัดเป็น %d %s",.@crystal_count,getitemname(.@crystal),.@crystal_get,getitemname(.@crystal_));
+		mes "คุณต้องการจะบีบอัดเลยหรือไม่?";
+		next;
+		if(select("บีบอัด:หยุด") == 2) {
+			mes "[Reno]";
+			mes "ตกลง โปรดติดต่อมาหากคุณต้องการฉันในอนาคต";
+			close;
+		}
+		while(1) {
+			if (.@crystal_count >= .@rate) {  //custom translation
+				delitem .@crystal,.@rate;
+				getitem .@crystal_,1;
+				set .@crystal_count, countitem(.@crystal);
+				set .@crystal_get, .@crystal_count / .@rate;
+				mes "[Reno]";
+				mes "การบีบอัดประสบความสำเร็จอย่างมาก";
+				mes "เหลือ Energy Crystals อีก "+.@crystal_count+" ชิ้น ซึ่งสามารถบีบอัดได้อีก "+.@crystal_get+" ชิ้น คุณต้องการทำต่อหรือไม่?";
+				next;
+				if(select("บีบอัด:หยุด") == 2)
+					break;
+			} else {
+				mes "[Reno]";
+				mes "คุณมี "+getitemname(.@crystal)+" ไม่เพียงพอ";
+				next;
+				break;
+			}
+		}
+		mes "[Reno]";
+		mes "การบีบอัดเสร็จสมบูรณ์";
+		close;
+	case 5:
+		disable_items;
+		mes "[Reno]";
+		mes "คุณต้องการแลกเปลี่ยน Energy Crystals เพื่อรับอุปกรณ์ใช่หรือไม่? โปรดเลือกประเภทของ Energy Crystal ที่คุณต้องการแลกเปลี่ยน";
+		next;
+		setarray .@crystals[0], countitem(6623), countitem(6624), countitem(6625);
+		switch(select("ดูรายการอุปกรณ์: ["+.@crystals[0]+"] Rough Energy Crystal:["+.@crystals[1]+"] Purified Energy Crystal:["+.@crystals[2]+"] High Energy Crystal")) {
+		case 1:
+			mes "[Reno]";
+			mes "นี่คือโบรชัวร์เกี่ยวกับการอัปเกรดอุปกรณ์ที่สมาคมวิจัยผลึกพลังงานของเราจัดหาให้ เชิญชมได้เลย";
+			close2;
+			readbook 11060,1; //Energy_Xtal_Combi_Book
+			end;
+
+		// คำอธิบายตัวแปร
+		// .@crystal     : Energy Crystal ที่ใช้
+		// .@materials[] : อุปกรณ์ที่จะอัปเกรด
+		// .@showslot[]  : แสดงช่องใส่การ์ดพร้อมชื่ออุปกรณ์ (-1 เพื่อปิด)
+		// .@costs[]     : จำนวน Energy Crystals ที่ต้องใช้
+		// .@rewards[]   : อุปกรณ์ที่อัปเกรดแล้ว
+		case 2:
+			set .@crystal,6623; //Rough_Energy_Crystal
+			setarray .@materials[0], 5027, 5045, 5069, 5003, 2214, 5167, 5168, 5043;
+			setarray .@showslot[0],    -1,   -1,   -1,   -1,   -1,    1,    1,   -1;
+			setarray .@costs[0],      100,  100,  100,  100,  100,  100,  100,  100;
+			setarray .@rewards[0],  18760,18761,18762,18763,18764,18769,18770,18771;
+			break;
+		case 3:
+			set .@crystal,6624; //Purified_Energy_Crystal
+			setarray .@materials[0], 2296, 5014, 5096, 2292,2615, 2355,2116, 2420, 2521, 5125;
+			setarray .@showslot[0],    -1,   -1,   -1,   -1,  -1,    1,   1,    1,    1,    1;
+			setarray .@costs[0],      200,  200,  200,  200, 200,  100, 100,  100,  100,  100;
+			setarray .@rewards[0],  18772,18773,18774,18775,2956,15068,2183,22015,20710,18776;
+			break;
+		case 4:
+			set .@crystal,6625; //High_Purity_Energy_Xtal
+			setarray .@materials[0], 5019, 5162, 5025, 5022, 5353, 2423,2678,2679, 2355,2116, 2420, 2521, 5125;
+			setarray .@showslot[0],    -1,    1,   -1,    0,    1,   -1,  -1,  -1,    1,   1,    1,    1,    1;
+			setarray .@costs[0],      300,  300,  300, 1000,  100,  300, 300, 300,   20,  20,   20,   20,   20;
+			setarray .@rewards[0],  18765,18768,18766,18767,18767,22014,2957,2958,15068,2183,22015,20710,18776;
+			break;
+		}
+		mes "[Reno]";
+		mes "โปรดเลือกอุปกรณ์ที่จะแลกเปลี่ยนด้วย "+getitemname(.@crystal);
+		next;
+		set .@crystal_count, countitem(.@crystal);
+		set .@menu$,"";
+		for (set .@i,0; .@i<getarraysize(.@materials); set .@i,.@i+1) {
+			set .@item_name$, getitemname(.@materials[.@i]) + ((.@showslot[.@i] > -1)?"["+.@showslot[.@i]+"]":"");
+			set .@menu$, .@menu$ + sprintf("%s (%d/%d):",.@item_name$,.@crystal_count,.@costs[.@i]);
+		}
+		set .@index, select(.@menu$) - 1;
+		set .@material, .@materials[.@index];
+		set .@item_name$, getitemname(.@material) + ((.@showslot[.@index] > -1)?"["+.@showslot[.@index]+"]":"");
+		set .@cost, .@costs[.@index];
+		set .@reward, .@rewards[.@index];
+
+		//custom translations
+		if (.@material == 2615) {  // กรณีพิเศษ: Safety Ring
+			if (countitem(2615) < 1 || countitem(2621) < 1 || countitem(2622) < 1 || countitem(2624) < 1 ||
+			    countitem(2625) < 1 || countitem(2623) < 1 || countitem(2626) < 1 || countitem(.@crystal) < .@cost) {
+				mes "[Reno]";
+				mes "วัตถุดิบในการสร้าง Safety Ring[1] ไม่เพียงพอ โปรดตรวจสอบในกระเป๋าสัมภาระของคุณ";
+				close;
+			}
+			mes "[Reno]";
+			mes "ก่อนจะอัปเกรด Safety Ring ของคุณ โปรดฟัง ^FF0000ข้อควรระวัง^000000 เหล่านี้ด้วย";
+			next;
+			mes "[Reno]";
+			mes "^FF0000นอกจาก Safety Ring แล้ว ระดับการตีบวกและการ์ดทั้งหมดของวัตถุดิบที่ต้องใช้ก็จะหายไปด้วย^000000";
+			next;
+		} else {
+			if (countitem(.@material) < 1 || countitem(.@crystal) < .@cost) {
+				mes "[Reno]";
+				mes "วัตถุดิบไม่เพียงพอ โปรดตรวจสอบวัตถุดิบของคุณ";
+				close;
+			}
+			mes "[Reno]";
+			mes "ก่อนจะอัปเกรดอุปกรณ์ของคุณ โปรดฟัง ^FF0000ข้อควรระวัง^000000 เหล่านี้ด้วย";
+			next;
+			mes "[Reno]";
+			mes "^FF0000เมื่อใช้ Energy Crystals ในการอัปเกรดอุปกรณ์ ระดับการตีบวกเดิม, ออฟชั่น และการ์ดทั้งหมดจะหายไป^000000";
+			next;
+		}
+		mes "[Reno]";
+		mes "คุณรับทราบ ^FF0000ข้อควรระวัง^000000 แล้วใช่ไหม?";
+		next;
+		if(select("ฉันรับทราบ:ไม่") == 2) {
+			mes "[Reno]";
+			mes "ตกลง ไว้โอกาสหน้าแล้วกัน";
+			close;
+		}
+		mes "[Reno]";
+		mes "ถ้าอย่างนั้นเรามาเริ่มอัปเกรด "+.@item_name$+" กันเถอะ";
+		next;
+		specialeffect2 EF_REPAIRWEAPON;
+		progressbar "ffff00",2;
+		delitem .@material,1;
+		if (.@material == 2615) {
+			delitem 2621,1; //Ring_
+			delitem 2622,1; //Earring_
+			delitem 2624,1; //Glove_
+			delitem 2625,1; //Brooch_
+			delitem 2623,1; //Necklace_
+			delitem 2626,1; //Rosary_
+		}
+		delitem .@crystal,.@cost;
+		getitem .@reward,1;
+		mes "[Reno]";
+		mes "การอัปเกรดประสบความสำเร็จ Energy Crystals ของคุณจะช่วยในงานวิจัยของเราได้มาก";
+		close;
+	case 6:
+		mes "[Reno]";
+		mes "คุณต้องการบริจาค Energy Crystals เพื่อรับหมวกแฟชั่นชิ้นใหม่แบบสุ่มหรือไม่?";
+		next;
+		switch(select("บริจาค Energy Crystals?:บริจาค 300 Rough Energy Crystals:บริจาค 600 Purified Energy Crystals:บริจาค 900 High Energy Crystals")) {
+		case 1:
+			mes "[Reno]";
+			mes "เรากำลังเก็บรวบรวม Energy Crystals เพื่อให้สามารถวิจัยการผสมหมวกแฟชั่นรูปแบบต่างๆ ให้แก่นักผจญภัยได้มากขึ้น";
+			next;
+			mes "[Reno]";
+			mes "ขอบคุณสำหรับการสนับสนุนจากนักผจญภัย เราสามารถใช้ Energy Crystals เหล่านี้เพื่อพัฒนางานวิจัยของเราต่อไปได้";
+			next;
+			mes "[Reno]";
+			mes "โดยเราจะรับบริจาคขั้นต่ำที่ 300 Rough Energy Crystals, 600 Purified Energy Crystals, และ 900 High Energy Crystals";
+			if (!.@features_iRO) {
+				next;
+				mes "[Reno]";
+				mes "คุณอาจรู้สึกว่าเป็นภาระ แต่เพื่อเห็นแก่งานวิจัยของเรา ได้โปรดสนับสนุนเราต่อไปด้วย"; //custom translation
+				close;
+			}
+			mes "สำหรับการบริจาค ฉันจะมอบหมวกแฟชั่นชิ้นใหม่แบบสุ่มให้คุณ";
+			next;
+			mes "[Reno]";
+			mes "300 Rough Energy Crystals";
+			mes "- New Mage Hat";
+			mes "- New Magician Hat";
+			mes "- New Kitsune Mask";
+			mes "- New Joker Jester";
+			mes "- New Bunny Band";
+			mes "- New Munak Hat";
+			mes "- New Bongun Hat";
+			mes "- New Phantom Opera Mask";
+			next;
+			mes "[Reno]";
+			mes "600 Purified Energy Crystals";
+			mes "- Good Binoculars";
+			mes "- Good Fin Helm";
+			mes "- Good Assassin Mask";
+			mes "- Good Welding Mask";
+			mes "- Good Safety Ring";
+			mes "- Good Angelic Protection";
+			mes "- Good Angelic Guard";
+			mes "- Good Angelic Cardigan";
+			mes "- Good Angel's Reincarnation";
+			next;
+			mes "[Reno]";
+			mes "900 High Energy Crystals";
+			mes "- Enhanced Corsair";
+			mes "- Enhanced Bone Helm";
+			mes "- Enhanced Helm of Angel";
+			mes "- Enhanced Variant Shoes";
+			mes "- Enhanced Ring of Flame Lord";
+			mes "- Enhanced Ring of Resonance";
+			close;
+		case 2:
+			if (countitem(6623) < 300) {
+				mes "[Reno]";
+				mes "ขอบคุณสำหรับการสนับสนุน แต่เราต้องการ 300 Rough Energy Crystals";
+				close;
+			}
+			delitem 6623,300; //Rough_Energy_Crystal
+			set .@r, rand(1,17);
+			     if (.@r <= 2)  getitem 18760,1; //Remodel_Wizardry_Hat
+			else if (.@r <= 4)  getitem 18761,1; //Remodel_Magician_Hat
+			else if (.@r <= 6)  getitem 18762,1; //Remodel_Mask_Of_Fox
+			else if (.@r <= 8)  getitem 18763,1; //Remodel_Joker_Jester
+			else if (.@r <= 10) getitem 18764,1; //Remodel_Bunny_Band
+			else if (.@r <= 13) getitem 18769,1; //Remodel_Munak_Turban
+			else if (.@r <= 16) getitem 18770,1; //Remodel_Bongun_Hat
+			else                getitem 18771,1; //Remodel_Opera_Mask
+			break;
+		case 3:
+			if (countitem(6624) < 600) {
+				mes "[Reno]";
+				mes "ขอบคุณสำหรับการสนับสนุน แต่เราต้องการ 600 Purified Energy Crystals";
+				close;
+			}
+			delitem 6624,600; //Purified_Energy_Crystal
+			set .@r, rand(1,18);
+			     if (.@r <= 3)  getitem 18772,1; //Improved_Binoculars
+			else if (.@r <= 6)  getitem 18773,1; //Improved_Fin_Helm
+			else if (.@r <= 9)  getitem 18774,1; //Improved_Assassin_Mask
+			else if (.@r <= 12) getitem 18775,1; //Improved_Welding_Mask
+			else if (.@r <= 13) getitem 2956,1;  //Safety_Ring_
+			else if (.@r <= 14) getitem 15068,1; //Im_Angel's_Protection
+			else if (.@r <= 15) getitem 2183,1;  //Impr_Angel's_Safeguard
+			else if (.@r <= 16) getitem 22015,1; //Impr_Angel's_Arrival
+			else if (.@r <= 17) getitem 20710,1; //Impr_Angel's_Warmth
+			else                getitem 18776,1; //Improved_Kiss_Of_Angel
+			break;
+		case 4:
+			if (countitem(6625) < 900) {
+				mes "[Reno]";
+				mes "ขอบคุณสำหรับการสนับสนุน แต่เราต้องการ 900 High Energy Crystals";
+				close;
+			}
+			delitem 6625,900; //High_Purity_Energy_Xtal
+			set .@r, rand(1,33);
+			     if (.@r <= 10) getitem 18765,1; //Enhanced_Corsair
+			else if (.@r <= 20) getitem 18768,1; //Enhanced_Bone_Helm
+			else if (.@r <= 25) getitem 18766,1; //Enhanced_Helm_Of_Angel
+			else if (.@r <= 30) getitem 22014,1; //Enhanced_Variant_Shoes
+			else if (.@r <= 31) getitem 2957,1;  //Good_Ring_Of_Flame_Lord
+			else                getitem 2958,1;  //Good_Ring_Of_Resonance
+			break;
+		}
+		mes "[Reno]";
+		mes "ขอบคุณมาก Energy Crystals ที่คุณบริจาคจะมีประโยชน์อย่างมากต่องานวิจัยของเรา นี่คือรางวัลสำหรับการบริจาคของคุณ"; //custom translation
+		close;
+	case 7:  // iRO เท่านั้น
+		mes "[Reno]";
+		mes "นี่คือโบรชัวร์เกี่ยวกับการอัปเกรดอุปกรณ์ที่สมาคมวิจัยผลึกพลังงานของเราจัดหาให้ เชิญชมได้เลย";
+		close2;
+		readbook 11060,1; //Energy_Xtal_Combi_Book
+		end;
+	}
+
+//callsub L_CheckHunting,<quest index>,<start quest>,<number of quests>,"<type>",<reward id>,<reward amount>;
+L_CheckHunting:
+	for (set .@quest,getarg(0)+1; .@quest<getarg(1)+getarg(2); set .@quest,.@quest+1) {
+		if (checkquest(.@quest,HUNTING) == 2) {
+			mes "[Reno]";
+			mes "เสร็จสิ้นเควสล่าสะสมใน"+getarg(3);
+			next;
+			setquest getarg(0);
+			erasequest .@quest;
+			getitem getarg(4),getarg(5);
+			mes "คุณได้รับ "+getarg(5)+" "+getitemname(getarg(4))+" เป็นรางวัลสำหรับการสะสมใน"+getarg(3);
+			close;
+		}
+	}
+	return;
+}

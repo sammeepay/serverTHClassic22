@@ -1,0 +1,121 @@
+//===== rAthena Script =======================================
+//= Acolyte Skill Quest
+//===== By: ==================================================
+//= kobra_k88
+//===== Current Version: =====================================
+//= 1.8
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Quest for skills: Holy Light
+//===== Additional Comments: ================================= 
+//= 1.5 Rescripted to Aegis 10.3 stadards. [L0ne_W0lf]
+//= 1.6 Fixed a typo in job check. (Bugreport:1531) [L0ne_W0lf]
+//= 1.7 Updated to latest available official file. [Masao]
+//= 1.8 Fixed JobLevel requirements. [Euphy]
+//============================================================
+
+prt_church,173,23,4	script	Cleric	79,{
+	mes "[Acolyte Klift]";
+	mes "อา... เหล่าพี่น้องของข้า! ภารกิจใน";
+	mes "การดูแลเหล่าแกะที่หลงทางนั้นทำให้";
+	mes "ท่านรู้สึกหนักอึ้งและเหนื่อยล้าบ้างไหม?";
+	mes "ข้ามาที่นี่เพื่อช่วยเหลือท่าน";
+	next;
+	switch (select("^3355FF' เกี่ยวกับความสามารถที่ซ่อนอยู่ของ acolyte '^000000 ..:^3355FF' การฝึกฝน Holy light '^000000:จบการสนทนา")) {
+	case 1:
+		mes "[Acolyte Klift]";
+		mes "เหล่าสมาชิกในคณะนักบวชของเรา";
+		mes "จะเรียนรู้ทักษะตามธรรมชาติ";
+		mes "เมื่อพวกเขามีความชำนาญมากขึ้น เมื่อพวกเขา";
+		mes "เข้าใกล้ช่วงปีที่อาวุโสขึ้นในฐานะ acolyte";
+		mes "ทักษะพิเศษนี้ก็จะปรากฏขึ้น";
+		next;
+		mes "[Acolyte Klift]";
+		mes "เมื่อต้องเผชิญกับอันตรายครั้งใหญ่และการ";
+		mes "ต่อสู้กับความชั่วร้ายที่ไม่มีวันสิ้นสุด";
+		mes "พี่น้องของเราจำเป็นต้องได้รับความช่วยเหลืออย่างมาก";
+		mes "^3355FF' Holy Light '^000000 คือทักษะที่ว่านั้น";
+		mes "การที่จะได้รับความสามารถนี้มาด้วยตัวท่านเอง";
+		mes "จำเป็นต้องอาศัยความพยายามเสียหน่อย";
+		next;
+		mes "[Acolyte Klift]";
+		mes "ในการเรียนรู้ทักษะนี้ ท่านต้องหาไอเทมเหล่านี้มา";
+		mes "^FF3355Opal 1 ชิ้น^000000";
+		mes "^FF3355Crystal Blue 1 ชิ้น^000000";
+		mes "^FF3355Rosary 1 ชิ้น^000000 ";
+		next;
+		mes "[Acolyte Klift]";
+		mes "เพื่อที่จะสามารถใช้งานทักษะนี้ได้";
+		mes "ท่านจะต้องมีประสบการณ์ที่เพียงพอเสียก่อน";
+		mes "^FF3355Job Level 30^000000";
+		mes "คือระดับที่ต้องการเพื่อเรียนรู้ทักษะนี้";
+		next;
+		mes "[Acolyte Klift]";
+		mes "สำหรับ priest นั้น เนื่องจากพวกเขามี";
+		mes "ประสบการณ์ที่มากมายอยู่แล้ว";
+		mes "พวกเขาจึงสามารถรับทักษะนี้ได้ใน";
+		mes "Job Level ใดก็ได้";
+		close;
+	case 2:
+		if (getskilllv("AL_HOLYLIGHT") == 1) {
+			mes "[Acolyte Klift]";
+			mes "ท่านพี่น้อง ท่านได้ครอบครอง";
+			mes "ทักษะ ` Holy Light ' อยู่แล้ว";
+			mes "ท่านไม่สามารถรับทักษะที่ท่าน";
+			mes "มีอยู่แล้วได้อีก ..";
+			mes "ข้าขอภาวนาให้ท่านใช้ทักษะนี้";
+			mes "เพื่อวิถีทางแห่งความดี . .";
+			close;
+		}
+		if ((countitem(727) > 0) && (countitem(991) > 0) && (countitem(2608) > 0) && (JobLevel > 29 || (BaseJob == Job_Priest || BaseJob == Job_Monk)) && (BaseClass == Job_Acolyte)) {
+			mes "[Acolyte Klift]";
+			mes "ศรัทธาของท่านได้รับการพิสูจน์แล้วว่าคู่ควร";
+			mes "ที่จะได้รับทักษะ ' Holy Light '";
+			mes "ทักษะของท่านนั้นเหมาะสมแล้ว";
+			mes "ที่จะใช้งานมัน";
+			mes "จงใช้มันอย่างชาญฉลาด . . .";
+			next;
+			delitem 727,1; //White_Jewel
+			delitem 991,1; //Crystal_Blue
+			delitem 2608,1; //Rosary
+			skill "AL_HOLYLIGHT",1,SKILL_PERM;
+			mes "[Acolyte Klift]";
+			mes "ตอนนี้ท่านรู้จัก ' Holy Light ' แล้ว";
+			mes "ขอให้ท่านใช้ทักษะนี้ในทางที่";
+			mes "เหมาะสมที่สุดเท่านั้น . . . . .";
+			close;
+		}
+		mes "[Acolyte Klift]";
+		mes "โอ้ มันชัดเจนมาก . . .";
+		mes "ท่านยังไม่พร้อมที่จะ";
+		mes "รับทักษะ ' Holy Light ' ในตอนนี้";
+		next;
+		mes "[Acolyte Klift]";
+		mes "ท่านควรฟังอย่างตั้งใจว่าสิ่งใดบ้าง";
+		mes "ที่จำเป็นสำหรับทักษะนี้";
+		mes "หากท่านฟังให้ดี";
+		mes "ท่านอาจจะรู้ว่าท่านยังขาดสิ่งใดไป";
+		mes "เพื่อที่ท่านจะได้พัฒนาตนเองให้ดีขึ้น";
+		close;
+	case 3:
+		mes "[Acolyte Klift]";
+		mes ". . . . .";
+		mes "ข้าเข้าใจในความกระตือรือร้นของท่าน";
+		mes "ท่านยังมีเวลาอีกมากที่จะ";
+		mes "ฝึกฝนและเก็บเกี่ยวประสบการณ์";
+		mes "ขออวยพรแก่ท่าน . . . . .";
+		close;
+	}
+}
+
+//============================================================ 
+// Old changelog
+//============================================================ 
+//= 1.0a Now using functions found in "Global_Functions.txt"
+//=     for class checks.
+//= 1.2 Added Baby Class Support [Lupus]
+//= 1.3 Removed callfunc Is_####_Class in favor of baseClass [Silentdragon]
+//= 1.4 Fixed an exploit [Lupus]
+//= 1.4a changed perm. variables to temp ones [Lupus]
+//============================================================

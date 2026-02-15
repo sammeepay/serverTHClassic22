@@ -1,0 +1,876 @@
+//===== rAthena Script ======================================= 
+//= God Item Quest - Item Creation
+//===== By: ================================================== 
+//= SinSloth
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Craft god items after the four seals are broken.
+//===== Additional Comments: =================================
+//= 1.0 First version. Thanks to SinSloth for scripting it. [MasterOfMuppets]
+//= 1.1 Updated several aspects of the script. [L0ne_W0lf]
+//= 1.2 Corrected several incorrect item IDs. [L0ne_W0lf]
+//= 1.3 Renewal script update. [Euphy]
+//=     Added GM management function.
+//============================================================
+
+gld_dun01,28,85,0	script	Grunburti#1::GodDwarf	826,{
+	mes "[Dwarf Grunburti]";
+	mes "มนุษย์งั้นรึ?!";
+	mes "ดินแดนแห่งนี้เต็มไปด้วย";
+	mes "พวกพ้องของเจ้า";
+	mes "อะไรพาเจ้ามาที่นี่กัน?";
+	next;
+	mes "[Dwarf Grunburti]";
+	mes "การอาศัยอยู่ใน Midgard และห่างไกลจาก";
+	mes "บ้านเกิดของข้านั้นมันเจ็บปวดมากพออยู่แล้ว อย่าให้ข้าต้องมาเจอพวกมนุษย์ขี้แยเลย";
+	mes "ไปให้พ้นหน้าข้าซะ!";
+	next;
+	switch(select("ถามเขาเรื่องคนแคระ:ถามเขาว่ากำลังทำอะไรอยู่:ขอให้สร้างอาวุธ:ยกเลิก")) {
+	case 1:
+		mes "[Dwarf Grunburti]";
+		mes "มีอะไรที่น่ารู้เกี่ยวกับคนแคระงั้นรึ?";
+		mes "พวกเราคือเผ่าพันธุ์ที่ทรหดที่สุด ไม่ว่าอย่างไรก็ตาม พวกเราสามารถอาศัยอยู่ที่ไหนก็ได้ ไม่ว่า";
+		mes "สภาพแวดล้อมจะโหดร้ายเพียงใดก็ตาม";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ข้าสงสัยเหลือเกินว่าสติปัญญาอันน้อยนิดของเจ้าจะเข้าใจได้หรือไม่ว่ามันยากจะทนทานเพียงใด";
+		mes "หากเจ้าต้องไปอยู่ในบ้านเกิดของข้า แต่เจ้าจะลองดูก็ได้นะ";
+		mes "ลองจินตนาการดูสิ";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ความรู้และทักษะส่วนใหญ่ที่พวกเจ้ามนุษย์ภาคภูมิใจกันนักหนา ส่วนใหญ่น่าจะถูกสืบทอดมาจากพวกคนแคระทั้งนั้น";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "โดยเฉพาะอย่างยิ่งในเรื่องของ";
+		mes "การตีเหล็ก แม้แต่เครื่องมือและอาวุธของเหล่าทวยเทพก็ถูกสร้างขึ้นโดยบรรพบุรุษของข้า เจ้าไม่รู้รึไง?";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "พวกเรามีความรู้และทักษะที่ยิ่งใหญ่ที่สุด แต่ก็ได้ยอมรับในโชคชะตาที่ต้องอาศัยอยู่ในดินแดนอันหนาวเหน็บและแห้งแล้งของพวกยักษ์";
+		close;
+	case 2:
+		mes "[Dwarf Grunburti]";
+		mes "เจ้าเพิ่งถามว่าข้ามาทำอะไรที่นี่งั้นรึ? มว้าฮ่าฮ่าฮ่า! ข้าก็กำลังรอพวกมนุษย์หน้าโง่ที่หลง";
+		mes "เข้ามาที่นี่ ข้าจะได้เตะก้นพวกมันไงล่ะ!";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "โอ้ ไม่ต้องกังวลไป ข้าคงจะอับอายขายหน้าเปล่าๆ ถ้าต้องไปสู้กับพวกอ่อนแออย่างเจ้า มนุษย์น่ะช่างเปราะบางเหลือเกิน แต่พวกเขากลับยึดติดกับความทะนงตนและเอาแต่ต่อสู้";
+		mes "กันเอง";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ในฐานะเผ่าพันธุ์ พวกเจ้ามันช่างสิ้นหวัง ข้าไม่อยากจะอยู่ทวีปเดียวกับมนุษย์ด้วยซ้ำ! แต่พับผ่าสิ ข้าไม่มีทางเลือก";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "เส้นทางกลับบ้านเกิดของข้า";
+		mes "ได้หายไปหลังจากสงครามเมื่อ 1,000 ปีก่อน ไม่ว่าอย่างไรก็ตาม ข้าไม่สามารถหาทางผ่านต้นไม้ Yggdrasil เพื่อกลับไปได้อีกแล้ว...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ข้าติดอยู่ที่นี่ใน Midgard";
+		mes "แต่อย่างน้อยข้าก็โชคดีพอที่ได้พบถ้ำแห่งนี้ เพราะพวกคนแคระอย่างเราจะรู้สึกสบายใจที่สุดเมื่อได้อาศัยอยู่ใต้ดิน";
+		close;
+	case 3:
+		set .@GID,getcharid(2);
+		if (($God1 < $@god_check2) || ($God2 < $@god_check2) || ($God3 < $@god_check2) || ($God4 < $@god_check2)){
+			if (($God1 >= $@god_check1) && ($God2 >= $@god_check1) && ($God3 >= $@god_check1) && ($God4 >= $@god_check1) && (is_guild_leader() == true)) {
+				mes "[Dwarf Grunburti]";
+				mes "หืมมม...";
+				mes "ข้าต้องการวัตถุดิบบางอย่างเพื่อสร้างอาวุธให้เจ้า เจ้าสนใจอยากจะได้อะไรล่ะ?";
+				next;
+				switch(select("Brisingamen:Megingjard:Sleipnir:Mjolnir")) {
+				case 1:
+					mes "[Dwarf Grunburti]";
+					mes "ข้าต้องการ...";
+					mes "^0000FF4 Freya's Jewel";
+					mes "4 Silver Ornament";
+					mes "3 Snow Crystal";
+					mes "3 Ripple";
+					mes "3 Drifting Air";
+					mes "2 Sapphire";
+					mes "3 Pearl";
+					mes "10 Opal";
+					mes "5 Cursed Ruby";
+					mes "20 Gold^000000";
+					mes "1 Necklace^000000...";
+					next;
+					mes "[Dwarf Grunburti]";
+					mes "อย่างไรก็ตาม เวลาที่ข้าจะสร้าง Brisingamen นี้ยังมาไม่ถึง เจ้าต้องรอจนกว่าผนึกจะถูกคลายออก มว้าฮ่าฮ่าฮ่า!";
+					close;
+				case 2:
+					mes "[Dwarf Grunburti]";
+					mes "ข้าต้องการ...";
+					mes "^0000FF1 Gleipnir";
+					mes "20 Gold";
+					mes "10 Sapphire";
+					mes "10 Oridecon";
+					mes "1 Belt^000000";
+					next;
+					mes "[Dwarf Grunburti]";
+					mes "อย่างไรก็ตาม ผนึกของ Megingjard ยังไม่ถูกคลายออก จนกว่าจะถึงตอนนั้น เจ้าต้องรอต่อไป! บว้าฮ่าฮ่าฮ่า!";
+					close;
+				case 3:
+					mes "[Dwarf Grunburti]";
+					mes "ข้าต้องการ...";
+					mes "^0000FF3 Wheel of the Unknown";
+					mes "5 Feather of Angel Wing";
+					mes "3 Sprit of Fish";
+					mes "4 Amblem of the Sun God";
+					mes "3 Breath of Spirit";
+					mes "20 Gold";
+					mes "10 Elunium";
+					mes "1 Slotted Boots^000000";
+					next;
+					mes "[Dwarf Grunburti]";
+					mes "แต่ถึงอย่างนั้น ข้าก็ไม่สามารถสร้าง Sleipnir ได้จนกว่าผนึกจะถูกทำลายลง ไม่อย่างนั้นเจ้าก็คงไม่มีดวงแล้วล่ะ เจ้ามนุษย์ ฮ่าฮ่า~!";
+					close;
+				case 4:
+					mes "[Dwarf Grunburti]";
+					mes "ข้าต้องการ...";
+					mes "^0000FF2 Thor's Gauntlets";
+					mes "4 Iron Maiden";
+					mes "5 Wrath of Valkyrie";
+					mes "5 Omen of Tempest";
+					mes "5 Billow";
+					mes "20 Oridecon";
+					mes "5 Elunium";
+					mes "40 Gold";
+					mes "1 Stunner^000000";
+					next;
+					mes "[Dwarf Grunburti]";
+					mes "แต่ข้าไม่สามารถสร้างแม้แต่ของเลียนแบบของ Mjolnir ได้ หากผนึกยังคงอยู่ จนกว่าพวกมันจะถูกคลายออก เจ้าก็ได้แต่ต้องรอต่อไป บว้าฮ่าฮ่า!";
+					close;
+				}
+			} 
+			mes "[Dwarf Grunburti]";
+			mes "พวกคนแคระอย่างเรามีศักดิ์ศรีเกินกว่าจะแสดงทักษะให้พวกมนุษย์ชั้นต่ำดู!";
+			next;
+			mes "[Dwarf Grunburti]";
+			mes "เลิกมารบกวนข้าแล้วออกไปจากที่นี่ซะ! ไปเล่นกับพวกมอนสเตอร์นู่นไป๊ เจ้าคนโง่เง่าไร้หัวคิด!";
+			close;
+		}
+		if (is_guild_leader() == false) {
+			mes "[Dwarf Grunburti]";
+			mes "ข้าจะแสดงทักษะ";
+			mes "อันยอดเยี่ยมของข้า";
+			mes "ให้แก่มนุษย์ที่มีฐานะ";
+			mes "สูงส่งจริงๆ เท่านั้น!";
+			next;
+			mes "[Dwarf Grunburti]";
+			mes "แม้ว่าข้าจะเกลียด";
+			mes "มนุษย์ส่วนใหญ่ แต่ข้าก็ไม่มี";
+			mes "ทางเลือกอื่น นอกจากต้องเคารพผู้ที่ถูกเลือกโดยโชคชะตา ไปพา ^0000FFหัวหน้ากิลด์^000000 ของเจ้ามาซะ!";
+			close;
+		}
+		mes "[Dwarf Grunburti]";
+		mes "แม้ว่าจะเป็นเรื่องที่อัปยศมากที่จะต้องแสดงทักษะอันล้ำค่าของข้าให้กับมนุษย์ปุถุชน...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "แต่ผนึกทั้งหมดถูกคลายออกแล้ว และผู้ที่ครอบครอง Emperium คือผู้ที่ถูกเลือกโดยโชคชะตา ข้าจึงไม่มีทางเลือกนอกจากต้องเคารพเจ้า";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ก่อนอื่น ข้าจะต้องตรวจสอบก่อนว่าเจ้าได้นำวัตถุดิบที่จำเป็นทั้งหมดมาเพื่อสร้างไอเทมเทพหรือไม่! ข้าเกลียดจริงๆ เวลาที่พวกมนุษย์มาที่นี่โดยไม่มีจุดหมาย!";
+		next;
+		if ((countitem(7073) > 3) && (countitem(7077) > 3) && (countitem(7088) > 2) && (countitem(7090) > 2) && (countitem(7092) > 2) && (countitem(726) > 1) && (countitem(722) > 2) && (countitem(727) > 9) && (countitem(724) > 4) && (countitem(969) > 19) && (countitem(2603) > 0)) {
+			mes "[Dwarf Grunburti]";
+			mes "หืมมม...";
+			mes "ข้าเดาว่า";
+			mes "เจ้าต้องการ";
+			mes "^0000FFBrisingamen^000000!";
+			next;
+		}
+		else if ((countitem(7058) > 0) && (countitem(969) > 19) && (countitem(726) > 9) && (countitem(984) > 9) && (countitem(2627) > 0)){ //Gullraifnir Gold Blue_Jewel Oridecon Belt 
+			mes "[Dwarf Grunburti]";
+			mes "หืมมม...";
+			mes "ข้าเดาว่า";
+			mes "เจ้าต้องการ";
+			mes "^0000FFMegingjard^000000!";
+			next;
+		}
+		else if ((countitem(7076) > 2) && (countitem(7079) > 4) && (countitem(7083) > 2) && (countitem(7086) > 3) && (countitem(7087) > 2) && (countitem(969) > 19) && (countitem(985) > 9) && (countitem(2406) > 0)) {
+			mes "[Dwarf Grunburti]";
+			mes "หืมมม...";
+			mes "ข้าเดาว่า";
+			mes "เจ้าต้องการ";
+			mes "^0000FFSleipnir^000000!";
+			next;
+		}
+		else if ((countitem(7074) > 1) && (countitem(7075) > 3) && (countitem(7078) > 4) && (countitem(7089) > 4) && (countitem(7091) > 4) && (countitem(984) > 19) && (countitem(985) > 4) && (countitem(969) > 39) && (countitem(1522) > 0)) {
+			mes "[Dwarf Grunburti]";
+			mes "หืมมม...";
+			mes "ข้าเดาว่า";
+			mes "เจ้าต้องการ";
+			mes "^0000FFMjolnir^000000!";
+			next;
+		}
+		else {
+			mes "[Dwarf Grunburti]";
+			mes "...";
+			mes "......";
+			next;
+			mes "[Dwarf Grunburti]";
+			mes "...";
+			mes "......";
+			mes ".........";
+			next;
+			mes "[Dwarf Grunburti]";
+			mes "...";
+			mes "......";
+			mes ".........";
+			mes ".............";
+			next;
+			mes "[Dwarf Grunburti]";
+			mes "เจ้ากล้าดียังไงที่มาที่นี่โดยไม่เตรียมตัวมาให้พร้อม?! เจ้าลืมไปแล้วรึว่าต้องนำอะไรมาบ้าง? คราวนี้จงฟังให้ดี!";
+			next;
+			switch(select("Brisingamen:Megingjard:Sleipnir:Mjolnir")) {
+			case 1:
+				mes "[Dwarf Grunburti]";
+				mes "ข้าต้องการ...";
+				mes "^0000FF4 Freya's Jewel";
+				mes "4 Silver Ornament";
+				mes "3 Snow Crystal";
+				mes "3 Ripple";
+				mes "3 Drifting Air";
+				mes "2 Sapphire";
+				mes "3 Pearl";
+				mes "10 Opal";
+				mes "5 Cursed Ruby";
+				mes "20 Gold^000000";
+				mes "1 Necklace^000000...";
+				next;
+				mes "[Dwarf Grunburti]";
+				mes "อืมมม แต่ตอนนี้";
+				mes "ในเมื่อผนึกถูกคลาย";
+				mes "ออกแล้ว เจ้าต้องรีบหน่อยก่อนที่มนุษย์คนอื่นจะมาชิง";
+				mes "ไอเทมเทพไปครอง...";
+				next;
+				mes "[Dwarf Grunburti]";
+				mes "เร็วเข้า...!";
+				mes "ทันทีที่ข้าตี";
+				mes "Brisingamen เสร็จ";
+				mes "ผนึกก็จะกลับมา";
+				mes "ทำงานอีกครั้ง!";
+				close;
+			case 2:
+				mes "[Dwarf Grunburti]";
+				mes "ข้าต้องการ...";
+				mes "^0000FF1 Gleipnir";
+				mes "20 Gold";
+				mes "10 Sapphire";
+				mes "10 Oridecon";
+				mes "1 Belt^000000";
+				next;
+				mes "[Dwarf Grunburti]";
+				mes "อืมมม แต่ตอนนี้";
+				mes "ในเมื่อผนึกถูกคลาย";
+				mes "ออกแล้ว เจ้าต้องรีบหน่อยก่อนที่มนุษย์คนอื่นจะมาชิง";
+				mes "ไอเทมเทพไปครอง...";
+				next;
+				mes "[Dwarf Grunburti]";
+				mes "เร็วเข้า...!";
+				mes "ทันทีที่ข้าตี";
+				mes "Megingjard เสร็จ";
+				mes "ผนึกก็จะกลับมา";
+				mes "ทำงานอีกครั้ง!";
+				close;
+			case 3:
+				mes "[Dwarf Grunburti]";
+				mes "ข้าต้องการ...";
+				mes "^0000FF3 Wheel of the Unknown";
+				mes "5 Feather of Angel Wing";
+				mes "3 Sprit of Fish";
+				mes "4 Amblem of the Sun God";
+				mes "3 Breath of Spirit";
+				mes "20 Gold";
+				mes "10 Elunium";
+				mes "1 Slotted Boots^000000";
+				next;
+				mes "[Dwarf Grunburti]";
+				mes "อืมมม แต่ตอนนี้";
+				mes "ในเมื่อผนึกถูกคลาย";
+				mes "ออกแล้ว เจ้าต้องรีบหน่อยก่อนที่มนุษย์คนอื่นจะมาชิง";
+				mes "ไอเทมเทพไปครอง...";
+				next;
+				mes "[Dwarf Grunburti]";
+				mes "เร็วเข้า...!";
+				mes "ทันทีที่ข้าตี";
+				mes "Sleipnir เสร็จ";
+				mes "ผนึกก็จะกลับมา";
+				mes "ทำงานอีกครั้ง!";
+				close;
+			case 4:
+				mes "[Dwarf Grunburti]";
+				mes "ข้าต้องการ...";
+				mes "^0000FF2 Thor's Gauntlets";
+				mes "4 Iron Maiden";
+				mes "5 Wrath of Valkyrie";
+				mes "5 Omen of Tempest";
+				mes "5 Billow";
+				mes "20 Oridecon";
+				mes "5 Elunium";
+				mes "40 Gold";
+				next;
+				mes "[Dwarf Grunburti]";
+				mes "อืมมม แต่ตอนนี้";
+				mes "ในเมื่อผนึกถูกคลาย";
+				mes "ออกแล้ว เจ้าต้องรีบหน่อยก่อนที่มนุษย์คนอื่นจะมาชิง";
+				mes "ไอเทมเทพไปครอง...";
+				next;
+				mes "[Dwarf Grunburti]";
+				mes "เร็วเข้า...!";
+				mes "ทันทีที่ข้าสร้าง";
+				mes "Mjolnir เสร็จ";
+				mes "ผนึกก็จะกลับมา";
+				mes "ทำงานอีกครั้ง!";
+				close;
+			}
+		}
+		mes "[Dwarf Grunburti]";
+		mes "เหอะ";
+		mes "ข้าทำงานในนี้ให้เสร็จไม่ได้หรอก ตามข้ามาที่ ^0000FFห้องทดลองใต้ดิน^000000 ในฐานะแขกของข้าเถอะ เจ้ามนุษย์";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ทีนี้ก็เร็วเข้า! ^0000FFไอเทมเทพแต่ละอย่างจะมีเพียงชิ้นเดียวเท่านั้น^000000 ที่จะมอบให้แก่มนุษย์ ^FF0000ทันทีหลังจากผนึกทั้งหมดถูกคลายออก^000000!";
+		close2;
+		warp "que_god01",214,63;
+		end;
+	case 4:
+		mes "[Dwarf Grunburti]";
+		mes "มว้าฮ่าฮ่าฮ่าฮ่าฮ่า!";
+		mes "ไปให้พ้นสายตาข้าซะ";
+		mes "เจ้ามนุษย์ที่สกปรก";
+		mes "โสโครก...!";
+		close;
+	}
+}
+gld_dun02,85,84,0	duplicate(GodDwarf)	Grunburti#2	826
+gld_dun03,92,105,0	duplicate(GodDwarf)	Grunburti#3	826
+gld_dun04,268,230,0	duplicate(GodDwarf)	Grunburti#4	826
+
+que_god01,215,127,0	script	#god_hopewarp1	111,{
+	end;
+
+OnInit:
+	waitingroom "ทางเข้าห้องทดลอง",2,"#god_hopewarp1::OnStartArena",1;
+	enablewaitingroomevent;
+	end;
+
+OnStartArena:
+	warpwaitingpc "que_god01",155,63;
+	donpcevent "Grunburti#god::OnEnable";
+	disablewaitingroomevent;
+	end;
+
+OnReset:
+	enablewaitingroomevent;
+	end;
+}
+
+que_god01,214,128,0	script	 #que_godnpc1::GodEntrance	111,{
+	mes "[ประกาศทางเข้า]";
+	mes "มีเพียงมนุษย์";
+	mes "ผู้ที่คู่ควรที่สุด";
+	mes "เท่านั้นที่จะได้ครอง";
+	mes "พลังแห่งทวยเทพ";
+	close;
+}
+que_god01,215,128,0	duplicate(GodEntrance)	 #que_godnpc2	111
+que_god01,213,128,0	duplicate(GodEntrance)	 #que_godnpc3	111
+
+que_god01,154,112,4	script	Grunburti#god	826,{
+	if (($God1 < $@god_check2) || ($God2 < $@god_check2) || ($God3 < $@god_check2) || ($God4 < $@god_check2)){
+		mes "[Dwarf Grunburti]";
+		mes "หนึ่งในไอเทมเทพ";
+		mes "ได้ถูกสร้างขึ้นแล้ว";
+		mes "และผนึกทั้งหลายก็ได้";
+		mes "ถูกฟื้นฟูขึ้นมาใหม่ เจ้าจะต้อง";
+		mes "รอจนกว่าพวกมันจะถูก";
+		mes "ปลดปล่อยอีกครั้ง...!";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "บว้าฮ่าฮ่าฮ่าฮ่าฮ่าฮ่า!";
+		mes "ถึงแม้ว่าเจ้าจะเป็น";
+		mes "แค่มนุษย์ แต่ข้าก็รู้สึก";
+		mes "สมเพชเจ้าจริงๆ~";
+		close;
+	}
+	set .@GID,getcharid(2);
+	if (is_guild_leader() == false) {
+		mes "[Dwarf Grunburti]";
+		mes "เป็นไปได้ยังไง...";
+		mes "ออกไปจากที่นี่ซะ!";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "มนุษย์หน้าโง่อย่างพวกเจ้า";
+		mes "คนหนึ่งเข้ามาในนี้";
+		mes "ได้อย่างไรกัน?! มีเพียงผู้ที่";
+		mes "ครอบครอง Emperium เท่านั้น";
+		mes "ที่สามารถแม้แต่จะคิดฝัน";
+		mes "เข้าสู่สถานที่แห่งนี้...!";
+		close;
+	}
+	mes "[Dwarf Grunburti]";
+	mes "มันช่างเป็นเรื่องที่";
+	mes "น่าอัปยศอดสูอย่างยิ่งที่ต้องทำงานให้มนุษย์ แต่ในเมื่อโชคชะตาได้เลือกเจ้าให้เป็นผู้ครอบครอง Emperium ข้าก็ไม่มีทางเลือกอื่นนอกจากต้องยอมรับคำขอของเจ้า";
+	next;
+	mes "[Dwarf Grunburti]";
+	mes "พวกเรามีเวลาเพียง";
+	mes "^FF000010 นาที^000000 ในการสร้างสมบัติเทพขึ้นมาใหม่ หลังจากนั้น ผนึกจะฟื้นฟูตัวเอง และข้าจะไม่สามารถสร้างสิ่งใดได้อีกจนกว่าพวกมันจะถูกปลดปล่อยอีกครั้ง...";
+	next;
+	mes "[Dwarf Grunburti]";
+	mes "^FF0000อย่าชักช้าให้มากนัก^000000,";
+	mes "มิฉะนั้น ^FF0000ข้าจะมอบ";
+	mes "โอกาสนี้ให้กับมนุษย์";
+	mes "คนอื่น^000000 ทันที!";
+	next;
+	mes "[Dwarf Grunburti]";
+	mes "เอาล่ะ...!";
+	mes "จงเลือกไอเทม";
+	mes "ที่เจ้าปรารถนา";
+	mes "จะให้ข้าสร้าง!";
+	next;
+	switch(select("Brisingamen:Megingjard:Sleipnir:Mjolnir")) {
+	case 1:
+		mes "[Dwarf Grunburti]";
+		mes "บ- Brisingamen งั้นรึ?!";
+		mes "ข้าไม่เคยคาดคิดเลยว่าจะ";
+		mes "มีคนโอหังเช่นนี้...!";
+		mes "สร้อยคอนี้จะไม่มีวันมีความหมายใดๆ ในสายตาของข้า เว้นแต่ว่ามันจะถูกสวมใส่โดยเทพี Freya เท่านั้น";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "แต่ข้าเป็นใครที่จะมาตัดสินความคู่ควรของเจ้าล่ะ? สมบัติพวกนี้";
+		mes "เลือกเจ้าของด้วยเจตจำนงของพวกมันเอง มาดูกันว่า Brisingamen จะเห็นว่าเจ้าคู่ควรหรือไม่!";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ขอย้ำอีกครั้ง ข้าต้องการวัตถุดิบดังต่อไปนี้เพื่อที่จะสร้าง";
+		mes "สมบัติเทพชิ้นนี้ขึ้นมาใหม่...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "^0000FF4 Freya's Jewel";
+		mes "4 Silver Ornament";
+		mes "3 Snow Crystal";
+		mes "3 Ripple";
+		mes "3 Drifting Air";
+		mes "2 Sapphire";
+		mes "3 Pearl";
+		mes "10 Opal";
+		mes "5 Cursed Ruby";
+		mes "20 Gold";
+		mes "1 Necklace^000000";
+		next;
+		switch(select("สร้าง Brisingamen:ยกเลิก")) {
+		case 1:
+			if ((countitem(7073) > 3) && (countitem(7077) > 3) && (countitem(7088) > 2) && (countitem(7090) > 2) && (countitem(7092) > 2) && (countitem(726) > 1) && (countitem(722) > 2) && (countitem(727) > 9) && (countitem(724) > 4) && (countitem(969) > 19) && (countitem(2603) > 0)){ //Jewel_Of_Prayer Silver_Fancy Crystal_Of_Snow Slilince_Wave Air_Stream Blue_Jewel Scarlet_Jewel White_Jewel Cardinal_Jewel_ Gold Necklace 
+				mes "[Dwarf Grunburti]";
+				mes "ข้าไม่เคยแม้แต่จะจินตนาการ";
+				mes "ในฝันที่เพ้อเจ้อที่สุดเลยว่า ข้าจะต้องมาสร้างผลงานชิ้นเอกนี้ให้กับแค่มนุษย์ปุถุชน รอข้าสักครู่";
+				next;
+				if (($God1 < $@god_check2) || ($God2 < $@god_check2) || ($God3 < $@god_check2) || ($God4 < $@god_check2)){
+					mes "[Dwarf Grunburti]";
+					mes "แต่ว่า...";
+					mes "ผนึกทั้งหลาย";
+					mes "เพิ่งจะถูก";
+					mes "ฟื้นฟูขึ้นมา เจ้าจะต้อง";
+					mes "รอจนกว่าพวกมันจะถูก";
+					mes "ปลดปล่อยอีกครั้ง...!";
+					next;
+					mes "[Dwarf Grunburti]";
+					mes "บว้าฮ่าฮ่าฮ่าฮ่าฮ่าฮ่า!";
+					mes "ถึงแม้ว่าเจ้าจะเป็น";
+					mes "แค่มนุษย์ แต่ข้าก็รู้สึก";
+					mes "สมเพชเจ้าจริงๆ~";
+					close;
+				}
+				delitem 7073,4;  //Jewel_Of_Prayer
+				delitem 7077,4;  //Silver_Fancy
+				delitem 7088,3;  //Crystal_Of_Snow
+				delitem 7090,3;  //Slilince_Wave
+				delitem 7092,3;  //Air_Stream
+				delitem 726,2;   //Blue_Jewel
+				delitem 722,3;   //Scarlet_Jewel
+				delitem 727,10;  //White_Jewel
+				delitem 724,5;   //Cardinal_Jewel_
+				delitem 969,20;  //Gold
+				delitem 2603,1;  //Necklace
+				getitem 2630,1; // Brysinggamen
+				set $God1,0;
+				set $God2,0;
+				set $God3,0;
+				set $God4,0;
+				announce "[Brisingamen] ได้ตกมาอยู่ในมือของ [" + strcharinfo(0) + "] หัวหน้ากิลด์ [" + getguildname(.@GID) + "] แล้ว",bc_all;
+				mes "[Dwarf Grunburti]";
+				mes "อา... ดูความงามที่เจิดจ้านี่สิ ไม่มีเครื่องประดับชิ้นไหนที่จะส่งเสริมให้ Freya ดูดีได้เท่ากับ Brisingamen อีกแล้ว";
+				close;
+			}
+			else {
+				mes "[Dwarf Grunburti]";
+				mes "ไอ้มนุษย์หน้าโง่!";
+				mes "เจ้าไม่ได้นำ";
+				mes "ทุกสิ่งที่ข้าต้องการมา";
+				mes "เพื่อสร้าง Brisingamen!";
+				mes "เร็วเข้า...!";
+				close;
+			}
+		case 2:
+			mes "[Dwarf Grunburti]";
+			mes "มว้าฮ่าฮ่าฮ่าฮ่า~";
+			mes "ข้ากะไว้แล้วเชียวว่า";
+			mes "เจ้าต้องถอยทัพแน่ ไอ้มนุษย์!";
+			close;
+		}
+	case 2:
+		mes "[Dwarf Grunburti]";
+		mes "ม- Megingjard งั้นรึ?!";
+		mes "เข็มขัดแห่งพละกำลังนั่นน่ะรึ?!";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "เข็มขัดเส้นนี้เคยถูกสวมใส่โดย Thor นักรบที่แข็งแกร่งที่สุดที่เคยมีมาเมื่อกาลครั้งหนึ่ง แต่ในเมื่อสมบัติเหล่านี้เป็นฝ่ายเลือกเจ้าของเอง เราก็มาดูกันว่ามันจะยอมรับว่าเจ้าคู่ควรหรือไม่!";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ขอย้ำอีกครั้ง ข้าต้องการวัตถุดิบดังต่อไปนี้เพื่อที่จะสร้าง";
+		mes "สมบัติเทพชิ้นนี้ขึ้นมาใหม่...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "^0000FF1 Gleipnir";
+		mes "20 Gold";
+		mes "10 Sapphire";
+		mes "10 Oridecon";
+		mes "1 Belt^000000...";
+		next;
+		switch(select("สร้าง Megingjard:ยกเลิก")) {
+		case 1:
+			if ((countitem(7058) > 0) && (countitem(969) > 19) && (countitem(726) > 9) && (countitem(984) > 9) && (countitem(2627) > 0)) {
+				mes "[Dwarf Grunburti]";
+				mes "เมื่อยี่สิบปีก่อน";
+				mes "ข้าไม่มีวันเชื่อเลยว่า";
+				mes "สิ่งที่ทรงพลังและอันตรายอย่าง Megingjard จะต้องมาตกอยู่ในมือของมนุษย์...";
+				next;
+				if (($God1 < $@god_check2) || ($God2 < $@god_check2) || ($God3 < $@god_check2) || ($God4 < $@god_check2)){
+					mes "[Dwarf Grunburti]";
+					mes "แต่ว่า...";
+					mes "ผนึกทั้งหลาย";
+					mes "เพิ่งจะถูก";
+					mes "ฟื้นฟูขึ้นมา เจ้าจะต้อง";
+					mes "รอจนกว่าพวกมันจะถูก";
+					mes "ปลดปล่อยอีกครั้ง...!";
+					next;
+					mes "[Dwarf Grunburti]";
+					mes "บว้าฮ่าฮ่าฮ่าฮ่าฮ่าฮ่า!";
+					mes "ถึงแม้ว่าเจ้าจะเป็น";
+					mes "แค่มนุษย์ แต่ข้าก็รู้สึก";
+					mes "สมเพชเจ้าจริงๆ~";
+					close;
+				}
+				delitem 7058,1;  //Gullraifnir
+				delitem 969,20;  //Gold
+				delitem 726,10;  //Blue_Jewel
+				delitem 984,10;  //Oridecon
+				delitem 2627,1;  //Belt
+				getitem 2629,1; // Magingiorde
+				set $God1,0;
+				set $God2,0;
+				set $God3,0;
+				set $God4,0;
+				announce "ไอเทมเทพ [Megingjard] ได้ถูกมอบให้แก่ [" + strcharinfo(0) + "] หัวหน้ากิลด์ [" + getguildname(.@GID) + "] แล้ว",bc_all;
+				mes "[Dwarf Grunburti]";
+				mes "นี่...";
+				mes "จงระวังวิธีการที่";
+				mes "เจ้าจะใช้พละกำลัง";
+				mes "แห่งทวยเทพไว้ด้วย ข้าขอ";
+				mes "เตือนเจ้าไว้ก่อนนะ ไอ้มนุษย์...";
+				close;
+			}
+			else {
+				mes "[Dwarf Grunburti]";
+				mes "ไอ้มนุษย์หน้าโง่!";
+				mes "เจ้าไม่ได้นำ";
+				mes "ทุกสิ่งที่ข้าต้องการมา";
+				mes "เพื่อสร้าง Megingjard!";
+				mes "เร็วเข้า...!";
+				close;
+			}
+		case 2:
+			mes "[Dwarf Grunburti]";
+			mes "มว้าฮ่าฮ่าฮ่าฮ่า~";
+			mes "ข้ากะไว้แล้วเชียวว่า";
+			mes "เจ้าต้องถอยทัพแน่ ไอ้มนุษย์!";
+			close;
+		}
+	case 3:
+		mes "[Dwarf Grunburti]";
+		mes "Sleipnir...";
+		mes "เอาล่ะ จงเข้าใจไว้ด้วย";
+		mes "ว่าข้าไม่สามารถสร้าง";
+		mes "อาชาแปดขาใน";
+		mes "ตำนานขึ้นมาได้ แต่ทว่า...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ข้าสามารถสร้าง";
+		mes "รองเท้าคู่หนึ่งที่มีพลังของ Sleipnir ได้ มันเป็นกระบวนการที่แปลกประหลาด แต่ก็มีความเป็นไปได้...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ขอย้ำอีกครั้ง ข้าต้องการวัตถุดิบดังต่อไปนี้เพื่อที่จะสร้าง";
+		mes "สมบัติเทพชิ้นนี้ขึ้นมาใหม่...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "^0000FF3 Wheel of the Unknown";
+		mes "5 Feather of Angel Wing";
+		mes "3 Sprit of Fish";
+		mes "4 Amblem of the Sun God";
+		mes "3 Breath of Spirit";
+		mes "20 Gold";
+		mes "10 Elunium";
+		mes "1 Slotted Boots^000000...";
+		next;
+		switch(select("สร้าง Sleipnir:ยกเลิก")) {
+		case 1:
+			if ((countitem(7076) > 2) && (countitem(7079) > 4) && (countitem(7083) > 2) && (countitem(7086) > 3) && (countitem(7087) > 2) && (countitem(969) > 19) && (countitem(985) > 9) && (countitem(2406) > 0)) {
+				mes "[Dwarf Grunburti]";
+				mes "ข้าไม่เคยเชื่อเลย";
+				mes "ว่าความเร็วของ";
+				mes "Sleipnir จะถูก";
+				mes "นำมาใช้โดยมนุษย์";
+				mes "รอข้าสักประเดี๋ยว...";
+				next;
+				if (($God1 < $@god_check2) || ($God2 < $@god_check2) || ($God3 < $@god_check2) || ($God4 < $@god_check2)){
+					mes "[Dwarf Grunburti]";
+					mes "แต่ว่า...";
+					mes "ผนึกทั้งหลาย";
+					mes "เพิ่งจะถูก";
+					mes "ฟื้นฟูขึ้นมา เจ้าจะต้อง";
+					mes "รอจนกว่าพวกมันจะถูก";
+					mes "ปลดปล่อยอีกครั้ง...!";
+					next;
+					mes "[Dwarf Grunburti]";
+					mes "บว้าฮ่าฮ่าฮ่าฮ่าฮ่าฮ่า!";
+					mes "ถึงแม้ว่าเจ้าจะเป็น";
+					mes "แค่มนุษย์ แต่ข้าก็รู้สึก";
+					mes "สมเพชเจ้าจริงๆ~";
+					close;
+				}
+				delitem 7076,3;  //Mystery_Wheel
+				delitem 7079,5;  //Feather_Of_Angel
+				delitem 7083,3;  //Soul_Of_Fish
+				delitem 7086,4;  //Symbol_Of_Sun
+				delitem 7087,3;  //Breath_Of_Soul
+				delitem 969,20;  //Gold
+				delitem 985,10;  //Elunium
+				delitem 2406,1;  //Boots_
+				getitem 2410,1; // Sleipnir
+				set $God1,0;
+				set $God2,0;
+				set $God3,0;
+				set $God4,0;
+				announce "ไอเทมเทพ [Sleipnir] ได้ถูกมอบให้แก่ [" + strcharinfo(0) + "] หัวหน้ากิลด์ [" + getguildname(.@GID) + "] แล้ว",bc_all;
+				mes "[Dwarf Grunburti]";
+				mes "เรียบร้อย...";
+				mes "สวมสิ่งนี้ซะ และ";
+				mes "เคลื่อนที่ด้วยความเร็วของ";
+				mes "Sleipnir ในตำนาน...";
+				close;
+			}
+			else {
+				mes "[Dwarf Grunburti]";
+				mes "ไอ้มนุษย์หน้าโง่!";
+				mes "เจ้าไม่ได้นำ";
+				mes "ทุกสิ่งที่ข้าต้องการมา";
+				mes "เพื่อสร้าง Sleipnir!";
+				mes "เร็วเข้า...!";
+				close;
+			}
+		case 2:
+			mes "[Dwarf Grunburti]";
+			mes "มว้าฮ่าฮ่าฮ่าฮ่า~";
+			mes "ข้ากะไว้แล้วเชียวว่า";
+			mes "เจ้าต้องถอยทัพแน่ ไอ้มนุษย์!";
+			close;
+		}
+	case 4:
+		mes "[Dwarf Grunburti]";
+		mes "ม-ม-ม- Mjolnir งั้นรึ!?";
+		mes "แม้ว่าช่วงเวลานี้";
+		mes "จะอยู่ตรงหน้าแล้ว";
+		mes "ข้าก็แทบไม่อยากจะเชื่อ...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "^333333*เฮ้อ...*^000000";
+		mes "นี่แทบจะเป็นความอัปยศต่อทวยเทพและเผ่าพันธุ์คนแคระ แต่บางที การกวัดแกว่ง Mjolnir อาจจะเป็นโชคชะตาของเจ้าก็ได้...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "ขอย้ำอีกครั้ง ข้าต้องการวัตถุดิบดังต่อไปนี้เพื่อที่จะสร้าง";
+		mes "สมบัติเทพชิ้นนี้ขึ้นมาใหม่...";
+		next;
+		mes "[Dwarf Grunburti]";
+		mes "^0000FF2 Thor's Gauntlets";
+		mes "4 Iron Maiden";
+		mes "5 Wrath of Valkyrie";
+		mes "5 Omen of Tempest";
+		mes "5 Billow";
+		mes "20 Oridecon";
+		mes "5 Elunium";
+		mes "40 Gold";
+		mes "1 Stunner^000000...";
+		next;
+		switch(select("สร้าง Mjolnir:ยกเลิก")) {
+		case 1:
+			if ((countitem(7074) > 1) && (countitem(7075) > 3) && (countitem(7078) > 4) && (countitem(7089) > 4) && (countitem(7091) > 4) && (countitem(984) > 19) && (countitem(985) > 4) && (countitem(969) > 39) && (countitem(1522) > 0)) {
+				mes "[Dwarf Grunburti]";
+				mes "อย่าทำให้ Thor";
+				mes "เจ้าแห่งสายฟ้าต้องอับอาย";
+				mes "มิฉะนั้นเจ้าจะเสียใจ";
+				mes "จำคำข้าไว้ให้ดี...";
+				next;
+				if (($God1 < $@god_check2) || ($God2 < $@god_check2) || ($God3 < $@god_check2) || ($God4 < $@god_check2)){
+					mes "[Dwarf Grunburti]";
+					mes "แต่ว่า...";
+					mes "ผนึกทั้งหลาย";
+					mes "เพิ่งจะถูก";
+					mes "ฟื้นฟูขึ้นมา เจ้าจะต้อง";
+					mes "รอจนกว่าพวกมันจะถูก";
+					mes "ปลดปล่อยอีกครั้ง...!";
+					next;
+					mes "[Dwarf Grunburti]";
+					mes "บว้าฮ่าฮ่าฮ่าฮ่าฮ่าฮ่า!";
+					mes "ถึงแม้ว่าเจ้าจะเป็น";
+					mes "แค่มนุษย์ แต่ข้าก็รู้สึก";
+					mes "สมเพชเจ้าจริงๆ~";
+					close;
+				}
+				delitem 7074,2;  //Iron_Glove
+				delitem 7075,4;  //Iron_Maiden
+				delitem 7078,5;  //Anger_Of_Valkurye
+				delitem 7089,5;  //Indication_Of_Tempest
+				delitem 7091,5;  //Rough_Billows
+				delitem 984,20;  //Oridecon
+				delitem 985,5;   //Elunium
+				delitem 969,40;  //Gold
+				delitem 1522,1;  //Stunner
+				getitem 1530,1; // Mjolnir
+				set $God1,0;
+				set $God2,0;
+				set $God3,0;
+				set $God4,0;
+				announce "[Mjolnir] ได้ถูกประทานให้แก่ [" + strcharinfo(0) + "] หัวหน้ากิลด์ [" + getguildname(.@GID) + "] แล้ว",bc_all;
+				mes "[Dwarf Grunburti]";
+				mes "เสร็จสิ้นแล้ว";
+				mes "รับไปซะ ความรู้สึก";
+				mes "ของการได้ครอบครองอาวุธที่ทรงพลังที่สุดในปฐพีไว้ในกำมือเป็นอย่างไรบ้างล่ะ?";
+				close;
+			}
+			else {
+				mes "[Dwarf Grunburti]";
+				mes "ไอ้มนุษย์หน้าโง่!";
+				mes "เจ้าไม่ได้นำ";
+				mes "ทุกสิ่งที่ข้าต้องการ";
+				mes "มาเพื่อสร้าง Mjolnir!";
+				mes "เร็วเข้า...!";
+				close;
+			}
+		case 2:
+			mes "[Dwarf Grunburti]";
+			mes "มว้าฮ่าฮ่าฮ่าฮ่า~";
+			mes "ข้ากะไว้แล้วเชียวว่า";
+			mes "เจ้าต้องถอยทัพแน่ ไอ้มนุษย์!";
+			close;
+		}
+	}
+	end;
+
+OnEnable:
+	initnpctimer;
+	end;
+
+OnTimer10000:
+	mapannounce "que_god01","จำไว้ว่าเจ้ามีเวลาเพียง 10 นาทีสำหรับเรื่องนี้! เร็วเข้า!",bc_map;
+	end;
+
+OnTimer610000:
+	mapannounce "que_god01","เจ้าชักช้าเกินไป! ข้าจะมอบโอกาสให้มนุษย์คนอื่นแทน! รายต่อไป!",bc_map;
+	end;
+
+OnTimer612000:
+	donpcevent "god_wep_warpmaster::OnEnable";
+	end;
+
+OnTimer615000:
+	donpcevent "god_wep_warpmaster::OnDisable";
+	donpcevent "#god_hopewarp1::OnReset";
+	stopnpctimer;
+	end;
+}
+
+que_god01,169,82,0	script	god_wep_warpmaster	-1,{
+OnEnable:
+	for(set .@i,1; .@i<=6; set .@i,.@i+1)
+		enablenpc "god_failwarp#"+.@i;
+	end;
+OnDisable:
+	for(set .@i,1; .@i<=6; set .@i,.@i+1)
+		disablenpc "god_failwarp#"+.@i;
+	end;
+}
+
+que_god01,154,67,0	script	god_failwarp#1	-1,4,7,{
+OnInit:
+	disablenpc();
+	end;
+OnTouch_:
+	warp "prontera",156,324;
+	end;
+}
+que_god01,154,82,0	duplicate(god_failwarp#1)	god_failwarp#2	-1,4,7
+que_god01,145,99,0	duplicate(god_failwarp#1)	god_failwarp#3	-1,9,9
+que_god01,164,99,0	duplicate(god_failwarp#1)	god_failwarp#4	-1,9,9
+que_god01,145,118,0	duplicate(god_failwarp#1)	god_failwarp#5	-1,9,9
+que_god01,164,118,0	duplicate(god_failwarp#1)	god_failwarp#6	-1,9,9
+
+// Original name: "Godly Item Quests Related#god" (ชื่อเดิม: "Godly Item Quests Related#god")
+que_god01,293,3,0	script	Godly Item Quests#god	90,{
+	callfunc "F_GM_NPC";
+	mes "[ใช้ในกรณีฉุกเฉิน]";
+	mes "กรุณาใส่รหัสผ่าน";
+	mes "หากต้องการยกเลิก กรุณาใส่ 0";
+	next;
+	set .@i, callfunc("F_GM_NPC",1854,0,0,4000);
+	if (.@i == -2) {
+		mes "[ใช้ในกรณีฉุกเฉิน]";
+		mes "รหัสผ่านไม่ถูกต้อง";
+		close;
+	} else if (.@i == -1) {
+		mes "[ใช้ในกรณีฉุกเฉิน]";
+		mes "คุณได้ยกเลิกคำขอแล้ว";
+		close;
+	} else if (.@i == 0) {
+		close;
+	} else {
+		mes "[ใช้ในกรณีฉุกเฉิน]";
+		mes "คุณต้องการใช้บริการส่วนใด?";
+		next;
+		switch(select("ปิดระบบวาร์ป (Warps):รีเซ็ตตัวจับเวลา (Timer):รีเซ็ตห้องสนทนา (Chat room)")) {
+		case 1:
+			mes "[ใช้ในกรณีฉุกเฉิน]";
+			mes "กดปุ่ม 'Next' เพื่อปิดระบบวาร์ป";
+			next;
+			donpcevent "god_wep_warpmaster::OnDisable";
+			mes "[ใช้ในกรณีฉุกเฉิน]";
+			mes "คุณปิดระบบวาร์ปสำเร็จแล้ว";
+			close;
+		case 2:
+			mes "[ใช้ในกรณีฉุกเฉิน]";
+			mes "กดปุ่ม 'Next' เพื่อรีเซ็ตตัวจับเวลา";
+			next;
+			donpcevent "Grunburti#god::OnEnable";
+			mes "[Use in case of emergency]";
+			mes "คุณรีเซ็ตตัวจับเวลาสำเร็จแล้ว";
+			close;
+		case 3:
+			mes "[ใช้ในกรณีฉุกเฉิน]";
+			mes "กรุณากดปุ่ม 'Next' เพื่อรีเซ็ตห้องสนทนาลานประลองใน que_god01";
+			next;
+			donpcevent "#god_hopewarp1::OnReset";
+			mes "[ใช้ในกรณีฉุกเฉิน]";
+			mes "คุณรีเซ็ตห้องสนทนา (ทางเข้าห้องทดลอง 1/2) สำเร็จแล้ว";
+			close;
+		}
+	}
+}

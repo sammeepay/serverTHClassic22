@@ -1,0 +1,110 @@
+//===== rAthena Script ======================================= 
+//= Veins Guides
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guides for the city of Veins
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guides.
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+veins,210,345,5	script	Veins Guide#veins01::GuideVeins	934,{
+	mes "[Veins Guide]";
+	mes "ขอบคุณที่เดินทางฝ่าพายุทรายอันโหดร้ายมาได้ ยินดีต้อนรับสู่ ^8B4513Veins^000000 หมู่บ้านแห่งหุบเขา";
+	mes "หากนี่เป็นครั้งแรกที่คุณใช้บริการนำทาง ทำไมคุณไม่ลองตรวจสอบเมนู \"Notice\" ดูก่อนล่ะ?";
+	F_Navi("[Veins Guide]");
+	next;
+	while (1) {
+		switch(select("[ วิหาร ]:[ โรงแรม ]:[ ผับ ]:[ ร้านอาวุธ ]:[ ร้านขายของชำ ]:[ สนามบิน ]:[ สถาบันวิจัยทางธรณีวิทยา ]:[ พนักงาน Cool Event Corp. ]:ลบเครื่องหมายออกจาก Mini-Map:ยกเลิก")) {
+		case 1:
+			mes "[Veins Guide]";
+			mes "ที่ "+F_Navi("Temple","veins,197,256")+" มักจะเต็มไปด้วยการสวดอ้อนวอนจากเหล่าผู้ศรัทธาต่อร่างอวตารของเทพี Freya";
+			mes "ตั้งอยู่ทางทิศเหนือของ Veins";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,197,256,0,0xFF0000;
+			next;
+			break;
+		case 2:
+			mes "[Veins Guide]";
+			mes "คุณสามารถพักผ่อนจากความเหนื่อยล้าในการเดินทางได้ที่ "+F_Navi("Inn","veins,110,278")+" โดยโรงแรมตั้งอยู่ทางทิศตะวันตกเฉียงเหนือของ Veins";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,110,278,1,0xFF4500;
+			next;
+			break;
+		case 3:
+			mes "[Veins Guide]";
+			mes "หากคุณต้องการพูดคุยกับชาวเมือง Veins โปรดไปที่ Veins "+F_Navi("Pub","veins,150,215")+"";
+			mes "ผับตั้งอยู่ทางทิศตะวันตกของ Veins";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,150,215,2,0xDAA520;
+			next;
+			break;
+		case 4:
+			mes "[Veins Guide]";
+			mes "คุณต้องมีความสามารถในการปกป้องร่างกายของตนเอง";
+			mes " "+F_Navi("Weapon Shop","veins,150,175")+" ใน Veins มีการขายอาวุธที่ดีในราคาที่เหมาะสม..";
+			mes "ตั้งอยู่ทางทิศตะวันตกของ Veins";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,150,175,3,0x008000;
+			next;
+			break;
+		case 5:
+			mes "[Veins Guide]";
+			mes "ไอเทมที่จำเป็น! ลองไปตรวจสอบที่ Veins "+F_Navi("Tool Shop","veins,230,161")+" ซึ่งอยู่ใจกลางเมือง..";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,230,161,4,0x0000FF;
+			next;
+			break;
+		case 6:
+			mes "[Veins Guide]";
+			mes "ปัจจุบัน "+F_Navi("Airport","veins,273,287")+" ของ Veins ถูกใช้สำหรับการขนส่งสินค้าเท่านั้น";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,273,287,5,0x000080;
+			next;
+			break;
+		case 7:
+			mes "[Veins Guide]";
+			mes "คุณสนใจในด้านธรณีวิทยาบ้างไหม?";
+			mes "ถ้าใช่ โปรดไปเยี่ยมชม ";
+			mes F_Navi("Geological Research Institute","veins,150,175")+" ที่ชั้นสองของร้านขายอาวุธ";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,150,175,6,0x800080;
+			next;
+			break;
+		case 8:
+			mes "[Veins Guide]";
+			mes "เดี๋ยวฉันจะทำเครื่องหมายตำแหน่ง";
+			mes "ของ "+F_Navi("Cool Event Corp. Staff","veins,209,127","^808080");
+			mes "บน mini map ของคุณให้";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,209,127,7,0x808080;
+			next;
+			break;
+		case 9:
+			mes "[Veins Guide]";
+			mes "ได้เลย ฉันจะลบเครื่องหมายทั้งหมดออกจาก mini-map ของคุณให้";
+			mes "มีอะไรอย่างอื่นที่ฉันพอจะช่วยได้อีกไหม?";
+			viewpoint 2,197,256,0,0xFFFFFF;
+			viewpoint 2,110,278,1,0xFFFFFF;
+			viewpoint 2,150,215,2,0xFFFFFF;
+			viewpoint 2,150,175,3,0xFFFFFF;
+			viewpoint 2,230,161,4,0xFFFFFF;
+			viewpoint 2,273,287,5,0xFFFFFF;
+			viewpoint 2,150,175,6,0xFFFFFF;
+			viewpoint 2,209,127,7,0xFFFFFF;
+			next;
+			break;
+		case 10:
+			mes "[Veins Guide]";
+			mes "ขอให้เดินทางโดยสวัสดิภาพ!";
+			close;
+		}
+	}
+}
+veins,189,101,5	duplicate(GuideVeins)	Veins Guide#veins02	934

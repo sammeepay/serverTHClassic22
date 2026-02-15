@@ -1,0 +1,175 @@
+//===== rAthena Script ======================================= 
+//= Brasilis Town
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Brasilis Town Script
+//===== Additional Comments: ================================= 
+//= 1.0 First version. Transportation and Basic NPCs.
+//= 1.1 Fixed Zeny not being removed for payment. [Kisuka]
+//= 1.2 Updated dialog, added Ice Cream Maker. [L0ne_W0lf]
+//= 1.3 Moved Alberta NPC to pre-re/re paths. [Euphy]
+//= 1.4 Added VIP features. [Euphy]
+//============================================================ 
+
+// Brasilis Transportation :: brasilis_trans
+//============================================================
+/* Pre-Renewal coordinates: alberta,247,115,3 */
+alberta,246,82,3	script	ลูกเรือ#bra2	100,{
+	mes "[ลูกเรือ]";
+	mes "เฮ้! เจ้าเคยได้ยินชื่อสถานที่ที่เรียกว่า Brasilis ไหม?";
+	mes "มันเป็นเมืองเขตร้อนที่ร้อนระอุเหมือนทะเลทรายแต่ก็มีฝนชุก เป็นสถานที่ที่เต็มไปด้วยความลึกลับมากเลยล่ะ";
+	next;
+	mes "[ลูกเรือ]";
+	mes "พวกเราเพิ่งจะค้นพบเส้นทางเดินเรือสายใหม่ที่ไปถึงที่นั่นได้ง่ายๆ";
+	if (VIP_SCRIPT) {
+		set .@cost, vip_status(VIP_STATUS_ACTIVE)?1000:10000;
+		mes "ค่าโดยสารไป-กลับเพียง 10,000 Zeny เท่านั้น และสำหรับ VIP เพียง 1,000 Zeny! ว่าไง สนใจจะไปไหม?"; 
+	} else {
+		set .@cost,10000;
+		mes "ค่าโดยสารไป-กลับเพียง 10,000 Zeny เท่านั้น! สนใจจะไปไหมล่ะ?";
+	}
+	next;
+	switch(select("พาข้าไป Brasilis ที!:ข้าจะอยู่ที่นี่แหละ")) {
+	case 1:
+		if (Zeny < .@cost) {
+			mes "[ลูกเรือ]";
+			mes "ข้าบอกว่าต้องใช้เงิน "+callfunc("F_InsertComma",.@cost)+" Zeny ไงล่ะ";
+			close;
+		}
+		else {
+			mes "[ลูกเรือ]";
+			mes "เยี่ยมไปเลย~!! ไปกันเถอะ~!";
+			set Zeny, Zeny-.@cost;
+			close2;
+			warp "brasilis",314,60;
+			end;
+		}
+	case 2:
+		mes "[ลูกเรือ]";
+		mes "เอาเถอะ ถ้าเจ้าเกิดเปลี่ยนใจเมื่อไหร่ ก็แวะมาบอกข้าได้นะ ข้าพร้อมจะพาเจ้าไปเสมอ";
+		close;
+	}
+}
+
+brasilis,316,57,3	script	ลูกเรือ#bra1	100,{
+	mes "[ลูกเรือ]";
+	mes "เรือของข้ากำลังจะมุ่งหน้ากลับไปยัง Alberta เจ้าจะร่วมเดินทางไปกับพวกเราเลยไหม?";
+	next;
+	switch(select("กลับไปยัง Alberta:ยังก่อนล่ะ~")) {
+	case 1:
+		mes "[ลูกเรือ]";
+		mes "ข้าเองก็เริ่มคิดถึงบ้านแล้วเหมือนกัน";
+		close2;
+		if (checkre(0))
+			warp "alberta",243,82;
+		else
+			warp "alberta",244,115;
+		end;
+	case 2:
+		mes "[ลูกเรือ]";
+		mes "โอเค ตามใจเจ้าแล้วกัน ไว้เจอกันตอนพวกเรากลับมานะ";
+		close;
+	}
+}
+
+// Generic Brasilis NPCs :: brazil_tre
+//============================================================
+brasilis,155,165,3	script	Signpost#bra1	858,{
+	mes ":: Art Museum ::";
+	close;
+}
+
+brasilis,191,239,3	script	Signpost#bra2	858,{
+	mes ":: Verass Monument ::";
+	close;
+}
+
+brasilis,240,247,3	script	Signpost#bra3	858,{
+	mes ":: Market ::";
+	mes " ";
+	mes "- For your Potions and Weaponry -";
+	close;
+}
+
+brasilis,303,309,3	script	Signpost#bra4	858,{
+	mes ":: Jungle Cable ::";
+	mes "- Not for the faint of heart -";
+	close;
+}
+
+brasilis,278,137,3	script	Signpost#bra5	858,{
+	mes ":: Brasilis Hotel ::";
+	close;
+}
+
+brasilis,137,77,5	script	คนขายไอศกรีม	85,{
+	mes "[คนขายไอศกรีม]";
+	mes "เร่เข้ามา~ เร่เข้ามา~";
+	mes "ไอศกรีมเย็นๆ เหมาะที่สุดสำหรับวันอากาศร้อนแบบนี้นะ~";
+	mes "ราคาเพียงถ้วยละ ^3355FF100 Zeny^000000 เท่านั้น~";
+	mes "ไอศกรีมจ้าาา~";
+	mes "รับไอศกรีมเย็นๆ สักถ้วยไหมครับ!";
+	next;
+	switch(select("เอาถ้วยนึง!:ไอศกรีมคืออะไรเหรอ?:ยกเลิก")) {
+	case 1:
+		mes "[คนขายไอศกรีม]";
+		mes "เพราะมีคนอยากกินไอศกรีมคลายร้อนกันเยอะมาก ผมเลยต้องจำกัดให้สั่งได้แค่ครั้งละไม่เกิน 5 ถ้วยนะ";
+		mes "แล้วสรุปว่าอยากรับกี่ถ้วยดีล่ะ?";
+		next;
+		while(1) {
+			input .@input; //,1,5;
+			if (.@input == 0) {
+				mes "[คนขายไอศกรีม]";
+				mes "ไม่รับเลยเหรอ?";
+				mes "งั้นก็ช่วยหลีกทางหน่อยนะ ผมยังมีลูกค้าคนอื่นต้องบริการอีกเพียบ";
+				close;
+			}
+			else if ((.@input < 0) || (.@input > 5)) {
+				mes "[คนขายไอศกรีม]";
+				mes "ว้าวๆๆ";
+				mes "สั่งเยอะเกินไปแล้ว";
+				mes "ถ้าคุณกินเกินครั้งละ 5 ถ้วย ระวังท้องไส้จะปั่นป่วนจนเหมือนมีมอนสเตอร์สู้กันในท้องนะ ใจเย็นๆ ก่อนเพื่อนยาก";
+				next;
+			}
+			else
+				break;
+		}
+		set .@icecream_hap,.@input*100;
+		if (Zeny < .@icecream_hap) {
+			mes "[คนขายไอศกรีม]";
+			mes "โธ่คุณ~! เงินไม่พอนี่นา";
+			mes "มันแค่ ^3355FF100 Zeny^000000 เองนะ~ ถามจริง!";
+			close;
+		}
+		if (!checkweight(536,.@input)) {
+			mes "[คนขายไอศกรีม]";
+			mes "ดูเหมือนสัมภาระคุณจะหนักเกินไปนะ";
+			mes "ไปจัดการกระเป๋าให้ว่างก่อนจะมาซื้อไอศกรีมดีกว่า";
+			close;
+		}
+		set Zeny, Zeny-.@icecream_hap;
+		getitem 536,.@input; //Ice_Cream
+		close;
+	case 2:
+		mes "[คนขายไอศกรีม]";
+		mes "ไอศกรีมก็คือ...";
+		mes "เดี๋ยวนะ นี่คุณไม่รู้จัก";
+		mes "ไอศกรีมจริงๆ เหรอ?";
+		mes "ไปอยู่หลังเขาที่ไหนมาเนี่ย?";
+		next;
+		mes "[คนขายไอศกรีม]";
+		mes "ผมจะไม่เสียเวลาอธิบายเรื่องที่ฟังดูประหลาดพรรค์นั้นหรอกนะ";
+		mes "เอาเป็นว่า มาซื้อไอศกรีมตอนที่มันยังเย็นฉ่ำอยู่ตรงนี้ดีกว่า!";
+		close;
+	case 3:
+		mes "[คนขายไอศกรีม]";
+		mes "อย่าพลาดโอกาสที่จะได้ชิมไอศกรีมที่อร่อยที่สุดในปฐพีเชียวนะ~!";
+		close;
+	}
+}

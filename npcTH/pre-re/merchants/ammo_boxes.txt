@@ -1,0 +1,121 @@
+//===== rAthena Script =======================================
+//= Magazine Dealers
+//===== Description: =========================================
+//= Turns bullets into magazines/packs.
+//===== Changelogs: ==========================================
+//= 1.0 First version. [SinSloth]
+//= 1.1 Optimized version - Reduced to only one function [SinSloth]
+//= 1.2 Optimized^2, corrected npc's name [ultramage]
+//= 1.2a Optimized. Please, ommit extra NPC names [Lupus]
+//= 1.3 Updated to match AEGIS script. [Kisuka]
+//= 1.4 Updated to match AEGIS script again. [Masao]
+//= 1.5 Moved Izlude duplicate to pre-re/re paths. [Euphy]
+//= 2.0 Clean-up. [Capuche]
+//= 2.1 Fixes Issue #1482, where Rebellion jobs cannot use this npc. [Limestone]
+//============================================================
+
+que_ng,187,149,3	script	Magazine Dealer Kenny::mdk	4_M_01,{
+	mes "[Kenny]";
+	if (BaseClass == Job_Gunslinger) {
+		mes "ยินดีต้อนรับสู่ร้านแม็กกาซีนของฉันครับ";
+		mes "อย่างที่คุณทราบดี กระสุนจำนวนมหาศาล";
+		mes "จะสามารถพกพาได้ง่ายขึ้นมาก";
+		mes "เมื่อพวกมันถูกบรรจุอยู่ในแม็กกาซีน เอาล่ะ";
+		mes "มีอะไรที่คุณสนใจเป็นพิเศษไหมครับ?";
+		next;
+		switch(select("Wind Sphere Pack:Shadow Sphere Pack:Poison Sphere Pack:Water Sphere Pack:Fire Sphere Pack:Cartridge:Blood Cartridge:Silver Cartridge:ยกเลิก")) {
+		case 1: callsub S_Casing,13204,12144;// <ID กระสุน>, <ID ไอเทมแพ็ก/กล่อง>
+		case 2: callsub S_Casing,13206,12145;
+		case 3: callsub S_Casing,13205,12146;
+		case 4: callsub S_Casing,13207,12147;
+		case 5: callsub S_Casing,13203,12148;
+		case 6: callsub S_Casing,13200,12149;
+		case 7: callsub S_Casing,13202,12150;
+		case 8: callsub S_Casing,13201,12151;
+		case 9:
+			mes "[Kenny]";
+			mes "เอาล่ะ ถ้าเมื่อไหร่ที่คุณพบว่า";
+			mes "คุณมีกระสุนเยอะเกินไป";
+			mes "ก็แวะมาหาฉันได้นะ";
+			mes "มันเป็นความคิดที่ฉลาดที่จะเก็บ";
+			mes "กระสุนไว้ในแม็กกาซีนของฉัน";
+			close;
+		}
+	}
+	mes "ยินดีต้อนรับสู่ร้านของฉันครับ";
+	mes "ที่นี่ ฉันมีบริการทำแม็กกาซีน (Magazines)";
+	mes "และตลับกระสุน (Cartridges) สำหรับ Gunslinger";
+	mes "ขออภัยด้วย แต่ดูเหมือนว่าบริการของฉัน";
+	mes "จะไม่มีประโยชน์อะไรสำหรับคุณนะ นักผจญภัย";
+	next;
+	mes "[Kenny]";
+	mes "เอ้อ แต่ถ้าคุณบังเอิญรู้จัก";
+	mes "Gunslinger คนไหนล่ะก็ ฝากส่งพวกเขา";
+	mes "มาทางนี้ทีนะ เพราะคุณไม่มีทาง";
+	mes "มีกระสุนที่มากเกินไปได้หรอก";
+	close;
+
+S_Casing:
+	.@bullet_id = getarg(0);
+	.@pack_id = getarg(1);
+
+	mes "[Kenny]";
+	mes "เอาล่ะ คุณสามารถแลก";
+	mes callfunc("F_InsertPlural",500,getitemname(.@bullet_id));
+	mes "และเงิน 500 zeny สำหรับ 1 "+getitemname(.@pack_id)+" ดังนั้น";
+	mes "ตรวจสอบให้แน่ใจว่าคุณมีกระสุน";
+	mes "และเงิน zeny เพียงพอสำหรับการแลกเปลี่ยนนี้";
+	next;
+	mes "[Kenny]";
+	mes "คุณสามารถแลก "+callfunc("F_InsertPlural",500,getitemname(.@bullet_id))+" และเงิน 500 zeny";
+	mes "กับ 1 "+getitemname(.@pack_id)+" ครับ";
+	next;
+	mes "[Kenny]";
+	mes "จำไว้นะว่าฉันไม่สามารถให้คุณ";
+	mes "เกิน 50 แม็กกาซีนต่อครั้งได้";
+	mes "ตอนนี้กรุณาใส่จำนวนแม็กกาซีน";
+	mes "ที่คุณต้องการได้รับ หากคุณต้องการยกเลิก ให้ใส่เลข ''0''";
+	next;
+	input .@amount;
+	mes "[Kenny]";
+	if (.@amount > 50 || .@amount == 0) {
+		mes "เฮ้ ฉันไม่สามารถให้แม็กกาซีน";
+		mes "จำนวนมากขนาดนั้นได้หรอกนะ";
+		mes "กรุณาลองใหม่อีกครั้ง และ";
+		mes "ใส่ตัวเลขที่ไม่เกิน 50 ครับ";
+	}
+	else if (countitem(.@bullet_id) >= (500*.@amount)) {
+		if (Zeny >= (500*.@amount)) {
+			if (checkweight(.@pack_id,.@amount) == 0) {
+				mes "เฮ้ คุณมีขยะอัดแน่นอยู่เต็ม";
+				mes "ในช่องเก็บของเลยนะ ไปจัดการ";
+				mes "เพิ่มที่ว่างก่อน แล้วค่อยกลับมา";
+				mes "แลกกระสุนของคุณเป็นแม็กกาซีน";
+				mes "ในภายหลังนะ โอเคไหม?";
+			} else {
+				mes "เรียบร้อย นี่คือแม็กกาซีน";
+				mes "ของคุณ ขอบคุณที่มาอุดหนุน";
+				mes "ร้านของฉันนะ และฉันหวังว่า";
+				mes "คุณจะใช้กระสุนทั้งหมดอย่างชาญฉลาด";
+				Zeny = Zeny -500*.@amount;
+				delitem .@bullet_id,(500*.@amount);
+				getitem .@pack_id,.@amount;
+			}
+		} else {
+			mes "ขออภัยด้วย แต่คุณมีเงิน";
+			mes "zeny ไม่เพียงพอสำหรับการ";
+			mes "แลกเปลี่ยนแม็กกาซีนในครั้งนี้";
+			mes "กลับมาที่ร้านของฉันอีกครั้ง";
+			mes "หลังจากที่คุณเก็บเงินได้มากกว่านี้นะ";
+		}
+	} else {
+		mes "ขออภัยด้วย แต่คุณมีกระสุน";
+		mes "ไม่เพียงพอสำหรับการ";
+		mes "แลกเปลี่ยนแม็กกาซีนในครั้งนี้";
+		mes "บางทีคุณควรจะตรวจสอบช่องเก็บของ";
+		mes "ให้ดีอีกรอบ แล้วค่อยกลับมาหาฉันใหม่";
+	}
+	close;
+}
+
+izlude,171,127,3	duplicate(mdk)	Magazine Dealer Kenny#iz	4_M_01

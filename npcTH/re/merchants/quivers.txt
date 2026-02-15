@@ -1,0 +1,152 @@
+//===== rAthena Script =======================================
+//= Arrow Quivers
+//===== By: ==================================================
+//= Muad_Dib (Prometheus Project); L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Turns arrows into Arrow Quivers.
+//= Breakdown of Subroutine "S_BuyQuiver"
+//= arg(0): Type of Arrow to be packaged (item ID).
+//= arg(1): How many of each 'getarg(0)' arrow per quiver.
+//= arg(2): The cost of making a 'getarg(0)' quiver.
+//= arg(3): The quiver given by the NPC (item ID).
+//===== Additional Comments: =================================
+//= 1.0 Added Mora NPC. [Euphy]
+//= 1.1 Updated to match the official scripts. [Euphy]
+//= 1.2 Update regarding the Barter Shop [JohnnyPlayy, Capuche]
+//============================================================
+
+// Mora :: ep14_1_tre
+//============================================================
+mora,106,117,3	script	Quiver Maker#mora	4_M_RAFLE_GR,{
+	if (checkweight(1201,1) == 0) {
+		mes "[ Quiver Maker ]";
+		mes "เจ้าแบกของเยอะเกินไปแล้วนะ";
+		mes "ไปจัดการพื้นที่ว่างในกระเป๋าแล้วกลับมาใหม่สิ ข้ามีอะไรน่าสนใจจะบอก";
+		close;
+	}
+	if (MaxWeight - Weight < 2000) {
+		mes "[ Quiver Maker ]";
+		mes "ดูเจ้าจะล้าเพราะแบกของพวกนั้นนะ";
+		mes "ไปจัดการพื้นที่ว่างในกระเป๋าแล้วกลับมาใหม่ ข้ามีเรื่องน่าสนใจจะเล่าให้ฟัง";
+		close;
+	}
+	mes "[ Quiver Maker ]";
+	mes "พวกชาวบ้าน Mora ชอบถามว่าซองลูกธนูมันดีตรงไหน เหอะ พวกนี้ไม่รู้จักโลกภายนอกเอาเสียเลย";
+	mes "ก็ไม่แปลกหรอกที่พวกเขาจะไม่รู้เรื่องซองลูกธนู เพราะวันๆ เอาแต่ป้ายแยมกินบนใบไม้กันอยู่อย่างนั้นน่ะ";
+	next;
+	if (getbattleflag("feature.barter")) {
+		.@menu$ = "ข้าอยากได้ลูกธนู";
+	}
+	switch( select("ช่วยทำซองลูกธนูให้หน่อยสิ", .@menu$, "ซองลูกธนูคืออะไรเหรอ?") ) {
+	case 1:
+		if (getbattleflag("feature.barter")) {
+			mes "[ Quiver Maker ]";
+			mes "ในที่สุด ก็มีคนที่รู้จักคุณค่าที่แท้จริงของซองลูกธนูปรากฏตัวเสียที ข้าจะทำมันให้เฉพาะคนที่เห็นคุณค่าของมันเท่านั้นนะ";
+			close2;
+			callshop "Quiver_Archer", 1;
+			end;
+		}
+		mes "[ Quiver Maker ]";
+		mes "ในที่สุดก็มีคนเห็นค่าของซองลูกธนูซักที!";
+		mes "ข้าสามารถทำ Elven Quiver และ Hunting Quiver ได้นะ";
+		mes "เจ้าต้องการแบบไหนล่ะ?";
+		next;
+		switch(select("Elven Quiver:Hunting Quiver:ข้าไม่ต้องการซองลูกธนูแล้วล่ะ")) {
+		case 1: callsub S_BuyQuiver,1773,500,500,12575; // Arrow_Of_Elf_Cntr
+		case 2: callsub S_BuyQuiver,1774,500,500,12576; // Hunting_Arrow_Cntr
+		case 3:
+			mes "[ Quiver Maker ]";
+			mes "งั้นเจ้าก็ไปซื้อลูกธนูจากพ่อค้าขายของข้างๆ ข้านี่ไป";
+			close;
+		}
+		end;
+	case 2:
+		if (getbattleflag("feature.barter")) {
+			mes "[ Quiver Maker ]";
+			mes "ข้าไม่ขายลูกธนูธรรมดาหรอกนะ ลูกธนูเหล่านี้เป็นงานฝีมือที่หาซื้อได้ที่นี่เท่านั้น เจ้าคงจะพอมองเห็นคุณค่าของมันใช่ไหม?";
+			close2;
+			callshop "Catch_Arrows", 1;
+		}
+		end;
+	case 3:
+		mes "[ Quiver Maker ]";
+		mes "ลูกธนูหนึ่งดอกอาจจะบางและเบา แต่ถ้าเจ้าแบกเป็นร้อยเป็นพันดอก มันก็หนักเหมือนแบกซุงทั้งต้นเลยนะ";
+		next;
+		mes "[ Quiver Maker ]";
+		mes "แต่ถ้าเจ้ามีซองลูกธนู เจ้าสามารถบรรจุลูกธนูลงไปในนั้นเพื่อประหยัดทั้งน้ำหนักและพื้นที่ได้";
+		mes "ถ้าเจ้าสนใจ ข้าจะเย็บให้เจ้าซักอันก็ได้นะ";
+		close;
+	}
+	end;
+
+S_BuyQuiver:
+	.@item_req = getarg(0);
+	.@req_amount = getarg(1);
+	if (countitem(getarg(0)) < .@req_amount) {
+		mes "[ Quiver Maker ]";
+		mes "นำ " + getitemname(.@item_req) + " มาให้ข้ามากกว่า " + .@req_amount + " ดอก แล้วข้าจะทำซองลูกธนูให้";
+		close;
+	}
+	mes "[ Quiver Maker ]";
+	mes "โอ้ ข้าเห็นแล้วว่าเจ้ามี " + getitemname(.@item_req) + " อยู่ในมือ!";
+	mes "สนใจจะใช้ซองลูกธนูดูไหมล่ะ? มันสะดวกมากเลยนะ!";
+	mes "ถ้าเจ้าสนใจ ข้าสามารถเปลี่ยนลูกธนู " + .@req_amount + " ดอก เป็นซองลูกธนูหนึ่งอัน โดยจ่ายเพียง ^FF3131" + getarg(2) + " zeny^000000";
+	next;
+	switch(select("แลกลูกธนูทั้งหมดที่มี:แลกแค่ซองเดียวพอ:ไม่แลกแล้ว")) {
+	case 1:
+		set .@arrows, countitem(.@item_req);
+		set .@quiver, .@arrows / .@req_amount;
+		set .@arrows_used, .@quiver * .@req_amount;
+		set .@arrow_zeny01, .@quiver * getarg(2);
+		mes "จำนวนลูกธนูที่มี : ^3131FF"+.@arrows+"^000000";
+		mes "จำนวนซองที่จะได้ : ^3131FF"+.@quiver+"^000000";
+		mes "เงิน Zeny ที่ต้องใช้ : ^3131FF"+.@arrow_zeny01+" zeny^000000";
+		next;
+		mes "ตกลงจะแลกไหม?";
+		next;
+		if(select("แลก:ไม่แลก") == 2) {
+			mes "[ Quiver Maker ]";
+			mes "เฮ้ เจ้าไม่ได้สงสัยในฝีมือของข้าใช่ไหม?";
+			close;
+		}
+		break;
+	case 2:
+		set .@quiver, 1;
+		set .@arrows_used, .@req_amount;
+		set .@arrow_zeny01, getarg(2);
+		set .@zeny_mes,1;
+		break;
+	case 3:
+		mes "[ Quiver Maker ]";
+		mes "เฮ้ เจ้าไม่ได้สงสัยในฝีมือของข้าใช่ไหม?";
+		close;
+	}
+	if (Zeny < .@arrow_zeny01) {
+		mes "[ Quiver Maker ]";
+		if (.@zeny_mes == 1)
+			mes "ข้าอุตส่าห์ยอมรับเงินของมนุษย์เพื่อเจ้าคนเดียวเลยนะ แต่เจ้ายังจะไม่ยอมจ่ายเงินอีกเหรอ?";
+		else
+			mes "เจ้าคงไม่คิดว่าจะได้ผลงานระดับมาสเตอร์พีซไปฟรีๆ หรอกนะ จริงไหม?";
+		close;
+	}
+	mes "[ Quiver Maker ]";
+	mes "เฮ้า! นี่ของเจ้า";
+	mes "มี ^3131FFสิ่งหนึ่งที่เจ้าต้องรู้ไว้^000000 - พยายามจำให้ขึ้นใจล่ะ";
+	mes "^FF0000เจ้าจะไม่สามารถแกะซองลูกธนูได้ หากน้ำหนักตัวของเจ้าเกิน 70%^000000";
+	mes "จำไว้ให้ดีล่ะ ไม่งั้นเจ้าอาจจะลำบากในภายหลังได้";
+	set Zeny, Zeny-.@arrow_zeny01;
+	delitem .@item_req,.@arrows_used;
+	getitem getarg(3),.@quiver;
+	close;
+}
+
+//= Basic Shops
+//============================================================
+
+//= Arrows
+-	marketshop	Catch_Arrows	HIDDEN_NPC,1773:5:-1,1774:5:-1

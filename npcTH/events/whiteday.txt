@@ -1,0 +1,127 @@
+//===== rAthena Script =======================================
+//= White Day Event Script
+//===== By: ==================================================
+//= 1.0a Muad_Dib (Prometheus Project)
+//===== Current Version: =====================================
+//= 1.0a
+//===== Compatible With: =====================================
+//= rAthena Project; RO Episode 6+
+//===== Description: =========================================
+//= Sells candy, candy cane and well baked cookie.
+//===== Additional Comments: =================================
+//= 07/06/05 : Added 1st Version. [Muad_Dib]
+//= Converted to rAthena format by Dr.Evil
+//============================================================
+
+alberta,188,64,4	script	Sugar	91,{
+	set @maplenum,0;
+	set @mapleItemID,0;
+	set @maplePrice,0;
+	set @maplePriceT,0;
+	mes "[Sugar]";
+	mes "ยินดีต้อนรับ!";
+	mes "ขนมหวานพวกนี้อร่อยแค่ไหนน่ะเหรอ?";
+	mes "อาจารย์ของฉัน.........";
+	mes "ช่างทำขนมหวานแห่งเมือง ARUBERUTA (อัลเบอร์ตา)";
+	mes "มีขนมหวานที่ถูกทำขึ้นมาอย่างพิถีพิถันจนอยู่ตัวเลยล่ะ";
+	next;
+	mes "[Sugar]";
+	mes "มันถูกมอบให้โดยบุคคลอันเป็นที่รัก";
+	mes "เพื่อเป็นการตอบแทนของขวัญ ....";
+	mes "ด้วยความจริงใจเหมือนกับ";
+	mes "ความหวานของของขวัญชิ้นนี้ยังไงอย่างนั้นเลย";
+	next;
+	menu "ขอแบ่งให้ฉันหน่อย!",-,"ฉันไม่ต้องการมันน่ะ",M_END,"แล้วอาจารย์ล่ะ",M_L1;
+
+	mes "[Sugar]";
+	mes "ได้เลย!";
+	mes "เลือกจากเมนูตรงนี้ได้เลยนะ";
+	mes "เนื่องจากเรามีจำนวนจำกัด";
+	mes "จึงอนุญาตให้ถือออกไปได้";
+	mes "ไม่เกิน ^ff0000 5 ชิ้น^000000 เท่านั้นนะ?";
+	next;
+	menu "Candy",-,"Candy Cane",L0_2,"Well baked cookie",L0_3;
+
+	set @maplePrice,3000;
+	set @mapleItemID,529;
+	mes "[Sugar]";
+	mes "มันคือ Candy (ลูกอม) และราคาคือ";
+	mes "ชิ้นละ 3000 Zeny";
+	mes "คุณต้องการซื้อจำนวนเท่าไหร่ดีล่ะ?";
+	next;
+	goto L_INPUT;
+L0_2:
+	set @maplePrice,4000;
+	set @mapleItemID,530;
+	mes "[Sugar]";
+	mes "มันคือ Candy Cane (ลูกกวาดไม้เท้า) และราคาคือ";
+	mes "ชิ้นละ 4000 Zeny";
+	mes "คุณต้องการซื้อจำนวนเท่าไหร่ดีล่ะ?";
+	next;
+	goto L_INPUT;
+L0_3:
+	set @maplePrice,2000;
+	set @mapleItemID,538; 
+	mes "[Sugar]";
+	mes "มันคือ Well baked cookie (คุกกี้ที่อบมาอย่างดี) และราคาคือ";
+	mes "ชิ้นละ 2000 Zeny";
+	mes "คุณต้องการซื้อจำนวนเท่าไหร่ดีล่ะ?";
+	next;
+
+L_INPUT:
+	input @maplenum;
+	if (@maplenum > 5) goto L_ERROR;
+	if (@maplenum == 0) goto M_END;
+	set @maplePriceT,@maplePrice*@maplenum;
+	if (Zeny < @maplePriceT) goto L_ERROR2;
+	set Zeny,Zeny- @maplePriceT;
+	getitem @mapleItemID,@maplenum;
+	mes "[Sugar]";
+	mes "ขอบคุณมากนะ!!!";
+	mes "ขนมพวกนี้อร่อยจริงๆ เลยล่ะ";
+	mes "เพราะอาจารย์สอนทำขนมของฉันคืออาจารย์อันดับ 1 ในโลกยังไงล่ะ!";
+	mes "ถึงแม้คุณจะกินมันด้วยตัวเองได้";
+	mes "แต่ก็อย่ากินเยอะนักล่ะ ไม่งั้นคุณจะอ้วนเอานะ";
+	mes "กรุณาดูแลตัวเองด้วยนะ!!!";
+	close;
+
+M_L1:
+	mes "[Sugar]";
+	mes "ใช่แล้ว";
+	mes "อาจารย์ของฉัน";
+	mes "คือคุณ Kuberu ช่างทำขนมหวาน";
+	mes "การทำขนมภายใต้คนสองคน";
+	mes "ซึ่งได้รับอนุญาตให้ฝึกฝนด้วยตัวเอง";
+	next;
+	mes "[Sugar]";
+	mes "ถึงแม้ว่าดูเหมือนจะมีการวางขายอยู่ ....";
+	mes "แต่ตอนนี้เขาอยู่ที่ไหนน่ะเหรอ?";
+	mes "ซึ่งฉันเองก็ไม่รู้เหมือนกัน";
+	close;
+
+L_ERROR:
+	mes "[Sugar]";
+	mes "???";
+	mes "ดูเหมือนคุณจะฟังผิดไปหน่อยนะ";
+	mes "ฉันจะบอกคุณอีกครั้งดีไหม?";
+	mes "คุณสามารถซื้อได้เพียง";
+	mes "^ff0000 5 ชิ้น^000000 ต่อครั้งเท่านั้นนะ";
+	next;
+	goto L_INPUT;
+
+L_ERROR2:
+	mes "[Sugar]";
+	mes "???";
+	mes "หืมม ดูเหมือนคุณจะมีเงินไม่พอ";
+	mes "ที่จะซื้อของจำนวนนั้นนะ";
+	mes "ฉันอยากจะขอให้คุณไปเช็คเงินของคุณก่อนน่ะ";
+	close;
+
+M_END:
+	mes "[Sugar]";
+	mes "จริงเหรอ .... คุณอาจจะเสียใจภายหลังนะ..";
+	mes "ถ้าหากคุณเปลี่ยนใจ";
+	mes "ฉันก็อยู่ตรงนี้แหละนะ";
+	mes "ขอให้เป็นวันที่ดีนะ!";
+	close;
+}

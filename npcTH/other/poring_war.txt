@@ -1,0 +1,1771 @@
+//===== rAthena Script ======================================= 
+//= Poring War
+//===== By: ================================================== 
+//= Kisuka
+//===== Current Version: ===================================== 
+//= 1.2
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Join a team in battle between Angeling and Deviling.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [Kisuka][5511]
+//= 1.1 Fixed some typos/bugs. [CalciumKid]
+//= 1.1a Fixed Waiting rooms witht he default MAX_LEVEL [Slim]
+//= 1.1b Fixed incorrect label calls. [Euphy]
+//= 1.2 Added missing barrier resets, credits to Zopokx. [Euphy]
+//============================================================
+
+// Poring War Recruiter
+//============================================================
+prt_fild08,159,371,3	script	Poring War Recruiter#wop	909,{
+	mes "[ Poring ]";
+	mes "!!!!!";
+	mes "ว้าว-! พวกมนุษย์นี่นา ริง~!!";
+	mes "ต้องรีบหลบแล้ว หลบเร็วเข้า ริง~!";
+	mes "พวกนั้นพยายามจะล่อเราด้วย Jellopy ล่ะ! อย่าไปหลงกลนะ!";
+	next;
+	mes "[ Poring ]";
+	mes "แฮ่!!";
+	mes "ริง ริง~ พวกนายเป็นอะไรกันไปหมดน่ะ..?";
+	mes "เฮ้.. เฮ้ ตรงนั้นน่ะ มะ.. มนุษย์...";
+	mes "โพริ่ง..";
+	next;
+	mes "[ Poring ]";
+	mes "ฉะ.. ฉันมีงานที่น่าสนใจมาเสนอให้นายด้วยนะ.. สนใจไหมล่ะ?";
+	mes "พวกเรา.. พวกเราชาวโพริ่งต้องการนักรบมนุษย์ที่กล้าหาญจำนวนมากเลยล่ะ ริง~";
+	next;
+	switch(select("ตกลง ฉันเอาด้วย!:มันคืออะไรเหรอ?:เมินเฉย")) {
+	case 1:
+		if (Zeny > 499) {
+			mes "[ Poring ]";
+			mes "อ้อ แล้วก็มีค่าธรรมเนียมเข้าสนาม 500 Zeny ด้วยนะ ริง";
+			mes "ขอให้สนุกนะ ริง";
+			delitem 7773,countitem(7773);
+			set Zeny,Zeny-500;
+			close2;
+			warp "poring_w01",112,138;
+			end;
+		} else {
+			mes "[ Poring ]";
+			mes "อ้อ แล้วก็มีค่าธรรมเนียมเข้าสนาม 500 Zeny ด้วยนะ ริง";
+			mes "...........";
+			mes "เฮ้อ ชีวิตมันก็แบบนี้แหละ ริง พวกเราเองก็ต้องใช้ Zeny เหมือนกันนะรู้ไหม~!";
+			close;
+		}
+	case 2:
+		mes "[ Poring ]";
+		mes "นั่นก็เพราะว่า.. มันเกิดความขัดแย้งเล็กน้อยใน.. สังคมโพริ่ง (Ring Society) ของเราน่ะ..";
+		mes "เราก็เลยต้อง.............มีการต่อสู้เพื่อตัดสินปัญหาครั้งนี้ยังไงล่ะ..";
+		mes "เดี๋ยวนายไปถึงที่นั่นก็จะเห็นเองแหละ!";
+		close;
+	case 3:
+		mes "[ Poring ]";
+		mes "แงงงง! มะ.. มนุษย์นี่ทั้งเย็นชาและใจร้ายที่สุดเลย!!!";
+		close;
+	}
+}
+
+// Poring Vending Machine
+//============================================================
+poring_w01,100,97,3	script	Poring Vending Machine#w	909,{
+	if (checkweight(714,3) == 0) {
+		mes "- น้ำหนักตัวของท่านมากเกินไป ไม่สามารถใช้งานตู้ขายของอัตโนมัติได้ -";
+		close;
+	}
+	mes "ตู้ขายของอัตโนมัติ ท่านสามารถใช้ Poring Coin เพื่อซื้อสินค้าได้ที่นี่";
+	next;
+	if(select("ซื้อสินค้า:อ่านรายละเอียดสินค้า") == 1) {
+		mes "ท่านต้องใช้ Poring Coin ในการซื้อสินค้าเท่านั้น";
+		mes "ไม่สามารถใช้เงิน Zeny ได้";
+		mes "ชื่อไอเทม - ราคา Poring Coin (P.Co)";
+		next;
+		switch(select("Marvelous Medal - 4 P.Co:Union of Tribe - 20 P.Co:Poring Box - 30 P.Co:ถัดไป")) {
+		case 1:
+			callsub S_PoringVending,7515,4;
+		case 2:
+			callsub S_PoringVending,658,20;
+		case 3:
+			callsub S_PoringVending,12109,30;
+		case 4:
+			mes "รายการนี้เป็นไอเทมพิเศษ";
+			mes "ชื่อไอเทม - ราคา Poring Coin (P.Co)";
+			next;
+			switch(select("Wild Rose - 15 P.Co:Doppelganger - 20 P.Co:Egnigem Cenia - 20 P.Co:ไอเทมสะสม (Figure)")) {
+			case 1:
+				callsub S_PoringVending,12300,15;
+			case 2:
+				callsub S_PoringVending,12301,20;
+			case 3:
+				callsub S_PoringVending,12302,20;
+			case 4:
+				mes "ฟิกเกอร์ตัวละครอาชีพ Class 1 รวมถึง Novice วางจำหน่ายแล้ว!";
+				mes "ฟิกเกอร์ทั้งหมด (ยกเว้น Novice) จะเป็น ^4d4dffไอเทมติดตัวละคร (ไม่สามารถแลกเปลี่ยนได้)^000000";
+				mes "กรุณาตรวจสอบให้แน่ใจก่อนทำการซื้อนะคะ~";
+				mes "ชื่อไอเทม - ราคา Poring Coin (P.Co)";
+				next;
+				switch(select("Novice Figure - 50 P.Co:Swordman Figure - 100 P.Co:Thief Figure - 100 P.Co:Merchant Figure - 100 P.Co:Acolyte Figure - 100 P.Co:Mage Figure - 100 P.Co:Archer Figure - 100 P.Co:สุ่มฟิกเกอร์ - 50 P.Co:ยกเลิก")) {
+				case 1:
+					callsub S_PoringVending,2765,50;
+				case 2:
+					callsub S_PoringVending,2766,100;
+				case 3:
+					callsub S_PoringVending,2770,100;
+				case 4:
+					callsub S_PoringVending,2771,100;
+				case 5:
+					callsub S_PoringVending,2767,100;
+				case 6:
+					callsub S_PoringVending,2768,100;
+				case 7:
+					callsub S_PoringVending,2769,100;
+				case 8:
+					mes "ท่านเลือกการสุ่มฟิกเกอร์ (Random Draw)";
+					mes "ท่านจะได้รับฟิกเกอร์ 1 ชิ้น จากทั้งหมด 7 แบบ โดยการสุ่ม";
+					next;
+					if(select("สุ่มไอเทม:ยกเลิก") == 1) {
+						if (countitem(7539) >= 50) {
+							mes "หยอด Poring Coin แล้วดึงคันโยก...";
+							mes "คลิก~ ไอเทมไหลออกมาจากปากของ Poring พร้อมเสียงครืดคราด";
+							mes "จะได้อะไรน้า?";
+							next;
+							switch(rand(1,17)) {
+							case 5: set .@Random_Figure,2766; break; // Swordman_Figure
+							case 6: set .@Random_Figure,2767; break; // Acolyte_Figure
+							case 8: set .@Random_Figure,2770; break; // Thief_Figure
+							case 11: set .@Random_Figure,2771; break; // Merchant_Figure
+							case 13: set .@Random_Figure,2769; break; // Archer_Figure
+							case 14: set .@Random_Figure,2768; break; // Mage_Figure
+							default: set .@Random_Figure,2765; break; // Novice_Figure
+							}
+							mes "ยินดีด้วย! ท่านได้รับ " + getitemname(.@Random_Figure) + "";
+							delitem 7539,50; // Poring_Coin
+							getitem .@Random_Figure,1;
+							close;
+						} else {
+							mes "เหรียญไม่พอค่ะ";
+							close;
+						}
+					}
+					mes "["+strcharinfo(0)+"]";
+					mes "... ไว้คราวหน้าแล้วกันนะ...";
+					close;
+				case 9:
+					mes "["+strcharinfo(0)+"]";
+					mes "... ไว้คราวหน้าแล้วกันนะ...";
+					close;
+				}
+			}
+		}
+	}
+	mes "รายการสินค้าที่มีจำหน่าย";
+	mes "====================";
+	mes "[Marvelous Medal]";
+	mes " : เหรียญรางวัลที่ทำจากโลหะพิเศษซึ่งหาได้ใน Hugel เท่านั้น";
+	mes " ";
+	mes "[Union of Tribe]";
+	mes " : รูปปั้นจำลองความสามัคคีของเผ่าพันธุ์ เชื่อกันว่าการมองรูปปั้นนี้จะช่วยกระชับความสัมพันธ์ระหว่างเผ่าได้";
+	mes " ";
+	mes "[Poring Box]";
+	mes " : กล่องที่ห่อด้วยกระดาษลาย Poring มีบางอย่างอยู่ข้างในนั้น";
+	mes " ";
+	mes "[Wild Rose]";
+	mes " : เพื่อนตัวน้อย Wild Rose จะมาคอยช่วยเหลือท่าน";
+	mes " ";
+	mes "[Mr. Doppel]";
+	mes " : ขุนนางหนุ่ม Doppelganger จะมาคอยช่วยเหลือท่าน";
+	mes " ";
+	mes "[Egnigem Cenia]";
+	mes " : เด็กสาวแสนสวย Egnigem Cenia จากห้องทดลองชีวภาพ จะมาคอยช่วยเหลือท่าน";
+	mes " ";
+	mes "[Novice Figure]";
+	mes " : ฟิกเกอร์ Novice สุดประณีต สวมใส่ในช่อง '^4d4dffเครื่องประดับ^000000'";
+	mes " HP + 70, หาก Novice ใส่จะได้รับ HP เพิ่มอีก + 30";
+	mes " ";
+	mes "[Swordman Figure]";
+	mes " : ฟิกเกอร์ Swordman สุดเท่ สวมใส่ในช่อง '^4d4dffเครื่องประดับ^000000'";
+	mes " VIT + 1, หากอาชีพสาย Swordman ใส่จะได้รับ DEF + 2";
+	mes " ";
+	mes "[Merchant Figure]";
+	mes " : ฟิกเกอร์ Merchant สุดสวย สวมใส่ในช่อง '^4d4dffเครื่องประดับ^000000'";
+	mes " STR + 1, หากอาชีพสาย Merchant ใส่จะได้รับ CRI + 5";
+	mes " ";
+	mes "[Thief Figure]";
+	mes " : ฟิกเกอร์ Thief สุดเฟี้ยว สวมใส่ในช่อง '^4d4dffเครื่องประดับ^000000'";
+	mes " AGI + 1, หากอาชีพสาย Thief ใส่จะได้รับ ASPD + 3%";
+	mes " ";
+	mes "[Mage Figure]";
+	mes " : ฟิกเกอร์ Mage สุดสง่า สวมใส่ในช่อง '^4d4dffเครื่องประดับ^000000'";
+	mes " INT + 1, หากอาชีพสาย Mage ใส่จะเพิ่มอัตราการฟื้นฟู SP อีก 5%";
+	mes " ";
+	mes "[Acolyte Figure]";
+	mes " : ฟิกเกอร์ Acolyte ผู้ใจบุญ สวมใส่ในช่อง '^4d4dffเครื่องประดับ^000000'";
+	mes " INT + 1, หากอาชีพสาย Acolyte ใส่จะได้รับ SP + 50";
+	mes " ";
+	mes "[Archer Figure]";
+	mes " : ฟิกเกอร์ Archer สุดแม่นยำ สวมใส่ในช่อง '^4d4dffเครื่องประดับ^000000'";
+	mes " DEX + 1, หากอาชีพสาย Archer ใส่จะได้รับ ATK + 10";
+	close;
+	end;
+
+S_PoringVending:
+	if (countitem(7539) >= getarg(1)) {
+		mes "คลิก~ ไอเทมไหลออกมาจากปากของ Poring พร้อมเสียงครืดคราด";
+		delitem 7539,getarg(1); // Poring_Coin
+		getitem getarg(0),1;
+	} else {
+		mes "เหรียญไม่พอค่ะ";
+	}
+	close;
+}
+
+// Information
+//============================================================
+poring_w01,96,97,3	script	Sweet Devi#wop	738,{
+	if (MaxWeight-Weight < 2000 || checkweight(1201,1) == 0) {
+		mes "- เดี๋ยวๆๆ !! -";
+		mes "- ตอนนี้ของที่เจ้าถืออยู่มัน -";
+		mes "- เยอะเกินไปแล้วนะ -";
+		mes "- ไปจัดการสัมภาระให้เรียบร้อย -";
+		mes "- แล้วค่อยกลับมาคุยใหม่ -";
+		close;
+	}
+	mes "[ Deviruchi ]";
+	mes "โอ้ นักรบมนุษย์อีกคนแล้วเหรอเนี่ย!";
+	mes "ช่วงนี้ทำไมพวกมนุษย์ถึงอยากมาร่วม Poring War กันเยอะจังนะ?";
+	next;
+	mes "[ Deviruchi ]";
+	mes "ช่างเถอะ ตราบใดที่ข้ายังทำเงินจากเรื่องนี้ได้ล่ะก็~";
+	mes "เอาล่ะเหล่านักรบ-! ฮ่าๆๆ ข้าอยากตะโกนคำนี้มานานแล้ว!!";
+	next;
+	mes "[ Deviruchi ]";
+	mes "เจ้าผู้น่าเกรงขาม เจ้าพร้อมจะเข้าร่วมสงครามศักดิ์สิทธิ์ระหว่าง Angeling และ Deviling หรือยัง?";
+	next;
+	mes "[ Deviruchi ]";
+	mes "เฮะๆๆ ข้าเริ่มจะเขินขึ้นมานิดหน่อยแล้วสิ";
+	mes "เอาเป็นว่า เจ้าอยากเข้าร่วม Poring War ของเราไหมล่ะ?";
+	next;
+	switch(select("ข้ามีคุณสมบัติพอจะเข้าร่วมไหม?:ต้องเข้าร่วมสงครามยังไง?:ยกเลิก:ช่วยส่งข้าออกไปจากที่นี่ที!")) {
+	case 1:
+		mes "[ Deviruchi ]";
+		mes "ที่นี่ไม่มีการแบ่งแยกเผ่าพันธุ์หรอกนะ! ใครก็ตามที่พร้อมจะสู้ก็จอยได้ทั้งนั้น";
+		mes "แต่ที่แปลกก็คือ พวกมนุษย์ที่เคยเป็นศัตรูตัวฉกาจของพวกเรา กลับกลายมาเป็นผู้เล่นในเกมของข้าซะงั้น";
+		next;
+		mes "[ Deviruchi ]";
+		mes "ถ้าเจ้าอยากสู้ในสงครามจริงๆ ล่ะก็.. คนรับสมัครทีมอยู่ตรงนั้น";
+		mes "แล้วก็.. เจ้าเลือกได้ตามใจเลยนะว่าอยากจะสู้ให้ทีมไหน~";
+		close;
+	case 2:
+		mes "[ Deviruchi ]";
+		mes "ง่ายๆ เลย เจ้าเห็นห้องรับสมัครทีมตรงนั้นไหม?";
+		mes "แต่ละทีมจะประกอบด้วยสมาชิก 5 คน ทันทีที่รวบรวมได้ครบ 5 คน การต่อสู้ก็จะเริ่มขึ้น";
+		mes "เจ้าจะเป็นฝ่ายชนะถ้าสามารถจัดการ Poring ของทีมคู่ต่อสู้ได้";
+		next;
+		mes "[ Deviruchi ]";
+		mes "นั่นหมายความว่าการต่อสู้ในหนึ่งรอบต้องใช้คนทั้งหมด 10 คนนะ";
+		next;
+		mes "[ Deviruchi ]";
+		mes "เมื่อครบ 10 คนแล้ว ผู้เล่นจะได้เลือกทีม โดยแต่ละทีมควรมีสมาชิก 5 คนที่อยู่ในปาร์ตี้เดียวกัน";
+		next;
+		mes "[ Deviruchi ]";
+		mes "สรุปก็คือ สมาชิกครึ่งหนึ่งจะเข้าทีม Angeling";
+		mes "และอีกครึ่งหนึ่งจะเข้าทีม Deviling";
+		next;
+		mes "[ Deviruchi ]";
+		mes "ถ้าเจ้าอยู่ทีม Angeling เป้าหมายของเจ้าคือจัดการ Deviling ที่ฐานของอีกฝ่าย และในทางกลับกันถ้าอยู่ทีม Deviling ก็ต้องไปจัดการ Angeling";
+		next;
+		mes "[ Deviruchi ]";
+		mes "แต่ละทีมต้องพยายามจัดการ Poring ทั้งสองตัวในฐานของคู่ต่อสู้ หลังจากจัดการตัวแรกได้ เจ้าจะมีเวลาจำกัดในการจัดการตัวที่สอง ไม่อย่างนั้นตัวที่เจ้าเพิ่งฆ่าไปจะฟื้นคืนชีพกลับมาใหม่";
+		next;
+		mes "[ Deviruchi ]";
+		mes "มันเหมือนกับเกมชิงธง (Capture the Flag) นั่นแหละ แต่เราใช้ Poring แทน เข้าใจนะ?";
+		mes "แล้วก็อย่าลืมเช็คให้ดีล่ะว่าใครอยู่ในปาร์ตี้ไหนบ้าง";
+		close;
+	case 3:
+		mes "[" + strcharinfo(0) + "]";
+		mes "อืม... ข้าเข้าใจแล้ว";
+		close;
+	case 4:
+		mes "[ Deviruchi ]";
+		mes "โอ้ ได้เลย ข้าช่วยได้";
+		mes "ข้าจะส่งเจ้ากลับไปยังจุดบันทึก (Save Point) ของเจ้านะ";
+		close2;
+		if (WoP_SaveMap$ != "") {
+			savepoint WoP_SaveMap$,WoP_SaveMap_X,WoP_SaveMap_Y,1,1;
+			set WoP_SaveMap$,"";
+			set WoP_SaveMap_X,0;
+			set WoP_SaveMap_Y,0;
+		}
+		warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+		end;
+	}
+
+OnPCLogoutEvent:
+	getmapxy .@map$,.@x,.@y;
+	if (.@map$ == "poring_w02") {
+		if (WoP_SaveMap$ != "") {
+			savepoint WoP_SaveMap$,WoP_SaveMap_X,WoP_SaveMap_Y,1,1;
+			set WoP_SaveMap$,"";
+			set WoP_SaveMap_X,0;
+			set WoP_SaveMap_Y,0;
+		}
+		delitem 7773,countitem(7773);
+		set wop_team,0;
+	}
+	end;
+
+OnPCDieEvent:
+	getmapxy .@map$,.@x,.@y;
+	if (.@map$ == "poring_w02" && wop_team) {
+		if (getsavepoint(0) != "poring_w02" && WoP_SaveMap$ == "") {
+			set WoP_SaveMap$,getsavepoint(0);
+			set WoP_SaveMap_X,getsavepoint(1);
+			set WoP_SaveMap_Y,getsavepoint(2);
+		}
+		if (wop_team == 1) {
+			savepoint "poring_w02",rand(44,51),rand(76,87);
+		}
+		if (wop_team == 2) {
+			savepoint "poring_w02",rand(146,153),rand(76,87);
+		}
+	}
+	end;
+
+OnPCKillEvent:
+	getmapxy .@map$,.@x,.@y;
+	if (.@map$ == "poring_w02" && wop_team) {
+		getnameditem 7773,rid2name(killedrid);
+	}
+	end;
+
+OnInit:
+	removemapflag "poring_w02",mf_partylock;
+	removemapflag "poring_w02",mf_pvp;
+	removemapflag "poring_w02",mf_pvp_noguild;
+	removemapflag "poring_w02",mf_pvp_nocalcrank;
+	set $@wop_teamcount,0;
+	set $@wop_deadcount_a,0;
+	set $@wop_deadcount_d,0;
+	set $@wop_team_a,0;
+	set $@wop_team_d,0;
+	set $@wop_doorcount_a,0;
+	set $@wop_doorcount_d,0;
+	end;
+}
+
+// Poring Registers
+//============================================================
+poring_w01,91,97,3	script	Poring#wop_door_all	1002,{
+	end;
+	
+OnInit:
+	waitingroom "[ รับสมัครผู้เข้าร่วมต่อสู้ 10 ท่าน ]",11,"Poring#wop_door_all::OnStartArena",10,500,9;
+	enablewaitingroomevent;
+	end;
+
+OnStartArena:
+	warpwaitingpc "poring_w01",101,70;
+	donpcevent "#wop_warp_rtry::OnReady";
+	disablewaitingroomevent;
+	end;
+
+OnEnable:
+	enablewaitingroomevent;
+	end;
+
+OnDisable:
+	disablewaitingroomevent;
+	end;
+}
+
+poring_w01,91,68,5	script	Poring#wop_door_a	1002,{
+	end;
+
+OnInit:
+	waitingroom "[ รับสมัครทีม Angeling ]",6,"Poring#wop_door_a::OnStartArena",5,0,9;
+	enablewaitingroomevent;
+	end;
+
+OnStartArena:
+	warpwaitingpc "poring_w02",26,175;
+	disablewaitingroomevent;
+	if ($@wop_teamcount == 0) {
+		set $@wop_teamcount,1;
+		donpcevent "Poring#wop_door_d::OnDevilingStart";
+		donpcevent "#wop_warp_rtry::OnStop";
+	}
+	else if ($@wop_teamcount == 1) {
+		donpcevent "#wop_master::OnStart";
+		donpcevent "Poring#wop_door_d::OnStop";
+		stopnpctimer;
+	}
+	end;
+
+OnEnable:
+	enablewaitingroomevent;
+	end;
+
+OnDisable:
+	disablewaitingroomevent;
+	end;
+
+OnAngelingStart:
+	initnpctimer;
+	end;
+
+OnStop:
+	stopnpctimer;
+	end;
+
+OnTimer1000:
+	mapannounce "poring_w01","ศึกที่ยิ่งใหญ่ที่สุดตลอดกาล การรับสมัครทีม Deviling สิ้นสุดลงแล้ว ริง~!",0,0xf08080;
+	end;
+
+OnTimer4000:
+	mapannounce "poring_w01","มาร่วมเป็นส่วนหนึ่งของทีม Angeling ผู้สง่างามพร้อมปีกนางฟ้ากันเถอะ!!",0,0xf08080;
+	end;
+
+OnTimer8000:
+	mapannounce "poring_w01","เหลือเวลาอีก 1 นาทีในการเข้าร่วมทีม Angeling สงครามจะถูกยกเลิกหากคนไม่พร้อมภายใน 1 นาที!!",0,0xf08080;
+	donpcevent "#wop_master::OnAngelingWarn";
+	end;
+
+OnTimer13000:
+	mapannounce "poring_w01","ถึงเวลาเข้าร่วมทีม Angeling ผู้ยิ่งใหญ่แล้ว ริง~!",0,0xf08080;
+	end;
+
+OnTimer20000:
+	mapannounce "poring_w01","การต่อสู้ครั้งนี้คือความภาคภูมิใจของเหล่าโพริ่ง! ริง~! มาเข้าทีม Angeling เร็วเข้า!!",0,0xf08080;
+	end;
+
+OnTimer30000:
+	mapannounce "poring_w01","เรามีเวลาไม่มากแล้วนะ ริง~ อย่าปล่อยให้พวก Deviling มาครอบงำเจ้าได้!",0,0xf08080;
+	end;
+
+OnTimer40000:
+	mapannounce "poring_w01","มาสิ! มาเข้าร่วมกับเรา!",0,0xf08080;
+	end;
+
+OnTimer50000:
+	mapannounce "poring_w01","น่าเสียดายจริงๆ! ไม่ยากจะเชื่อเลยว่าเราจะขาดแคลนนักรบที่กล้าหาญขนาดนี้!",0,0xf08080;
+	end;
+
+OnTimer55000:
+	mapannounce "poring_w01","Deviling: จะให้พวกข้ารอไปถึงเมื่อไหร่กัน!! พวกเราจะยกเลิกการต่อสู้แล้วนะ ริง~!",0,0x33FF66;
+	end;
+
+OnTimer55100:
+	donpcevent "Poring#wop_door_a::OnDisable";
+	donpcevent "Poring#wop_door_d::OnDisable";
+	donpcevent "Poring#wop_door_all::OnDisable";
+	set $@wop_teamcount,0;
+	donpcevent "#wop_master::OnAngelingEnd";
+	donpcevent "#wop_warp_rtry::OnEnable";
+	end;
+
+OnTimer58000:
+	mapannounce "poring_w01","...มันช่วยไม่ได้จริงๆ สินะ ริง... ไว้มาร่วมสนุกกันใหม่คราวหน้านะ ริง~",0,0xf08080;
+	donpcevent "#wop_master::OnReset";
+	stopnpctimer;
+	end;
+}
+
+poring_w01,112,68,3	script	Poring#wop_door_d	1002,{
+	end;
+
+OnInit:
+	waitingroom "[ รับสมัครทีม Deviling ]",6,"Poring#wop_door_d::OnStartArena",5,0,9;
+	enablewaitingroomevent;
+	end;
+
+OnStartArena:
+	warpwaitingpc "poring_w02",170,175;
+	disablewaitingroomevent;
+	if ($@wop_teamcount == 0) {
+		set $@wop_teamcount,1;
+		donpcevent "Poring#wop_door_a::OnAngelingStart";
+		donpcevent "#wop_warp_rtry::OnStop";
+	}
+	else if ($@wop_teamcount == 1) {
+		donpcevent "#wop_master::OnStart";
+		donpcevent "Poring#wop_door_a::OnStop";
+		stopnpctimer;
+	}
+	end;
+
+OnEnable:
+	enablewaitingroomevent;
+	end;
+
+OnDisable:
+	disablewaitingroomevent;
+	end;
+
+OnDevilingStart:
+	initnpctimer;
+	end;
+
+OnStop:
+	stopnpctimer;
+	end;
+
+OnTimer1000:
+	mapannounce "poring_w01","ไม่มีคนดีเหลือแล้วล่ะสิ การรับสมัครทีม Angeling จบลงแล้ว ริง~!",0,0x33FF66;
+	end;
+
+OnTimer4000:
+	mapannounce "poring_w01","เหล่าสมาชิกทีม Deviling ผู้แสนดี! มารวมตัวกันหน่อยเร็ว ริง~!!",0,0x33FF66;
+	end;
+
+OnTimer8000:
+	mapannounce "poring_w01","สงครามจะถูกยกเลิกทันที หากหาสมาชิกไม่ได้ภายในหนึ่งนาทีนี้!!",0,0x33FF66;
+	donpcevent "#wop_master::OnDevilingWarn";
+	end;
+
+OnTimer13000:
+	mapannounce "poring_w01","ถึงเวลาเข้าร่วมทีม Deviling ผู้กล้าหาญแล้ว ริง~!",0,0x33FF66;
+	end;
+
+OnTimer20000:
+	mapannounce "poring_w01","D-E-V-I-L-I-N-G! ทีม Deviling! มาเข้าร่วมกับเราสิ!",0,0x33FF66;
+	end;
+
+OnTimer30000:
+	mapannounce "poring_w01","เหลือเวลาไม่มากแล้วนะ ริง! ใครอยากเป็นส่วนหนึ่งของทีม Deviling รีบมาเร็วเข้า!",0,0x33FF66;
+	end;
+
+OnTimer40000:
+	mapannounce "poring_w01","D-E-V-I-L-I-N-G! ทีม Deviling! มาเข้าร่วมกับเราสิ!!",0,0x33FF66;
+	end;
+
+OnTimer50000:
+	mapannounce "poring_w01","น่าเสียดายจริงๆ! ไม่ยากจะเชื่อเลยว่าจะมีผู้เล่นไม่พอ!",0,0x33FF66;
+	end;
+
+OnTimer55000:
+	mapannounce "poring_w01","Angeling: พวกข้าไม่มีเวลารอแล้วนะ เจ้าพวก Deviling งี่เง่า! การต่อสู้ถูกยกเลิกแล้ว ริง~!",0,0xf08080;
+	end;
+
+OnTimer55100:
+	donpcevent "Poring#wop_door_a::OnDisable";
+	donpcevent "Poring#wop_door_d::OnDisable";
+	donpcevent "Poring#wop_door_all::OnDisable";
+
+	set $@wop_teamcount,0;
+	donpcevent "#wop_master::OnDevilingEnd";
+	donpcevent "#wop_warp_rtry::OnEnable";
+	end;
+
+OnTimer58000:
+	mapannounce "poring_w01","...อึ๊กกกกกก... บอกข้าทีว่ามันไม่ได้เกิดขึ้นจริง ริง! เอาเถอะ เตรียมตัวสำหรับรอบหน้าให้ดีละกัน ริง~!!",0,0x33FF66;
+	donpcevent "#wop_master::OnReset";
+	stopnpctimer;
+	end;
+}
+
+poring_w01,103,70,0	script	#wop_warp_rtry	139,13,13,{
+	end;
+
+OnInit:
+	disablenpc "#wop_warp_rtry";
+	end;
+
+OnEnable:
+	enablenpc "#wop_warp_rtry";
+	end;
+
+OnDisable:
+	disablenpc "#wop_warp_rtry";
+	end;
+
+OnReady:
+	initnpctimer;
+	end;
+
+OnStop:
+	stopnpctimer;
+	end;
+
+OnTouch:
+	warp "poring_w01",112,138;
+	end;
+
+OnTimer3000:
+	mapannounce "poring_w01","Porings: ข้าให้เวลาพวกเจ้า 1 นาที เลือกทีมของเจ้าซะ ริง~!",0,0xf08080;
+	end;
+
+OnTimer33000:
+	mapannounce "poring_w01","Porings: เหลือเวลาอีก 30 วินาที! เร็วเข้า รีบเลือกทีมกันได้แล้ว ริง~?!!",0,0xf08080;
+	end;
+
+OnTimer58000:
+	mapannounce "poring_w01","Porings: นี่พวกเจ้าใช่นักรบจริงๆ หรือเปล่าเนี่ย?!!! ข้าผิดหวังจริงๆ ริง~!",0,0xf08080;
+	end;
+
+OnTimer60000:
+	mapannounce "poring_w01","การต่อสู้ถูกยกเลิกเนื่องจากสมาชิกในแต่ละทีมยังไม่เต็ม!!",0,0xf08080;
+	end;
+
+OnTimer61000:
+	enablenpc "#wop_warp_rtry";
+	end;
+
+OnTimer65000:
+	disablenpc "#wop_warp_rtry";
+	donpcevent "#wop_master::OnReset";
+	stopnpctimer;
+	end;
+}
+
+// Mr. Doppel
+//============================================================
+poring_w02,26,181,3	script	Mr. Doppel#wop_team_a	739,{
+	if (checkweight(714,3) == 0) {
+		mes "- เดี๋ยวๆๆ !! -";
+		mes "- ตอนนี้สัมภาระของท่าน -";
+		mes "- มันหนักเกินไปแล้ว -";
+		mes "- กรุณาจัดการน้ำหนักตัว -";
+		mes "- แล้วค่อยมาใหม่อีกครั้ง -";
+		close;
+	}
+	set .@a_tname$,getpartyname($@wop_team_a);
+	set .@pname$,getpartyname(getcharid(1));
+	if ($@wop_team_a != 0 && $@wop_team_a == getcharid(1)) {
+		mes "[ Mr. Doppel ]";
+		mes "เอาล่ะ ทุกคนเข้าปาร์ตี้กันครบแล้วใช่ไหม?";
+		mes "ชื่อปาร์ตี้คือ... " + .@pname$ + " สินะ?";
+		mes "ข้าจะส่งเจ้าไปยังพื้นที่เตรียมตัวก่อนเข้าสู่สนามรบ";
+		next;
+		switch(select("ไม่! เดี๋ยวก่อน!:ไปที่พื้นที่เตรียมตัวเลย")) {
+		case 1:
+			mes "[ Mr. Doppel ]";
+			mes "อะไรอีกล่ะทีนี้?";
+			mes "หัดเกรงใจกันบ้างได้ไหม?";
+			mes "เจ้าเหลือเวลาไม่มากแล้วนะ ตัดสินใจเดี๋ยวนี้!";
+			next;
+			mes "[ Mr. Doppel ]";
+			mes "ถ้าเจ้าไปถึงที่นั่นไม่ทันเวลา เจ้าจะหมดสิทธิ์เข้าร่วมการต่อสู้นะจะบอกให้";
+			close;
+		case 2:
+			if (is_party_leader() == true) {
+				mes "[ Mr. Doppel ]";
+				mes "ในฐานะหัวหน้าปาร์ตี้ ก่อนจะเข้าสู่สนามรบ เจ้าควรตรวจสอบสมาชิกของเจ้าให้เรียบร้อยทุกคน";
+				next;
+				switch(select("รับทราบ ข้าจะเป็นคนสุดท้ายเอง:ข้าเป็นคนสุดท้ายแล้ว ส่งข้าเข้าสนามรบเลย:ยกเลิก")) {
+				case 1:
+					mes "[ Mr. Doppel ]";
+					mes "ดีมาก! ตรวจสอบให้แน่ใจก่อนว่าสมาชิกทุกคนอยู่ในปาร์ตี้ครบถ้วน";
+					close;
+				case 2:
+					mes "[ Mr. Doppel ]";
+					mes "ดีมาก... เยี่ยมที่จัดการทุกอย่างได้ทันเวลาพอดี";
+					delitem 7773,countitem(7773);
+					close2;
+					set wop_team,0;
+					warp "poring_w02",44,82;
+					end;
+				}
+			}
+			else {
+				mes "[ Mr. Doppel ]";
+				mes "รับทราบ ข้าจะส่งเจ้าไปยังพื้นที่เตรียมตัวเดี๋ยวนี้";
+				mes "ไปรอสมาชิกคนอื่นๆ ของเจ้าที่นั่นนะ";
+				delitem 7773,countitem(7773);
+				close2;
+				set wop_team,0;
+				warp "poring_w02",44,82;
+				end;
+			}
+		}
+	}
+	else {
+		if (is_party_leader() == true) {
+			if ($@wop_team_a == 0) {
+				mes "[ Mr. Doppel ]";
+				mes "อ้อ เจ้าคือหัวหน้าปาร์ตี้ของทีม Angeling สินะ";
+				mes "แน่ใจนะว่าสมาชิกทุกคนอยู่ในปาร์ตี้ครบแล้ว?";
+				mes "ก่อนอื่นเรามาลงทะเบียนชื่อปาร์ตี้ของเจ้าก่อน แล้วหลังจากนั้นค่อยเช็คสมาชิกกัน";
+				next;
+				mes "[ Mr. Doppel ]";
+				mes "ไหนดูซิ... ชื่อปาร์ตี้ของเจ้าคือ...";
+				mes " ";
+				mes "^4d4dff " + .@pname$ + " ^000000";
+				mes " ";
+				mes "ถูกต้องไหม? นี่คือชื่อที่เจ้าต้องการใช้ลงทะเบียนใช่หรือเปล่า?";
+				next;
+				switch(select("ไม่! ท่านเข้าใจผิดแล้ว:ใช่ ข้าต้องการลงทะเบียนชื่อนี้:ยกเลิก")) {
+				case 1:
+					mes "[ Mr. Doppel ]";
+					mes "เฮ้ ข้าไม่ได้มีเวลาทั้งวันนะ! ตัดสินใจแล้วรีบลงทะเบียนให้เร็วที่สุดล่ะ";
+					mes "อย่าลืมพาสมาชิกทุกคนเข้าปาร์ตี้ด้วย เฉพาะสมาชิกในปาร์ตี้ที่ลงทะเบียนไว้เท่านั้นที่จะเข้าร่วมการต่อสู้ได้";
+					close;
+				case 2:
+					mes "[ Mr. Doppel ]";
+					mes "ตกลง ข้าจะลงทะเบียนชื่อปาร์ตี้ของเจ้าคือ - " +.@pname$ + " -";
+					mes "ทีนี้ ไปบอกให้ ^4d4dffสมาชิกมาคุยกับข้าเพื่อยืนยันตัวตน^000000 ซะ";
+					mes "ข้าจะส่งพวกเจ้าเข้าสู่สนามรบทันทีที่ข้ายืนยันสมาชิกปาร์ตี้ครบถ้วน";
+					set $@wop_team_a,getcharid(1);
+					mapannounce "poring_w02","การลงทะเบียนของทีม Angeling ได้รับการยืนยันแล้ว สมาชิกในปาร์ตี้กรุณายืนยันตัวตนกับ Mr. Doppel ทันที",0,0x33FF66;
+					close;
+				case 3:
+					mes "[ Mr. Doppel ]";
+					mes "เวลาไม่คอยใครนะ ตัดสินใจแล้วรีบลงทะเบียนซะล่ะ";
+					close;
+				}
+			}
+			else {
+				mes "[ Mr. Doppel ]";
+				mes "เจ้าเป็นหัวหน้าปาร์ตี้สินะ";
+				mes "เจ้ายังลงทะเบียนปาร์ตี้ไม่เสร็จอีกเหรอ?";
+				mes "เจ้าต้องใช้ชื่อที่ลงทะเบียนไว้เท่านั้นสิ!";
+				next;
+				mes "[ Mr. Doppel ]";
+				mes "ชื่อปาร์ตี้ที่ลงทะเบียนไว้คือ ";
+				mes " " + .@a_tname$ + " ";
+				mes "กรุณายืนยันด้วย";
+				close;
+			}
+		}
+		else {
+			mes "[ Mr. Doppel ]";
+			mes "หากเจ้าไม่ได้เป็นสมาชิกของปาร์ตี้ที่ลงทะเบียนไว้ เจ้าจะไม่สามารถเข้าร่วมการต่อสู้ได้นะ";
+			next;
+			mes "[ Mr. Doppel ]";
+			mes "ข้าจะตรวจสอบอีกครั้ง หลังจากปาร์ตี้ลงทะเบียนเรียบร้อยแล้ว เจ้าถึงจะถูกส่งเข้าสู่สนามรบ";
+			mes "พวกเจ้าต้องร่วมมือกันเป็นทีม เพราะนี่คือเกมที่เล่นเป็นทีม ไม่อย่างนั้นปัญหาเกิดแน่";
+			close;
+		}
+	}
+
+OnInit:
+	disablenpc "Mr. Doppel#wop_team_a";
+	end;
+
+OnEnable:
+	enablenpc "Mr. Doppel#wop_team_a";
+	end;
+
+OnDisable:
+	disablenpc "Mr. Doppel#wop_team_a";
+	end;
+}
+
+poring_w02,170,181,3	script	Mr. Doppel#wop_team_d	739,{
+	if (checkweight(714,3) == 0) {
+		mes "- เดี๋ยวๆๆ !! -";
+		mes "- ตอนนี้สัมภาระของท่าน -";
+		mes "- มันหนักเกินไปแล้ว -";
+		mes "- กรุณาจัดการน้ำหนักตัว -";
+		mes "- แล้วค่อยมาใหม่อีกครั้ง -";
+		close;
+	}
+	set .@d_tname$,getpartyname($@wop_team_d);
+	set .@pname$,getpartyname(getcharid(1));
+	if ($@wop_team_d != 0 && $@wop_team_d == getcharid(1)) {
+		mes "[ Mr. Doppel ]";
+		mes "เอาล่ะ ทุกคนเข้าปาร์ตี้กันครบแล้วใช่ไหม?";
+		mes "ชื่อปาร์ตี้คือ... " + .@pname$ + " สินะ?";
+		mes "ข้าจะส่งเจ้าไปยังพื้นที่เตรียมตัวก่อนเข้าสู่สนามรบ";
+		next;
+		switch(select("ไม่! เดี๋ยวก่อน!:ไปที่พื้นที่เตรียมตัวเลย")) {
+		case 1:
+			mes "[ Mr. Doppel ]";
+			mes "อะไรอีกล่ะทีนี้?";
+			mes "หัดเกรงใจกันบ้างได้ไหม?";
+			mes "เจ้าเหลือเวลาไม่มากแล้วนะ ตัดสินใจเดี๋ยวนี้!";
+			next;
+			mes "[ Mr. Doppel ]";
+			mes "ถ้าเจ้าไปถึงที่นั่นไม่ทันเวลา เจ้าจะหมดสิทธิ์เข้าร่วมการต่อสู้นะจะบอกให้";
+			close;
+		case 2:
+			if (is_party_leader() == true) {
+				mes "[ Mr. Doppel ]";
+				mes "ในฐานะหัวหน้าปาร์ตี้ ก่อนจะเข้าสู่สนามรบ เจ้าควรตรวจสอบสมาชิกของเจ้าให้เรียบร้อยทุกคน";
+				next;
+				switch(select("รับทราบ ข้าจะเป็นคนสุดท้ายเอง:ข้าเป็นคนสุดท้ายแล้ว ส่งข้าเข้าสนามรบเลย")) {
+				case 1:
+					mes "[ Mr. Doppel ]";
+					mes "ดีมาก! ตรวจสอบให้แน่ใจก่อนว่าสมาชิกทุกคนอยู่ในปาร์ตี้ครบถ้วน";
+					close;
+				case 2:
+					mes "[ Mr. Doppel ]";
+					mes "ดีมาก... เยี่ยมที่จัดการทุกอย่างได้ทันเวลาพอดี";
+					delitem 7773,countitem(7773);
+					close2;
+					set wop_team,0;
+					warp "poring_w02",153,82;
+					end;
+				}
+			} else {
+				mes "[ Mr. Doppel ]";
+				mes "รับทราบ ข้าจะส่งเจ้าไปยังพื้นที่เตรียมตัวเดี๋ยวนี้";
+				mes "ไปรอสมาชิกคนอื่นๆ ของเจ้าที่นั่นนะ";
+				delitem 7773,countitem(7773);
+				close2;
+				set wop_team,0;
+				warp "poring_w02",153,82;
+				end;
+			}
+		}
+	} else {
+		if (is_party_leader() == true) {
+			if ($@wop_team_d == 0) {
+				mes "[ Mr. Doppel ]";
+				mes "อ้อ เจ้าคือหัวหน้าปาร์ตี้ของทีม Deviling สินะ";
+				mes "แน่ใจนะว่าสมาชิกทุกคนอยู่ในปาร์ตี้ครบแล้ว?";
+				mes "ก่อนอื่นเรามาลงทะเบียนชื่อปาร์ตี้ของเจ้าก่อน แล้วหลังจากนั้นค่อยเช็คสมาชิกกัน";
+				next;
+				mes "[ Mr. Doppel ]";
+				mes "ไหนดูซิ... ชื่อปาร์ตี้ของเจ้าคือ...";
+				mes " ";
+				mes "^4d4dff " + .@pname$ + " ^000000";
+				mes " ";
+				mes "ถูกต้องไหม? นี่คือชื่อที่เจ้าต้องการใช้ลงทะเบียนใช่หรือเปล่า?";
+				next;
+				switch(select("ไม่! ท่านเข้าใจผิดแล้ว:ใช่ ข้าต้องการลงทะเบียนชื่อนี้:ยกเลิก")) {
+				case 1:
+					mes "[ Mr. Doppel ]";
+					mes "เฮ้ ข้าไม่ได้มีเวลาทั้งวันนะ! ตัดสินใจแล้วรีบลงทะเบียนให้เร็วที่สุดล่ะ";
+					mes "อย่าลืมพาสมาชิกทุกคนเข้าปาร์ตี้ด้วย เฉพาะสมาชิกในปาร์ตี้ที่ลงทะเบียนไว้เท่านั้นที่จะเข้าร่วมการต่อสู้ได้";
+					close;
+				case 2:
+					mes "[ Mr. Doppel ]";
+					mes "ตกลง ข้าจะลงทะเบียนชื่อปาร์ตี้ของเจ้าคือ - " + .@pname$ + " -";
+					mes "ทีนี้ ไปบอกให้ ^4d4dffสมาชิกมาคุยกับข้าเพื่อยืนยันตัวตน^000000 ซะ";
+					mes "ข้าจะส่งพวกเจ้าเข้าสู่สนามรบทันทีที่ข้ายืนยันสมาชิกปาร์ตี้ครบถ้วน";
+					set $@wop_team_d,getcharid(1);
+					mapannounce "poring_w02","การลงทะเบียนของทีม Deviling ได้รับการยืนยันแล้ว สมาชิกในปาร์ตี้กรุณายืนยันตัวตนกับ Mr. Doppel ทันที",0,0x33FF66;
+					close;
+				case 3:
+					mes "[ Mr. Doppel ]";
+					mes "เวลาไม่คอยใครนะ ตัดสินใจแล้วรีบลงทะเบียนซะล่ะ";
+					close;
+				}
+			} else {
+				mes "[ Mr. Doppel ]";
+				mes "เจ้าเป็นหัวหน้าปาร์ตี้สินะ";
+				mes "เจ้ายังลงทะเบียนปาร์ตี้ไม่เสร็จอีกเหรอ?";
+				mes "เจ้าต้องใช้ชื่อที่ลงทะเบียนไว้เท่านั้นสิ!";
+				next;
+				mes "[ Mr. Doppel ]";
+				mes "ชื่อปาร์ตี้ที่ลงทะเบียนไว้คือ ";
+				mes " " + .@d_tname$ + " ";
+				mes "กรุณายืนยันด้วย";
+				close;
+			}
+		} else {
+			mes "[ Mr. Doppel ]";
+			mes "หากเจ้าไม่ได้เป็นสมาชิกของปาร์ตี้ที่ลงทะเบียนไว้ เจ้าจะไม่สามารถเข้าร่วมการต่อสู้ได้นะ";
+			next;
+			mes "[ Mr. Doppel ]";
+			mes "ข้าจะตรวจสอบอีกครั้ง หลังจากปาร์ตี้ลงทะเบียนเรียบร้อยแล้ว เจ้าถึงจะถูกส่งเข้าสู่สนามรบ";
+			mes "พวกเจ้าต้องร่วมมือกันเป็นทีม เพราะนี่คือเกมที่เล่นเป็นทีม ไม่อย่างนั้นปัญหาเกิดแน่";
+			close;
+		}
+	}
+
+OnInit:
+	disablenpc "Mr. Doppel#wop_team_d";
+	end;
+
+OnEnable:
+	enablenpc "Mr. Doppel#wop_team_d";
+	end;
+
+OnDisable:
+	disablenpc "Mr. Doppel#wop_team_d";
+	end;
+}
+
+poring_w02,1,1,0	script	#wop_master	-1,{
+	end;
+
+OnReset:
+	removemapflag "poring_w02",mf_partylock;
+	removemapflag "poring_w02",mf_pvp;
+	removemapflag "poring_w02",mf_pvp_noguild;
+	removemapflag "poring_w02",mf_pvp_nocalcrank;
+	mapwarp "poring_w02","poring_w01",112,138;
+	donpcevent "#wop_angellium1::OnReset";
+	donpcevent "#wop_angellium2::OnReset";
+	donpcevent "#wop_devillium1::OnReset";
+	donpcevent "#wop_devillium2::OnReset";
+	set $@wop_team_a,0;
+	set $@wop_team_d,0;
+	set $@wop_deadcount_a,0;
+	set $@wop_deadcount_d,0;
+	set $@wop_teamcount,0;
+	set $@wop_doorcount_a,0;
+	set $@wop_doorcount_d,0;
+	donpcevent "#wop_warp_a::OnDisable";
+	donpcevent "#wop_warp_d::OnDisable";
+	donpcevent "#wop_warp_rtry::OnDisable";
+	donpcevent "Poring#wop_door_a::OnEnable";
+	donpcevent "Poring#wop_door_d::OnEnable";
+	donpcevent "Poring#wop_door_all::OnEnable";
+	stopnpctimer;
+	end;
+
+OnStart:
+	initnpctimer;
+	end;
+
+OnAngelingWarn:
+	mapannounce "poring_w02","การรับสมัครทีม Deviling เสร็จสมบูรณ์แล้ว สงครามจะถูกยกเลิกโดยอัตโนมัติหากทีม Angeling ไม่พร้อมภายใน 1 นาที",0,0xf08080;
+	end;
+
+OnDevilingWarn:
+	mapannounce "poring_w02","การรับสมัครทีม Angeling เสร็จสมบูรณ์แล้ว สงครามจะถูกยกเลิกโดยอัตโนมัติหากทีม Deviling ไม่พร้อมภายใน 1 นาที",0,0xf08080;
+	end;
+
+OnDevilingEnd:
+	mapannounce "poring_w02","การรับสมัครทีม Deviling ล้มเหลว สงครามจะถูกยกเลิกในอีกสักครู่",0,0xf08080;
+	end;
+
+OnAngelingEnd:
+	mapannounce "poring_w02","การรับสมัครทีม Angeling ล้มเหลว สงครามจะถูกยกเลิกในอีกสักครู่",0,0xf08080;
+	end;
+
+OnStop:
+	stopnpctimer;
+	end;
+
+OnAngelingWin:
+	set .@i,1;
+OnDevilingWin:
+	removemapflag "poring_w02",mf_partylock;
+	removemapflag "poring_w02",mf_pvp;
+	removemapflag "poring_w02",mf_pvp_noguild;
+	removemapflag "poring_w02",mf_pvp_nocalcrank;
+	if (.@i)
+		mapannounce "poring_w02","Mr. Doppel: ทีม Angeling จากปาร์ตี้ " + getpartyname($@wop_team_a) + " เป็นฝ่ายชนะในศึกครั้งนี้!",0,0xf08080;
+	else
+		mapannounce "poring_w02","Mr. Doppel: ทีม Deviling จากปาร์ตี้ " + getpartyname($@wop_team_d) + " เป็นฝ่ายชนะในศึกครั้งนี้!",0,0xf08080;
+	donpcevent "Deviruchi#wop_endmaster::OnEnable";
+	stopnpctimer;
+	// Reset Barriers
+	donpcevent "#aroom_ingate_wop::OnDisable";
+	donpcevent "#aroom_outgate_wop::OnDisable";
+	donpcevent "#droom_ingate_wop::OnDisable";
+	donpcevent "#droom_outgate_wop::OnDisable";
+	end;
+
+OnTimer5000:
+	mapannounce "poring_w02","Mr. Doppel: ยินดีต้อนรับเหล่านักรบทุกท่านที่มาร่วมสู้ศึกในวันนี้",0,0xf08080;
+	donpcevent "Mr. Doppel#wop_team_a::OnEnable";
+	donpcevent "Mr. Doppel#wop_team_d::OnEnable";
+	end;
+
+OnTimer8000:
+	mapannounce "poring_w02","Mr. Doppel: สมาชิกแต่ละคนต้องเข้าปาร์ตี้ให้เรียบร้อย และให้หัวหน้าปาร์ตี้ลงทะเบียนชื่อทีมของพวกเจ้าซะ",0,0xf08080;
+	end;
+
+OnTimer12000:
+	mapannounce "poring_w02","Mr. Doppel: พวกเจ้ามีเวลา 50 วินาที รวมกลุ่มกัน ลงทะเบียนชื่อ และมุ่งหน้าสู่สนามรบได้เลย",0,0xf08080;
+	end;
+
+OnTimer32000:
+	mapannounce "poring_w02","Mr. Doppel: ยังเหลือเวลาอีก 30 วินาที รีบเข้ากลุ่ม ลงทะเบียน และเตรียมตัวเข้าสนามรบ!",0,0xf08080;
+	end;
+
+OnTimer62000:
+	mapannounce "poring_w02","Mr. Doppel: หมดเวลาแล้ว กฎการต่อสู้จะถูกอธิบายก่อนเริ่มสงครามในอีกไม่ช้า",0,0xf08080;
+	end;
+
+OnTimer70000:
+	mapannounce "poring_w02","Mr. Doppel: พร้อมกันหรือยัง? ข้าจะอธิบายกฎของสงครามครั้งนี้ให้ฟัง",0,0xf08080;
+	end;
+
+OnTimer75000:
+	mapannounce "poring_w02","Mr. Doppel: ทีม Angeling ต้องปกป้อง Angeling 2 ตัวที่ฐานของตนเอง และในขณะเดียวกันต้องบุกไปกำจัด Deviling ที่ฐานฝ่ายตรงข้าม ทีม Deviling ก็ต้องทำเช่นเดียวกัน",0,0xf08080;
+	end;
+
+OnTimer80000:
+	mapannounce "poring_w02","Mr. Doppel: ทีมของเจ้าจะเป็นฝ่ายชนะหากกำจัดมอนสเตอร์เป้าหมายทั้ง 2 ตัวของอีกฝ่ายได้ กฎกติกาง่ายๆ แค่นี้แหละ",0,0xf08080;
+	end;
+
+OnTimer85000:
+	mapannounce "poring_w02","Mr. Doppel: แต่จำไว้ว่า Angeling และ Deviling จะฟื้นคืนชีพได้หลังจากเวลาผ่านไปครู่หนึ่ง ดังนั้นสิ่งสำคัญคือต้องรีบกำจัดตัวที่สองให้เร็วที่สุดหลังจากจัดการตัวแรกได้",0,0xf08080;
+	end;
+
+OnTimer90000:
+	mapannounce "poring_w02","Mr. Doppel: และพึงระวังไว้ว่า Poring เหล่านี้กำลังโกรธจัด พวกมันจะโจมตีทุกคนไม่ว่าจะเป็นฝ่ายไหนก็ตาม",0,0xf08080;
+	end;
+
+OnTimer95000:
+	mapannounce "poring_w02","Mr. Doppel: โดยพื้นฐานแล้ว Poring คือศัตรูตามธรรมชาติของมนุษย์ การถูกพวกมันโจมตีจึงเลี่ยงไม่ได้ แม้ว่าจะอยู่ทีมเดียวกันก็ตาม",0,0xf08080;
+	end;
+
+OnTimer100000:
+	mapannounce "poring_w02","Mr. Doppel: ในบางพื้นที่ เจ้าจำเป็นต้องใช้ War Badge ซึ่งได้มาจากการกำจัดสมาชิกทีมฝ่ายตรงข้าม เอาล่ะ... เริ่มการต่อสู้ได้!",0,0xf08080;
+	setmapflag "poring_w02",mf_partylock;
+	setmapflag "poring_w02",mf_pvp;
+	setmapflag "poring_w02",mf_pvp_noguild;
+	setmapflag "poring_w02",mf_pvp_nocalcrank;
+	donpcevent "#wop_warp_a::OnEnable";
+	donpcevent "#wop_warp_d::OnEnable";
+	donpcevent "#wop_angellium1::OnAngelingSpawn";
+	donpcevent "#wop_angellium2::OnAngelingSpawn";
+	donpcevent "#wop_devillium1::OnDevilingSpawn";
+	donpcevent "#wop_devillium2::OnDevilingSpawn";
+	end;
+
+OnTimer700000:
+	mapannounce "poring_w02","Mr. Doppel: หมดเวลาการต่อสู้แล้ว อีกสักครู่พวกเจ้าจะถูกวาร์ปไปยังแท่นรับรางวัลของผู้ชนะ",0,0xf08080;
+	removemapflag "poring_w02",mf_partylock;
+	removemapflag "poring_w02",mf_pvp;
+	removemapflag "poring_w02",mf_pvp_noguild;
+	removemapflag "poring_w02",mf_pvp_nocalcrank;
+	donpcevent "#wop_angellium1::OnReset";
+	donpcevent "#wop_angellium2::OnReset";
+	donpcevent "#wop_devillium1::OnReset";
+	donpcevent "#wop_devillium2::OnReset";
+	end;
+
+OnTimer703000:
+	donpcevent "Deviruchi#wop_endmaster::OnEnable";
+	stopnpctimer;
+	end;
+}
+
+poring_w02,51,82,0	script	#wop_warp_a	139,1,1,{
+	end;
+
+OnInit:
+	disablenpc "#wop_warp_a";
+	end;
+
+OnEnable:
+	enablenpc "#wop_warp_a";
+	specialeffect EF_MAPPILLAR2,AREA,"#wop_warp_a";
+	end;
+
+OnDisable:
+	disablenpc "#wop_warp_a";
+	end;
+
+OnTouch_:
+	set wop_team,1;
+	warp "poring_w02",57,82;
+	end;
+}
+
+poring_w02,146,82,0	script	#wop_warp_d	139,1,1,{
+	end;
+
+OnInit:
+	disablenpc "#wop_warp_d";
+	end;
+
+OnEnable:
+	enablenpc "#wop_warp_d";
+	specialeffect EF_MAPPILLAR2,AREA,"#wop_warp_d";
+	end;
+
+OnDisable:
+	disablenpc "#wop_warp_d";
+	end;
+
+OnTouch_:
+	set wop_team,2;
+	warp "poring_w02",140,82;
+	end;
+}
+
+// Poring Spawn
+//============================================================
+poring_w02,80,82,0	script	#wop_angellium1	-1,{
+	end;
+
+OnReset:
+	killmonster "poring_w02","#wop_angellium1::OnMyMobDead";
+	stopnpctimer;
+	end;
+
+OnAngelingSpawn:
+	monster "poring_w02",80,82,"Angeling",1766,1,"#wop_angellium1::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	set $@wop_deadcount_a,$@wop_deadcount_a + 1;
+	if ($@wop_deadcount_a == 1) {
+		mapannounce "poring_w02","Mr. Doppel: Angeling ที่ฐานจุดที่ 1 ถูกกำจัดแล้ว! ทีม Angeling เสีย 1 คะแนน!!",0,0x00ff00;
+		initnpctimer;
+	}
+	else {
+		donpcevent "#wop_angellium1::OnReset";
+		donpcevent "#wop_angellium2::OnReset";
+		donpcevent "#wop_devillium1::OnReset";
+		donpcevent "#wop_devillium2::OnReset";
+		donpcevent "#wop_master::OnDevilingWin";
+	}
+	end;
+
+OnTimer120000:
+	set $@wop_deadcount_a,$@wop_deadcount_a - 1;
+	donpcevent "#wop_angellium1::OnAngelingSpawn";
+	mapannounce "poring_w02","Mr. Doppel: Angeling ที่ฐานจุดที่ 1 ฟื้นคืนชีพแล้ว! ทีม Angeling ได้รับคืน 1 คะแนน!!",0,0x00ff00;
+	stopnpctimer;
+}
+
+poring_w02,98,41,0	script	#wop_angellium2	-1,{
+	end;
+
+OnReset:
+	killmonster "poring_w02","#wop_angellium2::OnMyMobDead";
+	stopnpctimer;
+	end;
+
+OnAngelingSpawn:
+	monster "poring_w02",98,41,"Angeling",1766,1,"#wop_angellium2::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	set $@wop_deadcount_a,$@wop_deadcount_a + 1;
+	if ($@wop_deadcount_a == 1) {
+		mapannounce "poring_w02","Mr. Doppel: Angeling ที่ฐานจุดที่ 2 ถูกกำจัดแล้ว! ทีม Angeling เสีย 1 คะแนน!!",0,0x00ff00;
+		initnpctimer;
+	}
+	else {
+		donpcevent "#wop_angellium1::OnReset";
+		donpcevent "#wop_angellium2::OnReset";
+		donpcevent "#wop_devillium1::OnReset";
+		donpcevent "#wop_devillium2::OnReset";
+		donpcevent "#wop_master::OnDevilingWin";
+	}
+	end;
+
+OnTimer120000:
+	set $@wop_deadcount_a,$@wop_deadcount_a - 1;
+	donpcevent "#wop_angellium2::OnAngelingSpawn";
+	mapannounce "poring_w02","Mr. Doppel: Angeling ที่ฐานจุดที่ 2 ฟื้นคืนชีพแล้ว! ทีม Angeling ได้รับคืน 1 คะแนน!!",0,0x00ff00;
+	stopnpctimer;
+	end;
+}
+
+poring_w02,116,82,0	script	#wop_devillium1	-1,{
+	end;
+
+OnReset:
+	killmonster "poring_w02","#wop_devillium1::OnMyMobDead";
+	stopnpctimer;
+	end;
+
+OnDevilingSpawn:
+	monster "poring_w02",116,82,"Deviling",1767,1,"#wop_devillium1::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	set $@wop_deadcount_d,$@wop_deadcount_d + 1;
+	if ($@wop_deadcount_d == 1) {
+		mapannounce "poring_w02","Mr. Doppel: Deviling ที่ฐานจุดที่ 1 ถูกกำจัดแล้ว! ทีม Deviling เสีย 1 คะแนน!!",0,0x00ff00;
+		initnpctimer;
+	}
+	else {
+		donpcevent "#wop_devillium1::OnReset";
+		donpcevent "#wop_devillium2::OnReset";
+		donpcevent "#wop_devillium1::OnReset";
+		donpcevent "#wop_devillium2::OnReset";
+		donpcevent "#wop_master::OnAngelingWin";
+	}
+	end;
+
+OnTimer120000:
+	set $@wop_deadcount_d,$@wop_deadcount_d - 1;
+	donpcevent "#wop_devillium1::OndevilingSpawn";
+	mapannounce "poring_w02","Mr. Doppel: Deviling ที่ฐานจุดที่ 1 ฟื้นคืนชีพแล้ว! ทีม Deviling ได้รับคืน 1 คะแนน!!",0,0x00ff00;
+	stopnpctimer;
+	end;
+}
+
+poring_w02,98,124,0	script	#wop_devillium2	-1,{
+	end;
+
+OnReset:
+	killmonster "poring_w02","#wop_devillium2::OnMyMobDead";
+	stopnpctimer;
+	end;
+
+OndevilingSpawn:
+	monster "poring_w02",98,124,"Deviling",1767,1,"#wop_devillium2::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	set $@wop_deadcount_d,$@wop_deadcount_d + 1;
+	if ($@wop_deadcount_d == 1) {
+		mapannounce "poring_w02","Mr. Doppel: Deviling ที่ฐานจุดที่ 2 ถูกกำจัดแล้ว! ทีม Deviling เสีย 1 คะแนน!!",0,0x00ff00;
+		initnpctimer;
+	}
+	else {
+		donpcevent "#wop_devillium1::OnReset";
+		donpcevent "#wop_devillium2::OnReset";
+		donpcevent "#wop_devillium1::OnReset";
+		donpcevent "#wop_devillium2::OnReset";
+		donpcevent "#wop_master::OnAngelingWin";
+	}
+	end;
+
+OnTimer120000:
+	set $@wop_deadcount_d,$@wop_deadcount_d - 1;
+	donpcevent "#wop_devillium2::OndevilingSpawn";
+	mapannounce "poring_w02","Mr. Doppel: Deviling ที่ฐานจุดที่ 2 ฟื้นคืนชีพแล้ว! ทีม Deviling ได้รับคืน 1 คะแนน!!",0,0x00ff00;
+	stopnpctimer;
+}
+
+// Deviruchi
+//============================================================
+poring_w02,99,201,3	script	Deviruchi#wop_endmaster	738,{
+	if (MaxWeight-Weight < 2000 || checkweight(1201,1) == 0) {
+		mes "- เดี๋ยวๆๆ !! -";
+		mes "- ตอนนี้สัมภาระของเจ้า -";
+		mes "- มันหนักเกินไปแล้วนะ -";
+		mes "- กรุณาไปจัดการน้ำหนักตัว -";
+		mes "- แล้วค่อยกลับมาคุยใหม่ -";
+		close;
+	}
+	set .@a_point,$@wop_deadcount_a;
+	set .@d_point,$@wop_deadcount_d;
+	if (getcharid(1) == $@wop_team_a) { // ทีม Angeling
+		if (.@a_point < .@d_point) {
+			mes "[ Devi ]";
+			mes "ทำได้ดีมาก!";
+			mes "ขอบใจเจ้ามากที่ช่วยเพิ่มโอกาสคว้าชัยชนะให้พวกเรา";
+			mes "รับ Poring Coin เหล่านี้ไปเป็นรางวัลตอบแทนน้ำใจจากพวกเราเถอะ";
+			next;
+			if (wop_team == 1) {
+				mes "[ Devi ]";
+				mes "ลาก่อนนะ สหายมนุษย์";
+				close2;
+				getitem 7539,3; // Poring_Coin
+				warp "prt_fild08",150,370;
+				end;
+			}
+			else {
+				mes "[ Devi ]";
+				mes "เดี๋ยวหน้า เจ้าดูน่าสงสัยนะ!!";
+				mes "อ้อ ข้านึกออกแล้ว! เจ้าอยู่ฝ่าย Deviling ใช่ไหม?!";
+				mes "เจ้ามันเป็นสายลับที่แฝงตัวเข้ามา!";
+				mes "ข้าจะไม่มีวันยกโทษให้เจ้าเด็ดขาด!";
+				close2;
+				percentheal 99,0;
+				warp "prt_fild08",150,370;
+				end;
+			}
+		}
+		else if (.@a_point == .@d_point) {
+			mes "[ Devi ]";
+			mes "เจ้าทำเต็มที่ที่สุดแล้ว";
+			mes "น่าเสียดายที่ผลการต่อสู้ออกมาเสมอกัน...";
+			mes "ถึงอย่างนั้นก็ขอบใจที่มาช่วยพวกเราสู้ รับ Poring Coin นี้ไปสิ";
+			next;
+			if (wop_team == 1) {
+				mes "[ Devi ]";
+				mes "ลาก่อนนะ สหายมนุษย์";
+				close2;
+				getitem 7539,1; // Poring_Coin
+				warp "prt_fild08",150,370;
+				end;
+			}
+			else {
+				mes "[ Devi ]";
+				mes "เดี๋ยวหน้า เจ้าดูน่าสงสัยนะ!!";
+				mes "อ้อ ข้านึกออกแล้ว! เจ้าอยู่ฝ่าย Deviling ใช่ไหม?!";
+				mes "เจ้ามันเป็นสายลับนี่นา!";
+				mes "ต้องเป็นเพราะเจ้าแน่ๆ ที่ทำให้ผลการต่อสู้เสมอกันแบบนี้!!";
+				mes "ข้าจะไม่มีวันยกโทษให้เจ้า!";
+				close2;
+				percentheal 99,0;
+				warp "prt_fild08",150,370;
+				end;
+			}
+		}
+		else {
+			if (wop_team == 1) {
+				mes "[ Devi ]";
+				mes "เอาเถอะ ข้าว่าคราวนี้พวกเราแค่ดวงไม่ดีน่ะ...";
+				mes "ข้าคงให้อะไรเจ้าไม่ได้หรอก เพราะพวกเราแพ้ราบคาบเลย...";
+				next;
+				mes "[ Devi ]";
+				mes "ลาก่อนนะ สหายมนุษย์";
+				close2;
+				warp "prt_fild08",150,370;
+				end;
+			}
+			else {
+				mes "[ Devi ]";
+				mes "เดี๋ยวก่อน... มีคนทรยศอยู่ตรงนี้!";
+				mes "อ้อ ข้านึกออกแล้ว! เจ้าอยู่ฝ่าย Deviling ใช่ไหม?!";
+				mes "เจ้าแอบมาสืบความลับของพวกเราเหล่า Angeling งั้นเหรอ!";
+				next;
+				mes "[ Devi ]";
+				mes "เจ้าน่าจะละอายใจบ้างนะ!";
+				close2;
+				percentheal 99,0;
+				warp "prt_fild08",150,370;
+				end;
+			}
+		}
+	}
+	else if (getcharid(1) == $@wop_team_d) { // ทีม Deviling
+		if (.@a_point > .@d_point) {
+			mes "[ Devi ]";
+			mes "ทำได้ดีมาก!";
+			mes "ขอบใจเจ้ามากที่ช่วยเพิ่มโอกาสคว้าชัยชนะให้พวกเรา";
+			mes "รับ Poring Coin เหล่านี้ไปเป็นรางวัลตอบแทนน้ำใจจากพวกเราเถอะ";
+			next;
+			if (wop_team == 2) {
+				mes "[ Devi ]";
+				mes "ลาก่อนนะ สหายมนุษย์";
+				close2;
+				getitem 7539,3; // Poring_Coin
+				warp "prt_fild08",150,370;
+				end;
+			}
+			else {
+				mes "[ Devi ]";
+				mes "เดี๋ยวหน้า เจ้าดูน่าสงสัยนะ!!";
+				mes "อ้อ ข้านึกออกแล้ว! เจ้าอยู่ฝ่าย Angeling ใช่ไหม?!";
+				mes "เจ้ามันเป็นสายลับนี่นา!!";
+				mes "ข้าจะไม่มีวันยกโทษให้เจ้าเด็ดขาด!";
+				close2;
+				percentheal 99,0;
+				warp "prt_fild08",150,370;
+				end;
+			}
+		}
+		else if (.@a_point == .@d_point) {
+			mes "[ Devi ]";
+			mes "เจ้าทำเต็มที่ที่สุดแล้ว";
+			mes "น่าเสียดายที่ผลการต่อสู้ออกมาเสมอกัน...";
+			mes "ถึงอย่างนั้นก็ขอบใจที่มาช่วยพวกเราสู้ รับ Poring Coin นี้ไปสิ";
+			next;
+			if (wop_team == 2) {
+				mes "[ Devi ]";
+				mes "ลาก่อนนะ สหายมนุษย์";
+				close2;
+				getitem 7539,1; // Poring_Coin
+				warp "prt_fild08",150,370;
+				end;
+			}
+			else {
+				mes "[ Devi ]";
+				mes "เดี๋ยวหน้า เจ้าดูน่าสงสัยนะ!!";
+				mes "อ้อ ข้านึกออกแล้ว! เจ้าอยู่ฝ่าย Angeling ใช่ไหม?!";
+				mes "เจ้ามันเป็นสายลับที่แฝงตัวเข้ามา!";
+				mes "ต้องเป็นเพราะเจ้าแน่ๆ ที่ทำให้ผลออกมาเสมอแบบนี้!!";
+				mes "ข้าจะไม่มีวันยกโทษให้เจ้า!";
+				close2;
+				percentheal 99,0;
+				warp "prt_fild08",150,370;
+				end;
+			}
+		}
+		else {
+			if (wop_team == 2) {
+				mes "[ Devi ]";
+				mes "เอาเถอะ ข้าว่าคราวนี้พวกเราแค่ดวงไม่ดีน่ะ...";
+				mes "ข้าคงให้อะไรเจ้าไม่ได้หรอก เพราะพวกเราแพ้ราบคาบเลย...";
+				next;
+				mes "[ Devi ]";
+				mes "ข้าจะยอมอนุญาตให้เจ้ากลับไปยังโลกมนุษย์ได้";
+				close2;
+				warp "prt_fild08",150,370;
+				end;
+			}
+			else {
+				mes "[ Devi ]";
+				mes "เดี๋ยวหน้า เจ้าดูน่าสงสัยนะ!!";
+				mes "อ้อ ข้านึกออกแล้ว! เจ้าอยู่ฝ่าย Angeling ใช่ไหม?!";
+				mes "เจ้าแอบมาสืบความลับของพวกเราเหล่า Deviling งั้นเหรอ!";
+				next;
+				mes "[ Devi ]";
+				mes "เจ้าน่าจะละอายใจบ้างนะ!";
+				close2;
+				percentheal 99,0;
+				warp "prt_fild08",150,370;
+				end;
+			}
+		}
+	}
+	else {
+		mes "[ Devi ]";
+		mes "แปลกจัง... ชื่อปาร์ตี้ของเจ้าไม่ได้ถูกลงทะเบียนไว้นี่นา";
+		mes "ข้าขอโทษนะ แต่กฎก็คือกฎ ข้าช่วยอะไรเจ้าไม่ได้ถ้าปาร์ตี้ไม่ได้ลงทะเบียนไว้";
+		close;
+	}
+OnInit:
+	disablenpc "Deviruchi#wop_endmaster";
+	end;
+
+OnEnable:
+	enablenpc "Deviruchi#wop_endmaster";
+	initnpctimer;
+	end;
+
+OnDisable:
+	disablenpc "Deviruchi#wop_endmaster";
+	end;
+
+OnTimer3000:
+	mapwarp "poring_w02","poring_w02",99,196;
+	end;
+
+OnTimer5000:
+	mapannounce "poring_w02","Mr. Doppel: ข้าขอแบ่งปันรางวัลเล็กๆ น้อยๆ ให้กับเหล่านักรบที่สู้เพื่อเหล่า Poring อย่างกล้าหาญ! เชิญไปคุยกับ Devi ได้เลย",0,0x00ff00;
+	end;
+
+OnTimer65000:
+	mapannounce "poring_w02","Mr. Doppel: หมดเวลาแล้ว! ข้าจะส่งพวกเจ้ากลับเดี๋ยวนี้",0,0x00ff00;
+	end;
+
+OnTimer68000:
+	mapwarp "poring_w02","poring_w01",112,138;
+	end;
+
+OnTimer68100:
+	donpcevent "#wop_master::OnStop";
+	donpcevent "#wop_devillium1::OnReset";
+	donpcevent "#wop_devillium2::OnReset";
+	donpcevent "#wop_angellium1::OnReset";
+	donpcevent "#wop_angellium2::OnReset";
+	set $@wop_team_a,0;
+	set $@wop_team_d,0;
+	set $@wop_deadcount_a,0;
+	set $@wop_deadcount_d,0;
+	set $@wop_teamcount,0;
+	set $@wop_doorcount_a,0;
+	set $@wop_doorcount_d,0;
+	donpcevent "#wop_warp_a::OnDisable";
+	donpcevent "#wop_warp_d::OnDisable";
+	donpcevent "Mr. Doppel#wop_team_a::OnDisable";
+	donpcevent "Mr. Doppel#wop_team_d::OnDisable";
+	donpcevent "#wop_warp_rtry::OnDisable";
+	donpcevent "Poring#wop_door_a::OnEnable";
+	donpcevent "Poring#wop_door_d::OnEnable";
+	donpcevent "Poring#wop_door_all::OnEnable";
+	stopnpctimer;
+	end;
+}
+
+// Gate Guardian
+//============================================================
+poring_w02,99,52,0	script	Angeling Guardian#wop_da	111,{
+	cutin "wop_emb0" + $@wop_doorcount_a,1;
+	if ($@wop_doorcount_a < 4) {
+		if (wop_team == 2) { // ฝั่ง Deviling (ศัตรู) เข้ามาใช้งาน
+			mes "มีอุปกรณ์สำหรับติดตั้ง War Badge อยู่ที่นี่";
+			mes "เจ้ามองเห็นช่องว่างที่ยังว่างอยู่สำหรับติดตั้งตราสงคราม";
+			next;
+			switch(select("ติดตั้ง War Badge:ยกเลิก")) {
+			case 1:
+				if (countitem(7773)) {
+					if ($@wop_doorcount_a < 4) {
+						mes "ติดตั้ง War Badge เรียบร้อยแล้ว";
+						delitem 7773,1; // War_Badge
+						set $@wop_doorcount_a,$@wop_doorcount_a + 1;
+						cutin "wop_emb0" + $@wop_doorcount_a,1;
+						if ($@wop_doorcount_a == 4) {
+							next;
+							mes "กลไกประตูทำงานแล้ว!";
+							donpcevent "#aroom_ingate_wop::OnEnable";
+							donpcevent "#aroom_outgate_wop::OnEnable";
+						}
+						close2;
+					}
+					else {
+						mes "ติดตั้ง War Badge ครบทุกช่องแล้ว";
+						mes "ไม่จำเป็นต้องติดตั้งเพิ่มอีก";
+						close2;
+					}
+				}
+				else {
+					mes "^4d4dff - เจ้าไม่มี War Badge... เจ้าสามารถหาตราสงครามได้จากการกำจัดสมาชิกของทีมฝ่ายตรงข้าม - ^000000";
+					close2;
+				}
+				break;
+			case 2:
+				mes "ยกเลิก";
+				close2;
+			}
+		}
+		else { // เจ้าของบ้าน (ทีม Angeling)
+			mes "นี่คืออุปกรณ์สำหรับติดตั้ง War Badge";
+			mes "จงระวังอย่าให้ศัตรูนำตราสงครามมาติดตั้งที่นี่ได้ล่ะ!";
+			close2;
+		}
+	}
+	else {
+		mes "War Badge ทั้งหมดถูกติดตั้งครบถ้วนแล้ว";
+		close2;
+	}
+	cutin "",255;
+	end;
+
+OnInit:
+	set $@wop_doorcount_a,0;
+	end;
+}
+
+poring_w02,103,52,0	script	#aroom_ingate_wop	139,1,1,{
+	end;
+
+OnInit:
+	disablenpc "#aroom_ingate_wop";
+	end;
+
+OnEnable:
+	enablenpc "#aroom_ingate_wop";
+	end;
+
+OnDisable:
+	disablenpc "#aroom_ingate_wop";
+	end;
+
+OnTouch_:
+	warp "poring_w02",99,49;
+	end;
+}
+
+poring_w02,93,51,0	script	#aroom_outgate_wop	139,1,1,{
+	end;
+
+OnInit:
+	disablenpc "#aroom_outgate_wop";
+	end;
+
+OnEnable:
+	enablenpc "#aroom_outgate_wop";
+	end;
+
+OnDisable:
+	disablenpc "#aroom_outgate_wop";
+	end;
+
+OnTouch_:
+	warp "poring_w02",99,54;
+	end;
+}
+
+poring_w02,98,113,0	script	Deviling Guardian#wop_dd	111,{
+	cutin "wop_emb0" + $@wop_doorcount_d,1;
+	if ($@wop_doorcount_d < 4) {
+		if (wop_team == 1) { // ฝั่ง Angeling (ศัตรู) เข้ามาใช้งาน
+			mes "มีอุปกรณ์สำหรับติดตั้ง War Badge อยู่ที่นี่";
+			mes "เจ้ามองเห็นช่องว่างที่ยังว่างอยู่สำหรับติดตั้งตราสงคราม";
+			next;
+			switch(select("ติดตั้ง War Badge:ยกเลิก")) {
+			case 1:
+				if (countitem(7773)) {
+					if ($@wop_doorcount_d < 4) {
+						mes "ติดตั้ง War Badge เรียบร้อยแล้ว";
+						delitem 7773,1; // War_Badge
+						set $@wop_doorcount_d,$@wop_doorcount_d + 1;
+						cutin "wop_emb0" + $@wop_doorcount_d,1;
+						if ($@wop_doorcount_d == 4) {
+							next;
+							mes "กลไกประตูทำงานแล้ว!";
+							donpcevent "#droom_ingate_wop::OnEnable";
+							donpcevent "#droom_outgate_wop::OnEnable";
+						}
+						close2;
+					}
+					else {
+						mes "ติดตั้ง War Badge ครบทุกช่องแล้ว";
+						mes "ไม่จำเป็นต้องติดตั้งเพิ่มอีก";
+						close2;
+					}
+				}
+				else {
+					mes "^4d4dff - เจ้าไม่มี War Badge... เจ้าสามารถหาตราสงครามได้จากการกำจัดสมาชิกของทีมฝ่ายตรงข้าม - ^000000";
+					close2;
+				}
+				break;
+			case 2:
+				mes "ยกเลิก";
+				close2;
+			}
+		}
+		else { // เจ้าของบ้าน (ทีม Deviling)
+			mes "นี่คืออุปกรณ์สำหรับติดตั้ง War Badge";
+			mes "จงระวังอย่าให้ศัตรูนำตราสงครามมาติดตั้งที่นี่ได้ล่ะ!";
+			close2;
+		}
+	}
+	else {
+		mes "War Badge ทั้งหมดถูกติดตั้งครบถ้วนแล้ว";
+		close2;
+	}
+	cutin "",255;
+	end;
+
+OnInit:
+	set $@wop_doorcount_d,0;
+	end;
+}
+
+poring_w02,93,113,0	script	#droom_ingate_wop	139,1,1,{
+	end;
+
+OnInit:
+	disablenpc "#droom_ingate_wop";
+	end;
+
+OnEnable:
+	enablenpc "#droom_ingate_wop";
+	end;
+
+OnDisable:
+	disablenpc "#droom_ingate_wop";
+	end;
+
+OnTouch_:
+	warp "poring_w02",98,116;
+	end;
+}
+
+poring_w02,103,114,0	script	#droom_outgate_wop	139,1,1,{
+	end;
+
+OnInit:
+	disablenpc "#droom_outgate_wop";
+	end;
+
+OnEnable:
+	enablenpc "#droom_outgate_wop";
+	end;
+
+OnDisable:
+	disablenpc "#droom_outgate_wop";
+	end;
+
+OnTouch_:
+	warp "poring_w02",98,111;
+	end;
+}
+
+// Other NPCs
+//============================================================
+-	script	Angeling Side Poring#wpa	-1,{
+	end;
+}
+
+-	script	Deviling Side Marin#wpd	-1,{
+	end;
+}
+
+poring_w01,79,102,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa1	1002
+poring_w01,80,107,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa2	1002
+poring_w01,84,108,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa3	1002
+poring_w01,84,112,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa4	1002
+poring_w01,88,112,5	duplicate(Angeling Side Poring#wpa)	Angeling Side Poring#wa5	1002
+
+poring_w01,114,112,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd1	1242
+poring_w01,117,111,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd2	1242
+poring_w01,117,108,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd3	1242
+poring_w01,122,108,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd4	1242
+poring_w01,121,105,3	duplicate(Deviling Side Marin#wpd)	Deviling Side Marin#wd5	1242
+
+poring_w01,84,108,3	script	#wop_ex_1	139,3,3,{
+	end;
+
+OnTouch:
+	mes "[ เหล่า Poring ]";
+	mes "โฮฮฮฮฮฮฮฮฮฮฮฮฮ -!!!";
+	mes "มาสอนบทเรียนให้พวกนั้นกันเถอะ ริง~!";
+	mes "พวกเราจะไม่ยอมเอาชีวิตไปเสี่ยงเพื่อแลกกับแค่ Jellopy อีกต่อไปแล้ว ริง~!!!";
+	next;
+	mes "[ เหล่า Poring ]";
+	mes "ไปเลย! ไปสู้กัน! ชนะ ชนะ ชนะ!!!";
+	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa1");
+	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa2");
+	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa3");
+	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa4");
+	emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa5");
+	next;
+	if (wop_team == 1) { // ทีม Angeling
+		mes "[ เหล่า Poring ]";
+		mes "โอ้วววววววว นั่นไง! นักรบที่สู้เพื่อพวกเรานี่นา!!";
+		mes "พระเจ้าช่วย... ยอดไปเลย ริง~!";
+		mes "โพริ่ง~ โพริ่ง~ โฮฮฮฮฮฮฮฮ~";
+		mes "ทีม Angeling~ โพโพโพะ โพริ่ง!";
+	}
+	else if (wop_team == 2) { // ทีม Deviling
+		mes "[ เหล่า Poring ]";
+		mes "เดี๋ยวสิ เจ้า! เจ้าอยู่ฝ่าย Deviling ไม่ใช่เหรอ?!";
+		mes "ออกไปเดี๋ยวนี้เลยนะ! ไป๊!!";
+		mes "บูวววววว~ บู~ บูวววววว~";
+		emotion ET_HUK, getnpcid(0, "Angeling Side Poring#wa1");
+		emotion ET_FRET, getnpcid(0, "Angeling Side Poring#wa2");
+		emotion ET_HUK, getnpcid(0, "Angeling Side Poring#wa3");
+		emotion ET_FRET, getnpcid(0, "Angeling Side Poring#wa4");
+		emotion ET_SURPRISE, getnpcid(0, "Angeling Side Poring#wa5");
+	}
+	else {
+		mes "[ เหล่า Poring ]";
+		mes "นี่ สหายมนุษย์ สนใจมาสู้เพื่อพวกเราฝ่าย Angeling หน่อยไหมล่ะ??!";
+		emotion ET_HELP, getnpcid(0, "Angeling Side Poring#wa1");
+		emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa2");
+		emotion ET_HELP, getnpcid(0, "Angeling Side Poring#wa3");
+		emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa4");
+		emotion ET_GO, getnpcid(0, "Angeling Side Poring#wa5");
+	}
+	next;
+	mes "[ เหล่า Poring ]";
+	mes "ทีม Angeling~ โพโพโพะ โพริ่ง!";
+	mes "ชัยชนะ~ ชัยชนะ~ โฮฮฮฮฮฮฮฮ~";
+	next;
+	mes "- เหล่า Poring กำลังส่งเสียงเชียร์เพื่อชัยชนะอย่างร่าเริง -";
+	close;
+}
+
+poring_w01,119,107,3	script	#wop_ex_2	139,3,3,{
+	end;
+
+OnTouch:
+	mes "[ เหล่า Marin ]";
+	mes "วู้ฮู้วววววววววววววว!";
+	mes "ในที่สุด ก็ถึงเวลาที่เราจะสอนบทเรียนให้เจ้าพวกหมูงี่เง่านั่นแล้ว!!";
+	mes "ไอ้เจ้าพวก Poring ชั้นต่ำพวกนั้นมันงี่เง่ากันหมดทุกคนเลย!!";
+	next;
+	mes "[ เหล่า Marin ]";
+	mes "ไปเลย! ไปสู้! สู้เพื่อชัยชนะที่ยิ่งใหญ่!!!!";
+	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd1");
+	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd2");
+	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd3");
+	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd4");
+	emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd5");
+	next;
+	if (wop_team == 2) { // ทีม Deviling
+		mes "[ เหล่า Marin ]";
+		mes "โอ้ววว... นี่คือนักรบที่สู้เพื่อพวกเราสินะ!!";
+		mes "น่าทึ่งมาก!";
+		mes "นี่พิสูจน์ให้เห็นว่ามนุษย์ยอมรับว่าพวกเราคือมอนสเตอร์ที่แท้จริง!!";
+	}
+	else if (wop_team == 1) { // ทีม Angeling
+		mes "[ เหล่า Marin ]";
+		mes "เดี๋ยวสิ เจ้า! เจ้าอยู่ฝ่าย Angeling ไม่ใช่เหรอ?!";
+		mes "ออกไปให้พ้น! ไป๊!!";
+		mes "บูวววววว~ บู~ บูวววววว~";
+		emotion ET_HUK, getnpcid(0, "Deviling Side Marin#wd1");
+		emotion ET_FRET, getnpcid(0, "Deviling Side Marin#wd2");
+		emotion ET_HUK, getnpcid(0, "Deviling Side Marin#wd3");
+		emotion ET_FRET, getnpcid(0, "Deviling Side Marin#wd4");
+		emotion ET_SURPRISE, getnpcid(0, "Deviling Side Marin#wd5");
+	}
+	else {
+		mes "[ เหล่า Marin ]";
+		mes "เฮ้ มนุษย์ ไม่อยากสู้เพื่อ Deviling ผู้สูงส่งแห่งความมืดบ้างเหรอ? ว่าไงล่ะ?!";
+		emotion ET_HELP, getnpcid(0, "Deviling Side Marin#wd1");
+		emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd2");
+		emotion ET_HELP, getnpcid(0, "Deviling Side Marin#wd3");
+		emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd4");
+		emotion ET_GO, getnpcid(0, "Deviling Side Marin#wd5");
+	}
+	next;
+	mes "[ เหล่า Marin ]";
+	mes "Poring ที่มหัศจรรย์ที่สุดในโลก! Deviling มีครบทุกอย่าง! ไปเลย Deviling ลุยเลย-!!";
+	next;
+	mes "- เหล่า Marin กำลังส่งเสียงเชียร์เพื่อชัยชนะอย่างร่าเริง -";
+	close;
+}

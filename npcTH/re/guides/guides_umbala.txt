@@ -1,0 +1,102 @@
+//===== rAthena Script ======================================= 
+//= Umbala Guides
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guides for the city of Umbala.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guides.
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+umbala,128,94,3	script	Umbala Guide#01umbala::GuideUmbala	702,{
+	mes "[Umbala Guide]";
+	mes "ยินดีต้อนรับสู่ ^8B4513Umbala^000000,";
+	mes "หมู่บ้านของเผ่า Utan";
+	next;
+	mes "[Umbala Guide]";
+	mes "เนื่องจากฉันได้สำรวจที่นี่มาเป็นเวลาหลายเดือนแล้ว";
+	mes "ฉันจึงคุ้นเคยกับภูมิศาสตร์ของพื้นที่นี้และจุดที่น่าสนใจต่างๆ ในหมู่บ้านแห่งนี้เป็นอย่างดี";
+	mes "คุณต้องการความช่วยเหลือในการนำทางภายในหมู่บ้านไหม?";
+	F_Navi("[Umbala Guide]");
+	while (1) {
+		next;
+		switch(select("[ พนักงาน Kafra ]:[ บ้านหัวหน้าเผ่า ]:[ บ้านหมอผี ]:[ ร้านอาวุธ ]:[ ร้านขายของชำ ]:[ จุดกระโดดบันจี้จัมพ์ ]:[ ต้นไม้แห่ง Yggdrasil ]:ลบเครื่องหมายออกจาก Mini-Map:ยกเลิก")) {
+		case 1:
+			mes "[Umbala Guide]";
+			mes "เดี๋ยวฉันจะทำเครื่องหมายตำแหน่งของ";
+			mes "^0000FFKafra Employee^000000";
+			mes "บน mini-map ของคุณให้";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,87,160,0,0x0A82FF;
+			break;
+		case 2:
+			mes "[Umbala Guide]";
+			mes "มีเพียง "+F_Navi("Chief","umbala,68,251","^006400")+" เท่านั้นที่รู้ภาษาของโลกภายนอก";
+			mes "ดังนั้นคุณควรไปพบเขาก่อนสิ่งอื่นใดจะดีกว่า";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,68,251,1,0xAAFF00;
+			break;
+		case 3:
+			mes "[Umbala Guide]";
+			mes " "+F_Navi("Shaman","umbala,219,188","^008080")+" นั้นมีพลังลึกลับบางอย่าง";
+			mes "ผู้คนพูดกันว่าเธอสามารถสร้างหินธาตุแบบหยาบ (Rough) และแบ่งหินธาตุบริสุทธิ์ให้กลายเป็นก้อนเล็กๆ ได้";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,219,188,2,0x008080;
+			break;
+		case 4:
+			mes "[Umbala Guide]";
+			mes " "+F_Navi("Weapon Shop","umbala,125,155","^FF1493")+" ภายใน Umbala";
+			mes "เป็นแหล่งจัดหาอาวุธ";
+			mes "สำหรับการป้องกันตัวจากเหล่าศัตรูของพวกเขา";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,125,155,3,0xFF1493;
+			break;
+		case 5:
+			mes "[Umbala Guide]";
+			mes "มีสิ่งของที่มีประโยชน์มากมายสำหรับ";
+			mes "การเดินทางใน "+F_Navi("Tool Shop","umbala,136,127","^8B4513")+" ของ Umbala";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,136,127,4,0x8B4513;
+			break;
+		case 6:
+			mes "[Umbala Guide]";
+			mes "Umbala มีสถานที่ที่เป็นเอกลักษณ์ที่เรียกว่า";
+			mes " "+F_Navi("Bungee Jump Area","umbala,138,198")+"";
+			mes "หากคุณสนใจที่จะทดสอบ";
+			mes "ความกล้าหาญของคุณ ทำไมไม่ลองไปทดสอบดูสักหน่อยล่ะ";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,221,176,5,0x9400D3;
+			break;
+		case 7:
+			mes "[Umbala Guide]";
+			mes "มี "+F_Navi("Tree of Yggdrasil","umbala,107,284")+" ตั้งอยู่ทางตอนเหนือของเมือง";
+			mes "คุณควรลองไปแวะชมดูนะ เพราะนั่นเป็นสถานที่ที่ฉันแนะนำเมื่อคุณมาเยือน Umbala";
+			mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+			viewpoint 1,107,284,6,0xA52A2A;
+			break;
+		case 8:
+			mes "[Umbala Guide]";
+			mes "ได้เลย ฉันจะลบเครื่องหมายทั้งหมดออกจาก mini-map ของคุณให้";
+			mes "มีอะไรอย่างอื่นที่ฉันพอจะช่วยได้อีกไหม?";
+			viewpoint 2,1,1,0,0xFFFFFF;
+			viewpoint 2,1,1,1,0xFFFFFF;
+			viewpoint 2,1,1,2,0xFFFFFF;
+			viewpoint 2,1,1,3,0xFFFFFF;
+			viewpoint 2,1,1,4,0xFFFFFF;
+			viewpoint 2,1,1,5,0xFFFFFF;
+			viewpoint 2,1,1,6,0xFFFFFF;
+			break;
+		case 9:
+			mes "[Umbala Guide]";
+			mes "ขอให้เดินทางโดยสวัสดิภาพนะ";
+			close;
+		}
+	}
+}
+umbala,99,158,3	duplicate(GuideUmbala)	Umbala Guide#02umbala	702

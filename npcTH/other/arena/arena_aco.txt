@@ -1,0 +1,1776 @@
+//===== rAthena Script =======================================
+//= Izlude Arena Script
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.5
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Izlude Acolyte Battle Arena
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//= 1.1 Corrected variable typos. (bugreport:4374) [L0ne_w0lf]
+//= 1.2 Updated 'waitingroom' to support required zeny/lvl. [Kisuka]
+//= 1.3 Label standardization. [Euphy]
+//= 1.4 Script updates, and removed two level restrictions. [Euphy]
+//= 1.5 Added GM management function. [Euphy]
+//============================================================
+
+arena_room,114,102,0	script	onlyaco#arena	45,1,1,{
+OnTouch_:
+	if (BaseClass == Job_Acolyte) {
+		warp "arena_room",135,129;
+		end;
+	}
+	else {
+		mes "เฉพาะอาชีพ Acolyte เท่านั้นที่สามารถเข้าร่วมโหมดนี้ได้";
+		close;
+	}
+}
+
+arena_room,136,138,3	script	Acolyte Waiting Room	124,{
+	end;
+
+OnInit:
+	waitingroom "Personal Force, Acolyte Class",50,"Acolyte Waiting Room::OnStartArena",1,1000,10;
+	enablewaitingroomevent;
+	end;
+
+OnStartArena:
+	warpwaitingpc "force_5-1",99,12;
+	enablenpc "arena#aco";
+	disablewaitingroomevent;
+	end;
+
+OnStart:
+	enablewaitingroomevent;
+	end;
+}
+
+force_5-1,100,12,0	script	arena#aco	-1,5,5,{
+OnTouch_:
+	donpcevent "allkill#aco::OnEnable";
+	if (BaseJob == Job_Acolyte) {
+		donpcevent "arena_aco1::OnStart";
+	}
+	else {
+		donpcevent "arena_aco2::OnStart";
+	}
+	disablenpc "arena#aco";
+	end;
+}
+
+-	script	arena_aco1	-1,{
+OnStart:
+	donpcevent "Trocco#aco1::OnEnable";
+	end;
+
+OnReset_01:
+	enablenpc "force_01_02#aco";
+	enablenpc "force_02start#aco";
+	end;
+
+OnReset_02:
+	donpcevent "force_02mob#aco::OnReset";
+	enablenpc "force_02_03#aco";
+	enablenpc "force_03start#aco";
+	end;
+
+OnReset_03:
+	enablenpc "force_03_04#aco";
+	enablenpc "force_04start#aco";
+	end;
+
+OnReset_04:
+	enablenpc "force_04_05#aco";
+	enablenpc "force_05start#aco";
+	end;
+
+OnReset_05:
+	enablenpc "force_05_06#aco";
+	enablenpc "force_06start#aco";
+	end;
+
+OnReset_06:
+	enablenpc "force_06_07#aco";
+	enablenpc "force_07start#aco";
+	end;
+
+OnReset_07:
+	enablenpc "force_07_08#aco";
+	enablenpc "force_08start#aco";
+	end;
+
+OnReset_08:
+	enablenpc "force_08_09#aco";
+	enablenpc "force_09start#aco";
+	end;
+
+OnReset_09:
+	enablenpc "force_exit#aco";
+	end;
+}
+
+-	script	Trocco#aco1	-1,{
+OnEnable:
+	initnpctimer;
+	set $@arn_1,gettimetick(2);
+	end;
+
+OnTimer2000:
+	mapannounce "force_5-1","สวัสดี! ข้าคือ Trocco ผู้ดูแลการทดสอบ Acolyte Class Time Force Battle ของเจ้า!",bc_map|bc_npc;
+	end;
+
+OnTimer3000:
+	mapannounce "force_5-1","จงตัดสินใจให้ดี ที่นี่การเลือกที่ถูกต้องคือเส้นแบ่งระหว่างชัยชนะและความพ่ายแพ้!",bc_map|bc_npc;
+	end;
+
+OnTimer4000:
+	mapannounce "force_5-1","เจ้ามีเวลา 8 นาทีในการทำภารกิจนี้ให้สำเร็จ เข้าสู่ทางเข้าด้านซ้ายได้เลยเพื่อเริ่มการทดสอบ จำไว้ว่าเจ้าต้องเดินทางตามเข็มนาฬิกาเพื่อเคลียร์แต่ละด่าน",bc_map|bc_npc;
+	end;
+
+OnTimer60000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco1::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 7 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer120000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco1::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 6 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer180000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco1::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 5 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer240000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco1::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 4 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer300000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco1::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 3 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer360000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco1::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 2 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer420000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco1::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 1 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer480000:
+	mapannounce "force_5-1","หมดเวลาแล้ว! ข้าหวังว่าเจ้าจะสนุกนะ!",bc_map|bc_npc;
+	end;
+
+OnTimer485000:
+OnTimer486000:
+OnTimer487000:
+OnTimer488000:
+OnTimer489000:
+OnTimer490000:
+OnTimer491000:
+OnTimer492000:
+OnTimer493000:
+OnTimer494000:
+	mapwarp "force_5-1","prt_are_in",177,86;
+	end;
+
+OnTimer495000:
+	mapwarp "force_5-1","prt_are_in",177,86;
+	donpcevent "Trocco#aco1::OnFailClearStage";
+	end;
+
+OnTimerOff:
+	stopnpctimer;
+	end;
+
+OnFailClearStage:
+	mapwarp "force_5-1","prt_are_in",177,86;
+	donpcevent "Trocco#aco1::OnTimerOff";
+	//donpcevent "arena_aco1::OnReset";
+	donpcevent "Acolyte Waiting Room::OnStart";
+	end;
+
+On01_Start:
+	mapannounce "force_5-1","เป้าหมาย: ทำลาย Red Plant ทั้งหมด!",bc_map|bc_npc;
+	end;
+
+On01_End:
+	mapannounce "force_5-1","ทางออกทิศเหนือเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On02_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Drops อย่างน้อย 10 ตัว!",bc_map|bc_npc;
+	end;
+
+On02_End:
+	mapannounce "force_5-1","ทางออกทิศเหนือเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On03_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Zombie ทั้งหมด!",bc_map|bc_npc;
+	end;
+
+On03_End:
+	mapannounce "force_5-1","ทางออกทิศตะวันออกเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On04_Start:
+	mapannounce "force_5-1","เพื่อความสะดวก เราจะฟื้นฟูค่า HP และ SP ให้บางส่วน ตอนนี้มุ่งหน้าไปยังห้องถัดไปได้! ไป ไป ไป!!",bc_map|bc_npc;
+	end;
+
+On05_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Orc Zombie ทั้งหมด!",bc_map|bc_npc;
+	end;
+
+On05_End:
+	mapannounce "force_5-1","ทางออกทิศใต้เปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On06_Start:
+	mapannounce "force_5-1","เป้าหมาย: ไปให้ถึงทางออกทิศใต้พร้อมกับหลบหลีกเหล่า Hydra!",bc_map|bc_npc;
+	end;
+
+On07_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Archer Skeleton และ Firelock Soldier ทั้งหมด!",bc_map|bc_npc;
+	end;
+
+On07_End:
+	mapannounce "force_5-1","ทางออกทิศตะวันตกเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On08_Start:
+	mapannounce "force_5-1","เป้าหมาย: การต่อสู้กับบอส โปรดมุ่งหน้าไปยังห้องทางทิศเหนือ!",bc_map|bc_npc;
+	end;
+
+On09_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Zombie Prisoner, Skel Prisoner และ Zombie Troop!",bc_map|bc_npc;
+	end;
+
+On09_End:
+	mapannounce "force_5-1","บอสถูกกำจัดแล้ว! ทางออกทิศเหนือเปิดออกแล้ว ขอบคุณ",bc_map|bc_npc;
+	end;
+}
+
+force_5-1,40,26,0	script	force_01start#aco	-1,1,1,{
+OnTouch_:
+	donpcevent "force_01mob#aco::OnEnable";
+	disablenpc "force_01start#aco";
+	end;
+}
+
+-	script	force_01mob#aco	-1,{
+OnEnable:
+	donpcevent "Trocco#aco1::On01_Start";
+	monster "force_5-1",22,29,"Red Plant",1078,1,"force_01mob#aco::OnMyMobDead";
+	monster "force_5-1",29,29,"Red Plant",1078,1,"force_01mob#aco::OnMyMobDead";
+	monster "force_5-1",29,22,"Red Plant",1078,1,"force_01mob#aco::OnMyMobDead";
+	monster "force_5-1",22,22,"Red Plant",1078,1,"force_01mob#aco::OnMyMobDead";
+	monster "force_5-1",25,25,"Red Plant",1078,1,"force_01mob#aco::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_01mob#aco::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_01mob#aco::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco1::On01_End";
+		donpcevent "arena_aco1::OnReset_01";
+	}
+	end;
+}
+
+force_5-1,25,69,0	script	force_02start#aco	-1,1,1,{
+OnTouch_:
+	set $@drop_gate,0;
+	donpcevent "force_02mob#aco::OnEnable";
+	disablenpc "force_02start#aco";
+	end;
+}
+
+-	script	force_02mob#aco	-1,{
+OnEnable:
+	donpcevent "Trocco#aco1::On02_Start";
+	areamonster "force_5-1",22,69,29,130,"Drops",1572,20,"force_02mob#aco::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_02mob#aco::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if ((mobcount("force_5-1","force_02mob#aco::OnMyMobDead") < 11) && ($@drop_gate == 0)) {
+		set $@drop_gate,1;
+		donpcevent "Trocco#aco1::On02_End";
+		donpcevent "arena_aco1::OnReset_02";
+	}
+	end;
+}
+
+force_5-1,25,159,0	script	force_03start#aco	-1,1,1,{
+OnTouch_:
+	donpcevent "force_03mob#aco::OnEnable";
+	disablenpc "force_03start#aco";
+}
+
+-	script	force_03mob#aco	-1,{
+OnEnable:
+	donpcevent "Trocco#aco1::On03_Start";
+	areamonster "force_5-1",9,157,41,190,"Zombie",1394,10,"force_03mob#aco::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_03mob#aco::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_03mob#aco::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco1::On03_End";
+		donpcevent "arena_aco1::OnReset_03";
+	}
+	end;
+}
+
+force_5-1,69,174,0	script	force_04start#aco	-1,1,1,{
+OnTouch_:
+	donpcevent "Trocco#aco1::On04_Start";
+	donpcevent "arena_aco1::OnReset_04";
+	percentheal 50,50;
+	disablenpc "force_04start#aco";
+	end;
+}
+
+force_5-1,159,174,0	script	force_05start#aco	-1,1,1,{
+OnTouch_:
+	donpcevent "force_05mob#aco::OnEnable";
+	disablenpc "force_05start#aco";
+	end;
+}
+
+-	script	force_05mob#aco	-1,{
+OnEnable:
+	donpcevent "Trocco#aco1::On05_Start";
+	areamonster "force_5-1",159,157,187,190,"Orc Zombie",1463,8,"force_05mob#aco::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_05mob#aco::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_05mob#aco::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco1::On05_End";
+		donpcevent "arena_aco1::OnReset_05";
+	}
+	end;
+}
+
+force_5-1,174,130,0	script	force_06start#aco	-1,1,1,{
+OnTouch_:
+	donpcevent "force_06mob#aco::OnEnable";
+	donpcevent "arena_aco1::OnReset_06";
+	disablenpc "force_06start#aco";
+	end;
+}
+
+-	script	force_06mob#aco	-1,{
+OnEnable:
+	donpcevent "Trocco#aco1::On06_Start";
+	monster "force_5-1",170,124,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",170,121,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",173,116,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",175,113,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",175,110,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",170,106,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",173,106,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",176,106,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",179,106,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",174,100,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",174,96,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",174,92,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",174,88,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",170,80,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",173,80,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",176,80,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	monster "force_5-1",179,80,"Hydra",1579,1,"force_06mob#aco::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_06mob#aco::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	end;
+}
+
+force_5-1,174,40,0	script	force_07start#aco	-1,1,1,{
+OnTouch_:
+	donpcevent "force_07mob#aco::OnEnable";
+	disablenpc "force_07start#aco";
+}
+
+-	script	force_07mob#aco	-1,{
+OnEnable:
+	donpcevent "Trocco#aco1::On07_Start";
+	monster "force_5-1",170,32,"Archer Skeleton",1420,1,"force_07mob#aco::OnMyMobDead";
+	monster "force_5-1",184,23,"Archer Skeleton",1420,1,"force_07mob#aco::OnMyMobDead";
+	monster "force_5-1",165,9,"Archer Skeleton",1420,1,"force_07mob#aco::OnMyMobDead";
+	monster "force_5-1",184,15,"Firelock Soldier",1523,1,"force_07mob#aco::OnMyMobDead";
+	monster "force_5-1",189,23,"Firelock Soldier",1523,1,"force_07mob#aco::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_07mob#aco::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_07mob#aco::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco1::On07_End";
+		donpcevent "arena_aco1::OnReset_07";
+	}
+	end;
+}
+
+force_5-1,132,26,0	script	force_08start#aco	-1,1,1,{
+OnTouch_:
+	percentheal 50,50;
+	donpcevent "Trocco#aco1::On08_Start";
+	donpcevent "arena_aco1::OnReset_08";
+	disablenpc "force_08start#aco";
+	end;
+}
+
+force_5-1,99,82,0	script	force_09start#aco	-1,1,1,{
+OnTouch_:
+	donpcevent "Trocco#aco1::On09_Start";
+	donpcevent "force_09mob#aco::OnEnable";
+	disablenpc "force_09start#aco";
+	end;
+}
+
+-	script	force_09mob#aco	-1,{
+OnEnable:
+	monster "force_5-1",rand(88,111),rand(89,110),"Zombie Prisoner",1480,1,"force_09mob#aco::OnMyMobDead";
+	monster "force_5-1",rand(88,111),rand(89,110),"Skel Prisoner",1479,1,"force_09mob#aco::OnMyMobDead";
+	areamonster "force_5-1",88,89,111,110,"Zombie",1394,4,"force_09mob#aco::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_09mob#aco::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_09mob#aco::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco1::On09_End";
+		set $@arn_2,gettimetick(2);
+		donpcevent "arena_aco1::OnReset_09";
+	}
+	end;
+}
+
+-	script	arena_aco2	-1,{
+OnStart:
+	donpcevent "Trocco#aco2::OnEnable";
+	end;
+
+OnReset_01:
+	enablenpc "force_01_02#aco";
+	enablenpc "force_02start#pri";
+	end;
+
+OnReset_02:
+	donpcevent "force_02mob#pri::OnReset";
+	enablenpc "force_02_03#aco";
+	enablenpc "force_03start#pri";
+	end;
+
+OnReset_03:
+	enablenpc "force_03_04#aco";
+	enablenpc "force_04start#pri";
+	end;
+
+OnReset_04:
+	enablenpc "force_04_05#aco";
+	enablenpc "force_05start#pri";
+	end;
+
+OnReset_05:
+	enablenpc "force_05_06#aco";
+	enablenpc "force_06start#pri";
+	end;
+
+OnReset_06:
+	enablenpc "force_06_07#aco";
+	enablenpc "force_07start#pri";
+	end;
+
+OnReset_07:
+	enablenpc "force_07_08#aco";
+	enablenpc "force_08start#pri";
+	end;
+
+OnReset_08:
+	enablenpc "force_08_09#aco";
+	enablenpc "force_09start#pri";
+	end;
+
+OnReset_09:
+	enablenpc "force_exit#aco";
+}
+
+-	script	Trocco#aco2	-1,{
+OnEnable:
+	initnpctimer;
+	set $@arn_1,gettimetick(2);
+	end;
+
+OnTimer2000:
+	mapannounce "force_5-1","สวัสดี! ข้าคือ Trocco ผู้ดูแลการทดสอบ Acolyte Class Time Force Battle ของเจ้า!",bc_map|bc_npc;
+	end;
+
+OnTimer3000:
+	mapannounce "force_5-1","จงตัดสินใจให้ดี ที่นี่การเลือกที่ถูกต้องคือเส้นแบ่งระหว่างชัยชนะและความพ่ายแพ้!",bc_map|bc_npc;
+	end;
+
+OnTimer4000:
+	mapannounce "force_5-1","เจ้ามีเวลา 8 นาทีในการทำภารกิจนี้ให้สำเร็จ เข้าสู่ทางเข้าด้านซ้ายได้เลยเพื่อเริ่มการทดสอบ จำไว้ว่าเจ้าต้องเดินทางตามเข็มนาฬิกาเพื่อเคลียร์แต่ละด่าน",bc_map|bc_npc;
+	end;
+
+OnTimer60000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco2::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 7 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer120000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco2::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 6 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer180000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco2::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 5 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer240000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco2::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 4 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer300000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco2::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 3 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer360000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco2::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 2 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer420000:
+	if (getmapusers("force_5-1") == 0) {
+		donpcevent "Trocco#aco2::OnFailClearStage";
+	}
+	mapannounce "force_5-1","เหลือเวลา: 1 นาที",bc_map|bc_npc;
+	end;
+
+OnTimer480000:
+	mapannounce "force_5-1","หมดเวลาแล้ว! ข้าหวังว่าเจ้าจะสนุกนะ!",bc_map|bc_npc;
+	end;
+
+OnTimer485000:
+OnTimer486000:
+OnTimer487000:
+OnTimer488000:
+OnTimer489000:
+OnTimer490000:
+OnTimer491000:
+OnTimer492000:
+OnTimer493000:
+OnTimer494000:
+	mapwarp "force_5-1","prt_are_in",177,86;
+	end;
+
+OnTimer495000:
+	mapwarp "force_5-1","prt_are_in",177,86;
+	donpcevent "Trocco#aco2::OnFailClearStage";
+	end;
+
+OnTimerOff:
+	stopnpctimer;
+	end;
+
+OnFailClearStage:
+	mapwarp "force_5-1","prt_are_in",177,86;
+	donpcevent "Trocco#aco2::OnTimerOff";
+	//donpcevent "arena_aco2::OnReset";
+	donpcevent "Acolyte Waiting Room::OnStart";
+	end;
+
+On01_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Zombie ทั้งหมด!",bc_map|bc_npc;
+	end;
+
+On01_End:
+	mapannounce "force_5-1","ทางออกทิศเหนือเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On02_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัดมอนสเตอร์ทั้งหมด!",bc_map|bc_npc;
+	end;
+
+On02_End:
+	mapannounce "force_5-1","ทางออกทิศเหนือเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On03_Start:
+	mapannounce "force_5-1","เป้าหมาย: ทำลาย Red Plant ทั้งหมด!",bc_map|bc_npc;
+	end;
+
+On03_End:
+	mapannounce "force_5-1","ทางออกทิศตะวันออกเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On04_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัดมอนสเตอร์ทุกตัว!",bc_map|bc_npc;
+	end;
+
+On04_End:
+	mapannounce "force_5-1","ทางออกทิศตะวันออกเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On05_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Gargoyle!",bc_map|bc_npc;
+	end;
+
+On05_End:
+	mapannounce "force_5-1","ทางออกทิศใต้เปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On06_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Khalitzburg ทั้งหมด!",bc_map|bc_npc;
+	end;
+
+On06_End:
+	mapannounce "force_5-1","ทางออกทิศใต้เปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On07_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัด Ancient Mummy 1 ตัว!",bc_map|bc_npc;
+	end;
+
+On07_End:
+	mapannounce "force_5-1","ทางออกทิศตะวันตกเปิดออกแล้ว!",bc_map|bc_npc;
+	end;
+
+On08_Start:
+	mapannounce "force_5-1","ถึงเวลาสำหรับการต่อสู้กับบอสแล้ว โปรดมุ่งหน้าไปทางทิศเหนือเข้าสู่ห้องถัดไป...",bc_map|bc_npc;
+	end;
+
+On09_Start:
+	mapannounce "force_5-1","เป้าหมาย: กำจัดบอสมอนสเตอร์!",bc_map|bc_npc;
+	end;
+
+On09_End:
+	mapannounce "force_5-1","บอสถูกกำจัดแล้ว! ทางออกทิศเหนือเปิดออกแล้ว! ขอบคุณ",bc_map|bc_npc;
+	end;
+}
+
+force_5-1,40,26,0	script	force_01start#pri	-1,1,1,{
+OnTouch_:
+	donpcevent "force_01mob#pri::OnEnable";
+	disablenpc "force_01start#pri";
+	end;
+}
+
+-	script	force_01mob#pri	-1,{
+OnEnable:
+	donpcevent "Trocco#aco2::On01_Start";
+	areamonster "force_5-1",13,9,38,41,"Zombie",1394,10,"force_01mob#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_01mob#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_01mob#pri::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco2::On01_End";
+		donpcevent "arena_aco2::OnReset_01";
+	}
+	end;
+}
+
+force_5-1,25,69,0	script	force_02start#pri	-1,1,1,{
+OnTouch_:
+	if (BaseLevel < 70) {
+		donpcevent "force_02mob#pri::OnOn1";
+	}
+	else {
+		donpcevent "force_02mob#pri::OnOn2";
+	}
+	disablenpc "force_02start#pri";
+	end;
+}
+
+-	script	force_02mob#pri	-1,{
+OnOn1:
+	donpcevent "Trocco#aco2::On02_Start";
+	areamonster "force_5-1",22,69,29,130,"Orc Skeleton",1462,5,"force_02mob#pri::OnMyMobDead";
+	end;
+
+OnOn2:
+	donpcevent "Trocco#aco2::On02_Start";
+	areamonster "force_5-1",22,69,29,130,"Ghoul",1423,5,"force_02mob#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_02mob#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_02mob#pri::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco2::On02_End";
+		donpcevent "arena_aco2::OnReset_02";
+	}
+	end;
+}
+
+force_5-1,25,159,0	script	force_03start#pri	-1,1,1,{
+OnTouch_:
+	donpcevent "force_03mob#pri::OnEnable";
+	disablenpc "force_03start#pri";
+	end;
+}
+
+-	script	force_03mob#pri	-1,{
+OnEnable:
+	donpcevent "Trocco#aco2::On03_Start";
+	areamonster "force_5-1",14,163,37,185,"Red Plant",1078,5,"force_03mob#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_03mob#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_03mob#pri::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco2::On03_End";
+		donpcevent "arena_aco2::OnReset_03";
+	}
+	end;
+}
+
+force_5-1,69,174,0	script	force_04start#pri	-1,1,1,{
+OnTouch_:
+	if (BaseLevel < 90) {
+		donpcevent "force_04mob#pri::OnOn1";
+	}
+	else {
+		donpcevent "force_04mob#pri::OnOn2";
+	}
+	disablenpc "force_04start#pri";
+	end;
+}
+
+-	script	force_04mob#pri	-1,{
+OnOn1:
+	donpcevent "Trocco#aco2::On04_Start";
+	monster "force_5-1",rand(71,130),rand(170,178),"Evil Druid",1435,1,"force_04mob#pri::OnMyMobDead";
+	monster "force_5-1",rand(71,130),rand(170,178),"Wrath",1475,1,"force_04mob#pri::OnMyMobDead";
+	monster "force_5-1",rand(71,130),rand(170,178),"Zombie Prisoner",1480,1,"force_04mob#pri::OnMyMobDead";
+	monster "force_5-1",rand(71,130),rand(170,178),"Skel Prisoner",1479,1,"force_04mob#pri::OnMyMobDead";
+	end;
+
+OnOn2:
+	donpcevent "Trocco#aco2::On04_Start";
+	areamonster "force_5-1",71,170,130,178,"Evil Druid",1435,2,"force_04mob#pri::OnMyMobDead";
+	areamonster "force_5-1",71,170,130,178,"Wrath",1475,2,"force_04mob#pri::OnMyMobDead";
+	areamonster "force_5-1",71,170,130,178,"Zombie Prisoner",1480,2,"force_04mob#pri::OnMyMobDead";
+	monster "force_5-1",rand(71,130),rand(170,178),"Skel Prisoner",1479,1,"force_04mob#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_04mob#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_04mob#pri::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco2::On04_End";
+		donpcevent "arena_aco2::OnReset_04";
+	}
+	end;
+}
+
+force_5-1,159,174,0	script	force_05start#pri	-1,1,1,{
+OnTouch_:
+	donpcevent "force_05mob#pri::OnEnable";
+	if (BaseLevel < 70) {
+		donpcevent "force_05ex#pri::OnOn1";
+	}
+	else {
+		donpcevent "force_05ex#pri::OnOn2";
+	}
+	disablenpc "force_05start#pri";
+	end;
+}
+
+-	script	force_05ex#pri	-1,{
+OnOn1:
+	areamonster "force_5-1",161,159,187,190,"Hydra",1579,10,"force_05ex#pri::OnMyMobDead";
+	end;
+
+OnOn2:
+	areamonster "force_5-1",161,159,187,190,"Penomena",1441,10,"force_05ex#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_05ex#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	end;
+}
+
+-	script	force_05mob#pri	-1,{
+OnEnable:
+	donpcevent "Trocco#aco2::On05_Start";
+	areamonster "force_5-1",161,159,187,190,"Gargoyle",1597,4,"force_05mob#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_05mob#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_05mob#pri::OnMyMobDead") < 1) {
+		donpcevent "force_05ex#pri::OnReset";
+		donpcevent "Trocco#aco2::On05_End";
+		donpcevent "arena_aco2::OnReset_05";
+	}
+	end;
+}
+
+force_5-1,174,130,0	script	force_06start#pri	-1,1,1,{
+OnTouch_:
+	donpcevent "force_06ex#pri::OnEnable";
+	if (BaseLevel < 70) {
+		donpcevent "force_06mob#pri::OnOn1";
+	}
+	else if (BaseLevel < 80) {
+		donpcevent "force_06mob#pri::OnOn2";
+	}
+	else {
+		donpcevent "force_06mob#pri::OnOn3";
+	}
+	disablenpc "force_06start#pri";
+	end;
+}
+
+-	script	force_06ex#pri	-1,{
+OnEnable:
+	areamonster "force_5-1",170,67,178,131,"Permeter",1314,5,"force_06ex#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_06ex#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	end;
+}
+
+-	script	force_06mob#pri	-1,{
+OnOn1:
+	donpcevent "Trocco#aco2::On06_Start";
+	monster "force_5-1",rand(170,178),rand(67,131),"Khalitzburg",1438,1,"force_06mob#pri::OnMyMobDead";
+	end;
+
+OnOn2:
+	donpcevent "Trocco#aco2::On06_Start";
+	areamonster "force_5-1",170,67,178,131,"Khalitzburg",1438,2,"force_06mob#pri::OnMyMobDead";
+	end;
+
+OnOn3:
+	donpcevent "Trocco#aco2::On06_Start";
+	areamonster "force_5-1",170,67,178,131,"Khalitzburg",1438,4,"force_06mob#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_06mob#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_06mob#pri::OnMyMobDead") < 1) {
+		donpcevent "force_06ex#pri::OnReset";
+		donpcevent "Trocco#aco2::On06_End";
+		donpcevent "arena_aco2::OnReset_06";
+	}
+	end;
+}
+
+force_5-1,174,40,0	script	force_07start#pri	-1,1,1,{
+OnTouch_:
+	donpcevent "force_07mob#pri::OnEnable";
+	disablenpc "force_07start#pri";
+	end;
+}
+
+-	script	force_07mob#pri	-1,{
+OnEnable:
+	donpcevent "Trocco#aco2::On07_Start";
+	monster "force_5-1",rand(160,188),rand(9,42),"Ancient Mummy",1522,1,"force_07mob#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_07mob#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_07mob#pri::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco2::On07_End";
+		donpcevent "arena_aco2::OnReset_07";
+	}
+	end;
+}
+
+force_5-1,132,26,0	script	force_08start#pri	-1,1,1,{
+OnTouch_:
+	donpcevent "Trocco#aco2::On08_Start";
+	donpcevent "arena_aco2::OnReset_08";
+	disablenpc "force_08start#pri";
+	end;
+}
+
+force_5-1,99,82,0	script	force_09start#pri	-1,1,1,{
+OnTouch_:
+	donpcevent "Trocco#aco2::On09_Start";
+	if (BaseLevel < 70) {
+		donpcevent "force_09mob#pri::OnOn4";
+	}
+	else if (BaseLevel < 80) {
+		donpcevent "force_09mob#pri::OnOn1";
+	}
+	else if (BaseLevel < 90) {
+		donpcevent "force_09mob#pri::OnOn2";
+	}
+	else {
+		donpcevent "force_09mob#pri::OnOn3";
+	}
+	disablenpc "force_09start#pri";
+	end;
+}
+
+-	script	force_09mob#pri	-1,{
+OnOn1:
+	monster "force_5-1",rand(88,111),rand(89,110),"Mimic",1474,1,"force_09mob#pri::OnMyMobDead";
+	end;
+
+OnOn2:
+	monster "force_5-1",rand(88,111),rand(89,110),"Wrath Dead",1566,1,"force_09mob#pri::OnMyMobDead";
+	end;
+
+OnOn3:
+	monster "force_5-1",rand(88,111),rand(89,110),"Dark Illusion",1605,1,"force_09mob#pri::OnMyMobDead";
+	end;
+
+OnOn4:
+	monster "force_5-1",rand(88,111),rand(89,110),"Zombie Prisoner",1480,1,"force_09mob#pri::OnMyMobDead";
+	monster "force_5-1",rand(88,111),rand(89,110),"Skel Prisoner",1479,1,"force_09mob#pri::OnMyMobDead";
+	areamonster "force_5-1",88,89,111,110,"Zombie",1394,4,"force_09mob#pri::OnMyMobDead";
+	end;
+
+OnReset:
+	killmonster "force_5-1","force_09mob#pri::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	if (mobcount("force_5-1","force_09mob#pri::OnMyMobDead") < 1) {
+		donpcevent "Trocco#aco2::On09_End";
+		set $@arn_2,gettimetick(2);
+		donpcevent "arena_aco2::OnReset_09";
+	}
+	end;
+}
+
+force_5-1,62,26,0	script	force_08_01#aco	45,1,1,{
+OnTouch_:
+	warp "force_5-1",40,26;
+	if (BaseJob == Job_Acolyte) {
+		enablenpc "force_01start#aco";
+	}
+	else {
+		enablenpc "force_01start#pri";
+	}
+	end;
+}
+
+force_5-1,99,124,0	script	force_exit#aco	45,1,1,{
+OnTouch_:
+	donpcevent "Trocco#aco1::OnTimerOff";
+	donpcevent "#arn_timer_aco::OnEnable";
+	mapwarp "force_5-1","prt_are_in",21,35;
+	end;
+}
+
+prt_are_in,181,83,3	script	Staff#aco-1	67,{
+	mes "[Staff]";
+	mes "ทำได้ดีมาก!";
+	mes "คุณอาจจะล้มเหลวในการ";
+	mes "ต่อสู้แบบ Time Attack";
+	mes "แต่คุณยังได้รับรางวัล";
+	mes "Arena Point เล็กน้อยนะ~";
+	next;
+	if (arena_point == 30000) {
+		mes "[Staff]";
+		mes "เดี๋ยวก่อน ฉันขอโทษด้วยนะ แต่คุณ";
+		mes "มี Arena Point มากเกินไป";
+		mes "เนื่องจากคุณสะสมจนถึงขีดจำกัดแล้ว";
+		mes "ฉันไม่สามารถให้แต้มรางวัลเพิ่มได้จนกว่าคุณจะใช้";
+		mes "แต้ม Arena Point ของคุณออกไปบ้าง";
+		next;
+	}
+	else {
+		set arena_point,arena_point+1;
+	}
+	mes "[Staff]";
+	mes "เอาล่ะ ให้ฉันนำทาง";
+	mes "คุณกลับออกไปด้านนอก";
+	mes "หวังว่าคุณจะสนุกกับ";
+	mes "การต่อสู้ในพื้นที่นี้นะ~";
+	close2;
+	specialeffect2 EF_EXIT;
+	warp "arena_room",100,75;
+	end;
+}
+
+prt_are_in,25,31,3	script	Staff#aco-2	67,{
+	set .@start_timeaco, $@arn_1;
+	set .@hour_startaco, .@start_timeaco / 10000;
+	set .@min_startaco, ((.@start_timeaco % 10000) / 100);
+	set .@sec_startaco, .@start_timeaco % 100;
+	set .@end_timeaco, $@arn_2;
+	set .@hour_endaco, .@end_timeaco / 10000;
+	set .@min_endaco, ((.@end_timeaco % 10000) / 100);
+	set .@sec_endaco, .@end_timeaco % 100;
+	if ((.@hour_startaco == 23) && (.@hour_endaco == 0)) {
+		set .@hour_endaco,24;
+	}
+	set .@st_to_secaco, ((.@hour_startaco * 3600) + (.@min_startaco * 60) + (.@sec_startaco));
+	set .@et_to_secaco, ((.@hour_endaco * 3600) + (.@min_endaco * 60) + (.@sec_endaco));
+	set .@record_timeaco, (.@et_to_secaco - .@st_to_secaco);
+	set .@record_houraco, .@record_timeaco / 3600;
+	set .@record_minaco, ((.@record_timeaco % 3600) / 60);
+	set .@record_secaco, .@record_timeaco % 60;
+	if ((.@record_timeaco < 0 ) || (.@record_houraco < 0) || (.@record_minaco < 0 ) || (.@record_secaco < 0)) {
+		emotion ET_HUK;
+		mes "[Staff]";
+		mes "คุณทำได้ยังไงกัน...?";
+		mes "ตามบันทึกพวกนี้-";
+		mes "โอ๊ะโอ บันทึกพวกนี้";
+		mes "มันเกิดความผิดพลาดบางอย่าง";
+		mes "นี่-นี่มันไม่ดีเอาซะเลย!";
+		mes "คราวนี้ฉันจะทำยังไงดีล่ะ?";
+		next;
+		mes "[Staff]";
+		mes "เอาเป็นว่า ฉันจะยกประโยชน์ให้จำเลย";
+		mes "และถือซะว่าคุณผ่านการต่อสู้";
+		mes "ในอาีน่าภายใต้การกำหนด";
+		mes "ของเวลาแล้วกัน ดังนั้น ฉันจะมอบ";
+		mes "รางวัล Arena Point แบบมาตรฐานให้";
+		next;
+		mes "[Staff]";
+		mes "ฉันต้องขอโทษจริงๆ เกี่ยวกับ";
+		mes "เรื่องนี้ โดยเฉพาะถ้าหากคุณ";
+		mes "ทำลายสถิติได้ แต่ว่า";
+		mes "สิ่งที่ฉันทำได้คือการฟื้นฟู";
+		mes "HP และ SP ให้กับคุณเท่านั้น, "+strcharinfo(0)+".";
+		percentheal 100,100;
+		next;
+		mes "[Staff]";
+		emotion ET_FLAG;
+		mes "ขอบคุณครับ";
+		mes "ฉันหวังว่าคุณจะสนุกกับ";
+		mes "ช่วงเวลาใน Arena นะ~";
+		close2;
+		if (arena_point < 29981) {
+			set arena_point,arena_point+20;
+			warp "arena_room",100,75;
+			donpcevent "#arn_timer_aco::OnStop";
+			donpcevent "Acolyte Waiting Room::OnStart";
+		}
+		else {
+			warp "arena_room",100,75;
+			donpcevent "#arn_timer_aco::OnStop";
+			donpcevent "Acolyte Waiting Room::OnStart";
+		}
+		end;
+	}
+	else {
+		if (BaseJob == Job_Acolyte) {
+			set .@acotop_t,$arn_acotop;
+			set .@acotop_n$,$arn_acotopn$;
+		}
+		else {
+			if (BaseLevel < 70) {
+				set .@acotop_t,$arn_pritop60;
+				set .@acotop_n$,$arn_pritopn60$;
+			}
+			else if (BaseLevel < 80) {
+				set .@acotop_t,$arn_pritop70;
+				set .@acotop_n$,$arn_pritopn70$;
+			}
+			else if (BaseLevel < 90) {
+				set .@acotop_t,$arn_pritop80;
+				set .@acotop_n$,$arn_pritopn80$;
+			}
+			else {
+				set .@acotop_t,$arn_pritop90;
+				set .@acotop_n$,$arn_pritopn90$;
+			}
+		}
+		set .@topbunaco, ((.@acotop_t % 3600) / 60);
+		set .@topchoaco, .@acotop_t % 60;
+		set .@gapaco, .@acotop_t - .@record_timeaco;
+		mes "[Staff]";
+		mes "^3131FF"+strcharinfo(0)+"^000000, ใช่ไหม?";
+		mes "เฮ้ คุณทำได้เยี่ยมมาก! คุณ";
+		mes "ผ่านการต่อสู้ใน Arena นี้";
+		mes "ในเวลา "+.@record_minaco+" นาที และ "+.@record_secaco+" วินาที!";
+		next;
+		mes "[Staff]";
+		mes "ในขณะนี้ ^3131FF"+.@acotop_n$+"^000000";
+		mes "คือผู้เล่นอันดับหนึ่ง ด้วยสถิติ";
+		mes "^3131FF"+.@topbunaco+"^000000 นาที, ^3131FF"+.@topchoaco+"^000000 วินาที ของการต่อสู้ Acolyte Class Time Force Battle";
+		next;
+		if ((.@acotop_t < 0) || (.@topbunaco < 0 ) || (.@topchoaco < 0)) {
+			emotion ET_HUK;
+			mes "[Staff]";
+			mes "รอสักครู่นะ...";
+			mes "เวลาของคุณนั้นดีกว่า";
+			mes "สถิตินั้นเสียอีก เอาล่ะ";
+			mes "ถึงเวลาที่ฉันต้องทำการ";
+			mes "แก้ไขบันทึกสถิติใหม่แล้ว";
+			next;
+			emotion ET_BEST;
+			mes "[Staff]";
+			mes "ว้าว! สถิติใหม่!";
+			mes "ยอดเยี่ยมมาก!";
+			next;
+			mes "[Staff]";
+			mes "^333333*อะแฮ่ม*^000000 โอ้ ว้าว!";
+			mes "สถิติใหม่เกิดขึ้นแล้ว! ชื่อของคุณ";
+			mes "จะถูกจารึกเอาไว้ภายใต้";
+			mes "บันทึก Time Force Battle";
+			mes "Arena - Acolyte Class Record!";
+			if (BaseJob == Job_Acolyte) {
+				set $arn_acotop,.@record_timeaco;
+				set $arn_acotopn$, strcharinfo(0);
+				donpcevent "Vendigos::OnLineRec_aco";
+			}
+			else {
+				if (BaseLevel < 70) {
+					set $arn_pritop60,.@record_timeaco;
+					set $arn_pritopn60$, strcharinfo(0);
+				}
+				else if (BaseLevel < 80) {
+					set $arn_pritop70,.@record_timeaco;
+					set $arn_pritopn70$, strcharinfo(0);
+				}
+				else if (BaseLevel < 90) {
+					set $arn_pritop80,.@record_timeaco;
+					set $arn_pritopn80$, strcharinfo(0);
+				}
+				else {
+					set $arn_pritop90,.@record_timeaco;
+					set $arn_pritopn90$, strcharinfo(0);
+				}
+				donpcevent "Vendigos::OnLineRec_pri";
+			}
+			next;
+			if (arena_point == 30000) {
+				mes "[Staff]";
+				mes "เอาล่ะ ให้ฉันมอบรางวัล";
+				mes "Arena Poi-- เดี๋ยวสิ";
+				mes "ฉันทำไม่ได้ แต้ม Arena ของคุณ";
+				mes "เต็มขีดจำกัดแล้ว ฉันขอโทษด้วย";
+				mes "แต่คุณต้องไปใช้แต้มบ้างก่อนจะรับเพิ่มได้อีกนะ";
+				next;
+				mes "[Staff]";
+				mes "อย่างไรก็ตาม คุณสามารถตรวจสอบ";
+				mes "แต้ม Arena Point ทั้งหมด";
+				mes "ที่มีได้ที่ Arena Lobby";
+				mes "กับ Vendigos หวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้ ตอนนี้ให้ฉันนำทางคุณกลับออกไปนะ...";
+				close2;
+			}
+			else if (arena_point > 29950) {
+				mes "[Staff]";
+				mes "ให้ฉันมอบรางวัล Arena Point";
+				mes "ให้คุณ ครั้งนี้คุณจะได้รับแต้ม";
+				mes "มากขึ้นเนื่องจากคุณทำสถิติใหม่";
+				mes "โปรดไปคุยกับ ^3131FFVendigos^000000 ที่ล็อบบี้";
+				mes "เพื่อตรวจสอบแต้มรวมใหม่ของคุณ";
+				next;
+				mes "[Staff]";
+				mes "เอาล่ะ ฉันหวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้นะ";
+				mes "ตอนนี้ให้ฉันนำทางคุณกลับไป";
+				mes "ที่ Arena Lobby...";
+				close2;
+				set arena_point,30000;
+			}
+			else {
+				mes "[Staff]";
+				mes "ให้ฉันมอบรางวัล Arena Point";
+				mes "ให้คุณ ครั้งนี้คุณจะได้รับแต้ม";
+				mes "มากขึ้นเนื่องจากคุณทำสถิติใหม่";
+				mes "โปรดไปคุยกับ ^3131FFVendigos^000000 ที่ล็อบบี้";
+				mes "เพื่อตรวจสอบแต้มรวมใหม่ของคุณ";
+				next;
+				mes "[Staff]";
+				mes "เอาล่ะ ฉันหวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้นะ";
+				mes "ตอนนี้ให้ฉันนำทางคุณกลับไป";
+				mes "ที่ Arena Lobby...";
+				close2;
+				set arena_point,arena_point+50;
+			}
+			specialeffect2 EF_EXIT;
+			warp "arena_room",100,75;
+			donpcevent "#arn_timer_aco::OnStop";
+			donpcevent "allkill#aco::OnEnable";
+			donpcevent "Acolyte Waiting Room::OnStart";
+			end;
+		}
+		if (gapaco < 0) {
+			mes "[Staff]";
+			mes "ครั้งนี้คุณยังทำลายสถิติ";
+			mes "ปัจจุบันไม่ได้ แต่คุณก็ยัง";
+			mes "แสดงฝีมือได้ยอดเยี่ยมมาก";
+			mes "ทำได้ดีมากจริงๆ!";
+			next;
+			if (arena_point == 30000) {
+				mes "[Staff]";
+				mes "เอาล่ะ ให้ฉันมอบรางวัล";
+				mes "Arena Poi-- เดี๋ยวสิ";
+				mes "ฉันทำไม่ได้ แต้ม Arena ของคุณ";
+				mes "เต็มขีดจำกัดแล้ว ฉันขอโทษด้วย";
+				mes "แต่คุณต้องไปใช้แต้มบ้างก่อนจะรับเพิ่มได้อีกนะ";
+				next;
+				mes "[Staff]";
+				mes "อย่างไรก็ตาม คุณสามารถตรวจสอบ";
+				mes "แต้ม Arena Point ทั้งหมด";
+				mes "ที่มีได้ที่ Arena Lobby";
+				mes "กับ Vendigos หวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้ ตอนนี้ให้ฉันนำทางคุณกลับออกไปนะ...";
+				close2;
+			}
+			else if (arena_point > 29980) {
+				mes "[Staff]";
+				mes "ให้ฉันมอบรางวัล Arena Point";
+				mes "ให้คุณ โปรดตรวจสอบแต้ม";
+				mes "Arena Point รวมใหม่ของคุณ";
+				mes "ที่ Arena Lobby โดยการพูดคุย";
+				mes "กับคุณ ^3131FFVendigos^000000 ผู้เป็นมิตร";
+				next;
+				mes "[Staff]";
+				mes "เอาล่ะ ฉันหวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้นะ";
+				mes "ตอนนี้ให้ฉันนำทางคุณกลับไป";
+				mes "ที่ Arena Lobby...";
+				close2;
+				set arena_point,30000;
+			}
+			else {
+				mes "[Staff]";
+				mes "ให้ฉันมอบรางวัล Arena Point";
+				mes "ให้คุณ โปรดตรวจสอบแต้ม";
+				mes "Arena Point รวมใหม่ของคุณ";
+				mes "ที่ Arena Lobby โดยการพูดคุย";
+				mes "กับคุณ ^3131FFVendigos^000000 ผู้เป็นมิตร";
+				next;
+				mes "[Staff]";
+				mes "เอาล่ะ ฉันหวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้นะ";
+				mes "ตอนนี้ให้ฉันนำทางคุณกลับไป";
+				mes "ที่ Arena Lobby...";
+				close2;
+				set arena_point,arena_point+20;
+			}
+			specialeffect2 EF_EXIT;
+			warp "arena_room",100,75;
+			donpcevent "#arn_timer_aco::OnStop";
+			donpcevent "allkill#aco::OnEnable";
+			donpcevent "Acolyte Waiting Room::OnStart";
+			end;
+		}
+		else {
+			emotion ET_HUK;
+			mes "[Staff]";
+			mes "ว้าว! สถิติใหม่!";
+			mes "มันยอดเยี่ยมมาก!";
+			next;
+			mes "[Staff]";
+			mes "โอ้... สถิติใหม่เอี่ยม";
+			mes "^3131FF"+ strcharinfo(0)+"^000000, ชื่อของคุณ";
+			mes "จะถูกบันทึกเอาไว้ใน";
+			mes "Time Force Battle Arena";
+			mes "Acolyte Class Records";
+			mes "ยินดีด้วยนะ~";
+			if (BaseJob == Job_Acolyte) {
+				set $arn_acotop,.@record_timeaco;
+				set $arn_acotopn$, strcharinfo(0);
+				donpcevent "#Vendigos::OnLineRec_aco";
+			}
+			else {
+				if (BaseLevel < 70) {
+					set $arn_pritop60,.@record_timeaco;
+					set $arn_pritopn60$, strcharinfo(0);
+					donpcevent "#Vendigos::OnLineRec_pri60";
+				}
+				else if (BaseLevel < 80) {
+					set $arn_pritop70,.@record_timeaco;
+					set $arn_pritopn70$, strcharinfo(0);
+					donpcevent "#Vendigos::OnLineRec_pri70";
+				}
+				else if (BaseLevel < 90) {
+					set $arn_pritop80,.@record_timeaco;
+					set $arn_pritopn80$, strcharinfo(0);
+					donpcevent "#Vendigos::OnLineRec_pri80";
+				}
+				else {
+					set $arn_pritop90,.@record_timeaco;
+					set $arn_pritopn90$, strcharinfo(0);
+					donpcevent "#Vendigos::OnLineRec_pri90";
+				}
+			}
+			next;
+			if (arena_point == 30000) {
+				mes "[Staff]";
+				mes "เอาล่ะ ให้ฉันมอบรางวัล";
+				mes "Arena Poi-- เดี๋ยวสิ";
+				mes "ฉันทำไม่ได้ แต้ม Arena ของคุณ";
+				mes "เต็มขีดจำกัดแล้ว ฉันขอโทษด้วย";
+				mes "แต่คุณต้องไปใช้แต้มบ้างก่อนจะรับเพิ่มได้อีกนะ";
+				next;
+				mes "[Staff]";
+				mes "อย่างไรก็ตาม คุณสามารถตรวจสอบ";
+				mes "แต้ม Arena Point ทั้งหมด";
+				mes "ที่มีได้ที่ Arena Lobby";
+				mes "กับ Vendigos หวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้ ตอนนี้ให้ฉันนำทางคุณกลับออกไปนะ...";
+				close2;
+			}
+			else if (arena_point > 29980) {
+				mes "[Staff]";
+				mes "ให้ฉันมอบรางวัล Arena Point";
+				mes "ให้คุณ ครั้งนี้คุณจะได้รับแต้ม";
+				mes "มากขึ้นเนื่องจากคุณทำสถิติใหม่";
+				mes "โปรดไปคุยกับ ^3131FFVendigos^000000 ที่ล็อบบี้";
+				mes "เพื่อตรวจสอบแต้มรวมใหม่ของคุณ";
+				next;
+				mes "[Staff]";
+				mes "เอาล่ะ ฉันหวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้นะ";
+				mes "ตอนนี้ให้ฉันนำทางคุณกลับไป";
+				mes "ที่ Arena Lobby...";
+				close2;
+				set arena_point,30000;
+			}
+			else {
+				mes "[Staff]";
+				mes "ให้ฉันมอบรางวัล Arena Point";
+				mes "ให้คุณ ครั้งนี้คุณจะได้รับแต้ม";
+				mes "มากขึ้นเนื่องจากคุณทำสถิติใหม่";
+				mes "โปรดไปคุยกับ ^3131FFVendigos^000000 ที่ล็อบบี้";
+				mes "เพื่อตรวจสอบแต้มรวมใหม่ของคุณ";
+				next;
+				mes "[Staff]";
+				mes "เอาล่ะ ฉันหวังว่าคุณจะ";
+				mes "สนุกกับการต่อสู้นะ";
+				mes "ตอนนี้ให้ฉันนำทางคุณกลับไป";
+				mes "ที่ Arena Lobby...";
+				close2;
+				set arena_point,arena_point+20;
+			}
+			specialeffect2 EF_EXIT;
+			warp "arena_room",100,75;
+			donpcevent "#arn_timer_aco::OnStop";
+			donpcevent "allkill#aco::OnEnable";
+			donpcevent "Acolyte Waiting Room::OnStart";
+		}
+		end;
+	}
+}
+
+-	script	#arn_timer_aco	-1,{
+OnEnable:
+	initnpctimer;
+	end;
+
+OnTimer2000:
+	mapannounce "prt_are_in","การประกาศนี้เพื่อแจ้งให้ทราบเกี่ยวกับ Acolyte Class Arena",bc_map,"0xFFCE00";
+	end;
+
+OnTimer3000:
+	mapannounce "prt_are_in","เพื่อให้การเล่นเกมราบรื่น Warp Portal ในห้อง Final Waiting Room จะเปิดทำงานใน 1 นาที",bc_map,"0xFFCE00";
+	end;
+
+OnTimer4000:
+	mapannounce "prt_are_in","ขอบคุณครับ",bc_map,"0xFFCE00";
+	end;
+
+OnTimer60000:
+	donpcevent "arn_warp_aco::OnOut";
+	donpcevent "#arn_timer_aco::OnStop";
+	//donpcevent "alloff#aco::OnEnable";
+	donpcevent "Acolyte Waiting Room::OnStart";
+	end;
+
+OnStop:
+	stopnpctimer;
+	end;
+}
+
+prt_are_in,22,29,0	script	arn_warp_aco	-1,20,20,{
+OnInit:
+	disablenpc "arn_warp_aco";
+	end;
+
+OnOut:
+	enablenpc "arn_warp_aco";
+	end;
+
+OnHide:
+	disablenpc "arn_warp_aco";
+	end;
+
+OnTouch_:
+	warp "arena_room",100,75;
+	donpcevent "arn_warp_aco::OnHide";
+	end;
+}
+
+-	script	timer_aco2	-1,{
+OnEnable:
+	initnpctimer;
+	end;
+
+OnStop:
+	stopnpctimer;
+	end;
+}
+
+-	script	allkill#aco	-1,{
+OnEnable:
+	donpcevent "force_01mob#aco::OnReset";
+	donpcevent "force_02mob#aco::OnReset";
+	donpcevent "force_03mob#aco::OnReset";
+	donpcevent "force_05mob#aco::OnReset";
+	donpcevent "force_06mob#aco::OnReset";
+	donpcevent "force_07mob#aco::OnReset";
+	donpcevent "force_09mob#aco::OnReset";
+	donpcevent "force_01mob#pri::OnReset";
+	donpcevent "force_02mob#pri::OnReset";
+	donpcevent "force_03mob#pri::OnReset";
+	donpcevent "force_04mob#pri::OnReset";
+	donpcevent "force_05mob#pri::OnReset";
+	donpcevent "force_06mob#pri::OnReset";
+	donpcevent "force_07mob#pri::OnReset";
+	donpcevent "force_09mob#pri::OnReset";
+	donpcevent "force_05ex#pri::OnReset";
+	disablenpc "force_01start#aco";
+	disablenpc "force_02start#aco";
+	disablenpc "force_03start#aco";
+	disablenpc "force_04start#aco";
+	disablenpc "force_05start#aco";
+	disablenpc "force_06start#aco";
+	disablenpc "force_07start#aco";
+	disablenpc "force_08start#aco";
+	disablenpc "force_09start#aco";
+	disablenpc "force_01start#pri";
+	disablenpc "force_02start#pri";
+	disablenpc "force_03start#pri";
+	disablenpc "force_04start#pri";
+	disablenpc "force_05start#pri";
+	disablenpc "force_06start#pri";
+	disablenpc "force_07start#pri";
+	disablenpc "force_08start#pri";
+	disablenpc "force_09start#pri";
+	disablenpc "force_01_02#aco";
+	disablenpc "force_02_03#aco";
+	disablenpc "force_03_04#aco";
+	disablenpc "force_04_05#aco";
+	disablenpc "force_05_06#aco";
+	disablenpc "force_06_07#aco";
+	disablenpc "force_07_08#aco";
+	disablenpc "force_08_09#aco";
+	disablenpc "force_exit#aco";
+	disablenpc "arn_warp_aco"; //050630
+	donpcevent "Trocco#aco1::OnTimerOff";
+	donpcevent "Trocco#aco2::OnTimerOff";
+	donpcevent "#arn_timer_aco::OnStop";
+	end;
+}
+
+arena_room,94,82,7	script	Arena Record Staff#aco	79,{
+	mes "[Mathea]";
+	mes "สวัสดีค่ะ ฉันเป็นผู้ดูแล";
+	mes "บันทึกสถิติ Acolyte Class";
+	mes "ใน Arena หากคุณต้องการ";
+	mes "ดูบันทึกสถิติอื่นๆ โปรดไปคุย";
+	mes "กับ Arena Record Staff คุณ";
+	mes "Owen Kheuv เขาจะช่วยคุณเองค่ะ";
+	next;
+	mes "[Mathea]";
+	mes "คุณต้องการจะดูว่าใคร";
+	mes "คือผู้เล่นอันดับต้นๆ ใน";
+	mes "Acolyte Class Arena Challenge";
+	mes "ใช่ไหมคะ?";
+	mes "โปรดเลือกจากเมนูได้เลยค่ะ";
+	next;
+	switch(select("Acolyte Mode:Priest - เลเวล 70 หรือต่ำกว่า:Priest - เลเวล 80 หรือต่ำกว่า:Priest - เลเวล 90 หรือต่ำกว่า:Priest - เลเวล 91 ~ "+(checkre(0)?"160":"99"))) {
+	case 1:
+		set .@acotop_t,$arn_acotop;
+		set .@acotop_n$,$arn_acotopn$;
+		set .@acotopbun, ((.@acotop_t % 3600) / 60 );
+		set .@acotopcho, (.@acotop_t % 60);
+		mes "[Mathea]";
+		mes "^3131FF"+.@acotop_n$+"^000000";
+		mes "คือผู้เล่นอันดับหนึ่งของ";
+		mes "Acolyte Mode โดยทำเวลา";
+		mes "สำเร็จที่ ^3131FF"+.@acotopbun+"^000000 นาที";
+		mes "และ ^3131FF"+.@acotopcho+"^000000 วินาที ขอบคุณ";
+		mes "ที่เข้าร่วมใน Arena นะคะ";
+		close;
+	case 2:
+		set .@pritop_t,$arn_pritop60;
+		set .@pritop_n$,$arn_pritopn60$;
+		break;
+	case 3:
+		set .@pritop_t,$arn_pritop70;
+		set .@pritop_n$,$arn_pritopn70$;
+		break;
+	case 4:
+		set .@pritop_t,$arn_pritop80;
+		set .@pritop_n$,$arn_pritopn80$;
+		break;
+	case 5:
+		set .@pritop_t,$arn_pritop90;
+		set .@pritop_n$,$arn_pritopn90$;
+		break;
+	}
+	set .@pritopbun, ((.@pritop_t % 3600) / 60 );
+	set .@pritopcho, (.@pritop_t % 60);
+	mes "[Mathea]";
+	mes "^3131FF"+.@pritop_n$+"^000000";
+	mes "คือผู้เล่นอันดับหนึ่งของ";
+	mes "Priest Mode นี้ โดยทำเวลา";
+	mes "สำเร็จที่ ^3131FF"+.@pritopbun+" นาที";
+	mes "และ ^3131FF"+.@pritopcho+" วินาที ขอบคุณ";
+	mes "ที่เข้าร่วมใน Arena นะคะ";
+	close;
+
+OnInit:
+	if ($arn_acotopn$ == "") {
+		set $arn_pritop60, 480;
+		set $arn_pritop70, 480;
+		set $arn_pritop80, 480;
+		set $arn_pritop90, 480;
+		set $arn_acotop, 480;
+		set $arn_pritopn60$, "Default";
+		set $arn_pritopn70$, "Default";
+		set $arn_pritopn80$, "Default";
+		set $arn_pritopn90$, "Default";
+		set $arn_acotopn$, "Default";
+	}
+	end;
+}
+
+-	script	#Vendigos	-1,{
+OnLineRec_aco:
+	mapannounce "arena_room","Vendigos: "+$arn_acotopn$+" ได้ทำสถิติใหม่ใน Arena Time Force Battle - Acolyte Mode ยินดีด้วย!",bc_map,"0xFFFF00";
+	end;
+
+OnLineRec_pri60:
+	mapannounce "arena_room","Vendigos: "+$arn_pritopn60$+" ได้ทำสถิติใหม่ใน Arena Time Force Battle - Priest: เลเวล 70 หรือต่ำกว่า ยินดีด้วย!",bc_map,"0xFFFF00";
+	end;
+
+OnLineRec_pri70:
+	mapannounce "arena_room","Vendigos: "+$arn_pritopn70$+" ได้ทำสถิติใหม่ใน Arena Time Force Battle - Priest: เลเวล 80 หรือต่ำกว่า ยินดีด้วย!",bc_map,"0xFFFF00";
+	end;
+
+OnLineRec_pri80:
+	mapannounce "arena_room","Vendigos: "+$arn_pritopn80$+" ได้ทำสถิติใหม่ใน Arena Time Force Battle - Priest: เลเวล 90 หรือต่ำกว่า ยินดีด้วย!",bc_map,"0xFFFF00";
+	end;
+
+OnLineRec_pri90:
+	mapannounce "arena_room","Vendigos: "+$arn_pritopn90$+" ได้ทำสถิติใหม่ใน Arena Time Force Battle - Priest: เลเวล 91~"+(checkre(0)?"160":"99")+" ยินดีด้วย!",bc_map,"0xFFFF00";
+	end;
+}
+
+arena_room,140,136,3	script	Guide Alias	729,{
+	mes "[Alias]";
+	mes "สวัสดีครับ ผมอยู่ที่นี่";
+	mes "เพื่อแจ้งข้อมูลเกี่ยวกับ";
+	mes "Izlude Arena ใน";
+	mes "Acolyte Class Mode";
+	mes "ผมชื่อ Alias ครับ";
+	mes "เป็น Arena Guide ของคุณ";
+	next;
+	mes "[Alias]";
+	mes "ทีนี้ มีอยู่สองโหมดด้วยกัน";
+	mes "ภายใต้ Acolyte Class Mode";
+	mes "นั่นก็คือ ^3131FFAcolyte Mode^000000 และ";
+	mes "^3131FFPriest Mode^000000 สำหรับทั้งสองโหมด";
+	mes "คุณจะต้องรออยู่ด้านในห้อง ^3131FFAcolyte Class Waiting Room^000000";
+	next;
+	mes "[Alias]";
+	mes "เมื่อถึงตาของคุณ";
+	mes "คุณจะถูกส่งออกจากห้อง";
+	mes "นั่งรอและนำทางไปยังสนาม";
+	mes "ประลอง อ้อ และค่าธรรมเนียม";
+	mes "ทางเข้าคือ 1,000 zeny ครับ";
+	next;
+	mes "[Alias]";
+	mes "มันจะมีประโยชน์มากหากคุณรู้ว่า";
+	mes "Red Plants และ Permeters";
+	mes "ใน Acolyte Class Mode";
+	mes "จะดรอปไอเทมและให้";
+	mes "ค่าประสบการณ์ ส่วนมอนสเตอร์";
+	mes "ตัวอื่นๆ นั้นจะไม่มีครับ";
+	next;
+	mes "[Alias]";
+	mes "เมื่อคุณถูกนำทางเข้าสู่";
+	mes "สนามประลองจริงแล้ว โปรดฟัง";
+	mes "^3131FFTrocco^000000 สำหรับวัตถุประสงค์";
+	mes "ภารกิจที่คุณจะต้องทำให้สำเร็จ";
+	mes "ภายในเวลาจำกัด ^3131FF8 นาที^000000 อย่าลืมล่ะ~";
+	next;
+	mes "[Alias]";
+	mes "เมื่อจบด่านทั้งหมดแล้ว";
+	mes "คุณจะถูกวาร์ปไปยังห้อง ^3131DDFinale Waiting";
+	mes "Room^000000 ซึ่งคุณจะได้รับรางวัล";
+	mes "เป็น Arena Points แต่คุณต้องรับแต้มภายใน 1 นาทีนะครับ";
+	next;
+	mes "[Alias]";
+	mes "เมื่อคุณถูกส่งตัวออกมา";
+	mes "จากห้อง Finale Waiting Room อัตโนมัติ";
+	mes "คุณจะไม่มีโอกาสได้รับแต้ม Arena";
+	mes "อีกเลย หากคุณไม่ได้กดรับแต้ม";
+	mes "ที่นั่น ดังนั้นระวังด้วยนะครับ~";
+	next;
+	mes "[Alias]";
+	mes "เอาล่ะ ผมหวังว่าคุณจะสนุกกับ";
+	mes "Acolyte Mode Arena นะครับ!";
+	mes "โชคดีและขอให้สู้ได้ดีครับ!";
+	close;
+}
+
+arena_room,195,5,3	script	log-on-aco#arena	802,{
+	set .@i, callfunc("F_GM_NPC",1357,0);
+	if (.@i == -1) {
+		mes "^3355FFรหัสผ่านไม่ถูกต้อง^000000";
+		close;
+	} else if (.@i == 0) {
+		end;
+	} else {
+		mes "[!!ระวัง!!]";
+		mes "^3355FFเมนูต่อไปนี้ใช้สำหรับ";
+		mes "รีเซ็ตสถิติสำหรับโหมด";
+		mes "เฉพาะนั้นๆ ใน";
+		mes "Arena Acolyte Class Mode^000000";
+		next;
+		switch(select("ยกเลิก:Acolyte:เลเวล 70:เลเวล 80:เลเวล 90:เลเวล "+(checkre(0)?"160":"99"))) {
+		case 1:
+			mes "^3355FFคำสั่งถูกยกเลิกแล้ว^000000";
+			close;
+		case 2:
+			set $arn_acotop, 480;
+			set $arn_acotopn$, "Default";
+			break;
+		case 3:
+			set $arn_pritop60, 480;
+			set $arn_pritopn60$, "Default";
+			break;
+		case 4:
+			set $arn_pritop70, 480;
+			set $arn_pritopn70$, "Default";
+			break;
+		case 5:
+			set $arn_pritop80, 480;
+			set $arn_pritopn80$, "Default";
+			break;
+		case 6:
+			set $arn_pritop90, 480;
+			set $arn_pritopn90$, "Default";
+			break;
+		}
+		close;
+	}
+}
+
+arena_room,195,10,3	script	acolink#arena	802,{
+	set .@i, callfunc("F_GM_NPC",1357,0);
+	if (.@i == -1) {
+		mes "คำสั่งถูกยกเลิกแล้ว";
+		close;
+	} else if (.@i == 0) {
+		end;
+	} else {
+		mes "NPC ตัวนี้มีหน้าที่เปิดและ";
+		mes "ปิด Warp Portal สำหรับ";
+		mes "Arena Acolyte Class Mode";
+		mes "โปรดเลือกตัวเลือกจากเมนู";
+		next;
+		switch(select("ยกเลิก:เปิดวาร์ป (ON):ปิดวาร์ป (OFF)")) {
+		case 1:
+			mes "คำสั่งถูกยกเลิกแล้ว";
+			close;
+		case 2:
+			enablenpc "onlyaco#arena";
+			mes "Warp Portal";
+			mes "จะถูกเปิดในไม่ช้า";
+			close;
+		case 3:
+			disablenpc "onlyaco#arena";
+			mes "Warp Portal";
+			mes "จะถูกปิดในไม่ช้า";
+			close;
+		}
+	}
+}

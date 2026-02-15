@@ -1,0 +1,128 @@
+//===== rAthena Script ======================================= 
+//= Rachel Guides
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Guide for the city of Rachel.
+//===== Additional Comments: ================================= 
+//= 1.0 First version, Renewal guide.
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+rachel,138,146,5	script	Rachel Guide#rachel	934,{
+	mes "[Rachel Guide]";
+	mes "ยินดีต้อนรับสู่ ^8B4513Rachel^000000 เมืองหลวงของ Arunafeltz สถานที่ซึ่งลมหายใจอันอบอุ่นของเทพี Freya แผ่ซ่านมาถึง";
+	mes "หากนี่เป็นครั้งแรกที่คุณใช้บริการนำทาง ฉันขอแนะนำให้คุณลองสอบถามข้อมูลต่างๆ ได้เลย";
+	F_Navi("[Rachel Guide]");
+	next;
+	while (1) {
+		switch(select("[ สถานที่สำคัญ ]:[ พ่อค้าและผู้ช่วย ]:ลบเครื่องหมายออกจาก Mini-Map:ยกเลิก")) {
+		case 1:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ โรงแรม ]:[ ร้านอาวุธ ]:[ ร้านขายของชำ ]:[ สนามบิน ]:[ Cheshrumnir ]:[ คฤหาสน์ของ Priest Zed ]:เมนูก่อนหน้า")) {
+				case 1:
+					mes "[Rachel Guide]";
+					mes "คุณสามารถพักผ่อนจากความเหนื่อยล้าในการเดินทางได้ที่ "+F_Navi("Inn","rachel,115,144")+" อาคารทางซ้ายมือข้างๆ ฉันนี่เองคือโรงแรมของเมือง Rachel";
+					mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+					viewpoint 1,115,144,0,0xFF0000;
+					next;
+					break;
+				case 2:
+					mes "[Rachel Guide]";
+					mes "คุณต้องการตรวจสอบอาวุธที่ขายใน Rachel ไหม? "+F_Navi("Weapon Shop","rachel,42,82")+" ตั้งอยู่ใกล้กับประตูทางทิศตะวันตก";
+					mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+					viewpoint 1,42,82,1,0xFF4500;
+					next;
+					break;
+				case 3:
+					mes "[Rachel Guide]";
+					mes "ที่ "+F_Navi("Tool Shop","rachel,83,73")+" ของ Rachel มีโพชั่นคุณภาพดีที่สุดจำหน่าย ตั้งอยู่ใกล้กับประตูทางทิศตะวันตก";
+					mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+					viewpoint 1,83,73,2,0xDAA520;
+					next;
+					break;
+				case 4:
+					mes "[Rachel Guide]";
+					mes " "+F_Navi("Airport","rachel,272,125")+" ตั้งอยู่ด้านนอกของประตูทางทิศตะวันออก";
+					mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+					viewpoint 1,272,125,3,0x008000;
+					next;
+					break;
+				case 5:
+					mes "[Rachel Guide]";
+					mes " "+F_Navi("Cheshrumnir","rachel,150,243")+" เป็นดินแดนศักดิ์สิทธิ์ที่ซึ่งพระสันตะปาปา (Pope) ผู้เป็นร่างอวตารของเทพี Freya พำนักอยู่";
+					mes "ใช้เส้นทางมุ่งหน้าไปทางทิศเหนือเพื่อไปยังอาคารดังกล่าว";
+					mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+					viewpoint 1,150,243,4,0x0000FF;
+					next;
+					break;
+				case 6:
+					mes "[Rachel Guide]";
+					mes "เดี๋ยวฉันจะทำเครื่องหมายตำแหน่ง";
+					mes "ของ "+F_Navi("Priest Zed's Mansion","rachel,98,238","^000080");
+					mes "บน mini-map ของคุณให้";
+					mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+					viewpoint 1,98,238,5,0x000080;
+					next;
+					break;
+				case 7:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 2:
+			set .@loop,1;
+			while (.@loop) {
+				switch(select("[ พนักงาน Cool Event Corp. ]:[ เจ้าหน้าที่เทเลพอร์ต Eden ]:เมนูก่อนหน้า")) {
+				case 1:
+					mes "[Rachel Guide]";
+					mes "เดี๋ยวฉันจะทำเครื่องหมายตำแหน่ง";
+					mes "ของ "+F_Navi("Cool Event Corp. Staff","rachel,110,138","^803232");
+					mes "บน mini-map ของคุณให้";
+					mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+					viewpoint 1,110,138,7,0x803232;
+					next;
+					break;
+				case 2:
+					mes "[Rachel Guide]";
+					mes "เดี๋ยวฉันจะทำเครื่องหมายตำแหน่ง";
+					mes "ของ "+F_Navi("Eden Teleport Officer","rachel,125,144","^556B2F");
+					mes "บน mini-map ของคุณให้";
+					mes "คุณต้องการตรวจสอบสถานที่อื่นๆ อีกไหม?";
+					viewpoint 1,125,144,8,0x556B2F;
+					next;
+					break;
+				case 3:
+					set .@loop,0;
+					break;
+				}
+			}
+			break;
+		case 3:
+			mes "[Rachel Guide]";
+			mes "ได้เลย ฉันจะลบเครื่องหมายทั้งหมดออกจาก mini-map ของคุณให้";
+			mes "มีอะไรอย่างอื่นที่ฉันพอจะช่วยได้อีกไหม?";
+			viewpoint 2,115,144,0,0xFFFFFF;
+			viewpoint 2,42,82,1,0xFFFFFF;
+			viewpoint 2,83,73,2,0xFFFFFF;
+			viewpoint 2,272,125,3,0xFFFFFF;
+			viewpoint 2,150,243,4,0xFFFFFF;
+			viewpoint 2,98,238,5,0xFFFFFF;
+			viewpoint 2,110,138,7,0xFFFFFF;
+			viewpoint 2,125,144,8,0xFFFFFF;
+			next;
+			break;
+		case 4:
+			mes "[Rachel Guide]";
+			mes "ขอให้เดินทางโดยสวัสดิภาพนะ!";
+			close;
+		}
+	}
+}

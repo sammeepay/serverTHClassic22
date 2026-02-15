@@ -1,0 +1,2166 @@
+//===== rAthena Script =======================================
+//= Rune Knight Job Quest
+//===== By: ==================================================
+//= L0ne_W0lf, Muad_Dib
+//===== Current Version: =====================================
+//= 1.6
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Job change Quest from Knight / Lord Knight -> Rune Knight.
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//= 1.1 Added forgotten Header. [Masao]
+//= 1.2 Added Energy Rune item reward. [Masao]
+//= 1.3 Updated script, optimized. [Euphy]
+//= 1.3a Added 'npcskill' command. [Euphy]
+//= 1.4 Fixed a few bugs. [Euphy]
+//= 1.4a Moved Kafra to main file. [Euphy]
+//= 1.5 Added GM management function. [Euphy]
+//= 1.6 Added VIP features. [Euphy]
+//============================================================
+
+prt_in,162,24,3	script	Splendid-Looking Knight	470,2,2,{
+	mes "[Rune Knight Manuel]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "ตอนนี้เจ้าได้เป็นหนึ่งในพี่น้องที่ได้รับเลือกของเราแล้ว ข้ายังจำตอนที่พบกับเจ้าครั้งแรกได้อยู่เลย";
+		next;
+		mes "[Rune Knight Manuel]";
+		mes "จงมุ่งมั่นที่จะดำเนินตามวิถีแห่งดาบด้วยเกียรติยศ...";
+		next;
+		mes "[Rune Knight Manuel]";
+		mes "ดื่มฉลองให้กับอนาคตใหม่ของพวกเรา...";
+		close;
+	}
+	if (job_rune_edq == 0) {
+		mes "มีเส้นทางมากมายที่คนเราสามารถเลือกเดินได้ในโลกใบนี้ คนส่วนใหญ่มองเห็นทางของตนแต่กลับไม่ได้เดินตามมันจริงๆ...";
+		next;
+		mes "[Rune Knight Manuel]";
+		mes "เอาเถอะ เครื่องดื่มที่นี่รสชาติดีจริงๆ นะ เจ้าอยากจะรับสักหน่อยไหม?";
+		next;
+		if(select("ได้เลย มาดื่มกันสักหน่อย:ข้าขอปฏิเสธ") == 2) {
+			mes "[Rune Knight Manuel]";
+			mes "เจ้าแน่ใจรึ? เจ้ายังไม่รู้ถึงความละเมียดละไมที่แท้จริงของเครื่องดื่มพวกนี้เลยนะ...";
+			close;
+		}
+		mes "[Rune Knight Manuel]";
+		if (BaseJob == Job_Knight) {
+			mes "เจ้าเองก็เดินบนวิถีแห่งดาบเหมือนกันใช่ไหม? ถ้าอย่างนั้นเราก็น่าจะคุยกันรู้เรื่อง เครื่องดื่มจะมีรสชาติดีขึ้นเมื่อได้ดื่มกับสหาย Swordman";
+			next;
+			mes "[Rune Knight Manuel]";
+			mes "รอบนี้ข้าเลี้ยงเอง";
+			mes "แด่มิตรภาพ~";
+			next;
+			mes "[Rune Knight Manuel]";
+			if (BaseLevel > 98 && JobLevel > 49) {
+				mes "ในมุมมองของข้า เจ้าดูเหมือนจะพร้อมสำหรับการเริ่มต้นเส้นทางใหม่แล้วนะ...";
+				next;
+				mes "[Rune Knight Manuel]";
+				mes "การเดินบนวิถีแห่งดาบคือการต่อสู้ที่ไม่มีวันสิ้นสุด นับจากนี้ไปเจ้าอาจจะต้องเผชิญกับการเดินทางที่ยากลำบาก...";
+				next;
+				mes "[Rune Knight Manuel]";
+				mes "หากเจ้าต้องการจะก้าวไปบนเส้นทางใหม่และก้าวข้ามขีดจำกัดปัจจุบันของเจ้า ข้าก็ยินดีที่จะช่วยเหลือ";
+				next;
+				mes "[Rune Knight Manuel]";
+				mes "วิถีที่แท้จริงของ Swordman ผู้เรียนรู้ความประสานกลมกลืนเพื่อทำลายขีดจำกัดของดาบก็คือ Rune Knight";
+				next;
+				mes "[Rune Knight Manuel]";
+				mes "เจ้าจะไม่มาร่วมเป็นพี่น้องกับพวกเรางั้นรึ? เจ้าดูมีคุณสมบัติครบถ้วนที่จะเป็นหนึ่งในพวกเรานะ";
+				next;
+				mes "[Rune Knight Manuel]";
+				mes "หากเจ้าสนใจ ข้าจะแนะนำเจ้าให้รู้จักกับเหล่าอาจารย์ที่จะคอยชี้นำเจ้าไปสู่วิถีแห่ง Rune Knight ด้วยคำแนะนำของข้า";
+				next;
+				switch(select("ข้ายังไม่พร้อม:ข้าพร้อมจะเป็น Rune Knight แล้ว")) {
+				case 1:
+					mes "[Rune Knight Manuel]";
+					mes "เข้าใจแล้ว ทุกความท้าทายย่อมต้องมีการเตรียมพร้อมเสมอ ตกลง ข้าจะรอเจ้า";
+					next;
+					mes "[Rune Knight Manuel]";
+					mes "แน่นอนว่า ข้าจะยอมรับเจ้าก็ต่อเมื่อเจ้ามั่นใจในความมุ่งมั่นที่จะเป็น Rune Knight เต็มร้อยเปอร์เซ็นต์เท่านั้น";
+					close;
+				case 2:
+					if (VIP_SCRIPT) {
+						callfunc "VIP_Third_Class";
+						set job_rune_edq,1;
+						setquest 3200;
+						next;
+					}
+					mes "[Rune Knight Manuel]";
+					mes "เจ้าแน่ใจแล้วนะ?";
+					mes "ให้ข้าส่งข่าวไปยังสหายของข้าว่าเจ้าเต็มใจที่จะเข้าร่วมกองกำลังของเรา";
+					next;
+					set job_rune_edq,1;
+					setquest 3200;
+					mes "[Rune Knight Manuel]";
+					mes "เจ้ารู้จักสถานที่ที่เรียกว่า Glast Heim ไหม? มี Rune Knight คนหนึ่งรอเจ้าอยู่ที่นั่น เขาจะเป็นคนนำทางเจ้าไปสู่ทางเข้าของ Glast Heim Tower";
+					next;
+					mes "[Rune Knight Manuel]";
+					mes "ข้าชื่อ Manuel ผู้คนเรียกข้าว่า Rune Knight แห่งความรุ่งโรจน์ (Rune Knight of Brilliance) เมื่อเจ้าบอกเขาว่าเจ้าคือผู้สมัคร Rune Knight ที่ได้รับคำแนะนำจากข้า เขาจะจัดการส่วนที่เหลือเอง";
+					next;
+					mes "[Rune Knight Manuel]";
+					mes "ข้าจะรอวันที่เจ้าได้มาเป็นสหายของพวกเราในฐานะ Rune Knight ที่แท้จริง";
+					close;
+				}
+			}
+			mes "หากเจ้ายังคงเดินตามวิถีแห่งดาบต่อไปเรื่อยๆ ในที่สุดเจ้าจะรู้สึกถึงขีดจำกัดของพลังของเจ้า เหมือนกับตัวข้าในเมื่อก่อน...";
+			next;
+			mes "[Rune Knight Manuel]";
+			mes "เมื่อเวลานั้นมาถึง จะมีหนทางที่ช่วยให้เจ้าก้าวข้ามขีดจำกัดนั้นได้ จนกว่าจะถึงวันที่ความแข็งแกร่งของเจ้าเติบโตขึ้น อย่างน้อยเราก็ยังดื่มด้วยกันได้นะ";
+			next;
+			mes "[Rune Knight Manuel]";
+			mes "แด่วันที่ความแข็งแกร่งของเจ้าจะสามารถต้านทานพลังของ Rune Knight ได้!";
+			close;
+		}
+		mes "ข้าเชื่อว่าสายลมแห่งการเปลี่ยนแปลงนั้นไม่ได้นำพาเรื่องดีมาเสมอไป";
+		next;
+		mes "[Rune Knight Manuel]";
+		mes "เหมือนกับรสชาติของเครื่องดื่มนี้ ข้าหวังว่ารสชาติของมันจะถูกรักษาไว้ที่นี่ตลอดกาล";
+		close;
+	} else if (job_rune_edq == 1) {
+		mes "Rune Knight กำลังรอเจ้าอยู่ที่ Glast Heim เขาจะนำทางเจ้าไปสู่ทางเข้าของ Glast Heim Tower";
+		next;
+		mes "[Rune Knight Manuel]";
+		mes "บอกเขาว่าเจ้าคือผู้สมัครที่จะเป็น Rune Knight แล้วเขาจะจัดการที่เหลือเอง";
+		next;
+		mes "[Rune Knight Manuel]";
+		mes "ข้าจะรอวันที่เจ้ามาเป็นสหายของพวกเราในฐานะ Rune Knight ที่แท้จริง";
+		close;
+	}
+	mes "เจ้าไม่มีอะไรต้องทำในตอนนี้งั้นรึ?";
+	next;
+	mes "[Rune Knight Manuel]";
+	mes "ไม่มีรึ? งั้นก็ช่างเถอะ";
+	mes "เจ้าไม่ชอบกลิ่นของเหล้าบ้างรึไง?";
+	close;
+}
+
+glast_01,44,363,3	script	Rune Leader Jungberg	468,2,2,{
+	mes "[Rune Leader Jungberg]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "โอ้ เจ้าคงจะเป็น "+strcharinfo(0)+" สินะ";
+		mes "ยินดีต้อนรับ";
+		next;
+		mes "[Rune Leader Jungberg]";
+		mes "พวกเราเฝ้ารอที่จะเห็นเจ้าช่วยเหล่า Rune Knight เผยแพร่เกียรติยศไปทั่วโลก";
+		next;
+		mes "[Rune Leader Jungberg]";
+		mes "แล้ว มีอะไรให้ข้าช่วยไหม?";
+		next;
+		switch(select("ข้าต้องการไปยังสถานที่รวมตัว:ไม่มีอะไร")) {
+		case 1:
+			mes "[Rune Leader Jungberg]";
+			mes "ได้เลย ข้าจะส่งเจ้าไปเดี๋ยวนี้ แล้วเจอกัน";
+			close2;
+			warp "job3_rune01",80,65;
+			end;
+		case 2:
+			close;
+		}
+	}
+	if (BaseJob != Job_Knight) {
+		mes "ข้าคืออัศวินเพียงคนเดียวที่ยังคงรักษาปณิธานแห่ง Swordsman ในสถานที่ที่ถูกสาปอย่าง Glast Heim แห่งนี้";
+		next;
+		mes "[Rune Leader Jungberg]";
+		mes "ในเมื่อเจ้าไม่ได้เดินตามวิถีแห่งดาบ เจ้าคงไม่เข้าใจจิตวิญญาณของเราหรอก ข้าจัดการเองได้ ไปตามทางของเจ้าเถอะ";
+		close;
+	}
+	if (job_rune_edq < 2) {
+		mes "เจ้าคือวิญญาณที่ถูกสาปของที่นี่งั้นรึ? หรือว่าเป็นแค่นักผจญภัยที่โง่เขลา?";
+		next;
+		mes "[Rune Leader Jungberg]";
+		mes "ถ้าเจ้ายังเป็นมนุษย์ที่มีลมหายใจอยู่ล่ะก็ ฟังข้าให้ดี ข้าจะไม่ยอมเสี่ยงชีวิตอยู่ที่นี่เพื่อมาลังเลที่จะคุยกับใครก็ได้หรอกนะ";
+		next;
+		if (job_rune_edq == 0) {
+			switch(select("ท่านคือใคร?:ท่านมาทำอะไรที่นี่?:ยกเลิก")) {
+			case 1:
+				mes "[Rune Leader Jungberg]";
+				mes "ข้าคืออัศวินเพียงคนเดียวที่ยังคงรักษาปณิธานแห่ง Swordsman ในสถานที่ที่ถูกสาปอย่าง Glast Heim แห่งนี้";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "หากเจ้าเดินตามวิถีแห่ง Swordsman เช่นกัน เส้นทางของเราจะต้องบรรจบกันอีกครั้งแน่นอนเมื่อเจ้าเข้าถึงศักยภาพสูงสุดแล้ว";
+				close;
+			case 2:
+				mes "[Rune Leader Jungberg]";
+				mes "ข้าคือชายผู้เดินตามวิถีแห่งดาบ แต่ข้าไม่ได้เหมือนกับพวกเจ้าหรอกนะ อัศวินแห่ง Rune-Midgarts";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "พวกเราไม่เหมือนอัศวินคนอื่นๆ ที่ยึดติดกับความโอ่อ่าและพิธีรีตอง ดังนั้นเจ้าอาจจะยังไม่รู้จักพวกเรา";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "พวกเราคือ Rune Knights กลุ่มผู้นำพลังที่แท้จริงรวมถึงความแข็งแกร่งทางกายภาพไปสู่วิถีแห่งดาบที่เที่ยงธรรม";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "พวกเราอาศัยอยู่อย่างลับๆ ในส่วนลึกของ Glast Heim มาครึ่งศตวรรษแล้ว แต่มันถึงเวลาแล้วที่จะให้โลกได้รับรู้ถึงจุดประสงค์ของเรา";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "ตอนนี้มีเหล่าอาจารย์ฝึกสอนมากมายที่กำลังตามหาผู้ใช้ดาบที่มีพรสวรรค์ตามสถานที่ต่างๆ ใน Rune-Midgarts พวกเขากำลังมองหาผู้ที่จะมาร่วมสู่วิถีแห่งดาบที่แท้จริง";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "หากเจ้าปรารถนาจะเข้าร่วมกับ Rune Knights โปรดไปรับคำแนะนำจากหนึ่งในผู้นำทางแล้วกลับมาหาข้าอีกครั้ง";
+				close;
+			case 3:
+				close;
+			}
+		} else if (job_rune_edq == 1) {
+			switch(select("ข้ามาเพื่อจะเป็น Rune Knight:ยกเลิก")) {
+			case 1:
+				mes "[Rune Leader Jungberg]";
+				mes "อืม... เจ้าคือผู้สมัคร Rune Knight ที่ Manuel พูดถึงงั้นรึ?";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "เจ้าชื่อ "+strcharinfo(0)+" สินะ? ข้าเห็นได้ชัดเจนเลยว่าเจ้ามีคุณสมบัติพอที่จะมาเป็นสหายของเรา";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "ดีมาก ข้าไม่จำเป็นต้องถามอะไรเกี่ยวกับคุณสมบัติของเจ้าในการเข้าร่วมพี่น้องของเราอีกแล้ว.... เอาล่ะ ตอนนี้ข้าจะมอบภารกิจแรกให้เจ้า";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "จงตามหาสถานที่รวมตัวของ Rune Knight ที่ซ่อนอยู่ภายใน Glast Heim";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "มีสถานที่หนึ่งที่นำไปสู่ห้องรวมตัวลับของ Rune Knight ภายใน Glast Heim Chivalry จงหาสถานที่นั้นด้วยตัวเจ้าเอง";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "หากเจ้าหามันเจอ จะมีคนรอต้อนรับเจ้าอยู่ที่นั่น เริ่มได้เลย";
+				next;
+				mes "[Rune Leader Jungberg]";
+				mes "แน่นอนว่าชีวิตของเจ้าอาจจะตกอยู่ในอันตรายจากเหล่าวิญญาณใน Glast Heim... แต่การเอาชนะความเสี่ยงนั้นคงไม่ยากเกินไปสำหรับผู้สมัคร Rune Knight หรอกนะ";
+				set job_rune_edq,2;
+				changequest 3200,3201;
+				close;
+			case 2:
+				close;
+			}
+		}
+	} else if (job_rune_edq == 2) {
+		mes "ภารกิจแรกคือการตามหาสถานที่รวมตัวของ Rune Knight ที่ซ่อนอยู่ภายใน Glast Heim";
+		next;
+		mes "[Rune Leader Jungberg]";
+		mes "มีสถานที่หนึ่งที่นำไปสู่สถานที่รวมตัวลับของเหล่า Rune Knight ภายใน Glast Heim Chivalry จงหาสถานที่นั้นด้วยตัวเจ้าเอง";
+		next;
+		mes "[Rune Leader Jungberg]";
+		mes "หากเจ้าหามันเจอ จะมีคนรอต้อนรับเจ้าอยู่ที่นั่น เริ่มได้เลย";
+		next;
+		mes "[Rune Leader Jungberg]";
+		mes "แน่นอนว่าชีวิตของเจ้าอาจจะตกอยู่ในอันตรายจากเหล่าวิญญาณใน Glast Heim... แต่การเอาชนะความเสี่ยงนั้นคงไม่ยากเกินไปสำหรับผู้สมัคร Rune Knight หรอกนะ";
+		close;
+	}
+	mes "ดูเหมือนว่าเจ้าจะยังอยู่ระหว่างการทดสอบนะ พยายามเข้าและผ่านการทดสอบทั้งหมดให้ได้";
+	next;
+	switch(select("ข้าต้องการไปยังสถานที่รวมตัว:จบการสนทนา")) {
+	case 1:
+		mes "[Rune Leader Jungberg]";
+		mes "ตกลง ข้าจะส่งเจ้าไปเดี๋ยวนี้ แล้วข้าจะไปตรวจสอบเจ้าภายหลัง";
+		close2;
+		warp "job3_rune01",80,65;
+		end;
+	case 2:
+		close;
+	}
+}
+
+gl_knt02,150,55,3	script	Rune Knight Staff	83,2,2,{
+	mes "[Rune Knight Staff]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "ยินดีต้อนรับ "+strcharinfo(0)+" เจ้ากำลังจะไปที่สถานที่รวมตัวงั้นรึ?";
+		next;
+		switch(select("ใช่ พาข้าไปที:ข้ามีธุระอื่น:ยกเลิก")) {
+		case 1:
+			mes "[Rune Knight Staff]";
+			mes "ตกลง เข้ามาเลย ข้าจะนำทางให้";
+			close2;
+			warp "job3_rune01",80,65;
+			end;
+		case 2:
+			mes "[Rune Knight Staff]";
+			mes "โอ้ งั้นรึ? ถ้าอย่างนั้นก็เชิญทำธุระของเจ้าต่อเถอะ ข้าจะปฏิบัติหน้าที่ของข้าต่อไป";
+			close;
+		case 3:
+			close;
+		}
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq == 1) {
+			mes "อา... บริเวณนี้เป็นเขตหวงห้าม เจ้าไม่ได้รับอนุญาตให้มาที่นี่ โปรดอย่าทำอะไรที่เป็นการขัดขวางการทำงานของเรา";
+			next;
+			mes "[Rune Knight Staff]";
+			mes "อย่างไรก็ตาม... เจ้าดูเหมือนจะมีศักยภาพที่จะกลายเป็นสหายของผู้ที่เดินตามวิถีแห่งดาบนะ";
+			next;
+			mes "[Rune Knight Staff]";
+			mes "ข้าแน่ใจว่าเราจะได้ร่วมทางกันในไม่ช้า ข้าเชื่อว่าเราจะได้พบกันอีก";
+			close;
+		} else if (job_rune_edq > 1) {
+			mes "เจ้าหาสถานที่นี้เจอจนได้นะ Jungberg ส่งข้ามาเพื่อส่งเจ้าไปยังสถานที่รวมตัว";
+			next;
+			mes "[Rune Knight Staff]";
+			mes "เมื่อเจ้าเข้าไปในสถานที่รวมตัวแล้ว จงไปคุยกับ Captain Tigris เขาเฝ้ารอสมาชิกใหม่ที่จะปรากฏตัวอยู่เสมอ";
+			next;
+			mes "[Rune Knight Staff]";
+			mes "เอาล่ะ โปรดตามข้ามา";
+			close2;
+			warp "job3_rune01",80,65;
+			end;
+		}
+	}
+	mes "เดี๋ยวก่อน! สถานที่นี้เป็นเขตหวงห้าม ข้าไม่ว่าอะไรที่เจ้าจะเดินเตร่ไปมา แต่อย่ามารบกวนข้าอีก";
+	close;
+}
+
+job3_rune01,80,60,3	script	Rune Knight Captain	470,2,2,{
+	if (checkweight(1201,1) == 0 || MaxWeight - Weight < 1000) {
+		mes "เจ้ามีของมากเกินไป เจ้าไม่สามารถดำเนินการต่อได้ โปรดลองใหม่อีกครั้งหลังจากลดน้ำหนักตัวลง";
+		close;
+	}
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "[Captain Tigris]";
+		if (job_rune_edq == 23) {
+			mes "โอ้ เข้าใจแล้ว... โปรดรอสักครู่";
+			next;
+			mes "[Captain Tigris]";
+			mes "ข้าลืมตรวจสอบว่าเจ้ามีคุณสมบัติพอที่จะได้รับของขวัญฉลองการเปลี่ยนอาชีพหรือไม่...";
+			next;
+			mes "[Captain Tigris]";
+			mes "ขอข้าตรวจสอบรายงานจากเหล่าอาจารย์ที่ดูแลการทดสอบของเจ้าก่อนนะ";
+			next;
+			mes "[Captain Tigris]";
+			if (job_rune_edq3 == 0) {
+				mes "หืม... ยอดเยี่ยมมาก เจ้ามาที่นี่ด้วยประวัติการทดสอบที่ดีเยี่ยมหาได้ยาก";
+				set .@item,2140; //Energy_Rune_Guard
+			} else if (job_rune_edq3 > 2 && job_rune_edq3 < 6) {
+				mes "หืม... ดีมาก เจ้ามาที่นี่ด้วยประวัติการทดสอบที่ใช้ได้เลย";
+				set .@item,2794; //Magic_Stone_Ring
+			} else {
+				mes "หืม ไม่เลว แม้มันจะไม่ใช่สถิติที่ยอดเยี่ยมแต่เจ้าก็พยายามอย่างที่สุดแล้ว";
+				set .@item,15002; //Rune_Plate
+			}
+			next;
+			mes "[Captain Tigris]";
+			mes "นี่ รับไปสิ มันคือของขวัญที่ข้าอยากจะมอบให้แก่คนรุ่นใหม่อย่างเจ้า";
+			getitem .@item,1; //Energy_Rune_Guard
+			set job_rune_edq,24;
+			close;
+		}
+		mes "เฮ้ ไม่เจอกันนานนะ "+strcharinfo(0)+" ข้าคิดว่าเจ้าคงไม่มีเรื่องสำคัญอะไรจะคุย แต่เชิญทำตัวตามสบายเถอะ";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq == 2) {
+			mes "ชายผู้สวมชุดเกราะอันรุ่งโรจน์และมีประกายแห่งความมุ่งมั่นในดวงตา ยืนอยู่ต่อหน้าข้า";
+			next;
+			mes "เขาจ้องมองข้าด้วยสายตาที่ว่างเปล่าครู่หนึ่ง ก่อนจะเริ่มพูดขึ้น";
+			next;
+			mes "[Captain Tigris]";
+			mes "เฮ้ เจ้าคือผู้สมัคร Rune Knight ที่ Manuel แนะนำมางั้นรึ? ข้าคือ Captain Tigris แห่ง Rune Knights แล้วเจ้าชื่ออะไรล่ะ?";
+			next;
+			mes "[Captain Tigris]";
+			mes "โอ้ ข้าเคยได้ยินชื่อนั้นมาก่อนแต่ลืมไปแล้ว ใช่แล้ว เจ้าชื่อ "+strcharinfo(0)+" ใช่ไหม? ข้ายินดีต้อนรับเจ้าจากใจจริงที่มาที่นี่";
+			next;
+			mes "[Captain Tigris]";
+			mes "ดูสิ มีผู้สมัครมาที่ห้องนี้กี่คนแล้วนะ? เฮ้ Lunarea คนนี้เป็นผู้สมัครลำดับที่เท่าไหร่?";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "... ลำดับที่ 172";
+			next;
+			mes "[Captain Tigris]";
+			mes "นางบอกอย่างนั้นล่ะสหาย ความจริงข้าไม่อยากเห็นคนต่อไปแล้ว (ไม่อยากให้พลาดจนต้องหาคนใหม่) ดังนั้นจงทำให้ดีล่ะ";
+			next;
+			mes "[Captain Tigris]";
+			mes "ขอข้าดูหน่อย... Manual และ Jungberg คงจะตรวจสอบขั้นพื้นฐานเสร็จแล้ว งั้นเรามาเริ่มการทดสอบกันเลย";
+			next;
+			mes "[Captain Tigris]";
+			mes "Lunarea ดำเนินการทดสอบแรกได้";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "...";
+			next;
+			mes "Rune Knight หญิงผู้มีผิวซีดที่ชื่อ Lunarea พยักหน้าเงียบๆ และเฝ้าดูข้า";
+			next;
+			mes "[Captain Tigris]";
+			mes "การทดสอบเริ่มขึ้นแล้ว ขั้นแรก เจ้าจะได้รับการทดสอบที่ 1 จากสุภาพสตรีผู้นิ่งสงบดั่งน้ำแข็งคนนั้น พยายามให้เต็มที่นะ";
+			next;
+			mes "[Captain Tigris]";
+			mes "เมื่อการทดสอบเสร็จสิ้น ค่อยมาคุยกับข้า ยังไงเจ้าก็ต้องระวังเรื่องการทดสอบที่จะดำเนินไปพร้อมกับคนอื่นๆ ด้วย";
+			next;
+			set job_rune_edq,3;
+			changequest 3201,3202;
+			mes "[Captain Tigris]";
+			mes "เอาล่ะ ข้าจะรออยู่ที่นี่ ไปรับการทดสอบซะ";
+			close;
+		} else if (job_rune_edq == 3) {
+			mes "[Captain Tigris]";
+			mes "ตอนนี้การทดสอบเริ่มขึ้นแล้ว ขั้นแรก เจ้าจะได้รับการทดสอบที่ 1 จากสุภาพสตรีผู้นิ่งสงบดั่งน้ำแข็งคนนั้น พยายามให้เต็มที่นะ";
+			next;
+			mes "[Captain Tigris]";
+			mes "เมื่อการทดสอบเสร็จสิ้น ค่อยมาคุยกับข้า... ยังไงเจ้าก็ต้องระวังเรื่องการทดสอบที่จะดำเนินไปพร้อมกับคนอื่นๆ ด้วย";
+			next;
+			mes "[Captain Tigris]";
+			mes "เอาล่ะ ข้าจะรออยู่ที่นี่ ไปรับการทดสอบซะ";
+			close;
+		} else if (job_rune_edq > 3 && job_rune_edq < 6) {
+			mes "[Captain Tigris]";
+			mes "เฮ้ เจ้าน่ะ ไม่ใช่ว่ากำลังทดสอบอยู่รึ? Lunarea เกิดอะไรขึ้น? การทดสอบเสร็จสิ้นแล้วรึ?";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "......";
+			next;
+			mes "นางเพียงแค่ส่ายหน้าโดยไม่พูดจา และจ้องมองข้า นางมีดวงตาที่เฉียบคมมาก";
+			next;
+			mes "[Captain Tigris]";
+			mes "ตกลง Lunarea เฮ้ ฟังข้าให้ดีนะ Lunarea เป็นคนพูดน้อยและเงียบขรึม แต่เจ้าไม่ควรจะเมินเฉยนาง";
+			next;
+			mes "[Captain Tigris]";
+			mes "แม้แต่ข้า... ไม่สิ พวกเราคนไหนก็ตามที่ทำให้นางอารมณ์เสีย จะไม่มีใครรับมือไหวแน่นอน";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "......";
+			next;
+			mes "[Captain Tigris]";
+			mes "โว้ว อย่ามองข้าแบบนั้นสิ โอเค เห็นนั่นไหม? ว่าที่ Rune Knight กลับไปหา Lunarea และรับการทดสอบตามที่นางบอกซะ นั่นจะเป็นผลดีต่อตัวเจ้าเอง";
+			close;
+		} else if (job_rune_edq == 6) {
+			mes "[Captain Tigris]";
+			mes "อืม ดูเหมือนเจ้าจะผ่านการทดสอบของ Lunarea แล้วสินะ? ข้าคิดว่าข้าคงไม่ต้องทดสอบพื้นฐานอะไรเพิ่มแล้ว";
+			next;
+			mes "[Captain Tigris]";
+			mes "ปฏิเสธไม่ได้ว่า Rune Knight ของเรามีความแตกต่างออกไปบ้าง แต่เราต้องไม่ลืมรากเหง้าของการเป็น Swordsman ของเรา";
+			next;
+			mes "[Captain Tigris]";
+			mes "นับจากนี้ไป จะเป็นการทดสอบที่แท้จริงของการเป็น Rune Knight อย่างที่เจ้าต้องการ เจ้าต้องเตรียมตัวสำหรับการทดสอบถัดไป";
+			next;
+			mes "[Captain Tigris]";
+			mes "Renoa ข้ารู้ว่าเจ้าช่างรอคอยมานาน แต่มันถึงตาของเจ้าแล้ว";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "มันเป็นเวลานานจริงๆ นั่นแหละ แต่การทดสอบของ Lunarea กับของข้าน่ะต่างกันราวฟ้ากับเหวเลยล่ะ ข้าหวังว่าเจ้าจะไม่ใช่แค่พวกบ้าพลังสมองกลวงนะ";
+			next;
+			mes "[Captain Tigris]";
+			mes "ฮ่าๆๆ ได้ยินแล้วใช่ไหม? ครั้งนี้มันไม่ง่ายหรอกนะ ข้าหวังว่าเจ้าจะผ่านมันไปได้สหาย";
+			next;
+			mes "[Captain Tigris]";
+			mes "ไปหาสุภาพสตรีผู้ร้อนแรงคนนั้นในห้องสมุดเพื่อทำการทดสอบถัดไป แล้วค่อยกลับมา";
+			set job_rune_edq,7;
+			changequest 3204,3205;
+			close;
+		} else if (job_rune_edq > 6 && job_rune_edq < 16) {
+			mes "[Captain Tigris]";
+			mes "เอาล่ะ นี่จะเป็นการทดสอบที่แท้จริงของ Rune Knight เจ้าต้องเตรียมตัวรับการทดสอบถัดไป";
+			next;
+			mes "[Captain Tigris]";
+			mes "Renoa ข้ารู้ว่าเจ้าช่างรอคอยมานาน แต่มันถึงตาของเจ้าแล้ว";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "มันเป็นเวลานานจริงๆ นั่นแหละ แต่การทดสอบของ Lunarea กับของข้าน่ะต่างกันราวฟ้ากับเหวเลยล่ะ ข้าหวังว่าเจ้าจะไม่ใช่แค่พวกบ้าพลังสมองกลวงนะ";
+			next;
+			mes "[Captain Tigris]";
+			mes "ฮ่าๆๆ ได้ยินแล้วใช่ไหม? ครั้งนี้มันไม่ง่ายหรอกนะ ข้าหวังว่าเจ้าจะผ่านมันไปได้สหาย";
+			next;
+			mes "[Captain Tigris]";
+			mes "ไปหาสุภาพสตรีผู้ร้อนแรงคนนั้นในห้องสมุดเพื่อทำการทดสอบถัดไป แล้วค่อยกลับมา";
+			close;
+		} else if (job_rune_edq == 16) {
+			mes "[Captain Tigris]";
+			mes "โอ้ ข้าได้ยินมาว่าเจ้าผ่านการทดสอบของ Renoa มาได้ ซึ่งมีเพียงไม่กี่คนเท่านั้นที่ทำสำเร็จ";
+			next;
+			mes "[Captain Tigris]";
+			mes "ข้าได้ยินว่าจำนวนผู้สมัครที่ยอมแพ้ระหว่างการทดสอบของ Renoa นั้นสูงมาก";
+			next;
+			mes "[Captain Tigris]";
+			mes "เจ้าต้องเข้าใจนะ ข้าว่าการทดสอบนั้นมันแสดงออกถึงบุคลิกของผู้คุมสอบได้อย่างชัดเจนเลยล่ะ หืม...";
+			next;
+			mes "[Captain Tigris]";
+			mes "ตอนนี้เหลือเพียงการทดสอบสุดท้ายแล้ว เมื่อเจ้าผ่านสิ่งนี้ไปได้ เจ้าก็จะได้เป็น Rune Knight อย่างเป็นทางการ";
+			next;
+			mes "[Captain Tigris]";
+			mes "ไปรับการทดสอบสุดท้ายจาก Rune Knight Velpino ที่อยู่ทางด้านขวาของคลังแสง (Arsenal)";
+			next;
+			mes "[Captain Tigris]";
+			mes "ข้าไม่ได้ล้อเล่นนะ ข้าเฝ้ารอการเริ่มต้นใหม่ของเจ้าในฐานะ Rune Knight จริงๆ";
+			mes "ดังนั้น พยายามให้เต็มที่ล่ะ";
+			set job_rune_edq,17;
+			changequest 3215,3216;
+			close;
+		} else if (job_rune_edq > 16 && job_rune_edq < 22) {
+			mes "[Captain Tigris]";
+			mes "ไปรับการทดสอบสุดท้ายจาก Rune Knight Velpino ที่อยู่ทางด้านขวาของคลังแสง (Arsenal)";
+			next;
+			mes "[Captain Tigris]";
+			mes "ข้าไม่ได้ล้อเล่นนะ ข้าเฝ้ารอการเริ่มต้นใหม่ของเจ้าในฐานะ Rune Knight จริงๆ ดังนั้น พยายามให้เต็มที่ล่ะ";
+			close;
+		} else if (job_rune_edq == 22) {
+			mes "[Captain Tigris]";
+			mes "ขอแสดงความยินดีด้วย บัดนี้เจ้าผ่านการทดสอบทั้งหมดแล้ว และสามารถก้าวสู่วิถีแห่ง Rune Knight ได้";
+			next;
+			mes "[Captain Tigris]";
+			mes "ข้ายินดีจากส่วนลึกของหัวใจ ข้าภูมิใจในตัวเจ้ามาก";
+			next;
+			mes "[Captain Tigris]";
+			mes "ตอนนี้เจ้าสามารถทำตัวตามสบายท่ามกลางพวกเรา และยืนหยัดอย่างภาคภูมิใจในฐานะหนึ่งในพวกเรา";
+			next;
+			mes "[Captain Tigris]";
+			mes "นี่คือผลประเมินจาก Lunarea, Renoa และ Velpino ผู้ที่ดูแลการทดสอบของเจ้า";
+			next;
+			mes "[Captain Tigris]";
+			mes "มันอาจจะไม่มากนัก แต่มีของขวัญสำหรับ Rune Knight คนใหม่ที่ทำคะแนนการทดสอบได้ดี";
+			next;
+			mes "[Captain Tigris]";
+			mes "ของขวัญจะมีความแตกต่างกันไปตามคะแนน แต่ทุกชิ้นล้วนมีประโยชน์สำหรับ Rune Knight ทุกคน";
+			next;
+			mes "[Captain Tigris]";
+			mes "สุดท้ายนี้ มีบางสิ่งที่ต้องระวังในฐานะอัศวินที่เคยผ่านการเปลี่ยนอาชีพเป็น Lord Knight ใน Valhalla มาแล้ว";
+			next;
+			callsub L_Warning;
+			mes "[Captain Tigris]";
+			mes "เอาล่ะ หน้าที่ของข้าเสร็จสิ้นแล้ว เจ้าพร้อมจะเริ่มต้นชีวิตใหม่ในฐานะ Rune Knight แล้วหรือยัง?";
+			next;
+			switch(select("การเตรียมตัวทุกอย่างเสร็จสิ้น:ข้าขอเวลาคิดอีกสักนิด")) {
+			case 1:
+				if (SkillPoint != 0 || checkriding()) {
+					mes "[Captain Tigris]";
+					mes "เจ้าไม่ได้ฟังที่ข้าพูดรึ?";
+					next;
+					callsub L_Warning;
+					mes "[Captain Tigris]";
+					mes "หากเจ้าเข้าใจแล้ว ก็ไปเตรียมตัวให้เรียบร้อยแล้วกลับมาใหม่";
+					close;
+				}
+				if (BaseLevel < 99 || JobLevel < 50) {
+					mes "[Captain Tigris]";
+					mes "ดูเหมือนจะยังไม่เพียงพอสินะ?";
+					close;
+				}
+				if (ismounting()) {
+					mes "[Captain Tigris]";
+					mes "กรุณาลงจากสัตว์ขี่แล้วกลับมาอีกครั้ง";
+					close;
+				}
+				mes "[Captain Tigris]";
+				mes "นายท่านของพวกเรา Beljeve... และมหาปราชญ์ Serpeone...";
+				next;
+				mes "[Captain Tigris]";
+				mes "อัศวินผู้นี้กำลังจะก้าวสู่เส้นทางแห่ง Rune Knights ไปกับพวกเรา โปรดประทานพรให้แก่เขาด้วย";
+				next;
+				getitem 5746,1; //Rune_Circlet
+				getitem 2795,1; //Green_Apple_Ring
+				set job_rune_edq,23;
+				completequest 3219;
+				jobchange roclass(eaclass()|EAJL_THIRD);
+				mes "[Captain Tigris]";
+				mes "ขอแสดงความยินดีด้วย";
+				mes "ตอนนี้เจ้าคือ Rune Knight ผู้ทรงเกียรติแล้ว";
+				mes "จงจดจำวันนี้เอาไว้ตั้งแต่นี้เป็นต้นไป!";
+				next;
+				mes "[Captain Tigris]";
+				mes "มีของขวัญจากราชวงศ์แห่งอาณาจักร Rune-Midgarts มอบให้แก่ Rune Knight ใหม่ทุกคนด้วย";
+				next;
+				mes "[Captain Tigris]";
+				mes "ขอเวลาข้าสักครู่เพื่อไปหยิบของขวัญจากราชวงศ์ แล้วค่อยมาคุยกับข้าอีกครั้ง";
+				close;
+			case 2:
+				close;
+			}
+		}
+	}
+	mes "[Captain Tigris]";
+	mes "ข้าไม่รู้ว่าเจ้ามาที่นี่ได้อย่างไร แต่ดูเหมือนเจ้าจะมาอยู่ในที่ที่ไม่ควรจะอยู่นะ";
+	next;
+	mes "[Captain Tigris]";
+	mes "จงกลับไปยังที่ที่เจ้าจากมาซะ";
+	close2;
+	warp "gl_knt02",150,55;
+	end;
+L_Warning:
+	mes "[Captain Tigris]";
+	mes "หากมีอุปกรณ์ใดๆ ที่เจ้าสวมใส่อยู่ตอนนี้ หรือถืออยู่ในมือ โปรดถอดออกให้หมดเพื่อช่วงเวลาการเปลี่ยนอาชีพของเจ้า";
+	next;
+	mes "[Captain Tigris]";
+	mes "ไปคุยกับพนักงาน Kafra เพื่อใช้คลังเก็บของซะ";
+	next;
+	mes "[Captain Tigris]";
+	mes "เจ้าคงรู้อยู่แล้ว หากเจ้ากำลังขี่ Peco Peco เจ้าควรจะทิ้งมันไว้ข้างหลัง ถ้าเจ้าพามันมาด้วย จงไปทิ้งมันไว้แล้วค่อยกลับมาใหม่";
+	next;
+	mes "[Captain Tigris]";
+	mes "อีกอย่างหนึ่ง หากเจ้ายังมี Skill Point เหลืออยู่ จงใช้มันให้หมดและเรียนรู้ทักษะต่างๆ เจ้าจะไม่สามารถเปลี่ยนอาชีพได้หากยังมี Skill Point หลงเหลืออยู่";
+	next;
+	return;
+}
+
+job3_rune01,90,50,3	script	Rune Knight Lunarea	469,2,2,{
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "นางเชิดคางขึ้นเงียบๆ พยักหน้าเบาๆ และสังเกตเห็นข้า";
+		next;
+		mes "หลังจากนั้นครู่หนึ่ง นางก็ก้มหน้าลงและดูเหมือนจะหมกมุ่นอยู่กับความคิดอื่นๆ";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq == 3) {
+			mes "ในที่สุดนางก็เปิดปากและเริ่มพูดขึ้น";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "5 นาที... เมื่อเจ้าอดทนและกำจัดทั้งหมดได้ เจ้าก็จะสำเร็จ";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "ในการทดสอบนี้ Captain Tigris, Renoa, Velpino และข้า จะไปเยี่ยมเยียนด้วยกัน";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "หากเจ้าต้องการ เจ้าสามารถขอความช่วยเหลือจากพวกเราคนใดคนหนึ่งก็ได้ แต่ อย่าคิดว่าพวกเราจะช่วยเสมอไปนะ";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "ในเมื่อมันคือการทดสอบ การได้รับความช่วยเหลือจากพวกเราจึงเป็นทางเลือกของเจ้าเอง ไม่สำคัญว่าเจ้าจะรับการทดสอบด้วยความช่วยเหลือของเราหรือทำด้วยตัวคนเดียวทั้งหมด";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "เมื่อเจ้าพร้อมที่จะไปยังสนามทดสอบแล้ว จงมาคุยกับข้า";
+			next;
+			switch(select("ไปยังสนามทดสอบเดี๋ยวนี้:ขอเวลาเตรียมตัวสักครู่")) {
+			case 1:
+				callsub L_Test,0;
+				close;
+			case 2:
+				close;
+			}
+		} else if (job_rune_edq == 4) {
+			mes "[Rune Knight, Lunarea]";
+			mes "เจ้าล้มเหลวรึ? แต่ว่า ไม่มีการจำกัดจำนวนครั้งที่เจ้าสามารถลองใหม่ได้หรอกนะ";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "หากเจ้าต้องการรับการทดสอบอีกครั้ง ข้าสามารถส่งเจ้าไปยังสนามทดสอบได้";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "5 นาที... เมื่อเจ้าอดทนและกำจัดทั้งหมดได้ เจ้าก็จะสำเร็จ";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "หากเจ้าพร้อมจะไปยังสนามทดสอบแล้ว จงมาคุยกับข้า";
+			next;
+			switch(select("ไปยังสนามทดสอบเดี๋ยวนี้:โปรดให้เวลาข้าเตรียมตัวก่อน")) {
+			case 1:
+				if (checkquest(3220,PLAYTIME) == 1) {
+					mes "[Rune Knight, Lunarea]";
+					mes "เมื่อมีใครบางคนเข้าไปในสนามทดสอบแล้ว เจ้าจะไม่สามารถเข้าไปได้ทันที การทดสอบต้องดำเนินไปทีละคน";
+					next;
+					mes "[Rune Knight, Lunarea]";
+					mes "เมื่อถึงตาของเจ้าที่จะได้เข้า ข้าจะส่งเจ้าไปที่นั่นโดยตรง";
+					close;
+				}
+				callsub L_Test,1;
+				close;
+			case 2:
+				close;
+			}
+		} else if (job_rune_edq == 5) {
+			mes "[Rune Knight, Lunarea]";
+			mes "การทดสอบของเจ้าสำเร็จล่ะสิ?";
+			next;
+			mes "นางเผยยิ้มเล็กน้อยซึ่งแทบจะมองไม่เห็นและจ้องมองมาที่ข้า";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "การทดสอบส่วนนี้จบลงแล้ว ไปคุยกับ Captain Tigris ซะ";
+			set job_rune_edq,6;
+			changequest 3203,3204;
+			close;
+		} else if (job_rune_edq > 5) {
+			mes "[Rune Knight, Lunarea]";
+			mes "การทดสอบส่วนนี้จบลงแล้ว ไปคุยกับ Captain Tigris ซะ";
+			next;
+			mes "[Rune Knight, Lunarea]";
+			mes "ยังมีการทดสอบอื่นๆ ที่เจ้าต้องทำให้เสร็จ ข้าหวังว่าเจ้าจะทำได้ดี";
+			close;
+		}
+	}
+	mes "Rune Knight หญิงผิวซีดที่มีท่าทางเหม่อลอยคนนี้ดูเหมือนจะไม่ใส่ใจอะไร แน่นอนว่านางดูไม่สนใจการมีอยู่ของข้าเลย";
+	close;
+L_Test:
+	mes "นางพยักหน้าและยื่นมือออกมาเบาๆ จากนั้นนางชักดาบออกมาและส่งสัญญาณ";
+	if ($@job_rune_test1 == 0) {
+		if (getarg(0) == 0) {
+			set job_rune_edq,4;
+			changequest 3202,3203;
+			setquest 3220; // ? (เครื่องหมายคำถามคงไว้ตามต้นฉบับ)
+		} else if (checkquest(3220) > -1) {
+			erasequest 3220;
+			setquest 3220;
+		}
+		set $@job_rune_test1,1;
+		close2;
+		warp "job3_rune02",38,40;
+		end;
+	}
+	// Custom translation (คำแปลส่วนปรับแต่ง)
+	next;
+	mes "แต่การแสดงออกของนางเปลี่ยนไปกะทันหันขณะที่นางมองมาเพื่อจะพูด";
+	next;
+	mes "[Rune Knight, Lunarea]";
+	mes "ตอนนี้... ห้องทดสอบกำลังถูกใช้งานอยู่...";
+	next;
+	mes "[Rune Knight, Lunarea]";
+	mes "เจ้าต้องรอ... มันเป็นกฎระเบียบที่การทดสอบต้องดำเนินไปทีละคน";
+	next;
+	mes "[Rune Knight, Lunarea]";
+	mes "แค่รอ 5 นาที แล้วก็น่าจะถึงตาของเจ้าแล้ว";
+	close;
+}
+
+job3_rune01,55,50,3	script	Rune Knight, Renoa	469,2,2,{
+	mes "[Rune Knight, Renoa]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "ขอแสดงความยินดีด้วยที่ได้มาเป็นส่วนหนึ่งของพวกเรา Rune Knight รุ่นน้อง, "+strcharinfo(0)+".";
+		next;
+		mes "[Rune Knight, Renoa]";
+		mes "อีกไม่นานเจ้าจะมองเห็นเส้นทางที่เราต้องเดินไปได้อย่างชัดเจน";
+		next;
+		mes "[Rune Knight, Renoa]";
+		mes "จนกว่าจะถึงตอนนั้น ข้าจะอยู่ที่นี่เพื่อเฟ้นหาผู้สมัครคนอื่น ๆ ต่อไปเหมือนอย่างที่เคยพบเจ้า";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq < 7) {
+			mes "เจ้าคือคนที่อยากจะเป็น Rune Knight งั้นรึ? วันนี้มีมาเยอะเหลือเกินนะ";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "น่าเสียดายที่ยังไม่มีผู้สมัครผ่านการทดสอบมาถึงส่วนของข้ามากนัก ข้าก็เลยได้นั่งพักผ่อนอยู่นี่ไง";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ถ้าเจ้ากำลังทดสอบเพื่อเป็น Rune Knight อยู่ล่ะก็ ข้าหวังว่าเจ้าจะพยายามอย่างเต็มที่นะ เพราะส่วนของข้ามันไม่ผ่านง่ายเหมือนบททดสอบของ Lunarea หรอก เข้าใจไหม?";
+			close;
+		} else if (job_rune_edq == 7) {
+			mes "ในที่สุด! ถึงตาข้าแล้วรึ? ดีใจจัง";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "มีผู้สมัครสอบตกในบททดสอบของ Lunarea เยอะมากจนข้าเลิกนับไปแล้วล่ะ";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ข้าชื่อ Renoa เป็นผู้รับผิดชอบด้านการสอนและทดสอบเรื่องรูนและเวทมนตร์สำหรับผู้สมัคร Rune Knight";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ขอบใจเจ้ามากที่ลำบากทดสอบมาจนถึงตรงนี้ เอาล่ะ เข้าเรื่องกันเลย";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ก่อนอื่น ข้าจะมอบหมายงานให้เจ้า เริ่มจากการศึกษาก่อน ไปที่ห้องสมุดและอ่านหนังสือพวกนี้ซะ";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "อืม... ^0000FFRunes and Rune Knights^000000, ^0000FFThe Principles of Runes^000000, ^0000FFThe Making and use of Runes^000000 เริ่มจาก 3 เล่มนี้ก่อน...";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "อ่านหนังสือให้ละเอียดแล้วกลับมาหาข้า ถ้าเจ้าเป็นพวกไม่ชอบอ่านหนังสือหรือศึกษาหาความรู้ มันคงไม่ง่ายหรอกนะที่จะใช้ชีวิตในฐานะ Rune Knight";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ไม่ต้องกังวลไป เจ้าไม่จำเป็นต้องมีความรู้ระดับเดียวกับจอมเวทแห่ง Geffen หรือ Juno หรอก แต่เจ้าจะทำตัวโง่เขลาไม่ได้เหมือนกัน";
+			set job_rune_edq,8;
+			changequest 3205,3206;
+			close;
+		} else if (job_rune_edq > 7 && job_rune_edq < 11) {
+			mes "ก่อนอื่น ข้าจะมอบหมายงานให้เจ้า เริ่มจากการศึกษาก่อน ไปที่ห้องสมุดและอ่านหนังสือพวกนี้ซะ";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "อืม... ^0000FFRunes and Rune Knights^000000, ^0000FFThe Principles of Runes^000000, ^0000FFThe Making and use of Runes^000000 เริ่มจาก 3 เล่มนี้ก่อน...";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "อ่านหนังสือให้ละเอียดแล้วกลับมาหาข้า ถ้าเจ้าเป็นพวกไม่ชอบอ่านหนังสือหรือศึกษาหาความรู้ มันคงไม่ง่ายหรอกนะที่จะใช้ชีวิตในฐานะ Rune Knight";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ไม่ต้องกังวลไป เจ้าไม่จำเป็นต้องมีความรู้ระดับเดียวกับจอมเวทแห่ง Geffen หรือ Juno หรอก แต่เจ้าจะทำตัวโง่เขลาไม่ได้เหมือนกัน";
+			close;
+		} else if (job_rune_edq == 11) {
+			mes "อ่านหนังสือในห้องสมุดครบทุกเล่มแล้วรึยัง? มันอาจจะไม่ง่ายนักที่จะอ่าน แต่ถ้าเจ้าตั้งใจจะเป็น Rune Knight เจ้าต้องมีความรู้พื้นฐานพวกนี้ไว้";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "โดยพื้นฐานแล้ว พลังเวทมนตร์ไม่สามารถนำมาใช้ได้หากปราศจากการฝึกฝนเพื่อดึงเอาพลังแห่งธรรมชาติและธาตุต่าง ๆ ออกมา";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ด้วยเหตุนี้ อาชีพอย่าง Wizard และ Sage จึงกำเนิดขึ้น และเวทมนตร์ก็ได้กลายเป็นอาณาเขตอันศักดิ์สิทธิ์ของพวกเขา";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "Beljeve ผู้นำของ Rune Knights นั้นเป็นที่รู้กันว่าเขาได้ติดต่อกับเหล่าแฟรี่ก่อนที่ประตูมิติแห่ง Ash-Vacuum จะถูกสร้างขึ้นในช่วงที่ Satan Morocc คืนชีพเสียอีก";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ข้าได้ยินเรื่องราวจากเหล่านักวิชาการเวทมนตร์เกี่ยวกับเทคโนโลยีที่สามารถทำให้แก่นแท้ของเวทมนตร์ปรากฏเป็นรูปธรรมได้ ข้าจึงเริ่มศึกษาเพื่อแปรสภาพมันลงสู่รูนโดยได้รับความช่วยเหลือจากพวกเขา";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "Rune Knight ของพวกเราถือกำเนิดขึ้นจากผลการศึกษานั้น ซึ่งทำให้เราสามารถฝึกฝนทั้งพลังแห่งดาบและเวทมนตร์ควบคู่กันไปได้โดยการใช้รูน";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "เจ้าดูเหมือนจะไม่เข้าใจว่าทำไมข้าต้องมาพูดซ้ำเรื่องที่เขียนไว้ในหนังสือแล้ว";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ดังนั้นสำหรับการทดสอบที่สอง เจ้าต้องไปพบกับเหล่านักวิชาการเวทมนตร์เผ่า Laphine ผู้ที่ให้ความช่วยเหลือโดยตรงต่อการถือกำเนิดของ Rune Knight ที่ Ash-Vacuum";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "จงไปหาปราชญ์ Serpeone ผู้ที่กำลังศึกษาและช่วยเหลือเหล่า Rune Knight ที่ประจำการอยู่ในค่าย Midgard ณ Ash-Vacuum";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ท่านปราชญ์ติดต่อกับเรามานานแล้ว ดังนั้นเจ้าไม่ต้องกังวลเรื่องการสื่อสารภาษาของ Serpeone หรอก";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ถ้าเจ้าพร้อมแล้ว ข้าจะนำทางเจ้าไปยังวาร์ปที่จะส่งเจ้าไปหา Serpeone โดยตรง จงไปพบและรับคำแนะนำจากนางซะ";
+			set job_rune_edq_book,0;
+			set job_rune_edq,12;
+			changequest 3206,3207;
+			close;
+		} else if (job_rune_edq > 11 && job_rune_edq < 14) {
+			mes "ถ้าเจ้าพร้อมแล้ว ข้าจะเปิดทางไปหาปราชญ์ Serpeone ที่อยู่ในค่าย Midgard ณ Ash-Vacuum เจ้าเตรียมตัวพร้อมหรือยัง?";
+			next;
+			switch(select("ใช่ ข้าพร้อมแล้ว:ยังไม่พร้อม")) {
+			case 1:
+				mes "[Rune Knight, Renoa]";
+				mes "ดีมาก งั้นข้าจะส่งเจ้าไปเดี๋ยวนี้ แต่มีเรื่องหนึ่งที่ข้าต้องบอกเจ้าก่อน";
+				next;
+				mes "[Rune Knight, Renoa]";
+				mes "เจ้าจะถูกส่งไปยัง Ash-Vacuum ซึ่งผู้คนที่ถูกส่งไปประจำการที่นั่นล้วนเป็นนักผจญภัยและเจ้าหน้าที่ที่ได้รับการรับรองแล้ว";
+				next;
+				mes "[Rune Knight, Renoa]";
+				mes "Beljeve มีข้อตกลงกับประเทศพันธมิตรอื่น ๆ ว่าจะรับประกันอิสระในการเคลื่อนไหวของ Rune Knight ของเรา แต่ว่า...";
+				next;
+				mes "[Rune Knight, Renoa]";
+				mes "หากเจ้าต้องการเคลื่อนที่ไปทั่ว Ash-Vacuum อย่างอิสระ เจ้าจะต้องไปตามเส้นทางปกติ คือการได้รับสิทธิ์จากพันธมิตร Midgard ซึ่งนั่นไม่เกี่ยวข้องกับพวกเรา";
+				next;
+				mes "[Rune Knight, Renoa]";
+				mes "ข้อตกลงอนุญาตให้เราส่งผู้สมัครไปยังค่าย Midgard ได้เท่านั้น ไม่สามารถส่งไปยังที่อื่นได้";
+				next;
+				mes "[Rune Knight, Renoa]";
+				mes "ขอให้โชคดี";
+				close2;
+				warp "mid_camp",235,250;
+				end;
+			case 2:
+				mes "[Rune Knight, Renoa]";
+				mes "ถ้าเจ้าพร้อมแล้วค่อยมาคุยกับข้าใหม่ ข้าว่างเสมอ";
+				close;
+			}
+		} else if (job_rune_edq == 14) {
+			mes "อืม กลับมาแล้วรึ? ที่ Ash-Vacuum เป็นอย่างไรบ้างล่ะ?";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "อ้อ คนที่มีฝีมือระดับเจ้าคงเคยไปที่นั่นมาแล้วล่ะสิ?";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ตอนนี้ถึงเวลาทดสอบเกี่ยวกับรูนแล้ว ข้ารู้ว่าเจ้าผ่านขั้นตอนที่ค่อนข้างยุ่งยากมาไม่น้อย";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ข้าจะมอบบททดสอบที่ให้เจ้าได้จัดการกับรูนโดยตรง";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ในการทดสอบนี้ เจ้าจะต้องสร้างหินรูน (Rune Stone) ด้วยตัวเอง ซึ่งมันจะถูกนำไปใช้ในบททดสอบสุดท้ายของเจ้าด้วย";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "หากเจ้าจำสิ่งที่อ่านในห้องสมุดเมื่อครู่นี้ได้ เจ้าจะสามารถผลิตหินรูนที่นี่ได้โดยไม่ต้องให้ข้าอธิบายซ้ำ";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ถ้าเจ้าสร้างหินรูนสำเร็จ มันจะกลายเป็นหินรูนที่เจ้าได้ใช้สำหรับตัวเองเมื่อเป็น Rune Knight ดังนั้นจงพยายามให้เต็มที่";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "จำนวนหินรูนทั้งหมดที่เจ้าต้องสร้างคือ 20 ก้อน";
+			mes "จำไว้ให้ดีล่ะ";
+			set job_rune_edq,15;
+			changequest 3213,3214;
+			close;
+		} else if (job_rune_edq == 15) {
+			mes "ในการทดสอบนี้ เจ้าจะต้องสร้างหินรูนด้วยตัวเอง ซึ่งจะถูกนำไปใช้ในบททดสอบสุดท้ายของเจ้า";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "หากเจ้าจำหนังสือที่อ่านในห้องสมุดเมื่อครู่นี้ได้ เจ้าจะสามารถผลิตหินรูนที่นี่ได้โดยไม่ต้องให้ข้าอธิบาย";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "ถ้าเจ้าสร้างหินรูนสำเร็จ มันจะกลายเป็นหินรูนที่เจ้าจะใช้เมื่อทำสำเร็จ และมันจะถูกส่งไปยัง Captain Tigris... ดังนั้นจงตั้งใจทำ";
+			next;
+			mes "[Rune Knight, Renoa]";
+			mes "จำนวนหินรูนทั้งหมดที่เจ้าต้องสร้างคือ 20 ก้อนพอดี จำไว้ให้ดี";
+			next;
+			switch(select("ตรวจสอบจำนวนรูนที่สร้างเสร็จแล้ว:ข้าสร้างครบ 20 ก้อนแล้ว")) {
+			case 1:
+				mes "[Rune Knight, Renoa]";
+				mes "จำนวนหินรูนที่สร้างเสร็จจนถึงตอนนี้คือ " + job_rune_edq2 + " ก้อน";
+				close;
+			case 2:
+				if (job_rune_edq2 < 20) {
+					mes "[Rune Knight, Renoa]";
+					mes "เฮ้! ข้าบอกเจ้าแล้วไงว่าต้องสร้างให้ได้แผนอย่างน้อย 20 ก้อน";
+					close;
+				}
+				if (job_rune_edq2 == 20) {
+					mes "[Rune Knight, Renoa]";
+					mes "เจ้าสร้างมาในจำนวนที่พอดีเป๊ะ ข้าจะส่งหินรูนที่เสร็จแล้วทั้งหมดให้ Captain Tigris";
+					next;
+				} else {
+					mes "[Rune Knight, Renoa]";
+					mes "ว้าว! นี่มันอะไรกัน? เจ้าสร้างมาเกิน 20 ก้อนซะอีก ครั้งนี้ไม่เป็นไรแต่ครั้งหน้าจำไว้ว่าให้ทำตามคำสั่งด้วยนะ";
+					mes "ข้าจะส่งหินรูนที่สร้างเสร็จทั้งหมดให้ Captain Tigris";
+					next;
+				}
+				mes "[Rune Knight, Renoa]";
+				mes "เพราะมีการทดสอบที่รอเจ้าอยู่ซึ่งต้องใช้หินรูนเหล่านี้";
+				next;
+				mes "[Rune Knight, Renoa]";
+				mes "เอาล่ะ เจ้าผ่านแล้ว กลับไปหา Captain Tigris เพื่อทำบททดสอบถัดไปซะ";
+				next;
+				mes "[Rune Knight, Renoa]";
+				mes "ฮ่า! เจ้าทำได้ดีมากเมื่อเทียบกับความยากในบททดสอบของข้า ถ้าเมื่อกี้เจ้าตื่นเต้นอยู่ล่ะก็ ตอนนี้พักผ่อนได้แล้วล่ะ";
+				set job_rune_edq,16;
+				if (job_rune_edq2 == 20)
+					changequest 3214,3215;
+				close;
+			}
+		}
+		mes "จงเป็น Rune Knight ที่น่าภาคภูมิใจ";
+		close;
+	}
+	mes "จะ... เจ้าเข้ามาที่นี่ได้อย่างไร?! กัปตันคะ เรามีสายลับบุกรุกค่ะ!";
+	next;
+	mes "[Captain Tigris]";
+	mes "หือ? เจ้าพูดเรื่องอะไรน่ะ Renoa อย่าพูดจาแบบนั้นสิ! เจ้าทำให้พวกเราดูเหมือนอาชญากรไปได้";
+	next;
+	mes "[Rune Knight, Renoa]";
+	mes "ก็มีบุคคลนิรนามอยู่ที่นี่นี่คะ";
+	next;
+	mes "[Captain Tigris]";
+	mes "อ่า... เฮ้ สหาย มานี่สิ มาคุยกันสักหน่อย...";
+	close;
+}
+
+job3_rune01,58,51,1	script	Rune Furnace	844,{
+	if (job_rune_edq < 15) {
+		mes "[Rune Knight Renoa]";
+		mes "เจ้าคงไม่อยากจะแตะต้องสิ่งนั้นหรอก เชื่อข้าสิ ข้าไม่ได้ล้อเล่นนะ";
+		close;
+	} else if (job_rune_edq == 15) {
+		mes "ข้ามองเห็นรูใต้รูปปั้นหินรูนขนาดใหญ่ด้านหลัง Renoa เห็นได้ชัดว่านี่คือเตาหลอมให้ความร้อนรูนสำหรับผลิตจำนวนมากที่ข้าเคยอ่านในหนังสือ";
+		next;
+		if(select("ใช้งานเตาหลอมรูน:หยุด") == 2) close;
+		switch(rand(24)) {
+			case 0: setarray .@str$[0],"Ehwaz","เกลียวสีแดงร้อนแรงนี้คือ..."; break;
+			case 1: setarray .@str$[0],"Osilia","รูนที่ส่องประกายด้วยเส้นทแยงสีม่วงนี้คือ..."; break;
+			case 2: setarray .@str$[0],"Mannaz","รูนรูปเพชรสีมรกตที่ดูมีชีวิตชีวานี้คือ..."; break;
+			case 3: setarray .@str$[0],"Ansuz","รูนที่ส่องประกายด้วยรูปทรงกลมสีมรกตนี้คือ..."; break;
+			case 4: setarray .@str$[0],"Hagalas","รูนที่ส่องประกายด้วยรูปดาวสีฟ้าใสนี้คือ..."; break;
+			case 5: setarray .@str$[0],"Kano","รูนที่ส่องประกายด้วยรูปเพชรสีแดงนี้คือ..."; break;
+			case 6: setarray .@str$[0],"Rhydo","รูนที่ส่องประกายด้วยเส้นทแยงสีฟ้าใสนี้คือ..."; break;
+			case 7: setarray .@str$[0],"Turisus","รูนที่ส่องประกายด้วยรูปทรงกลมสีเหลืองนี้คือ..."; break;
+			case 8: setarray .@str$[0],"Dagaz","รูนที่ส่องประกายด้วยเส้นเกลียวสีมรกตนี้คือ..."; break;
+			case 9: setarray .@str$[0],"Sowilo","รูนที่ส่องประกายด้วยรูปทรงพัดสีฟ้าใสนี้คือ..."; break;
+			case 10: setarray .@str$[0],"Laguz","รูนที่ส่องประกายด้วยรูปเพชรสีเหลืองนี้คือ..."; break;
+			case 11: setarray .@str$[0],"Isia","รูนที่ส่องประกายด้วยเส้นเกลียวสีม่วงนี้คือ..."; break;
+			case 12: setarray .@str$[0],"Pertz","รูนที่ส่องประกายด้วยรูปทรงเกลียวสีเงินนี้คือ..."; break;
+			case 13: setarray .@str$[0],"Verkana","รูนที่ส่องประกายด้วยรูปดาวสีทองนี้คือ..."; break;
+			case 14: setarray .@str$[0],"Gebo","รูนที่ส่องประกายด้วยรูปกรวยสีเหลืองนี้คือ..."; break;
+			case 15: setarray .@str$[0],"Algiz","รูนที่ส่องประกายด้วยเส้นทแยงสีมรกตนี้คือ..."; break;
+			case 16: setarray .@str$[0],"Arwez","รูนที่ส่องประกายด้วยรูปเพชรสีเทานี้คือ..."; break;
+			case 17: setarray .@str$[0],"Teiwaz","รูนที่ส่องประกายด้วยรูปทรงกลมสีทองนี้คือ..."; break;
+			case 18: setarray .@str$[0],"Wunjo","รูนที่ส่องประกายด้วยรูปดาวสีมรกตนี้คือ..."; break;
+			case 19: setarray .@str$[0],"Jera","รูนที่ส่องประกายด้วยรูปทรงกลมสีเหลืองนี้คือ..."; break;
+			case 20: setarray .@str$[0],"Nosiege","รูนที่ส่องประกายด้วยรูปทรงพัดสีเหลืองนี้คือ..."; break;
+			case 21: setarray .@str$[0],"Ingz","รูนที่ส่องประกายด้วยรูปเพชรสีม่วงนี้คือ..."; break;
+			case 22: setarray .@str$[0],"Fehu","รูนที่ส่องประกายด้วยรูปทรงกลมสีเงินนี้คือ..."; break;
+			case 23: setarray .@str$[0],"Urj","รูนที่ส่องประกายด้วยเส้นเกลียวสีม่วงนี้คือ..."; break;
+		}
+		progressbar "ffff00",5;
+		mes "พลังเวทมนตร์ของรูนเหวี่ยงตัวไปมาขณะที่มันกำลังถูกขึ้นรูป";
+		next;
+		mes .@str$[1];
+		next;
+		input .@inputstr$;
+		if (.@inputstr$ == .@str$[0]) {
+			mes "[Rune Knight Renoa]";
+			mes "ว้าว! ยอดเยี่ยมมาก ภาพของหินรูนในหัวของข้ากับหินรูนที่จำลองออกมานั้นตรงกันพอดีเป๊ะ ทำออกมาได้ดีมาก";
+			next;
+			mes "[Rune Knight Renoa]";
+			mes "สร้างรูน "+.@str$[0]+" จำนวน 1 ก้อนสำเร็จแล้ว";
+			set job_rune_edq2, job_rune_edq2+1;
+			close;
+		}
+		if (rand(1,(6 + job_rune_edq3)) == 3) {
+			mes "[Rune Knight Renoa]";
+			mes "เจ้าโชคดีนะ ภาพของหินรูนในหัวของข้ากับหินรูนที่จำลองออกมาไม่ค่อยตรงกันเท่าไหร่ แต่มันก็ถูกสร้างออกมาได้ตามปกติ กรณีแบบนี้หาได้ยากนะ";
+			next;
+			mes "[Rune Knight Renoa]";
+			mes "สร้างรูน "+.@str$[0]+" จำนวน 1 ก้อนสำเร็จแล้ว";
+			set job_rune_edq2, job_rune_edq2+1;
+			close;
+		}
+		mes "[Rune Knight Renoa]";
+		mes "มันเป็นผลลัพธ์ที่ช่วยไม่ได้ ภาพของหินรูนในหัวของข้ากับหินรูนที่จำลองออกมาไม่ตรงกัน อัตราความสำเร็จก็เลยลดลง";
+		next;
+		mes "[Rune Knight Renoa]";
+		mes "การขัดเกลาหินรูนล้มเหลว... โปรดลองใหม่อีกครั้ง";
+		set job_rune_edq3, job_rune_edq3+1;
+		close;
+	}
+	mes "[Rune Knight Renoa]";
+	mes "เจ้าคงไม่อยากจะแตะต้องสิ่งนั้นหรอก เชื่อข้าสิ ข้าไม่ได้ล้อเล่นนะ";
+	close;
+}
+
+job3_rune01,40,54,1	script	Runes and Rune Knights	844,{
+	if (job_rune_edq < 8) {
+		mes "[Rune Knight Renoa]";
+		mes "นอกจากเรื่องที่มาแตะต้องของในที่แห่งนี้โดยไม่ได้รับอนุญาตแล้ว เจ้าจะเข้าใจเนื้อหาในหนังสือเล่มนี้รึเปล่าเชียว?";
+		next;
+		mes "[Captain Tigris]";
+		mes "เฮ้ Renoa เบา ๆ กับอัศวินคนนั้นหน่อย เจ้าเองก็เหมือนกัน เลิกแตะต้องของที่นี่โดยไม่ได้รับอนุญาตได้แล้ว";
+		close;
+	}
+	while(1) {
+		switch(select("กำเนิดของ Rune Knights:รูนและพลังงานเวทมนตร์:หยุดอ่าน")) {
+		case 1:
+			set .@book1,1;
+			mes "Rune Knights คือกลุ่มการรวมตัวของ Swordman ที่พัฒนาขึ้นจนเข้าถึงความประสานกลมกลืนของดาบและเวทมนตร์";
+			next;
+			mes "สิ่งนี้สำเร็จได้โดยอัศวินในตำนาน Beljeve ผู้ซึ่งเป็นที่รู้จักในนาม Sword Master และผู้ก่อตั้งกองกำลังที่เสียสละ (dispensable expenditure)";
+			next;
+			mes "Rune Knights ใช้หินรูนเป็นสื่อกลางสำหรับพลังเวทมนตร์ แทนที่จะใช้พลังงานเวทมนตร์ที่สร้างขึ้นจากภายในร่างกายโดยตรง";
+			next;
+			mes "แต่เดิม พลังเวทมนตร์สามารถใช้ได้โดยผู้ที่สามารถควบคุมพลังเวทภายในร่างกายผ่านการค้นคว้าวิจัยมาอย่างยาวนานเท่านั้น";
+			next;
+			mes "อย่างไรก็ตาม ขณะนี้กำลังมีการวิจัยโดยตรงเกี่ยวกับพลังเวทมนตร์ของรูน ซึ่งได้ทำลายแนวคิดปกติของมนุษย์ไปแล้ว";
+			next;
+			mes "เป็นที่รู้กันว่า Sword Master Beljeve รู้สึกถึงขีดจำกัดของพลังของเขา เขาจึงศึกษาวิธีที่จะก้าวข้ามขีดจำกัดทางกายภาพของมนุษย์ปุถุชน";
+			next;
+			mes "เราสันนิษฐานว่าเขาได้ติดต่อกับเผ่า Laphine มานานก่อนที่รอยแยกมิติจะถูกค้นพบเพื่อไปยัง Ash-Vacuum เสียอีก";
+			next;
+			mes "เผ่า Laphine คือแฟรี่จาก Ash-Vacuum และเป็นที่รู้กันว่ามีความสัมพันธ์ใกล้ชิดกับการกำเนิดของ Rune Knights";
+			next;
+			mes "ในตอนนี้ เป็นไปได้แล้วสำหรับผู้ที่ตามปกติไม่เหมาะสมกับการใช้พลังเวทมนตร์ ที่จะพกพาสื่อกลางที่บรรจุเวทมนตร์ที่มนุษย์ทั่วไปไม่สามารถใช้ได้มาก่อน";
+			next;
+			mes "ผลจากการศึกษาเทคนิคเหล่านี้คือหินรูนที่ถูกปรับให้เข้ากับพลังทางกายภาพของดาบ";
+			next;
+			mes "เหล่าลูกศิษย์ของ Beljeve ที่เริ่มเรียนรู้วิธีการผสานดาบเข้ากับหินรูน จึงกลายเป็นที่รู้จักในนาม Rune Knights";
+			next;
+			break;
+		case 2:
+			set .@book2,1;
+			mes "อัญมณีที่ถูกเรียกว่ารูน คือสื่อกลางที่บรรจุตัวตนที่ไร้รูปร่าง พลังเวทมนตร์ และแก่นแท้ของมันสามารถนำมาใช้ได้โดยตรง";
+			next;
+			mes "ปราชญ์แห่ง Laphine นาม Serpeone และผู้ก่อตั้ง Rune Knights นาม Beljeve ได้ร่วมกันวิจัยรูน และผลลัพธ์ของการวิจัยเพิ่งจะเป็นที่รู้จักไปทั่วโลกเมื่อไม่นานมานี้";
+			next;
+			mes "มันเป็นแหล่งพลังงานทางเลือกที่ไร้ขีดจำกัด และการวิจัยเกี่ยวกับพวกมันยังคงดำเนินต่อไป";
+			next;
+			mes "ไม่เหมือนกับมนุษย์ สิ่งมีชีวิตใน Ash-Vacuum จะรักษาพลังงานเวทมนตร์โดยการเก็บไว้ในร่างกายของพวกมัน";
+			next;
+			mes "การค้นพบวิธีการถ่ายโอนพลังงานเวทมนตร์นี้ลงสู่รูนได้รับการขัดเกลาโดย Beljeve และ Serpeone และแบ่งปันให้กับเหล่า Rune Knights";
+			next;
+			break;
+		case 3:
+			if (.@book1 && .@book2 && job_rune_edq < 11 && (job_rune_edq_book & 1) == 0) {
+				set job_rune_edq_book, job_rune_edq_book | 1;
+				set job_rune_edq, job_rune_edq+1;
+			}
+			close;
+		}
+	}
+}
+
+job3_rune01,43,44,1	script	The Principles of Runes	844,{
+	if (job_rune_edq < 8) {
+		mes "[Rune Knight Renoa]";
+		mes "นอกจากเรื่องที่มาแตะต้องของในที่แห่งนี้โดยไม่ได้รับอนุญาตแล้ว เจ้าจะเข้าใจเนื้อหาในหนังสือเล่มนี้รึเปล่าเชียว?";
+		next;
+		mes "[Captain Tigris]";
+		mes "เฮ้ Renoa เบา ๆ กับอัศวินคนนั้นหน่อย เจ้าเองก็เหมือนกัน เลิกแตะต้องของที่นี่โดยไม่ได้รับอนุญาตได้แล้ว";
+		close;
+	}
+	while(1) {
+		switch(select("หลักการใช้งานรูน:ประเภทของรูน:หยุดอ่าน")) {
+		case 1:
+			set .@book1,1;
+			mes "รูนคือสัญลักษณ์ชนิดหนึ่งที่ถูกใช้บนทวีป Midgard มาตั้งแต่สมัยโบราณ จนถึงปัจจุบันมันถูกใช้แค่ในกลุ่มลึกลับเท่านั้น";
+			next;
+			mes "รูนถูกใช้เป็นระบบสัญลักษณ์ อย่างไรก็ตาม ตามเรื่องเล่าที่สืบต่อกันมาแบบปากต่อปาก เป็นที่รู้กันว่ามันถูกใช้เพื่อการทำนายหรือใช้เพื่อดึงจิตใต้สำนึกของมนุษย์ออกมา";
+			next;
+			mes "รูนมีระบบและประเภทของตัวเอง และสามารถดึงพลังต่าง ๆ ออกมาได้ตามวิธีการจัดเรียง แต่ระดับพลังของพวกมันยังไม่สามารถวัดได้ด้วยวิธีการที่รู้จักในปัจจุบัน";
+			next;
+			mes "ถือเป็นความโชคดีที่ Rune Knights ค้นพบวิธีใช้งานมันในทางบวก รูนไม่ได้ถูกใช้สำหรับมนตร์ดำ แต่มันมีความเป็นไปได้แน่นอนที่พลังของมันจะถูกใช้ไปในทางที่ผิดหากตกอยู่ในมือของคนผิด";
+			next;
+			break;
+		case 2:
+			set .@book2,1;
+			mes "รูนถูกสร้างขึ้นจากหินก้อนเล็ก ๆ ทั้งหมด 25 ก้อน และพวกมันเปราะบางต่อแรงกระแทกทางกายภาพมาก ดังนั้นพวกมันจึงต้องการการดูแลเป็นพิเศษเมื่อมีการหยิบจับ";
+			next;
+			mes "หินทั้ง 25 ก้อนมีความหมายต่างกัน และในบรรดาหินเหล่านี้ มี 14 ก้อนที่เมื่อสลับตำแหน่ง (counter-positioned) จะมีพลังและความหมายที่แตกต่างไปจากเดิมอย่างสิ้นเชิง ดังนั้นจึงจำเป็นต้องศึกษามุมมองที่ยกเว้นเหล่านี้";
+			next;
+			mes "รูนอีก 11 ก้อนที่เหลือมีพลังที่คงเส้นคงวา ไม่ได้รับอิทธิพลจากตำแหน่งใด ๆ ดังนั้นหากเจ้าไม่เชี่ยวชาญรูนปกติทั้ง 11 แบบ และรูนผกผันอีก 14 แบบ เจ้าก็ไม่สามารถดึงพลังที่สมบูรณ์ออกมาได้ทั้งหมด";
+			next;
+			mes "ในบรรดารูนปกติ 11 แบบ รูนว่างเปล่าถือเป็นข้อยกเว้น";
+			next;
+			mes "ชื่อของหินรูนทั้ง 25 ก้อนมีดังนี้:";
+			next;
+			mes "Ehwaz, Osilia, Mannaz, Ansuz, Hagalas, Kano, Rhydo, Turisus, Dagaz, Sowilo, Laguz, Isia, Pertz, Verkana, Gebo, Algiz, Arwez, Teiwaz, Wunjo, Jera, Nosiege, Ingz, Fehu, Urj.";
+			next;
+			break;
+		case 3:
+			if (.@book1 && .@book2 && job_rune_edq < 11 && (job_rune_edq_book & 2) == 0) {
+				set job_rune_edq_book, job_rune_edq_book | 2;
+				set job_rune_edq, job_rune_edq+1;
+			}
+			close;
+		}
+	}
+}
+
+job3_rune01,50,36,1	script	Runes, Make & Use	844,{
+	if (job_rune_edq < 8) {
+		mes "[Rune Knight Renoa]";
+		mes "นอกจากเรื่องที่มาแตะต้องของในที่แห่งนี้โดยไม่ได้รับอนุญาตแล้ว เจ้าจะเข้าใจเนื้อหาในหนังสือเล่มนี้รึเปล่าเชียว?";
+		next;
+		mes "[Captain Tigris]";
+		mes "เฮ้ Renoa เบา ๆ กับอัศวินคนนั้นหน่อย เจ้าเองก็เหมือนกัน เลิกแตะต้องของที่นี่โดยไม่ได้รับอนุญาตได้แล้ว";
+		close;
+	}
+	while(1) {
+		switch(select("การสร้างหินรูน:รายละเอียดความสามารถของหินรูน:หยุดอ่าน")) {
+		case 1:
+			set .@book1,1;
+			mes "การสร้างหินรูนทำได้โดยผ่านทักษะที่เรียกว่า Rune Mastery ซึ่งจะได้เรียนรู้เมื่อได้เป็น Rune Knight";
+			next;
+			mes "Rune Mastery เปรียบเสมือนรหัสที่ถูกใส่เข้าไปในร่างกายเพื่อเป็นสัญลักษณ์ของ Rune Knight";
+			next;
+			mes "คนธรรมดาก็สามารถเรียนรู้ทักษะนี้ได้เช่นกัน และมันจำเป็นต้องใช้เครื่องจักรเฉพาะที่เรียกว่าเตาหลอมรูน (Rune Furnace)";
+			next;
+			mes "เมื่อเจ้าสร้างหินรูนด้วยเตาหลอมรูน ประเภทของรูนจะถูกกำหนดโดยพลังงานเวทมนตร์ที่ใส่เข้าไป และมันไม่สามารถเปลี่ยนแปลงได้";
+			next;
+			mes "เมื่อสร้างหินรูนโดยใช้ทักษะ Rune Mastery มันสามารถสร้างเป็นคุณสมบัติรูนที่เจ้าต้องการได้ แต่มันถูกจัดว่าเป็นความสามารถเฉพาะตัวของ Rune Knights";
+			next;
+			mes "เมื่อเจ้าใช้งานเตาหลอมรูน พลังงานเวทมนตร์ในร่างกายจะถูกรวบรวมผ่านเตานั้น และทำให้สามารถเปลี่ยนสภาพเป็นหินรูนได้";
+			next;
+			break;
+		case 2:
+			set .@book2,1;
+			switch(select("บทที่หนึ่ง:บทที่สอง:บทที่สาม:บทที่สี่:หยุดอ่าน")) {
+			case 1:
+				mes "Ehwaz - รูนนี้หมายถึงการเพิ่มพูนโชคลาภและพลังด้านบวก มีรูปทรงต้นกำเนิดเป็นเกลียวสีแดงในเตาหลอมรูน";
+				next;
+				mes "Osilia - รูนนี้คือการแลกเปลี่ยนที่เท่าเทียม หมายถึงเจ้าเสียสิ่งหนึ่งและได้สิ่งหนึ่งกลับมา และยังหมายถึงพลังที่ต้องมีค่าตอบแทน ถูกขึ้นรูปเป็นเส้นทแยงสีม่วงในเตาหลอมรูน";
+				next;
+				mes "Mannaz - รูนนี้หมายถึงความหวังและการเริ่มต้นใหม่ และยังเป็นพลังด้านบวกที่สามารถพลิกสถานการณ์ที่สิ้นหวังได้ ถูกขึ้นรูปเป็นรูปเพชรสีมรกตในเตาหลอมรูน";
+				next;
+				mes "Ansuz - รูนนี้หมายถึงการตระเตรียมหรือการจัดแจง และพลังที่สามารถเอาชนะความไม่สบายใจในอนาคตที่กำลังจะมาถึง ถูกขึ้นรูปเป็นทรงกลมสีมรกตในเตาหลอมรูน";
+				next;
+				mes "Hagalas - รูนนี้หมายถึงอิสรภาพและพลังที่ต่อต้านการถูกกักขัง ถูกขึ้นรูปเป็นรูปดาวสีฟ้าใสในเตาหลอมรูน";
+				next;
+				mes "Kano - รูนนี้หมายถึงเปลวไฟและความหลงใหล และพลังที่ยุติทุกสรรพสิ่ง ต้นกำเนิดของมันถูกขึ้นรูปเป็นรูปเพชรสีแดงในเตาหลอมรูน";
+				next;
+				break;
+			case 2:
+				mes "Rhydo - รูนนี้หมายถึงการรวมตัวและการประกอบใหม่ และพลังแห่งความสมบูรณ์ ถูกขึ้นรูปเป็นเส้นทแยงสีฟ้าใสในเตาหลอมรูน";
+				next;
+				mes "Turisus - รูนนี้หมายถึงขอบเขตและพลังแห่งข้อจำกัด ถูกขึ้นรูปเป็นทรงกลมสีเหลืองในเตาหลอมรูน";
+				next;
+				mes "Dagaz - รูนนี้หมายถึงพรสวรรค์และพลังแห่งการอดทนต่อความยากลำบาก ถูกขึ้นรูปเป็นเกลียวสีมรกตในเตาหลอมรูน";
+				next;
+				mes "Sowilo - รูนนี้หมายถึงชัยชนะและความสำเร็จ และพลังแห่งการจัดระเบียบและการยุติ ถูกขึ้นรูปเป็นรูปทรงพัดสีฟ้าใสในเตาหลอมรูน";
+				next;
+				mes "Laguz - รูนนี้หมายถึงความไม่แน่นอนและพลังที่ปกป้องสิ่งที่อยู่ภายใน ถูกขึ้นรูปเป็นรูปเพชรสีเหลืองในเตาหลอมรูน";
+				next;
+				mes "Isia - รูนนี้หมายถึงพลังที่หยุดทุกสิ่งทุกอย่าง ถูกขึ้นรูปเป็นเกลียวสีม่วงในเตาหลอมรูน";
+				next;
+				break;
+			case 3:
+				mes "Pertz - รูนนี้หมายถึงการเปิดเผยและพลังแห่งโอกาส ถูกขึ้นรูปเป็นรูปทรงเกลียวสีเงินในเตาหลอมรูน";
+				next;
+				mes "Verkana - รูนนี้หมายถึงความมั่งคั่ง การถือกำเนิด และพลังแห่งการป้องกันและการคุ้มครอง ถูกขึ้นรูปเป็นรูปดาวสีทองในเตาหลอมรูน";
+				next;
+				mes "Gebo - รูนนี้หมายถึงความร่วมมือและพลังแห่งความสอดประสาน ถูกขึ้นรูปเป็นรูปกรวยสีเหลืองในเตาหลอมรูน";
+				next;
+				mes "Algiz - รูนนี้หมายถึงโอกาสและพลังแห่งความท้าทาย ถูกขึ้นรูปเป็นเส้นทแยงสีมรกตในเตาหลอมรูน";
+				next;
+				mes "Arwez - รูนนี้หมายถึงการเปลี่ยนแปลง ความปั่นป่วน และพลังแห่งการเคลื่อนไหว ถูกขึ้นรูปเป็นรูปเพชรสีเทาในเตาหลอมรูน";
+				next;
+				mes "Teiwaz - รูนนี้หมายถึงชัยชนะที่สมบูรณ์แบบและพลังแห่งการแก้ไขปัญหาขั้นเด็ดขาด ถูกขึ้นรูปเป็นทรงกลมสีทองในเตาหลอมรูน";
+				next;
+				break;
+			case 4:
+				mes "Wunjo - รูนนี้หมายถึงสติปัญญาและพลังแห่งความรอบรู้ ถูกขึ้นรูปเป็นรูปดาวสีมรกตในเตาหลอมรูน";
+				next;
+				mes "Jera - รูนนี้หมายถึงความสบายและพลังแห่งการพักผ่อน ถูกขึ้นรูปเป็นทรงกลมสีเหลืองในเตาหลอมรูน";
+				next;
+				mes "Nosiege - รูนนี้หมายถึงความอ่อนแอและพลังแห่งการลดทอน ถูกขึ้นรูปเป็นรูปทรงพัดสีเหลืองในเตาหลอมรูน";
+				next;
+				mes "Ingz - รูนนี้หมายถึงการแตกหักและพลังแห่งการแบ่งแยก ถูกขึ้นรูปเป็นรูปเพชรสีม่วงในเตาหลอมรูน";
+				next;
+				mes "Fehu - รูนนี้หมายถึงการบรรลุเป้าหมายและพลังแห่งการทำให้เป็นจริง ถูกขึ้นรูปเป็นทรงกลมสีเงินในเตาหลอมรูน";
+				next;
+				mes "Urj - รูนนี้หมายถึงโชคชะตาและพลังแห่งการจำกัด ถูกขึ้นรูปเป็นเส้นเกลียวสีม่วงในเตาหลอมรูน";
+				next;
+				break;
+			case 5:
+				close;
+			}
+			break;
+		case 3:
+			if (.@book1 && .@book2 && job_rune_edq < 11 && (job_rune_edq_book & 4) == 0) {
+				set job_rune_edq_book, job_rune_edq_book | 4;
+				set job_rune_edq, job_rune_edq+1;
+			}
+			close;
+		}
+	}
+}
+
+mid_camp,238,250,3	script	Rune Knight Sage Guard	468,2,2,{
+	mes "[Rune Knight Sage Guard]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "ท่านปราชญ์ Serpeone คือผู้อยู่เคียงข้างพวกเรามาตั้งแต่จุดเริ่มต้นของ Rune Knights";
+		next;
+		mes "[Rune Knight Sage Guard]";
+		mes "ข้าภาคภูมิใจอย่างยิ่งในฐานะ Rune Knight ที่ได้มารับใช้ใกล้ชิดนางเช่นนี้";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq < 11) {
+			mes "เจ้าอาจจะกำลังเดินบนวิถีแห่งดาบ แต่เจ้ายังไม่ใช่ Rune Knight อย่าเดินเตร็ดเตร่แถวนี้ให้มากนัก ถ้าเจ้าเข้าใจความหมายที่ข้าจะสื่อนะ";
+			close;
+		}
+		mes "Splendide คือดินแดนของเผ่า Laphine พวกเรากำลังอำนวยความสะดวกให้ตามข้อตกลงระหว่าง Rune Knights และทีมสำรวจ";
+		next;
+		mes "[Rune Knight Sage Guard]";
+		mes "เจ้าหน้าที่ของเราจะเปิดทางไปสู่ Splendide ให้เฉพาะเหล่าผู้ฝึกหัดที่กำลังทำการทดสอบเปลี่ยนอาชีพ Rune Knight เท่านั้น";
+		next;
+		mes "[Rune Knight Sage Guard]";
+		mes "แต่เมื่อเจ้าได้เป็น Rune Knight แล้ว เจ้าต้องมั่นใจว่าได้เข้าร่วมกับทีมสำรวจเพื่อที่จะได้สำรวจ Ash-Vacuum ได้อย่างเต็มที่";
+		close;
+	}
+	mes "การมาป้วนเปี้ยนอยู่แถวชายผู้นี้ไม่เป็นผลดีกับเจ้าหรอกนะ จงเดินไปตามทางที่เจ้ามุ่งหน้าไปเถอะ";
+	close;
+}
+
+mid_camp,13,138,3	script	Dispatched Rune Knight#1	83,2,2,{
+	mes "[Dispatched Rune Knight]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "ขอบคุณสำหรับการทำงานของเจ้า พวกเราจะปฏิบัติภารกิจเพื่อผู้ทดสอบ Rune Knight ต่อไป";
+		close;
+	}
+	if (BaseJob == Job_Knight && job_rune_edq > 10) {
+		mes "ข้ากำลังรอเจ้าอยู่เลย ผู้สมัคร Rune Knight ข้ามาช่วยอำนวยความสะดวกให้ผู้สมัครตามความประสงค์ของท่านหญิง Serpeone";
+		next;
+		mes "[Dispatched Rune Knight]";
+		if (strnpcinfo(0) == "Dispatched Rune Knight#1") {
+			mes "เจ้าต้องการจะออกไปยังทุ่งสังหาร Splendide หรือไม่?";
+			next;
+			if(select("เคลื่อนย้ายไปยังทุ่ง Splendide:ยกเลิก") == 1)
+				warp "spl_fild01",355,325;
+			close;
+		} else if (strnpcinfo(0) == "Dispatched Rune Knight#2") {
+			mes "เจ้าต้องการจะกลับไปยังฐานที่มั่นของทีมสำรวจหรือไม่?";
+			next;
+			if(select("ใช่ รบกวนด้วย:ยังก่อน") == 1)
+				warp "mid_camp",50,153;
+			close;
+		}
+		close;
+	}
+	mes "ชู่ว... ภารกิจของเราไม่ใช่สิ่งที่ควรเปิดเผยต่อสาธารณะ โปรดเดินผ่านไปเฉย ๆ เถอะ";
+	close;
+}
+spl_fild01,361,327,3	duplicate(Dispatched Rune Knight#1)	Dispatched Rune Knight#2	83,2,2
+
+spl_fild02,13,241,0	script	#Barricade1	139,10,10,{
+	end;
+OnTouch:
+	if (job_rune_edq > 0 && job_rune_edq < 23) {
+		mes "- เสียงกระซิบของปราชญ์ Serpeone ถูกส่งมายังจิตใจของข้า -";
+		next;
+		mes "[Sage Serpeone]";
+		mes "จนกว่าเจ้าจะได้เป็น Rune Knight ผู้ทรงเกียรติ ข้าไม่สามารถช่วยเจ้าควบคุมพลังใน Midgard ได้";
+		next;
+		mes "[Sage Serpeone]";
+		mes "โปรดเข้าใจในจุดนี้และจงอุทิศตนให้กับการทดสอบนี้เสีย";
+		close2;
+		warp "spl_fild02",25,245;
+		end;
+	}
+	end;
+}
+
+mid_camp,235,250,3	script	Sage Serpeone	435,2,2,{
+	mes "[Sage Serpeone]";
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "ในที่สุดเจ้าก็ได้เป็น Rune Knight ผู้ทรงเกียรติ ข้ามีความยินดีที่จะช่วยเหลือเจ้า";
+		next;
+		mes "[Sage Serpeone]";
+		mes "พลังของรูนนั้นยังไม่สมบูรณ์แบบ และยังจำเป็นต้องมีการวิจัยเพิ่มเติมเพื่อให้มันปลอดภัยอย่างแท้จริง มันขึ้นอยู่กับข้าและ Rune Knight คนอื่น ๆ เช่นเจ้าที่จะต้องวิจัยเรื่องนั้นต่อไป";
+		next;
+		mes "[Sage Serpeone]";
+		mes "โปรดอุทิศตนให้กับรูน และหวังว่าชีวิตของเจ้าจะได้รับการส่องสว่างจากมัน";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq < 12) {
+			mes "มันคงเป็นเรื่องน่าประหลาดใจที่ข้าซึ่งเป็นเผ่า Laphine มาอยู่ที่ฐานทัพของคนของพวกเจ้า";
+			next;
+			mes "[Sage Serpeone]";
+			mes "พวกเราบางคนมีการติดต่อกับมนุษย์ในสถานการณ์พิเศษมาตั้งแต่ก่อนที่รอยแยกมิติจะเปิดออกเสียอีก";
+			next;
+			mes "[Sage Serpeone]";
+			mes "ข้ามีการติดต่อสื่อสารกับมนุษย์มาหลายปีแล้ว มันเพื่อผลประโยชน์ร่วมกัน อย่างไรก็ตาม นั่นคือวิธีที่ข้าได้เรียนรู้ภาษาของพวกเจ้า";
+			next;
+			mes "[Sage Serpeone]";
+			mes "บางทีมันอาจจะจำเป็นต้องมีเครื่องจักรที่สามารถแปลภาษา Laphine เพื่อให้มนุษย์เข้าใจพวกเราได้ง่ายขึ้นนะ";
+			next;
+			mes "[Sage Serpeone]";
+			mes "มากไปกว่านั้น... ข้าบอกเจ้าไม่ได้อีกแล้ว ข้าไม่สามารถพูดอะไรออกไปอย่างไม่ระวังได้ เพราะข้าพูดในนามของคนของข้าที่นี่ และข้าได้รับบัตรผ่านพิเศษเพื่อให้อยู่ในค่ายของพวกเจ้าได้เท่านั้น";
+			close;
+		} else if (job_rune_edq == 12) {
+			mes "ยินดีต้อนรับ เจ้าคือผู้ที่กำลังทำการทดสอบฝึกฝนอาชีพ Rune Knight สินะ ข้าคือ Serpeone";
+			next;
+			mes "[Sage Serpeone]";
+			mes "เหล่า Rune Knight ทั้งหมดที่เจ้าเคยพบมาจนถึงตอนนี้ ล้วนเป็นลูกศิษย์ที่ได้รับการสอนจากข้าและ Beljeve ตอนนี้เจ้ากำลังอยู่ในเส้นทางที่จะเข้าร่วมกับพวกเขา";
+			next;
+			mes "[Sage Serpeone]";
+			mes "ข้าคิดว่าเจ้าได้รับคำอธิบายพื้นฐานและคำแนะนำมาจาก Renoa แล้ว ตอนนี้ดูเหมือนจะถึงตาข้าที่จะช่วยเจ้าบ้าง";
+			next;
+			mes "[Sage Serpeone]";
+			mes "พลังเวทมนตร์ที่ Rune Knights ใช้นั้น ตามหลักการแล้วไม่ใช่แบบเดียวกับพลังเวทมนตร์ที่สร้างขึ้นในโลกมนุษย์";
+			next;
+			mes "[Sage Serpeone]";
+			mes "ที่แห่งนี้... โลกของพวกเราที่พวกเจ้าเรียกว่า Ash-Vacuum... มันคือพลังเวทมนตร์ที่สร้างขึ้นจาก";
+			next;
+			mes "[Sage Serpeone]";
+			mes "สิ่งมีชีวิตในสถานที่แห่งนี้จะรักษาพลังงานเวทมนตร์ไว้ในร่างกาย ไม่เหมือนกับสิ่งมีชีวิตในโลกมนุษย์";
+			next;
+			mes "[Sage Serpeone]";
+			mes "พลังของหินรูนคือวิธีการขึ้นรูปพลังเวทมนตร์ในร่างกายของเราให้กลายเป็นรูน ซึ่งทำหน้าที่เป็นสื่อกลางแทนร่างกายของเรา";
+			next;
+			mes "[Sage Serpeone]";
+			mes "ดังนั้นการจะใช้หินรูน เจ้าจำเป็นต้องมีความเข้าใจโดยตรงเกี่ยวกับสิ่งมีชีวิตในโลกอื่น";
+			next;
+			mes "[Sage Serpeone]";
+			mes "แต่ว่า มันคงจะเกินกำลังเจ้าไปหน่อยที่จะดึงพลังงานเวทมนตร์จากสิ่งมีชีวิตในดินแดนนี้ในตอนนี้";
+			next;
+			mes "[Sage Serpeone]";
+			mes "ตอนนี้ข้าจะร่ายมนตร์ใส่ร่างกายของเจ้า เพื่อให้เจ้าสามารถรวบรวมพลังงานเวทมนตร์จากสิ่งมีชีวิตอื่นได้";
+			next;
+			mes "[Sage Serpeone]";
+			mes "เจ้าจะสามารถดึงพลังงานเวทมนตร์จากสิ่งมีชีวิตที่ชั่วร้ายในโลกมนุษย์ได้ชั่วคราว แน่นอนว่าเจ้าจะยังไม่สามารถใช้พลังงานนั้นได้โดยตรง...";
+			next;
+			mes "[Sage Serpeone]";
+			mes "หากเจ้าสะสมพลังงานได้จากการกำจัดสิ่งชั่วร้ายในโลกมนุษย์ ข้าจะเปลี่ยนมันให้เป็นพลังงานที่เจ้าสามารถนำไปใช้ได้";
+			next;
+			mes "[Sage Serpeone]";
+			mes "วิญญาณที่ดุร้ายที่พวกมันยังหลงเหลือไว้แม้หลังจากตายไปแล้ว คือแหล่งพลังงานเวทมนตร์ชั้นยอด";
+			next;
+			mes "[Sage Serpeone]";
+			mes "โปรดไปกำจัด ^0000FFDullahan 10 ตัว^000000, ^0000FFDisguise 10 ตัว^000000, ^0000FFQuve 10 ตัว^000000, ^0000FFHeirozoist 10 ตัว^000000 และรวบรวมพลังงานของพวกมันมา";
+			next;
+			mes "[Sage Serpeone]";
+			mes "ข้าขอบอกเจ้าไว้ก่อนว่า ข้าไม่ได้เป็นคนทดสอบหรือตัดสินคุณสมบัติของเจ้า Rune Knight ต่างหากจะเป็นคนตัดสินเรื่องนั้น";
+			next;
+			mes "[Sage Serpeone]";
+			mes "หากเจ้ามีปัญหาหรือคำถามใด ๆ โปรดคุยกับข้าได้";
+			set job_rune_edq,13;
+			changequest 3207,3208;
+			setquest 3209;
+			setquest 3210;
+			setquest 3211;
+			setquest 3212;
+			close;
+		} else if (job_rune_edq == 13) {
+			mes "เจ้ารวบรวมพลังงานเวทมนตร์ได้เพียงพอหรือยัง? หรือเจ้ามีคำถามอะไรไหม?";
+			next;
+			switch(select("ข้ารวบรวมพลังงานพอแล้ว:ไปยังสถานที่รวมตัว:หยุดบทสนทนา")) {
+			case 1:
+				mes "[Sage Serpeone]";
+				mes "อย่างนั้นรึ? งั้นมาตรวจสอบกันหน่อย";
+				next;
+				if (checkquest(3209,HUNTING) == 2 && checkquest(3210,HUNTING) == 2 && checkquest(3211,HUNTING) == 2 && checkquest(3212,HUNTING) == 2) {
+					mes "[Sage Serpeone]";
+					mes "อืม ยอดเยี่ยมมาก มีพลังงานเวทมนตร์จากสิ่งมีชีวิตสะสมในร่างกายเจ้าเพียงพอแล้ว";
+					next;
+					mes "[Sage Serpeone]";
+					mes "Rune Knight Renoa จะเป็นผู้บอกวิธีใช้งานหินรูนแก่เจ้าเอง";
+					next;
+					mes "[Sage Serpeone]";
+					mes "ตอนนี้ข้าคิดว่าส่วนของข้าจบลงแล้ว ข้าหวังว่าเจ้าจะได้เป็น Rune Knight ผู้ทรงเกียรติ";
+					next;
+					mes "[Sage Serpeone]";
+					mes "หากเจ้ามีธุระที่นี่ ข้าจะส่งเจ้าไปยังสถานที่รวมตัวของ Rune Knight ถ้าเจ้าพร้อมแล้วโปรดบอกข้า";
+					set job_rune_edq,14;
+					changequest 3208,3213;
+					completequest 3209;
+					completequest 3210;
+					completequest 3211;
+					completequest 3212;
+					close;
+				}
+				mes "[Sage Serpeone]";
+				mes "เจ้ายังรวบรวมพลังงานเวทมนตร์มาไม่เพียงพอนะ";
+				next;
+				mes "[Sage Serpeone]";
+				mes "โปรดทำใจให้เข้มแข็งและรวบรวมพลังงานจากการกำจัดมอนสเตอร์เหล่านั้นให้ครบเถอะ";
+				close;
+			case 2:
+				mes "[Sage Serpeone]";
+				mes "เจ้าต้องการกลับไปยังสถานที่รวมตัวรึ? หากเจ้าต้องการข้าจะส่งเจ้ากลับไปทันที แต่การจะทดสอบต่อเจ้าจำเป็นต้องกลับมาพบข้าอีกครั้งนะ";
+				next;
+				mes "[Sage Serpeone]";
+				mes "เจ้าต้องการจะกลับไปยังสถานที่รวมตัว Rune Knight หรือไม่?";
+				next;
+				if(select("ข้าต้องการกลับ:ข้าขอยกเลิก") == 1)
+					warp "job3_rune01",80,65;
+				close;
+			case 3:
+				close;
+			}
+		} else if (job_rune_edq == 14) {
+			mes "เจ้าพร้อมจะกลับไปยังสถานที่รวมตัว Rune Knight หรือยัง?";
+			next;
+			if(select("ข้าต้องการกลับตอนนี้:ข้ายยังไม่พร้อม") == 1)
+				warp "job3_rune01",80,65;
+			close;
+		}
+		mes "การเตรียมตัวเป็นไปด้วยดีไหม?";
+		next;
+		mes "[Sage Serpeone]";
+		mes "ตอนนี้เจ้าไม่ได้อยู่ในสถานะที่ผิดปกติไปหน่อยรึ?";
+		next;
+		mes "[Sage Serpeone]";
+		mes "งั้นข้าจะส่งเจ้ากลับไปยังสถานที่รวมตัว Rune Knight ที่เจ้าควรจะอยู่";
+		next;
+		if(select("ข้าจะกลับเดี๋ยวนี้:ข้าจะอยู่ที่นี่ต่อ") == 1)
+			warp "job3_rune01",80,65;
+		close;
+	}
+	mes "มันคงเป็นเรื่องน่าประหลาดใจที่ข้าซึ่งเป็นเผ่า Laphine มาอยู่ที่ฐานทัพของคนของพวกเจ้า";
+	next;
+	mes "[Sage Serpeone]";
+	mes "พวกเราบางคนมีการติดต่อกับมนุษย์ในสถานการณ์พิเศษมาตั้งแต่ก่อนที่รอยแยกมิติจะเปิดออกเสียอีก";
+	next;
+	mes "[Sage Serpeone]";
+	mes "ข้ามีการติดต่อสื่อสารกับมนุษย์มาหลายปีแล้ว มันเพื่อผลประโยชน์ร่วมกัน อย่างไรก็ตาม นั่นคือวิธีที่ข้าได้เรียนรู้ภาษาของพวกเจ้า";
+	next;
+	mes "[Sage Serpeone]";
+	mes "บางทีมันอาจจะจำเป็นต้องมีเครื่องจักรที่สามารถแปลภาษา Laphine เพื่อให้มนุษย์เข้าใจพวกเราได้ง่ายขึ้นนะ";
+	next;
+	mes "[Sage Serpeone]";
+	mes "มากไปกว่านั้น... ข้าบอกเจ้าไม่ได้อีกแล้ว ข้าไม่สามารถพูดอะไรออกไปอย่างไม่ระวังได้ เพราะข้าพูดในนามของคนของข้าที่นี่ และข้าได้รับบัตรผ่านพิเศษเพื่อให้อยู่ในค่ายของพวกเจ้าได้เท่านั้น";
+	close;
+}
+
+job3_rune01,114,50,3	script	Rune Knight Velpino	468,{
+	if (Class == Job_Rune_Knight || Class == Job_Rune_Knight_T || Class == Job_Baby_Rune_Knight) {
+		mes "[Rune Knight Velpino]";
+		mes "เจ้ายังดูเหมือนเด็กเพิ่งหัดบินอยู่เลย จงนำเกียรติยศมาสู่ Rune Knights และเพิ่มพูนพลังของเจ้าซะ...";
+		close;
+	}
+	if (BaseJob == Job_Knight) {
+		if (job_rune_edq < 17) {
+			mes "Rune Knight ที่ดูเย็นชามาก สวมชุดดำตั้งแต่หัวจรดเท้ากำลังจ้องเขม็งมาที่ข้า";
+			next;
+			mes "ทำไมพวก Rune Knight ถึงมีแต่พวกพล่ามไม่หยุด หรือไม่ก็พวกไม่ยอมสื่อสารและบ้าการต่อสู้กันไปหมดนะ...?";
+			next;
+			mes "[Captain Tigris]";
+			mes "เฮ้... แล้วข้าล่ะ? ข้าไม่ใช่แบบนั้นนะ!";
+			close;
+		} else if (job_rune_edq == 17) {
+			mes "[Rune Knight Velpino]";
+			mes "ข้าไม่คิดเลยว่าจะมีผู้สมัครมาถึงข้าได้ในวันนี้...";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "ยินดีด้วย! เจ้ามาถึงบททดสอบสุดท้ายที่รอคอยมานานแล้ว... ข้าคิดว่าเจ้าคงเชี่ยวชาญพื้นฐานมาแล้วสินะ";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "บททดสอบสุดท้ายค่อนข้างเรียบง่าย ทุกอย่างจะจบลงเมื่อเจ้ากำจัดมอนสเตอร์เวทมนตร์ทั้งหมดใน Glast Heim แห่งนี้...";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "เงื่อนไขเพียงอย่างเดียวคือเจ้าต้องกำจัดมอนสเตอร์เหล่านี้โดยใช้หินรูนที่เจ้าทำขึ้นจากการทดสอบก่อนหน้า";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "สำหรับการทดสอบนี้ สามารถติดตั้งได้เพียงอาวุธมือเดียวพร้อมโล่ หรืออาวุธสองมือเท่านั้น";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "ชุดอาวุธที่เจ้าใช้ควรจะมีน้ำหนักไม่เกิน 400 หินรูนที่จะได้รับคือ หินรูนสำหรับโจมตี 30 ก้อน และหินรูนสำหรับป้องกัน 30 ก้อน";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "เพื่อที่จะใช้รูนเหล่านี้ได้ ข้าจะร่ายเวทมนตร์เสริมพลัง (buff) พิเศษให้แก่เจ้า";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "มอนสเตอร์เวทมนตร์คือมอนสเตอร์ 3 ชนิดจาก Glast Heim ที่เจ้าอาจจะรู้จักอยู่แล้ว... มันไม่ใช่การต่อสู้ที่ง่ายนัก แต่ถ้าเจ้าผ่านความทรมานครั้งสุดท้ายนี้ได้ เจ้าจะได้เดินบนเส้นทางแห่ง Rune Knight";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "เพื่อช่วยในการเตรียมตัว เราได้ทำสัญญากับสำนักงานใหญ่ Kafra ใน Al De Baran โดยการจ้างพนักงาน Kafra มาที่สถานที่รวมตัวแห่งนี้เป็นพิเศษ ดังนั้นมันจะเป็นการดีหากเจ้าไปพบนาง";
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "ถ้าเจ้าพร้อมแล้ว ก็แค่คุยกับข้าอีกครั้ง";
+			set job_rune_edq,18;
+			changequest 3216,3217;
+			close;
+		} else if (job_rune_edq > 17 && job_rune_edq < 21) {
+			if (countitem(12388)+countitem(12389)+countitem(12390) == 0) {
+				mes "[Rune Knight Velpino]";
+				mes "หากการเตรียมตัวของเจ้าเสร็จสิ้นแล้ว ข้าจะส่งเจ้าไปยังสนามทดสอบสุดท้าย";
+				set job_rune_edq,18;
+				next;
+				if(select("เข้าสู่สนามทดสอบสุดท้าย:ข้ายยังไม่พร้อม") == 2) close;
+				if (getequipisequiped(EQI_HEAD_TOP) || getequipisequiped(EQI_ARMOR) || getequipisequiped(EQI_GARMENT) || getequipisequiped(EQI_SHOES) ||
+				    getequipisequiped(EQI_ACC_L) || getequipisequiped(EQI_ACC_R) || getequipisequiped(EQI_HEAD_MID) || getequipisequiped(EQI_HEAD_LOW)) {
+					mes "[Rune Knight Velpino]";
+					mes "สำหรับการทดสอบนี้ สามารถติดตั้งได้เพียงอาวุธมือเดียวพร้อมโล่ หรืออาวุธสองมือเท่านั้น จงฝากอุปกรณ์อื่น ๆ ไว้กับพนักงาน Kafra ที่อยู่ตรงกลางซะ";
+					close;
+				}
+				if (checkquest(3220,PLAYTIME) == 1) {
+					mes "[Rune Knight Velpino]";
+					mes "เจ้าเพิ่งจะล้มเหลวในการทดสอบมาไม่ใช่รึ... หากเจ้าพลาดครั้งหนึ่ง เจ้าจะไม่สามารถเข้าได้อีกเป็นเวลา 10 นาที";
+					next;
+					mes "[Rune Knight Velpino]";
+					mes "นี่คือการเผื่อแผ่ให้แก่ผู้ทดสอบคนอื่น ๆ ที่กำลังรอทดสอบอยู่เหมือนกับเจ้า ดังนั้นจงกลับมาใหม่หลังจากเวลาที่กำหนด";
+					close;
+				}
+				if ($@job_rune_test1 == 0) {
+					if (Weight < 4001) {
+						set $@job_rune_test1,1;
+						sc_start SC_INCINT,300000,40;
+						getitem 12389,30; //Runstone_Storm
+						getitem 12390,30; //Runstone_Millennium
+						if (checkquest(3220) > -1) erasequest 3220;
+						setquest 3220;
+						warp "job3_rune02",38,40;
+						end;
+					}
+					mes "[Rune Knight Velpino]";
+					mes "ชุดอาวุธที่เจ้าใช้ควรจะมีน้ำหนักไม่เกิน 400 หินรูนที่จะได้รับคือ หินรูนสำหรับโจมตี 30 ก้อน และหินรูนสำหรับป้องกัน 30 ก้อน";
+					next;
+					mes "[Rune Knight Velpino]";
+					mes "ของที่เหลือที่เจ้าถืออยู่ควรนำไปฝากไว้กับพนักงาน Kafra ที่อยู่ตรงกลาง";
+					close;
+				}
+				// Custom translation - คำแปลส่วนตัว
+				mes "[Rune Knight Velpino]";
+				mes "ดูเหมือนว่าจะมีผู้สมัครอยู่ในห้องทดสอบอยู่แล้วนะ";
+				next;
+				mes "[Rune Knight Velpino]";
+				mes "จงอดทนและรอคิวของเจ้า";
+				close;
+			}
+			mes "[Rune Knight Velpino]";
+			mes "เดี๋ยวก่อน ข้าจะเก็บหินรูนทั้งหมดที่เคยมอบให้ไปคืน มีขีดจำกัดในการใช้หินรูนที่ถูกสร้างขึ้นเพื่อการทดสอบ";
+			if (countitem(12388)) delitem 12388,countitem(12388); //Runstone_Crush
+			if (countitem(12389)) delitem 12389,countitem(12389); //Runstone_Storm
+			if (countitem(12390)) delitem 12390,countitem(12390); //Runstone_Millennium
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "ข้าจะจัดหาหินรูนใหม่ให้ ดังนั้นหากเจ้าเตรียมตัวเสร็จสิ้นแล้ว โปรดคุยกับข้าอีกครั้ง";
+			close;
+		} else if (job_rune_edq == 21) {
+			mes "[Rune Knight Velpino]";
+			mes "เจ้าประสบความสำเร็จอย่างมากจนถึงการทดสอบสุดท้าย";
+			next;
+			if (countitem(12388)+countitem(12389)+countitem(12390) == 0) {
+				mes "[Rune Knight Velpino]";
+				mes "ตอนนี้บททดสอบทั้งหมดที่เจ้าต้องทำได้สิ้นสุดลงแล้ว จงกลับไปหา Captain Tigris และแจ้งผลการทดสอบนี้ให้เขาทราบ จากนั้นจงดื่มด่ำกับความรู้สึกอันลึกซึ้งของการได้เกิดใหม่เป็น Rune Knight";
+				next;
+				mes "[Rune Knight Velpino]";
+				mes "ขอแสดงความยินดีด้วย!";
+				mes "เอาล่ะ ข้าควรไปเตรียมตัวสำหรับผู้สมัครที่เหลือได้แล้ว";
+				set job_rune_edq,22;
+				changequest 3218,3219;
+				close;
+			}
+			mes "[Rune Knight Velpino]";
+			mes "เดี๋ยวก่อน ข้าจะเก็บหินรูนทั้งหมดที่เคยมอบให้ไปคืน มีขีดจำกัดในการใช้หินรูนที่ถูกสร้างขึ้นเพื่อการทดสอบ";
+			if (countitem(12388)) delitem 12388,countitem(12388); //Runstone_Crush
+			if (countitem(12389)) delitem 12389,countitem(12389); //Runstone_Storm
+			if (countitem(12390)) delitem 12390,countitem(12390); //Runstone_Millennium
+			next;
+			mes "[Rune Knight Velpino]";
+			mes "ข้าจำเป็นต้องนำหินรูนที่ไม่ได้ใช้พวกนี้กลับมาใช้ใหม่ คุยกับข้าอีกครั้งเมื่อข้าเก็บหินรูนสำหรับทดสอบไปทั้งหมดแล้ว";
+			close;
+		}
+	}
+	mes "Rune Knight ที่ดูเย็นชามาก สวมชุดดำตั้งแต่หัวจรดเท้ากำลังจ้องเขม็งมาที่ข้า";
+	close;
+}
+
+job3_rune02,38,40,0	script	#RK Test Hidden Portal 1	139,15,15,{
+	end;
+OnEnable:
+	enablenpc "#RK Test Hidden Portal 1";
+	end;
+OnDisable:
+	disablenpc "#RK Test Hidden Portal 1";
+	end;
+OnTouch:
+	if (job_rune_edq == 4) {
+		donpcevent "job_rune_edq#1st_tb::OnEnable";
+		donpcevent "#RK Test Hidden Portal 1::OnDisable";
+		end;
+	} else if (job_rune_edq > 17 && job_rune_edq < 21) {
+		donpcevent "job_rune_edq#3rd_tb::OnEnable";
+		donpcevent "#RK Test Hidden Portal 1::OnDisable";
+		end;
+	} else {
+		donpcevent "#RK Test Hidden Portal 1::OnDisable";
+		donpcevent "job_rune_edq#1st_tb::OnDisable";
+		donpcevent "job_rune_edq#1st_tc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+		donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+		donpcevent "job_rune_edq#3rd_tb::OnDisable";
+		donpcevent "job_rune_edq#3rd_tc::OnDisable";
+		set $@job_rune_test1,0;
+		set $@job_rune_test2,0;
+		donpcevent "#RK Test Hidden Portal 1::OnEnable";
+		mapwarp "job3_rune02","job3_rune01",80,65;
+		end;
+	}
+}
+
+job3_rune02,1,1,0	script	job_rune_edq#1st_tb	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tb";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tb";
+	initnpctimer;
+	end;
+OnDisable:
+	stopnpctimer;
+	disablenpc "job_rune_edq#1st_tb";
+	end;
+OnTimer5000:
+	mapannounce "job3_rune02","ข้าจะเริ่มบททดสอบแรกของการเปลี่ยนอาชีพ Rune Knight ณ บัดนี้",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer8000:
+	mapannounce "job3_rune02","เนื้อหาของการทดสอบคือการกำจัดมอนสเตอร์ทั้งหมดเป็นเวลา 5 นาทีและเอาชีวิตรอดให้ได้",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer11000:
+	mapannounce "job3_rune02","หากเจ้าล้มเหลวในการเอาชีวิตรอด หรือไม่สามารถกำจัดมอนสเตอร์ทั้งหมดภายในเวลาที่กำหนด ข้าจะถือว่าเจ้าสอบตก",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer14000:
+	mapannounce "job3_rune02","เอาล่ะ มาเริ่มการทดสอบกันเลย",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	donpcevent "job_rune_edq#1st_tc::OnEnable";
+	donpcevent "job_rune_edq#1st_tb::OnDisable";
+	end;
+}
+
+job3_rune02,1,2,0	script	job_rune_edq#1st_tc	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tc";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tc";
+	initnpctimer;
+	donpcevent "job_rune_edq#1st_tcmc::OnEnable";
+	donpcevent "job_rune_edq#1st_tcnc::OnEnable";
+	end;
+OnDisable:
+	stopnpctimer;
+	disablenpc "job_rune_edq#1st_tc";
+	end;
+OnTimer300000:
+	killmonster "job3_rune02","job_rune_edq#1st_tc::OnMyMobDead";
+	mapannounce "job3_rune02","เจ้าใช้เวลาจนหมดขีดจำกัดแล้ว ดังนั้นข้าจะถือว่าการทดสอบนี้ล้มเหลว",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer305000:
+	donpcevent "#RK Test Hidden Portal 1::OnDisable";
+	donpcevent "job_rune_edq#1st_tb::OnDisable";
+	donpcevent "job_rune_edq#1st_tc::OnDisable";
+	donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+	donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+	donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+	donpcevent "job_rune_edq#3rd_tb::OnDisable";
+	donpcevent "job_rune_edq#3rd_tc::OnDisable";
+	donpcevent "#RK Test Hidden Portal 1::OnEnable";
+	mapwarp "job3_rune02","job3_rune01",80,65;
+	set $@job_rune_test1,0;
+	set $@job_rune_test2,0;
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,3,10,0	script	job_rune_edq#1st_tcmc	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tcmc";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tcmc";
+	initnpctimer;
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#1st_tcmc::OnMyMobDead";
+	stopnpctimer;
+	disablenpc "job_rune_edq#1st_tcmc";
+	end;
+OnReset:
+	killmonster "job3_rune02","job_rune_edq#1st_tcmc::OnMyMobDead";
+	end;
+OnTimer5000:
+	monster "job3_rune02",0,0,"Raydric",1467,1,"job_rune_edq#1st_tcmc::OnMyMobDead";
+	monster "job3_rune02",0,0,"Raydric Archer",1453,2,"job_rune_edq#1st_tcmc::OnMyMobDead";
+	end;
+OnTimer50000:
+OnTimer100000:
+OnTimer150000:
+OnTimer200000:
+	switch(rand(6)) {
+	case 0:
+		monster "job3_rune02",0,0,"Raydric",1467,1,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		monster "job3_rune02",0,0,"Raydric Archer",1453,2,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		end;
+	case 1:
+	case 2:
+		monster "job3_rune02",0,0,"Rideword",1478,4,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		end;
+	case 3:
+	case 4:
+		monster "job3_rune02",0,0,"Phendark",1484,1,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		monster "job3_rune02",0,0,"Rybio",1483,1,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		end;
+	case 5:
+		monster "job3_rune02",0,0,"Wraith Dead",1475,4,"job_rune_edq#1st_tcmc::OnMyMobDead";
+		end;
+	}
+	end;
+OnTimer250000:
+	killmonster "job3_rune02","job_rune_edq#1st_tcmc::OnMyMobDead";
+	donpcevent "job_rune_edq#1st_tcmc2::OnEnable";
+	donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+	end;
+OnMyMobDead:
+	end;
+}
+
+job3_rune02,3,11,0	script	job_rune_edq#1st_tcmc2	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tcmc2";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tcmc2";
+	switch(rand(6)) {
+	case 0:
+		monster "job3_rune02",0,0,"Raydric",1467,1,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		monster "job3_rune02",0,0,"Raydric Archer",1453,2,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		end;
+	case 1:
+	case 2:
+		monster "job3_rune02",0,0,"Rideword",1478,4,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		end;
+	case 3:
+	case 4:
+		monster "job3_rune02",0,0,"Phendark",1484,1,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		monster "job3_rune02",0,0,"Rybio",1483,1,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		end;
+	case 5:
+		monster "job3_rune02",0,0,"Wraith Dead",1475,4,"job_rune_edq#1st_tcmc2::OnMyMobDead";
+		end;
+	}
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#1st_tcmc2::OnMyMobDead";
+	disablenpc "job_rune_edq#1st_tcmc2";
+	end;
+OnMyMobDead:
+	if (mobcount("job3_rune02","job_rune_edq#1st_tcmc2::OnMyMobDead") < 1) {
+		set job_rune_edq,5;
+		erasequest 3220;
+		killmonster "job3_rune02","job_rune_edq#1st_tcmc2::OnMyMobDead";
+		mapannounce "job3_rune02","ขอแสดงความยินดีด้วย เจ้าผ่านบททดสอบแรกแล้ว",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		mapwarp "job3_rune02","job3_rune01",80,65;
+		donpcevent "job_rune_edq#1st_tb::OnDisable";
+		donpcevent "job_rune_edq#1st_tc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+		donpcevent "#RK Test Hidden Portal 1::OnEnable";
+		set $@job_rune_test1,0;
+		set $@job_rune_test2,0;
+		end;
+	}
+	end;
+}
+
+job3_rune02,1,10,0	script	job_rune_edq#1st_tcnc	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#1st_tcnc";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#1st_tcnc";
+	initnpctimer;
+	end;
+OnDisable:
+	stopnpctimer;
+	set $@job_rune_test2,0;
+	donpcevent "Captain Tigris#jrt1::OnDisable";
+	donpcevent "Rune Knight Lunarea#jrt1::OnDisable";
+	donpcevent "Rune Knight Renoa#jrt1::OnDisable";
+	donpcevent "Rune Knight Velpino#jrt1::OnDisable";
+	disablenpc "job_rune_edq#1st_tcnc";
+	end;
+OnUse:
+	mapannounce "job3_rune02","Captain Tigris : สุภาพบุรุษทั้งหลาย พวกเรามาเฝ้าดูการทดสอบกันสักพักเถอะ",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	stopnpctimer;
+	set $@job_rune_test2,0;
+	donpcevent "Captain Tigris#jrt1::OnDisable";
+	donpcevent "Rune Knight Lunarea#jrt1::OnDisable";
+	donpcevent "Rune Knight Renoa#jrt1::OnDisable";
+	donpcevent "Rune Knight Velpino#jrt1::OnDisable";
+	donpcevent "job_rune_edq#1st_tcnc::OnEnable";
+	end;
+OnTimer30000:
+	mapannounce "job3_rune02","Captain Tigris : เหล่าผู้สมัคร Rune Knight... หากเจ้าต้องการหยิบยืมพลังของพวกเรา ก็จงมาคุยกับใครก็ได้ในพวกเรา",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	donpcevent "Captain Tigris#jrt1::OnEnable";
+	donpcevent "Rune Knight Lunarea#jrt1::OnEnable";
+	donpcevent "Rune Knight Renoa#jrt1::OnEnable";
+	donpcevent "Rune Knight Velpino#jrt1::OnEnable";
+	end;
+OnTimer60000:
+	mapannounce "job3_rune02","Captain Tigris : ดูเหมือนเจ้าจะไม่ต้องการความช่วยเหลือจากพวกเราสินะ... งั้นพวกเรามาเฝ้าดูการทดสอบกันต่อไปสักพักแล้วกัน",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	stopnpctimer;
+	donpcevent "Captain Tigris#jrt1::OnDisable";
+	donpcevent "Rune Knight Lunarea#jrt1::OnDisable";
+	donpcevent "Rune Knight Renoa#jrt1::OnDisable";
+	donpcevent "Rune Knight Velpino#jrt1::OnDisable";
+	donpcevent "job_rune_edq#1st_tcnc::OnEnable";
+	end;
+}
+
+job3_rune02,34,46,5	script	Captain Tigris#jrt1	470,2,2,{
+	if (job_rune_edq != 4 || $@job_rune_test2 != 0) {
+		donpcevent "job_rune_edq#1st_tcnc::OnUse";
+		end;
+	}
+	switch(rand(6)) {
+	case 0:
+		mapannounce "job3_rune02","Captain Tigris : ขอให้ Beljeve อวยพรแก่เจ้า!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_BLESSING",1,0,0;
+		break;
+	case 1:
+	case 2:
+		mapannounce "job3_rune02","Captain Tigris : ประกายไฟแห่งชีวิต... จงลุกโชนขึ้นอีกครั้ง",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_HEAL",8,70,99;
+		break;
+	case 3:
+		mapannounce "job3_rune02","Captain Tigris : เจ้าพวกปีศาจชั่วร้าย! ข้าจะส่งพวกแกกลับหลุมเดี๋ยวนี้แหละ!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		specialeffect2 EF_METEORSTORM;
+		donpcevent "job_rune_edq#1st_tcmc::OnReset";
+		break;
+	case 4:
+		mapannounce "job3_rune02","Captain Tigris : สำหรับ Rune Knight แล้ว บททดสอบแค่นี้มันไม่มีความหมายหรอก!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_STUN,10000,0;
+		break;
+	case 5:
+		mapannounce "job3_rune02","Captain Tigris : สำหรับ Rune Knight แล้ว บททดสอบแค่นี้มันไม่มีความหมายหรอก!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_BLEEDING,10000,0;
+		break;
+	}
+	set $@job_rune_test2,1;
+	initnpctimer;
+	end;
+OnInit:
+OnDisable:
+	disablenpc "Captain Tigris#jrt1";
+	end;
+OnEnable:
+	enablenpc "Captain Tigris#jrt1";
+	end;
+OnTimer5000:
+	donpcevent "job_rune_edq#1st_tcnc::OnUse";
+	set $@job_rune_test2,0;
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,43,46,3	script	Rune Knight Lunarea#jrt1	469,2,2,{
+	if (job_rune_edq != 4 || $@job_rune_test2 != 0) {
+		donpcevent "job_rune_edq#1st_tcnc::OnUse";
+		end;
+	}
+	switch(rand(6)) {
+	case 0:
+		mapannounce "job3_rune02","Rune Knight Lunarea : เร็วเข้า... ค้นหาและจู่โจมไปที่จุดอ่อนของศัตรูซะ!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_INCAGI",1,0,0;
+		break;
+	case 1:
+	case 2:
+		mapannounce "job3_rune02","Rune Knight Lunarea : มันยังไม่จบ... เจ้าต้องการพลังมากกว่านี้...",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_HEAL",8,60,90;
+		break;
+	case 3:
+		mapannounce "job3_rune02","Rune Knight Lunarea : ทุกสิ่งเริ่มต้นใหม่จากจุดแรก!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_CURE",1,0,0;
+		break;
+	case 4:
+		mapannounce "job3_rune02","Rune Knight Lunarea : ไม่มีการเติบโตใดที่ปราศจากการทดสอบ",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_POISON,30000,0;
+		break;
+	case 5:
+		mapannounce "job3_rune02","Rune Knight Lunarea : ไม่มีการเติบโตใดที่ปราศจากการทดสอบ",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_CURSE,30000,0;
+		break;
+	}
+	set $@job_rune_test2,1;
+	initnpctimer;
+	end;
+OnInit:
+OnDisable:
+	disablenpc "Rune Knight Lunarea#jrt1";
+	end;
+OnEnable:
+	enablenpc "Rune Knight Lunarea#jrt1";
+	end;
+OnTimer5000:
+	donpcevent "job_rune_edq#1st_tcnc::OnUse";
+	set $@job_rune_test2,0;
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,43,34,1	script	Rune Knight Renoa#jrt1	469,2,2,{
+	if (job_rune_edq != 4 || $@job_rune_test2 != 0) {
+		donpcevent "job_rune_edq#1st_tcnc::OnUse";
+		end;
+	}
+	switch(rand(6)) {
+	case 0:
+		mapannounce "job3_rune02","Rune Knight Renoa : รูนแห่งสายลม! ขอให้มันมอบความแข็งแกร่งแก่เจ้า!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_INCAGI",1,0,0;
+		break;
+	case 1:
+	case 2:
+		mapannounce "job3_rune02","Rune Knight Renoa : รูนแห่งการกำเนิด! ขอให้มันมอบพลังแห่งชีวิตแก่เจ้า!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_HEAL",8,60,90;
+		break;
+	case 3:
+		mapannounce "job3_rune02","Rune Knight Renoa : ข้าเร็วกว่าพวกเขาทั้งหมด! และแตกต่างจากคนอื่น ๆ!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		specialeffect2 EF_PIERCESELF;
+		donpcevent "job_rune_edq#1st_tcmc::OnReset";
+		break;
+	case 4:
+		mapannounce "job3_rune02","Rune Knight Renoa : สำหรับ Rune Knight แล้ว บททดสอบแค่นี้มันไม่มีความหมายหรอก!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_POISON,30000,0;
+		break;
+	case 5:
+		mapannounce "job3_rune02","Rune Knight Renoa : สำหรับ Rune Knight แล้ว บททดสอบแค่นี้มันไม่มีความหมายหรอก!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_CURSE,30000,0;
+		break;
+	}
+	set $@job_rune_test2,1;
+	initnpctimer;
+	end;
+OnInit:
+OnDisable:
+	disablenpc "Rune Knight Renoa#jrt1";
+	end;
+OnEnable:
+	enablenpc "Rune Knight Renoa#jrt1";
+	end;
+OnTimer5000:
+	set $@job_rune_test2,0;
+	donpcevent "job_rune_edq#1st_tcnc::OnUse";
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,34,34,7	script	Rune Knight Velpino#jrt1	468,2,2,{
+	if (job_rune_edq != 4 || $@job_rune_test2 != 0) {
+		donpcevent "job_rune_edq#1st_tcnc::OnUse";
+		end;
+	}
+	switch(rand(6)) {
+	case 0:
+		mapannounce "job3_rune02","Rune Knight Velpino : เจ้าไม่ใช่คนที่จะมาล้มลงในสถานที่แบบนี้หรอกนะ",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_HEAL",8,60,90;
+		break;
+	case 1:
+	case 2:
+		mapannounce "job3_rune02","Rune Knight Velpino : ก้าวต่อไป! ยังมีอุปสรรคให้เจ้าต้องก้าวข้าม",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_INCAGI",1,0,0;
+		break;
+	case 3:
+		mapannounce "job3_rune02","Rune Knight Velpino : เจ้าไม่ได้อยู่ตัวคนเดียว พวกเราอยู่เคียงข้างเจ้าเสมอ",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		npcskill "AL_BLESSING",1,0,0;
+		break;
+	case 4:
+		mapannounce "job3_rune02","Rune Knight Velpino : สู้และเอาชนะมันให้ได้! อย่าพ่ายแพ้ต่อความเจ็บปวด!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_FREEZE,10000,0;
+		break;
+	case 5:
+		mapannounce "job3_rune02","Rune Knight Velpino : มันไม่ใช่บททดสอบที่ใหญ่โตอะไรสำหรับ Rune Knight ที่แท้จริงหรอก!",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		sc_start SC_SLEEP,10000,0;
+		break;
+	}
+	set $@job_rune_test2,1;
+	initnpctimer;
+	end;
+OnInit:
+OnDisable:
+	disablenpc "Rune Knight Velpino#jrt1";
+	end;
+OnEnable:
+	enablenpc "Rune Knight Velpino#jrt1";
+	end;
+OnTimer5000:
+	set $@job_rune_test2,0;
+	donpcevent "job_rune_edq#1st_tcnc::OnUse";
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,2,1,0	script	job_rune_edq#3rd_tb	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tb";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tb";
+	initnpctimer;
+	end;
+OnDisable:
+	stopnpctimer;
+	disablenpc "job_rune_edq#3rd_tb";
+	end;
+OnTimer5000:
+	mapannounce "job3_rune02","ข้าจะเริ่มบททดสอบสุดท้ายของการเปลี่ยนอาชีพ Rune Knight",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer8000:
+	mapannounce "job3_rune02","จงกำจัดมอนสเตอร์ที่จะปรากฏตัวที่นี่ภายในเวลา 8 นาที โดยใช้หินรูนที่เตรียมไว้ให้",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer11000:
+	mapannounce "job3_rune02","หากเจ้าตายหรือกำจัดมอนสเตอร์ทั้งหมดไม่ได้ภายในเวลาที่กำหนด ข้าจะถือว่าความพยายามนี้ล้มเหลว",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer14000:
+	mapannounce "job3_rune02","เอาล่ะ ข้าจะเริ่มการทดสอบ ณ บัดนี้",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	donpcevent "job_rune_edq#3rd_tc::OnEnable";
+	donpcevent "job_rune_edq#3rd_tb::OnDisable";
+	end;
+}
+
+job3_rune02,2,2,0	script	job_rune_edq#3rd_tc	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tc";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tc";
+	initnpctimer;
+	donpcevent "job_rune_edq#3rd_tc1::OnEnable";
+	end;
+OnDisable:
+	stopnpctimer;
+	donpcevent "job_rune_edq#3rd_tc1::OnDisable";
+	donpcevent "job_rune_edq#3rd_tc2::OnDisable";
+	donpcevent "job_rune_edq#3rd_tc3::OnDisable";
+	disablenpc "job_rune_edq#3rd_tc";
+	end;
+OnTimer480000:
+	killmonster "job3_rune02","job_rune_edq#3rd_tc::OnMyMobDead";
+	mapannounce "job3_rune02","เจ้าใช้เวลาจนหมดขีดจำกัดแล้ว ดังนั้นข้าจะถือว่าการทดสอบนี้ล้มเหลว",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+	end;
+OnTimer482000:
+	mapwarp "job3_rune02","job3_rune01",80,65;
+	donpcevent "job_rune_edq#1st_tb::OnDisable";
+	donpcevent "job_rune_edq#1st_tc::OnDisable";
+	donpcevent "job_rune_edq#1st_tcnc::OnDisable";
+	donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+	donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+	donpcevent "job_rune_edq#3rd_tb::OnDisable";
+	donpcevent "job_rune_edq#3rd_tc::OnDisable";
+	donpcevent "#RK Test Hidden Portal 1::OnEnable";
+	set $@job_rune_test1,0;
+	set $@job_rune_test2,0;
+	stopnpctimer;
+	end;
+}
+
+job3_rune02,2,3,0	script	job_rune_edq#3rd_tc1	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tc1";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tc1";
+	monster "job3_rune02",40,40,"Executioner",2039,1,"job_rune_edq#3rd_tc1::OnMyMobDead";
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#3rd_tc1::OnMyMobDead";
+	disablenpc "job_rune_edq#3rd_tc1";
+	end;
+OnMyMobDead:
+	if (mobcount("job3_rune02","job_rune_edq#3rd_tc1::OnMyMobDead") < 1) {
+		set job_rune_edq,19;
+		killmonster "job3_rune02","job_rune_edq#3rd_tc1::OnMyMobDead";
+		donpcevent "job_rune_edq#3rd_tc2::OnEnable";
+		donpcevent "job_rune_edq#3rd_tc1::OnDisable";
+		end;
+	}
+	end;
+}
+
+job3_rune02,2,4,0	script	job_rune_edq#3rd_tc2	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tc2";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tc2";
+	monster "job3_rune02",40,40,"Ogretooth",2040,1,"job_rune_edq#3rd_tc2::OnMyMobDead";
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#3rd_tc2::OnMyMobDead";
+	disablenpc "job_rune_edq#3rd_tc2";
+	end;
+OnMyMobDead:
+	if (mobcount("job3_rune02","job_rune_edq#3rd_tc2::OnMyMobDead") < 1) {
+		set job_rune_edq,20;
+		killmonster "job3_rune02","job_rune_edq#3rd_tc2::OnMyMobDead";
+		donpcevent "job_rune_edq#3rd_tc3::OnEnable";
+		donpcevent "job_rune_edq#3rd_tc2::OnDisable";
+		end;
+	}
+	end;
+}
+
+job3_rune02,2,5,0	script	job_rune_edq#3rd_tc3	139,{
+	end;
+OnInit:
+	disablenpc "job_rune_edq#3rd_tc3";
+	end;
+OnEnable:
+	enablenpc "job_rune_edq#3rd_tc3";
+	monster "job3_rune02",40,40,"Mysteltainn",2041,1,"job_rune_edq#3rd_tc3::OnMyMobDead";
+	end;
+OnDisable:
+	killmonster "job3_rune02","job_rune_edq#3rd_tc3::OnMyMobDead";
+	disablenpc "job_rune_edq#3rd_tc3";
+	end;
+OnMyMobDead:
+	if (mobcount("job3_rune02","job_rune_edq#3rd_tc3::OnMyMobDead") < 1) {
+		set job_rune_edq,21;
+		changequest 3217,3218;
+		erasequest 3220;
+		killmonster "job3_rune02","job_rune_edq#3rd_tc3::OnMyMobDead";
+		mapannounce "job3_rune02","ขอแสดงความยินดีด้วย เจ้าผ่านบททดสอบแล้ว",bc_map,"0xFFFF00"; //FW_NORMAL 12 0 0
+		mapwarp "job3_rune02","job3_rune01",80,65;
+		donpcevent "job_rune_edq#1st_tb::OnDisable";
+		donpcevent "job_rune_edq#1st_tc::OnDisable";
+		donpcevent "job_rune_edq#1st_tcnc::Disable";
+		donpcevent "job_rune_edq#1st_tcmc2::OnDisable";
+		donpcevent "job_rune_edq#1st_tcmc::OnDisable";
+		donpcevent "job_rune_edq#3rd_tb::OnDisable";
+		donpcevent "job_rune_edq#3rd_tc::OnDisable";
+		donpcevent "#RK Test Hidden Portal 1::OnEnable";
+		set $@job_rune_test1,0;
+		set $@job_rune_test2,0;
+		end;
+	}
+	end;
+}
+
+sec_in02,34,167,3	script	R.Knight Job Manager	470,1,1,{
+	callfunc "F_GM_NPC";
+	mes "กรุณาใส่รหัสผ่าน";
+	next;
+	if (callfunc("F_GM_NPC","1854",1) == 1) {
+		mes "เริ่มต้นโมดูลจัดการการเปลี่ยนอาชีพ Rune Knight";
+		next;
+		switch(select("ตรวจสอบ GlobalVar:แก้ไข GlobalVar แบบ Oneshot")) {
+		case 1:
+			mes "ค่า GlobalVar ของการเปลี่ยนอาชีพ Rune Knight ในตอนนี้คือ " + $@job_rune_test1 + ".";
+			mes "จำนวนผู้ใช้งานสนามทดสอบ Rune Knight ในตอนนี้คือ... " + getmapusers("job3_rune02") + ".";
+			close;
+		case 2:
+			set $@job_rune_test1,0;
+			mes "GlobalVar ของการเปลี่ยนอาชีพ Rune Knight ถูกแก้ไขเป็น 0 แล้ว ขณะนี้สามารถใช้งานสนามทดสอบได้ตามปกติ";
+			close;
+		}
+	}
+	close;
+}
+job3_rune01,1,1,3	duplicate(R.Knight Job Manager)	#renshucheck	844

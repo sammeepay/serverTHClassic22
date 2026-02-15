@@ -1,0 +1,708 @@
+//===== rAthena Script ======================================= 
+//= Renewal Refining NPCs
+//===== By: ==================================================
+//= rAthena Dev Team
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Renewal-specific refining NPCs and material merchants.
+//===== Additional Comments: =================================
+//= 1.0 Moved some scripts to Renewal file, optimized "Austry" NPC. [Euphy]
+//= 1.0a Added 'disable_items' command. [Euphy]
+//= 1.1 Added Malangdo Refiner "Clink". [Euphy]
+//= 1.2 Added official success calculation, thanks to Helvetica.
+//=     The safe/multiple refine feature is now functional. [Euphy]
+//= 1.3 Updated to match the latest official script. [Euphy]
+//= 1.4 Added correct safe refines. [Haruna]
+//= 1.5 Added Refine UI [Atemo, Lemongrass]
+//= 1.6 Added Barter exchange npcs [Atemo]
+//============================================================
+
+// +11 and above Refiners
+//============================================================
+prt_in,90,72,5	script	Vestri#prt	4_M_DWARF,{
+	if( getbattleflag( "feature.refineui" ) ){
+		mes "[ Vestri ]";
+		mes "ข้านี่แหละคือช่างตีเหล็กที่มีฝีมือฉกาจที่สุดในปฐพี!";
+		close2;
+		refineui(); // เปิดหน้าต่างตีบวก (UI)
+		end;
+	}else{
+		// เรียกใช้งานฟังก์ชันตีบวกแบบเก่า
+		callfunc "refinenew","Vestri",0;
+		end;
+	}
+}
+
+morocc_in,64,41,5	duplicate(Vestri#prt)	Vestri#moc	4_M_DWARF
+payon_in01,18,132,3	duplicate(Vestri#prt)	Vestri#pay	4_M_DWARF
+
+//============================================================
+// +11 and above Refiner Function
+//============================================================
+//= To allow auto safe refining/multiple refining set the
+//= second argument to '1' in the function call.
+//= If you enable this function, be sure to edit the value of
+//= .@safe to the max safe refine in refine.yml as well.
+//=
+//= On official servers, if an item is unsuccessfully refined
+//= it will break at a 20% rate and downgrade at an 80% rate.
+//============================================================
+function	script	refinenew	{
+	.@npc_name$ = getarg(0);
+	disable_items;
+	mes "["+ .@npc_name$ +"]";
+	mes "ข้านี่แหละคือสุดยอดช่างตีเหล็กที่เก่งที่สุดเท่าที่เคยมีมา!";
+	mes "ข้าไม่รับตีบวกไอเทมธรรมดาๆ ที่แสนจะน่าเบื่อหรอกนะ";
+	mes "ข้าจะรับตีบวกเฉพาะไอเทมที่มีระดับ +10 ขึ้นไปเท่านั้น";
+	next;
+	mes "["+ .@npc_name$ +"]";
+	mes "เอาเป็นว่า ถ้าไอเทมของเจ้ามีระดับ +10 หรือสูงกว่านั้น ข้าจะยอมช่วยแล้วกัน";
+	mes "แล้วเจ้าอยากจะให้ข้าตีบวกชิ้นไหนล่ะ?";
+	next;
+
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+	for(.@i = 1; .@i<=10; ++.@i) {
+		if (getequipisequiped(.@indices[.@i])) {
+			.@menu$ = .@menu$ + F_getpositionname(.@indices[.@i]) + "-[" + getequipname(.@indices[.@i]) + "]";
+			.@equipped = 1;
+		}
+		.@menu$ = .@menu$ + ":";
+	}
+	if (.@equipped == 0) {
+		mes "["+ .@npc_name$ +"]";
+		mes "ข้าดูแล้ว เจ้าไม่มีไอเทมชิ้นไหนที่ข้าจะตีบวกให้ได้เลยนะ...";
+		close;
+	}
+	.@part = .@indices[ select(.@menu$) ];
+
+	if (!getequipisequiped(.@part)) { // ตรวจสอบการสวมใส่
+		mes "["+ .@npc_name$ +"]";
+		mes "เจ้าไม่ได้สวมใส่อะไรไว้";
+		mes "ในตำแหน่งนั้นที่ข้าพอจะ";
+		mes "ตีบวกให้ได้เลยนะ";
+		emotion ET_FRET;
+		close;
+	}
+	if (!getequipisenableref(.@part)) {
+		mes "["+ .@npc_name$ +"]";
+		mes "ข้าไม่คิดว่าไอเทมชิ้นนี้";
+		mes "จะสามารถนำมาตีบวกได้นะ...";
+		close;
+	}
+	.@refinerycnt = getequiprefinerycnt(.@part); // บันทึกระดับการตีบวกปัจจุบัน
+	if (.@refinerycnt < 10) {
+		mes "["+ .@npc_name$ +"]";
+		mes "ข้าก็บอกแล้วไงว่าข้าไม่รับงานที่ระดับต่ำกว่า +10 น่ะ!";
+		close;
+	}
+	if (.@refinerycnt >= 20) { // ตรวจสอบระดับสูงสุด (ถ้ามี)
+		mes "["+ .@npc_name$ +"]";
+		mes "ข้าไม่สามารถตีบวกไอเทมชิ้นนี้";
+		mes "เพิ่มได้อีกแล้วล่ะ มันมาถึงขีดสุด";
+		mes "เท่าที่มันจะเป็นไปได้แล้ว!";
+		close;
+	}
+	.@refineitemid = getequipid(.@part); // save id of the item
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	.@price = getequiprefinecost(.@part, REFINE_COST_NORMAL, REFINE_ZENY_COST);
+	.@material = getequiprefinecost(.@part, REFINE_COST_NORMAL, REFINE_MATERIAL_ID);
+	.@safe = 10;
+	.@itemtype = getiteminfo( .@refineitemid, ITEMINFO_TYPE );
+	
+	if( .@itemtype == IT_WEAPON ){
+		.@type$ = "อาวุธ";
+	}else if( .@itemtype == IT_ARMOR ){
+		.@type$ = "ชุดป้องกัน";
+	}else{
+		// เพิ่มเติมในอนาคต:
+		close;
+	}
+
+	mes "["+ .@npc_name$ +"]";
+	mes "หืม... จะให้ตีบวก " + .@type$ + " ชิ้นนี้งั้นรึ?";
+	mes "ถ้าเจ้าต้องการจะตีบวก " + .@type$ + " นี่ล่ะก็,";
+	mes "ข้าต้องใช้ ^003366" + getitemname(.@material) + "^000000 1 ก้อน และเงิน " + callfunc("F_InsertComma",.@price) + " zeny";
+	mes "เจ้าแน่ใจแล้วใช่ไหมว่าต้องการจะไปต่อ?";
+	next;
+	if (select("ใช่:ไม่") == 2) {
+		mes "["+ .@npc_name$ +"]";
+		mes "หืม... ถ้าเจ้ากังวลล่ะก็... ช่างมันเถอะ...";
+		close;
+	}
+	if (getarg(1) != 1) {
+		if (getequippercentrefinery(.@part) < 100) {
+			mes "["+ .@npc_name$ +"]";
+			mes "ไอ้เจ้า " + .@type$ + " ชิ้นนี้มันผ่านการตีบวกมาหลายครั้งแล้วนะ";
+			mes "มันอาจจะพังพินาศได้เลยถ้าข้าลงมืออีกครั้ง";
+			mes "ข้าไม่ได้บอกว่ามันจะพังแน่ๆ หรอกนะ แต่มันก็มีโอกาสอยู่เล็กน้อย";
+			next;
+			mes "["+ .@npc_name$ +"]";
+			mes "ระดับการตีบวกของ " + .@type$ + " ของเจ้าอาจจะ ^FF0000ลดลง^000000";
+			mes "หรือถ้ามันพังขึ้นมา เจ้าจะสูญเสียทั้งไอเทม ^FF0000การ์ดที่ใส่ไว้^000000 รวมถึงคุณสมบัติพิเศษทั้งหมดที่มี";
+			next;
+			mes "["+ .@npc_name$ +"]";
+			mes "เจ้ายังยืนยันจะให้ข้าตีบวกมันอยู่อีกไหม?";
+			mes "ข้าถือว่าข้าเตือนเจ้าเพียงพอแล้วนะ";
+			next;
+			if(select("ใช่, ลงมือเลย:ไม่เอาดีกว่า") == 2) {
+				mes "["+ .@npc_name$ +"]";
+				mes "เหอะ... การไม่กล้าเผชิญความเสี่ยงก็เป็นทางเลือกหนึ่งล่ะนะ...";
+				mes "ปลอดภัยไว้ก่อน... ก็นับว่าฉลาดเหมือนกัน";
+				close;
+			}
+		}
+		if (countitem(.@material) < 1 || Zeny < .@price) {
+			mes "["+ .@npc_name$ +"]";
+			mes "หืมม ดูเหมือนเจ้าจะมีเงินหรือ " + getitemname(.@material) + " ไม่พอนะ";
+			mes "ไปเตรียมมาให้ครบแล้วค่อยกลับมาใหม่";
+			close;
+		}
+		Zeny = Zeny - .@price;
+		delitem .@material,1;
+
+		// ระบบป้องกันการทุจริต (Anti-hack)
+		if (callfunc("F_IsEquipIDHack", .@part, .@refineitemid) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) ||
+		    callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt)) {
+			mes "["+ .@npc_name$ +"]";
+			emotion ET_FRET;
+			mes "เดี๋ยวก่อนสิ...";
+			mes "เจ้าคิดว่าข้ากินแกลบหรือไง?!";
+			mes "เจ้าแอบสลับไอเทมตอนข้าเผลอเรอะ! ไสหัวไปให้พ้นหน้าข้าเดี๋ยวนี้!";
+			close;
+		}
+
+		if (getequippercentrefinery(.@part) > rand(100)) {
+			mes "เคร้ง! เคร้ง! เคร้ง! เคร้ง!";
+			successrefitem .@part;
+			next;
+			emotion ET_BEST;
+			mes "["+ .@npc_name$ +"]";
+			mes "เยี่ยม! สำเร็จแล้ว!!!";
+			mes "ข้านี่แหละคือสุดยอดช่างตีเหล็กตัวจริง";
+			close;
+		} else {
+			// กรณีที่ 1: ตีบวกล้มเหลว แต่ไอเทมไม่พัง (ระดับการตีบวกลดลง 3 ระดับ)
+			if (rand(100) < 80) {
+				mes "["+ .@npc_name$ +"]";
+				mes "เคร้ง! เคร้ง! เคร้ง! เคร้ง!";
+				downrefitem .@part,3; // ลดระดับการตีบวกลง 3 ระดับ
+				next;
+				emotion (!rand(5))?ET_MONEY:ET_HUK;
+				mes "["+ .@npc_name$ +"]";
+				mes "อาาาา!!!";
+				next;
+				mes "["+ .@npc_name$ +"]";
+				mes "โอ้ พระช่วย!";
+				mes "ระดับการตีบวกมันลดลงไปซะแล้ว...";
+			} 
+			// กรณีที่ 2: ตีบวกล้มเหลวพินาศ (ไอเทมถูกทำลาย)
+			else {
+				mes "["+ .@npc_name$ +"]";
+				mes "เคร้ง! เคร้ง! เคร้ง!";
+				failedrefitem .@part; // ไอเทมพัง
+				next;
+				emotion (!rand(5))?ET_MONEY:ET_HUK;
+				mes "["+ .@npc_name$ +"]";
+				mes "หืมมมม!";
+				next;
+				mes "["+ .@npc_name$ +"]";
+				mes "แย่แล้ว! ข้าตีบวกพลาดจนได้...";
+				mes "ข้าไม่ได้ตั้งใจให้มันเป็นแบบนี้เลยนะ!";
+			}
+			
+			// บทพูดสรุปท้ายของ NPC
+			mes "ต่อให้ข้าจะเป็นสุดยอดช่างตีเหล็กที่เก่งที่สุด แต่ความผิดพลาดมันก็เกิดขึ้นได้";
+			mes "สงสัยโชคชะตาคงไม่เข้าข้างเจ้าในวันนี้ล่ะนะ";
+			next;
+			mes "["+ .@npc_name$ +"]";
+			mes "คราวหน้าข้าจะทำให้ดีกว่านี้! อย่ากังวลไปเลยน่า!";
+			close;
+		}
+	}
+// New +11 and above Refining Functions ========================
+	if (.@refinerycnt < .@safe) {
+		mes "["+ .@npc_name$ +"]";
+		mes "ข้าสามารถตีบวกไอเทมนี้ให้ถึงระดับปลอดภัย หรือจะตีบวกตามจำนวนครั้งที่เจ้าต้องการก็ได้นะ แล้วแต่เจ้าจะเลือกเลย";
+		next;
+		.@menu2 = select("ตีบวกให้ถึงระดับปลอดภัยให้หน่อย", "ข้าจะกำหนดจำนวนครั้งเอง", "ข้าเปลี่ยนใจแล้ว...");
+	} else
+		.@menu2 = 2;
+
+	switch(.@menu2){
+	case 1: 
+		.@refinecnt = .@safe - .@refinerycnt;
+		break;
+	case 2:
+		mes "["+ .@npc_name$ +"]";
+		mes "เจ้าต้องการให้ข้าตีบวกไอเทมของเจ้ากี่ครั้งล่ะ?";
+		next;
+		input .@refinecnt;
+		.@refinecheck = .@refinecnt + .@refinerycnt;
+		if (.@refinecnt < 1 || .@refinecheck > 20) {
+			mes "["+ .@npc_name$ +"]";
+			mes "ข้าไม่สามารถตีบวกไอเทมให้ตามจำนวนครั้งที่ขอมาได้หรอกนะ (สูงสุดคือ +20)";
+			close;
+		}
+		if (.@refinecheck > .@safe) {
+			.@refinecheck = .@refinecheck - .@safe;
+			mes "["+ .@npc_name$ +"]";
+			mes "การทำแบบนี้จะทำให้ไอเทมถูกตีบวกเกินระดับปลอดภัยไปอีก " + .@refinecheck + " ครั้ง ไอเทมของเจ้าอาจจะพังพินาศได้... เจ้าจะยอมรับความเสี่ยงนี้ไหม?";
+			next;
+			if(select("ยอมรับ...", "ไม่เอาดีกว่า...") == 2){
+				mes "["+ .@npc_name$ +"]";
+				mes "ในเมื่อเจ้าว่าอย่างนั้น... ก็ตามใจเจ้าแล้วกัน";
+				close;
+			}
+		}
+		break;
+	case 3:
+		mes "["+ .@npc_name$ +"]";
+		mes "ในเมื่อเจ้าว่าอย่างนั้น... ก็ตามใจเจ้าแล้วกัน";
+		close;
+	}
+
+	.@fullprice = .@price * .@refinecnt;
+	mes "["+ .@npc_name$ +"]";
+	mes "ข้าต้องใช้ " + getitemname(.@material) + " ทั้งหมด " + .@refinecnt + " ก้อน และเงินอีก " + .@fullprice + " Zeny เจ้าตกลงไหม?";
+	next;
+	if(select("ตกลง:ไม่ตกลง...") == 2){
+		mes "["+ .@npc_name$ +"]";
+		mes "ในเมื่อเจ้าว่าอย่างนั้น... ก็ตามใจเจ้าแล้วกัน";
+		close;
+	}
+
+	if (countitem(.@material) < .@refinecnt || Zeny < .@fullprice) {
+		mes "["+ .@npc_name$ +"]";
+		mes "หืม... ดูเหมือนเจ้าจะมีเงินหรือ " + getitemname(.@material) + " ไม่พอนะ";
+		mes "ไปเตรียมมาให้ครบแล้วค่อยกลับมาหาข้าใหม่";
+		close;
+	}
+	Zeny = Zeny - .@fullprice;
+	delitem .@material,.@refinecnt;
+	while(.@refinecnt){
+		if (getequipisequiped(.@part) == 0) {
+			mes "["+ .@npc_name$ +"]";
+			mes "ดูนี่สิ... เจ้าไม่ได้สวมใส่อุปกรณ์อะไรอยู่เลยนะ...";
+			close;
+		}
+		// ระบบป้องกันการทุจริต (Anti-hack)
+		if (callfunc("F_IsEquipIDHack", .@part, .@refineitemid) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) ||
+		    callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt))
+			close;
+
+		if (getequipid(.@part) != .@refineitemid || (.@menu2 == 1 && getequippercentrefinery(.@part) < 100)) {
+			mes "["+ .@npc_name$ +"]";
+			mes "เคร้ง... ไม่นะ! นี่เจ้าคิดว่าข้าจะโง่บัดซบขนาดนั้นเลยรึไง?!";
+			mes "เจ้าแอบสลับของสินะ...";
+			mes "ไสหัวไปก่อนที่ข้าจะใช้ค้อนนี่ทุบเจ้าให้สลบ!!";
+			close;
+		}
+		if (getequippercentrefinery(.@part) > rand(100)) {
+			mes "เคร้ง! เคร้ง! เคร้ง! เคร้ง!";
+			successrefitem .@part;
+			.@refinecnt = .@refinecnt - 1;
+			next;
+		} else {
+			if (rand(100) < 80) {
+				mes "["+ .@npc_name$ +"]";
+				mes "เคร้ง! เคร้ง! เคร้ง! เคร้ง!";
+				downrefitem .@part,3; // การตีบวกพลาดทำให้ระดับลดลง 3 ระดับ
+				next;
+				emotion (!rand(5))?ET_MONEY:ET_HUK;
+				mes "["+ .@npc_name$ +"]";
+				mes "อาาาา!!!";
+				next;
+				mes "["+ .@npc_name$ +"]";
+				mes "โอ้ พระช่วย!";
+				mes "ระดับการตีบวกมันลดลงไปซะแล้ว...";
+			} else {
+				mes "["+ .@npc_name$ +"]";
+				mes "เคร้ง! เคร้ง! เคร้ง!";
+				failedrefitem .@part; // ไอเทมพัง
+				next;
+				emotion (!rand(5))?ET_MONEY:ET_HUK;
+				mes "["+ .@npc_name$ +"]";
+				mes "หืมมมม!";
+				next;
+				mes "["+ .@npc_name$ +"]";
+				mes "แย่แล้ว! ข้าตีบวกพลาดจนได้...";
+				mes "ข้าไม่ได้ตั้งใจให้มันเป็นแบบนี้เลยนะ!";
+			}
+			mes "ต่อให้ข้าจะเป็นสุดยอดช่างตีเหล็กที่เก่งที่สุด แต่ความผิดพลาดมันก็เกิดขึ้นได้";
+			mes "สงสัยโชคชะตาคงไม่เข้าข้างเจ้าในวันนี้ล่ะนะ";
+			next;
+			mes "["+ .@npc_name$ +"]";
+			mes "คราวหน้าข้าจะทำให้ดีกว่านี้! อย่ากังวลไปเลยน่า!";
+			close;
+		}
+		.@refinerycnt = getequiprefinerycnt(.@part);
+	}
+	emotion ET_BEST;
+	mes "["+ .@npc_name$ +"]";
+	mes "เยี่ยม! สำเร็จแล้ว!!!";
+	mes "ข้านี่แหละคือสุดยอดช่างตีเหล็กตัวจริง";
+	close;
+}
+
+// Ori/Elu to Carnium/Bradium Refiners
+//============================================================
+-	script	Austri#ref	-1,{
+	if (checkweight(1201,1) == 0) {
+		mes "- เดี๋ยวๆ รอก่อน !! -";
+		mes "- ตอนนี้เจ้าแบกสัมภาระ -";
+		mes "- หนักเกินไปแล้วนะ -";
+		mes "- กรุณาลดน้ำหนักตัวลงหน่อย -";
+		mes "- แล้วค่อยกลับมาลองใหม่อีกครั้ง -";
+		close;
+	}
+	mes "[ Austri ]";
+	mes "หากเจ้านำ Oridecon หรือ Elunium";
+	mes "มาให้ข้าสัก 3 ก้อน";
+	mes "ข้าสามารถแลกเปลี่ยนพวกมันเป็น";
+	mes "Bradium หรือ Carnium ให้เจ้าได้นะ";
+	mes "ขอแค่ค่าธรรมเนียม 50,000 Zeny ก็พอ";
+	next;
+	switch(select("แลก Oridecon เป็น Bradium:แลก Elunium เป็น Carnium:แลก Purified Bradium เป็น Carnium:ไม่ล่ะ ขอบคุณ")) {
+	case 1:
+		setarray .@i[0],984,3,6224;  //Oridecon -> Bradium
+		break;
+	case 2:
+		setarray .@i[0],985,3,6223;  //Elunium -> Carnium
+		break;
+	case 3:
+		setarray .@i[0],6090,1,6223; //Purified_Bradium -> Carnium
+		break;
+	case 4:
+		mes "[ Austri ]";
+		mes "หืมมม...";
+		close;
+	}
+	if (countitem(.@i[0]) >= .@i[1] && Zeny >= 50000) {
+		delitem .@i[0],.@i[1];
+		Zeny = Zeny - 50000;
+		getitem .@i[2],1;
+		mes "[ Austri ]";
+		if (.@i[0] == 6090) {
+			mes "การตีบวกด้วย Refined Bradium";
+			mes "มันค่อนข้างจะสิ้นเปลืองไปหน่อยนะ";
+			mes "ข้าเลยแลกมันเป็น Carnium ให้แทนแล้วกัน";
+		} else
+			mes "เรียบร้อย! นี่คือ " + getitemname(.@i[2]) + " ของเจ้า";
+		mes "รับไปแล้วใช้มันให้คุ้มค่าล่ะ";
+		close;
+	}
+	mes "[ Austri ]";
+	mes "เจ้าอย่ามาคิดตบตาข้าจะดีกว่า";
+	mes "เห็นๆ อยู่ว่าเจ้ามีเงินไม่พอ";
+	mes "หรือไม่มี " + getitemname(.@i[0]) + " มาให้ข้าด้วยซ้ำ";
+	close;
+}
+prt_in,85,71,5	duplicate(Austri#ref)	Austri#prt	826
+payon_in01,14,125,5	duplicate(Austri#ref)	Austri#pay	826
+morocc_in,60,38,5	duplicate(Austri#ref)	Austri#moc	826
+
+// Malangdo Refiner
+//============================================================
+malangdo,224,172,6	script	Clink#mal_normal	544,{
+	disable_items;
+	mes "[ Clink ]";
+	mes "ท่านพ่อ Holink สุดเท่ของข้าบอกว่า ข้ามีค้อนตีบวกที่ยอดเยี่ยมที่สุดในโลกเลยล่ะ!!";
+	mes "เมี๊ยว เมี๊ยว~";
+	mes "พวกเจ้าคิดว่าข้าเป็นใครกันฮะ?";
+	mes "ใช่แล้ว!!! เจ้านั่นแหละ!! อยากจะตีบวกใช่ไหมล่ะ?";
+	next;
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_ACC_L, EQI_ACC_R, EQI_HEAD_MID, EQI_HEAD_LOW;
+	for(.@i = 1; .@i<=10; set .@i,.@i+1)
+		.@menu$ = .@menu$ + ( getequipisequiped(.@indices[.@i]) ? getequipname(.@indices[.@i]) : F_getpositionname(.@indices[.@i]) +"-[ ว่าง ]" ) +":";
+	.@part = .@indices[ select(.@menu$) ];
+	
+	if (!getequipisequiped(.@part)) {
+		mes "[ Clink ]";
+		switch(.@part) {
+		case EQI_HEAD_TOP:
+			mes "ท่านพ่อบอกว่า... โรคโง่นี่มันรักษาไม่หายจริงๆ นะเมี๊ยว...";
+			break;
+		case EQI_ARMOR:
+			mes "ไม่มีอะไรสวมอยู่ตรงนี้สักหน่อย!!";
+			break;
+		case EQI_HAND_L:
+			mes "มือซ้ายข้างนี้ช่างหยิ่งยโสจริงๆ! (เพราะไม่มีอะไรถืออยู่เลย)";
+			break;
+		case EQI_HAND_R:
+			mes "มือขวาข้างนี้ช่างหยิ่งยโสจริงๆ! (เพราะไม่มีอะไรถืออยู่เลย)";
+			break;
+		case EQI_GARMENT:
+			mes "เอาไอ้ของสกปรกๆ นั่นออกไปให้พ้นหน้าข้าเดี๋ยวนี้!!";
+			break;
+		case EQI_SHOES:
+			mes "เกี๊ยง~! อย่ามาล้อเล่นกับข้านะ";
+			break;
+		case EQI_ACC_L:
+		case EQI_ACC_R:
+			mes "แล้วเครื่องประดับมันอยู่ไหนล่ะฮะ?";
+			break;
+		case EQI_HEAD_MID:
+		case EQI_HEAD_LOW:
+			mes "เจ้ากำลังพูดถึงอุปกรณ์ส่วนหัวชิ้นอื่นอยู่รึเปล่า?";
+			break;
+		}
+		close;
+	}
+	if (!getequipisenableref(.@part)) {
+		mes "[ Clink ]";
+		mes "ไอเทมชิ้นนี้ตีบวกไม่ได้เมี๊ยว!!";
+		close;
+	}
+	.@refinerycnt = getequiprefinerycnt(.@part); // บันทึกระดับการตีบวกปัจจุบัน
+	if (.@refinerycnt >= 10) {
+		mes "[ Clink ]";
+		mes "นี่มันการตีบวกที่สมบูรณ์แบบ ข้าเป็นคนทำให้เจ้าเองรึเปล่านะ?";
+		close;
+	}
+	
+	.@refineitemid = getequipid(.@part); // save id of the item
+	setarray .@card[0], getequipcardid(.@part,0), getequipcardid(.@part,1), getequipcardid(.@part,2), getequipcardid(.@part,3);
+	.@price = getequiprefinecost(.@part, REFINE_COST_NORMAL, REFINE_ZENY_COST);
+	.@material = getequiprefinecost(.@part, REFINE_COST_NORMAL, REFINE_MATERIAL_ID);
+	.@itemtype = getiteminfo( .@refineitemid, ITEMINFO_TYPE );
+	mes "[ Clink ]";
+	if( .@itemtype == IT_ARMOR ){
+		switch( getequiparmorlv( .@part ) ){
+			case 1: // Armor
+				.@type$ = "ชุดป้องกัน";
+				mes "หืมม์... จะตีบวกชุดป้องกันงั้นเหรอ? คนอย่างเจ้าเนี่ยนะ?";
+				break;
+			default:
+				// เพิ่มเติมในอนาคต:
+				close;
+		}
+	}else if( .@itemtype == IT_WEAPON ){
+		switch( getequipweaponlv( .@part ) ){
+			case 1: // Level 1 Weapon
+				.@type$ = "อาวุธ";
+				mes "อาวุธเลเวล 1 เองเหรอ?";
+				mes "อื้มม... น่าเบื่อชะมัด... แต่เอาเถอะ ลองดูซักหน่อยก็ได้...";
+				break;
+			case 2: // Level 2 Weapon
+				.@type$ = "อาวุธ";
+				mes "อาวุธเลเวล 2 งั้นรึ?";
+				break;
+			case 3: // Level 3 Weapon
+				.@type$ = "อาวุธ";
+				mes "วู้วว!! อาวุธเลเวล 3 เลยเหรอ? น่าประทับใจแฮะ~";
+				break;
+			case 4: // Level 4 Weapon
+				.@type$ = "อาวุธ";
+				mes "ว้าว!... นี่มันอาวุธเลเวล 4 เลยนี่นา~!!";
+				break;
+			default:
+				// เพิ่มเติมในอนาคต:
+				close;
+		}
+	}else{
+		// เพิ่มเติมในอนาคต:
+		close;
+	}
+	mes "ข้าต้องใช้ ^ff9999"+getitemname(.@material)+"^000000 และเงิน ^ff9999"+.@price+"^000000 Zeny เจ้าเตรียมมาพร้อมหรือเปล่าล่ะ?";
+	next;
+	if(select("แน่นอน จัดมาเลย!!:ลืมมันไปเถอะ!!") == 2) {
+		mes "[ Clink ]";
+		mes "ข้าว่าแล้วเชียว!!";
+		mes "คนอย่างเจ้าน่ะ ไม่คุ้มที่จะให้ข้าใช้ค้อนตีบวกมนตราอันเลอค่าลงมือให้หรอก";
+		close;
+	}
+	if (getequippercentrefinery(.@part) < 100) {
+		mes "[ Clink ]";
+		mes "โอ้โห!!";
+		mes .@type$ + " ชิ้นนี้มันผ่านการตีบวกมาไม่น้อยเลยนี่นา จริงไหม?";
+		mes "เจ้าก็รู้อยู่ใช่ไหมว่ารอบนี้มันมีโอกาส 'แตก' ได้น่ะ?";
+		next;
+		mes "[ Clink ]";
+		mes "ถ้าเจ้าทำ " + .@type$ + " พัง เจ้าจะไม่มีวันได้เห็นมันอีกเลยนะ";
+		mes "ทั้งการ์ดและออฟชั่นเสริมต่างๆ...";
+		mes "ทุกอย่างจะ ^ff0000หายวับไปกับตาเลยล่ะ^000000";
+		mes "ยังอยากจะลองดีอยู่อีกไหมล่ะ~?";
+		next;
+		if(select("ข้าพร้อมแล้ว ลุยเลย!!:ไม่เอาดีกว่า!!") == 2) {
+			mes "[ Clink ]";
+			mes "ข้าว่าแล้วเชียว!!";
+			mes "แค่ก้าวแรกเจ้ายังปอดแหกขนาดนี้ อย่ามาคิดเรื่องตีบวกเลยจะดีกว่า...";
+			close;
+		}
+	}
+	if (countitem(.@material) == 0 || Zeny < .@price) {
+		mes "[ Clink ]";
+		mes "นี่เจ้า!! ข้าไม่ได้บอกหรือไง";
+		mes "ว่าต้องเตรียม ^ff9999"+getitemname(.@material)+"^000000 กับเงินอีก ^ff9999"+.@price+"^000000 Zeny มาน่ะ??!!";
+		close;
+	}
+	delitem .@material,1;
+	Zeny = Zeny-.@price;
+
+	// anti-hack
+	if (callfunc("F_IsEquipIDHack", .@part, .@refineitemid) || callfunc("F_IsEquipCardHack", .@part, .@card[0], .@card[1], .@card[2], .@card[3]) ||
+		callfunc("F_IsEquipRefineHack", .@part, .@refinerycnt)) {
+		mes "[ Clink ]";
+		emotion ET_FRET;
+		mes "เดี๋ยวก่อนนะ...";
+		mes "เจ้าเห็นข้าเป็นเจ้าโง่หรือไงฮะ?!";
+		mes "แอบสลับไอเทมตอนข้าเผลองั้นเหรอ! ไสหัวไปเลยไป๊!";
+		close;
+	}
+
+	if (getequippercentrefinery(.@part) <= rand(100)) {
+		failedrefitem .@part;
+		mes "[ Clink ]";
+		mes "ค้อนเอ๋ย จงร่ำไห้!! ร้องออกมา!!!";
+		next;
+		switch(rand(1,5)) {
+			case 1: emotion ET_CRY; break;
+			case 2: emotion ET_PROFUSELY_SWEAT; break;
+			case 3: emotion ET_KEK; break;
+			case 4: emotion ET_SCRATCH; break;
+			case 5: emotion ET_BIGTHROB; break;
+		}
+		mes "[ Clink ]";
+		mes "หือ?! ข้าพลาดเหรอ?!";
+		next;
+		mes "[ Clink ]";
+		mes "อ๊ากกกก~ พัง... พังหมดเลยเหรอเนี่ย? น่าเสียดายจังเลยน้าาา~";
+		next;
+		mes "[ Clink ]";
+		mes "นี่...!! ไปหามาให้ข้าใหม่อีกชิ้นเดี๋ยวนี้เลยนะ";
+		mes "มันเป็นไปไม่ได้สิ";
+		mes "ค้อนของข้าจะตีบวกพลาดได้ยังไงกัน!";
+		close;
+	}
+	successrefitem .@part;
+	mes "[ Clink ]";
+	mes "ค้อนเอ๋ย จงร่ำไห้!! ร้องออกมา!!!";
+	next;
+	emotion ET_CHUP;
+	mes "[ Clink ]";
+	mes "เรียบร้อย!! สมบูรณ์แบบ!!";
+	mes "ไม่มีอะไรที่ค้อนสุดพิเศษชิ้นนี้";
+	mes "จะตีบวกไม่ได้หรอกนะเมี๊ยว";
+	mes "เจ้าชมข้าได้เต็มที่เลยล่ะ!!";
+	mes "วันนี้ช่างเป็นวันที่ดีจริงๆ!!";
+	close;
+}
+
+// Renewal barter shops
+-	script	refine_barter_init	-1,{
+	end;
+OnInit:
+	if (getbattleflag("feature.barter")) {
+		unloadnpc "Vurewell";
+		unloadnpc "Begnahd";
+		unloadnpc "Sade";
+		unloadnpc "Kahlamanlith";
+		unloadnpc "Dilemma";
+		unloadnpc "Tirehaus";
+		unloadnpc "Krugg";
+		unloadnpc "Dietrich";
+		unloadnpc "Hakhim";
+		unloadnpc "Abdula";
+		unloadnpc "Xenophon";
+		unloadnpc "Delight";
+		unloadnpc "Matestein";
+		unloadnpc "Fruel";
+
+		npcshopupdate "market_refine_prt_in",1010,200,999999;
+		npcshopupdate "market_refine_payon",1010,200,999999;
+		npcshopupdate "market_refine_morocc_in",1010,200,999999;
+		npcshopupdate "market_refine_alberta_in",1010,200,999999;
+		npcshopupdate "market_refine_yuno_in01",1010,200,999999;
+		npcshopupdate "market_refine_ein_in01",1010,200,999999;
+		npcshopupdate "market_refine_lhz_in02",1010,200,999999;
+		
+		npcshopupdate "market_refine_prt_in",1011,1000,999999;
+		npcshopupdate "market_refine_payon",1011,1000,999999;
+		npcshopupdate "market_refine_morocc_in",1011,1000,999999;
+		npcshopupdate "market_refine_alberta_in",1011,1000,999999;
+		npcshopupdate "market_refine_yuno_in01",1011,1000,999999;
+		npcshopupdate "market_refine_ein_in01",1011,1000,999999;
+		npcshopupdate "market_refine_lhz_in02",1011,1000,999999;
+	}
+	else {
+		unloadnpc "market_refine_prt_in";
+		unloadnpc "market_refine_payon";
+		unloadnpc "market_refine_morocc_in";
+		unloadnpc "market_refine_alberta_in";
+		unloadnpc "market_refine_yuno_in01";
+		unloadnpc "market_refine_ein_in01";
+		unloadnpc "market_refine_lhz_in02";
+
+		unloadnpc "Dietrich#ns_prt";
+		unloadnpc "Pauline";
+	}
+	end;
+}
+
+-	marketshop	market_refine_prt_in	-1,1010:-1:999999,1011:-1:999999
+-	marketshop	market_refine_payon	-1,1010:-1:999999,1011:-1:999999
+-	marketshop	market_refine_morocc_in	-1,1010:-1:999999,1011:-1:999999
+-	marketshop	market_refine_alberta_in	-1,1010:-1:999999,1011:-1:999999
+-	marketshop	market_refine_yuno_in01	-1,1010:-1:999999,1011:-1:999999
+-	marketshop	market_refine_ein_in01	-1,1010:-1:999999,1011:-1:999999
+-	marketshop	market_refine_lhz_in02	-1,1010:-1:999999,1011:-1:999999
+
+prt_in,63,69,3	script	Dietrich#ns_prt	4_M_02,{
+	mes "[" + strnpcinfo(1) + "]";
+	mes "เราจำหน่ายและรับแลกเปลี่ยนแร่ธาตุต่างๆ ที่ใช้ในการตีบวกอุปกรณ์ครับ";
+	next;
+	switch( select( "ดูแร่ตีบวกพื้นฐาน", "ดูแร่ตีบวกระดับสูง", "ดูแร่ตีบวกแห่ง Ether", "ยกเลิก" ) ) {
+	case 1:
+		mes "[" + strnpcinfo(1) + "]";
+		mes "Phracon และ Emveretarcon มีไว้สำหรับใช้ตีบวกอาวุธระดับต่ำครับ";
+		close2;
+		callshop "market_refine_" + strnpcinfo(4);
+		end;
+	case 2:
+		mes "[" + strnpcinfo(1) + "]";
+		mes "เรามีบริการสกัด Elunium Stone และ Oridecon Stone หรือจะแลกเปลี่ยนเป็น Bradium และ Carnium ก็ได้เช่นกันครับ";
+		close2;
+		callshop "barter_refine_1";
+		end;
+	case 3:
+		mes "[" + strnpcinfo(1) + "]";
+		mes "เราสามารถผสม Etel Dust เข้ากับแร่ตีบวกเดิม เพื่อเปลี่ยนให้เป็นแร่ตีบวกที่มีพลังแห่ง Ether สถิตอยู่ครับ";
+		close2;
+		callshop "barter_refine_2";
+		end;
+	case 4:
+		mes "[" + strnpcinfo(1) + "]";
+		mes "หากท่านขาดแคลนวัตถุดิบที่ใช้ในการตีบวกเมื่อไหร่ แวะมาหาเราได้ตลอดเวลานะครับ";
+		close;
+	}
+	end;
+
+OnInit:
+	setunittitle getnpcid(0), "< ผู้ดูแลผลิตภัณฑ์สำหรับการตีบวก >";
+	end;
+}
+payon,137,178,5	duplicate(Dietrich#ns_prt)	Hakhim#2	4_M_ORIENT01
+morocc_in,72,32,3	duplicate(Dietrich#ns_prt)	Abdula#2	4W_M_03
+alberta_in,21,63,5	duplicate(Dietrich#ns_prt)	Xenophon#ns_albe	4_M_02
+yuno_in01,164,27,4	duplicate(Dietrich#ns_prt)	Delight#2	4_M_ORIENT01
+ein_in01,18,82,5	duplicate(Dietrich#ns_prt)	Matestein#2	4_M_02
+lhz_in02,281,24,5	duplicate(Dietrich#ns_prt)	Fruel#2	4_M_02
+
+// Shadowdecon/Zelunium exchange npcs
+prt_in,64,57,3	script	Pauline	4_M_02,{
+	mes "[" + strnpcinfo(1) + "]";
+	mes "ท่านมี " + mesitemlink( 25728 ) + " หรือ " + mesitemlink( 25730 ) + " บ้างไหมคะ?";
+	mes "เราสามารถนำมันมาแลกเปลี่ยนเป็นแร่สำเร็จรูปสำหรับใช้ในการตีบวกได้ค่ะ";
+	close2;
+	callshop "barter_refine_3";
+	end;
+}
+payon,142,179,3	duplicate(Pauline)	Jihu	4_M_ORIENT01
+morocc_in,64,37,3	duplicate(Pauline)	Marik	4W_M_03
+alberta_in,24,63,5	duplicate(Pauline)	Satana	4_M_02
+yuno_in01,164,31,6	duplicate(Pauline)	Dimir	4_M_ORIENT01
+lhz_in02,275,23,5	duplicate(Pauline)	Nemil	4_M_02
+ein_in01,30,88,5	duplicate(Pauline)	Galan	4_M_02

@@ -1,0 +1,220 @@
+//===== rAthena Script ======================================= 
+//= Mora Guides
+//===== By: ================================================== 
+//= Euphy
+//===== Current Version: ===================================== 
+//= 1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Guides for the city of Mora.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [Euphy]
+//= 1.1 Navigation system update. [Euphy]
+//============================================================ 
+
+mora,25,158,5	script	Raffle Guide#north	516,{
+	mes "[Raffoh]";
+	mes "Laoh~!";
+	mes "ยินดีต้อนรับสู่หมู่บ้าน Mora";
+	mes "ฉันสามารถบอกทุกอย่างที่คุณอยากรู้เกี่ยวกับหมู่บ้านนี้ได้เลยนะ~!";
+	F_Navi("[Raffoh]");
+	next;
+	switch(select("[ โรงแรม ]:[ ย่านที่พักอาศัย ]:[ ร้านค้า ]:[ คลังสินค้า ]:ลบเครื่องหมายออกจาก Mini-map:ออก")) {
+	case 1:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes "เรามี "+F_Navi("Inn","mora,44,138")+" แต่เราไม่สามารถทำให้นักเดินทางหลับปุ๋ยเหมือนพวก Raffles ได้หรอกนะ...";
+		mes "ไปพักผ่อนเถอะ!";
+		viewpoint 1,44,134,0,0x0A82FF;
+		close;
+	case 2:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes F_Navi("ที่นี่","mora,119,170")+" คือที่ตั้งบ้านของพวก Raffles ล่ะ...";
+		mes "แต่ช่วยลดเสียงลงหน่อยนะ เพราะมีคนกำลังหลับอยู่ล่ะ~!";
+		viewpoint 1,119,170,1,0xAAFF00;
+		close;
+	case 3:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes "หากคุณกำลังมองหาของที่ระลึก คุณสามารถซื้อหาได้ใน "+F_Navi("ย่านนี้","mora,112,110")+" นะ";
+		viewpoint 1,112,110,2,0xDA70D6;
+		close;
+	case 4:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes F_Navi("ที่นี่","mora,182,161")+" คือที่ที่พวกเขาเก็บหีบห่อและของชำทุกชนิดไว้";
+		mes "มีหลายอย่างที่ไม่ใช่ของพวก Raffles ดังนั้นต้องระวังด้วยล่ะ!";
+		viewpoint 1,182,161,3,0xFF1493;
+		close;
+	case 5:
+		mes "[Raffoh]";
+		mes "Laoh~! ฉันกำลังลบออกให้ทั้งหมดเลยนะ~!";
+		viewpoint 2,1,1,0,0xFFFF00;
+		viewpoint 2,1,1,1,0xFFFF00;
+		viewpoint 2,1,1,2,0xFFFF00;
+		viewpoint 2,1,1,3,0xFFFF00;
+		close;
+	case 6:
+		mes "[Raffoh]";
+		mes "Laoh~!";
+		mes "กีฬาชนิดไหนที่ฮิตในบ้านเกิดของคุณเหรอ?";
+		close;
+	}
+}
+
+mora,167,76,3	script	Raffle Guide#east	522,{
+	mes "[Raffuh]";
+	mes "เอ่อ...";
+	mes "ที่นี่ ที่นี่คือหมู่บ้าน Mora";
+	mes "เอ่อ... คุณอยากรู้จักสถานที่ไหนเหรอ?";
+	F_Navi("[Raffuh]");
+	next;
+	switch(select("[ โรงแรม ]:[ ย่านที่พักอาศัย ]:[ ร้านค้า ]:[ คลังสินค้า ]:ลบเครื่องหมายออกจาก Mini-map:ออก")) {
+	case 1:
+		mes "[Raffuh]";
+		mes "เอ่อ...";
+		mes "คะ คุณ ง่วงนอนเหรอ?";
+		mes "คุณไปนอนที่ "+F_Navi("นี่","mora,44,138")+" ได้นะ เอ่อ!! วางของลงสิเอ่อ! และ-- และ---";
+		viewpoint 1,44,134,0,0x0A82FF;
+		close;
+	case 2:
+		mes "[Raffuh]";
+		mes "เอ่อ...";
+		mes "ทำไมคุณถึงพยายามจะหาว่าฉันพักอยู่ที่ "+F_Navi("ไหน","mora,119,170")+" ล่ะ--?";
+		mes "เอ่อ ไม่นะ... ฉันอยากอยู่กับเพื่อนๆ ของฉันมากกว่า--";
+		viewpoint 1,119,170,1,0xAAFF00;
+		close;
+	case 3:
+		mes "[Raffuh]";
+		mes "เอ่อ...";
+		mes "มีของเยอะแยะเลยใน "+F_Navi("ร้านค้า","mora,112,110")+" พวกนั้น-- โอ้ มีบ่อน้ำพุร้อนด้วยนะเอ่อ!";
+		viewpoint 1,112,110,2,0xDA70D6;
+		close;
+	case 4:
+		mes "[Raffuh]";
+		mes "เอ่อ...";
+		mes "คุณจะเดินดุ่มๆ เข้าไปใน "+F_Navi("คลังสินค้า","mora,182,161")+" ไม่ได้นะ ไม่งั้นคุณจะเดือดร้อนแน่--";
+		mes "ของหลายอย่างที่นั่นมาจากนอกหมู่บ้าน-- Raffuh เคยเดือดร้อนมาหลายครั้งแล้วนะเอ่อ--";
+		viewpoint 1,182,161,3,0xFF1493;
+		close;
+	case 5:
+		mes "[Raffuh]";
+		mes "คุณแน่ใจนะว่าต้องการให้ลบออก?";
+		viewpoint 2,1,1,0,0xFFFF00;
+		viewpoint 2,1,1,1,0xFFFF00;
+		viewpoint 2,1,1,2,0xFFFF00;
+		viewpoint 2,1,1,3,0xFFFF00;
+		close;
+	case 6:
+		mes "[Raffuh]";
+		mes "เอ่อ...";
+		mes "การเป็นไกด์มันไม่ค่อยช่วยเรื่องโรคกลัวสังคมของฉันเลยสักนิด--";
+		close;
+	}
+}
+
+mora,115,138,5	script	Raffle Guide#center	524,{
+	mes "[Raffla]";
+	mes "Lala!";
+	mes "ยินดีต้อนรับสู่หมู่บ้าน Mora la!";
+	mes "ถ้าคุณอยากรู้อะไรเกี่ยวกับหมู่บ้านนี้ ก็ถามฉันได้เลย la!";
+	F_Navi("[Raffla]");
+	next;
+	switch(select("[ โรงแรม ]:[ ย่านที่พักอาศัย ]:[ ร้านค้า ]:[ คลังสินค้า ]:ลบเครื่องหมายออกจาก Mini-map:ออก")) {
+	case 1:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes F_Navi("ที่นี่","mora,44,138")+" คือที่ที่นักเดินทางสามารถพักผ่อนได้ la!";
+		mes "เจ้าของโรงแรมใจดีมากนะ ลองไปคุยกับเขาเยอะๆ สิ la!";
+		viewpoint 1,44,134,0,0x0A82FF;
+		close;
+	case 2:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes F_Navi("ที่นี่","mora,119,170")+" คือที่ที่พวก Raffles อาศัยอยู่ la!";
+		mes "ตรงไปที่นั่นเลย la!";
+		viewpoint 1,119,170,1,0xAAFF00;
+		close;
+	case 3:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes "คุณอยากซื้อของบางอย่างใช่ไหม la?";
+		mes "มี "+F_Navi("ร้านค้าและคาเฟ่","mora,112,110")+" มากมายเลยนะ ลองไปเช็คดูสิ la!";
+		viewpoint 1,112,110,2,0xDA70D6;
+		close;
+	case 4:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes "ที่ "+F_Navi("คลังสินค้า","mora,182,161")+" คือที่ที่คุณเก็บของมีค่าได้ la!";
+		mes "ระวังด้วยนะจะได้ไม่ถูกปล้น la!";
+		viewpoint 1,182,161,3,0xFF1493;
+		close;
+	case 5:
+		mes "[Raffla]";
+		mes "ตกลง ฉันจะลบเครื่องหมายทั้งหมดออกจากแผนที่ให้ la!";
+		viewpoint 2,1,1,0,0xFFFF00;
+		viewpoint 2,1,1,1,0xFFFF00;
+		viewpoint 2,1,1,2,0xFFFF00;
+		viewpoint 2,1,1,3,0xFFFF00;
+		close;
+	case 6:
+		mes "[Raffla]";
+		mes "Lala!";
+		mes "ฉันไม่รู้จริงๆ ว่าครอบครัวฉันลงเอยมาทำงานพวกนี้ได้ยังไง la!";
+		close;
+	}
+}
+
+mora,72,51,3	script	Raffle Guide#south	518,{
+	mes "[Raffli]";
+	mes "Lali?";
+	mes "ยินดีต้อนรับสู่หมู่บ้าน Mora";
+	mes "หากคุณอยากรู้อะไรเกี่ยวกับหมู่บ้านนี้ ก็ถามฉันได้เลยนะ";
+	F_Navi("[Raffli]");
+	next;
+	switch(select("[ โรงแรม ]:[ ย่านที่พักอาศัย ]:[ ร้านค้า ]:[ คลังสินค้า ]:ลบเครื่องหมายออกจาก Mini-map:ออก")) {
+	case 1:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes F_Navi("ที่นี่","mora,44,138")+" คือที่ที่นักเดินทางสามารถพักผ่อนได้";
+		mes "เจ้าของโรงแรมใจดีมากเลยนะ ลองไปทำความรู้จักเขาดูสิ";
+		viewpoint 1,44,134,0,0x0A82FF;
+		close;
+	case 2:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes F_Navi("ที่นี่","mora,119,170")+" คือที่ที่พวก Raffles อาศัยอยู่";
+		mes "คุณจะมาที่บ้านของ Raffli เหรอ li? ฉันดีใจมากเลย";
+		viewpoint 1,119,170,1,0xAAFF00;
+		close;
+	case 3:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes "มีของหลายอย่างที่ฉันอยากซื้อเลยล่ะ";
+		mes "คุณสามารถหา "+F_Navi("สถานที่","mora,112,110")+" กินและช้อปปิ้งได้มากมาย และมีของให้เลือกซื้อเยอะแยะเลย";
+		viewpoint 1,112,110,2,0xDA70D6;
+		close;
+	case 4:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes "ที่ "+F_Navi("คลังสินค้า","mora,182,161")+" คือที่ที่คุณเก็บของมีค่าไว้";
+		mes "แต่อย่าให้ถูกปล้นนะ";
+		viewpoint 1,182,161,3,0xFF1493;
+		close;
+	case 5:
+		mes "[Raffli]";
+		mes "ฉันจะลบเครื่องหมายทั้งหมดออกให้นะ";
+		viewpoint 2,1,1,0,0xFFFF00;
+		viewpoint 2,1,1,1,0xFFFF00;
+		viewpoint 2,1,1,2,0xFFFF00;
+		viewpoint 2,1,1,3,0xFFFF00;
+		close;
+	case 6:
+		mes "[Raffli]";
+		mes "Lali?";
+		mes "พี่ชายดูเหมือนจะอารมณ์ไม่ดีเลยวันนี้ li ฉันทำอะไรผิดไปหรือเปล่านะ?";
+		close;
+	}
+}

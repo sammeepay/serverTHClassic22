@@ -1,0 +1,272 @@
+//===== rAthena Script ======================================= 
+//= Hair Dyer
+//===== By: ================================================== 
+//= kobra_k88; L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.5
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Hair Dyer with standard palletes
+//===== Additional Comments: ================================= 
+//= Fully working
+//= 1.1 Bugfix: fixed missing menu label LEnd->M_End [Lupus]
+//= 1.2 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
+//= 1.3 Fixed problem what "freezes" the NPC. (bugreport:509) [Samuray22]
+//= 1.4 Fixed getlook checking the wrong color. (bugreport:2392) [L0ne_W0lf]
+//= 1.5 Added Lighthalzen Hair Dying NPC. [L0ne_W0lf]
+//= 1.6 Moving NPC Jovovich to Pre-Renewal [JohnnyPlayy]
+//============================================================ 
+
+// Lighthalzen
+lhz_in02,100,134,3	script	Hair Dyer#lich	850,{
+	mes "[Rossa]";
+	if (Sex == SEX_MALE) {
+		mes "ยินดีต้อนรับ เข้ามาก่อนสิ~";
+		mes "โอ้ ข้าเห็นนะว่าเจ้าดูแล";
+		mes "เส้นผมของเจ้าได้ดีกว่า";
+		mes "เด็กหนุ่มคนอื่นๆ มากเลยล่ะ";
+		mes "เอาล่ะ เจ้าอยากจะย้อมสีผม";
+		mes "ของเจ้าเป็นสีอื่นดูไหมล่ะ?";
+	}
+	else {
+		mes "โอ้ ว้าว~ เจ้าไปทำผม";
+		mes "ทรงนี้มาจากที่ไหนกันจ๊ะ?";
+		mes "ข้าชอบมันจัง! แต่ว่า... มันจะ";
+		mes "ดูสวยยิ่งกว่านี้อีกนะ ถ้าเจ้า";
+		mes "ยอมย้อมสีผมด้วย เจ้าคิด";
+		mes "อย่างไรกับเรื่องนี้ล่ะ?";
+	}
+	while (.@choose_success != 2) {
+		next;
+		switch(select("ย้อมสีผม:ข้อมูลการทำสี:ยกเลิก")) {
+		case 1:
+			mes "[Rossa]";
+			mes "โฮะ โฮะ โฮะ โฮะ~";
+			mes "แล้วเจ้าอยากจะลอง";
+			mes "สีไหนดูล่ะ? แบบสีสัน";
+			mes "สดใสหรือโทนเข้มดี? เซ็กซี่หรือน่ารักล่ะ?";
+			next;
+			while (.@choose_success != 2) {
+				if (.@choose_success == 1) {
+					mes "[Rossa]";
+					mes "โอ้ ข้าชอบสีนี้จัง!";
+					mes "แต่เจ้าอยากจะลอง";
+					mes "สีอื่นดูอีกไหมล่ะ?";
+					next;
+					switch(select("ใช่:ไม่")) {
+					case 1:
+						mes "[Rossa]";
+						mes "โปรดเลือก";
+						mes "สีอื่นได้เลยจ้า~";
+						next;
+						break;
+					case 2:
+						mes "[Rossa]";
+						mes "เป็นการเลือกที่ยอดเยี่ยมมาก~";
+						mes "ตกลงตามนั้น ขอบคุณนะ";
+						mes "ที่ใช้บริการของข้า และ";
+						mes "ข้าหวังว่าเจ้าจะแวะมาอีกนะ!";
+						close2;
+						set .@choose_success,2;
+						break;
+					}
+				}
+				while (.@choose_success != 2) {
+					switch(select("สีแดงครับ/ค่ะ:สีเหลืองครับ/ค่ะ:สีม่วงครับ/ค่ะ:สีส้มครับ/ค่ะ:สีเขียวครับ/ค่ะ:สีน้ำเงินครับ/ค่ะ:สีขาวครับ/ค่ะ:สีน้ำตาลเข้มครับ/ค่ะ:ข้าชอบสีผมเดิมของข้าอยู่แล้ว")) {
+					case 1:
+						set .@headpalette,8;
+						break;
+					case 2:
+						set .@headpalette,1;
+						break;
+					case 3:
+						set .@headpalette,2;
+						break;
+					case 4:
+						set .@headpalette,3;
+						break;
+					case 5:
+						set .@headpalette,4;
+						break;
+					case 6:
+						set .@headpalette,5;
+						break;
+					case 7:
+						set .@headpalette,6;
+						break;
+					case 8:
+						set .@headpalette,7;
+						break;
+					case 9:
+						if (.@choose_success != 0) {
+							mes "[Rossa]";
+							mes "เจ้าแน่ใจนะ?";
+							mes "เอาล่ะ ถ้าอย่างนั้น เจ้า";
+							mes "คงรู้ดีที่สุดว่าอะไรดีสำหรับ";
+							mes "ความงามของเจ้า และถ้าให้";
+							mes "พูดความจริง ข้าก็เห็นด้วยกับเจ้านะ~";
+							close2;
+							set .@choose_success,2;
+						}
+						else {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเข้าใจแล้ว ถึงอย่างนั้น ข้าก็";
+							mes "อดรู้สึกเสียดายไม่ได้จริงๆ";
+							mes "เจ้าจะดูดีมากเลยนะถ้าเจ้าได้ย้อม";
+							mes "ผมเป็นสีอื่นดูบ้างน่ะ~";
+							close2;
+							set .@choose_success,2;
+						}
+						break;
+					}
+					if (getlook(VAR_HEADPALETTE) == .@headpalette) {
+						mes "[Rossa]";
+						mes "หืม สีผมของเจ้าน่ะ";
+						mes "ยังดูดีอยู่เลย ดังนั้น";
+						mes "ไม่จำเป็นต้องย้อมสีเดิม";
+						mes "ซ้ำอีกรอบหรอกนะ ถ้าหากว่านั่น";
+						mes "คือสิ่งที่คุณกังวลอยู่น่ะ";
+						next;
+					}
+					else {
+						if ((.@headpalette == 8) && (countitem(975) == 0)) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจด้วยนะจ๊ะ";
+							mes "แต่ข้าย้อมผมให้เจ้าไม่ได้";
+							mes "หากเจ้าไม่ได้นำ";
+							mes "Scarlet Dyestuffs มาด้วย...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 1) && (countitem(976) == 0)) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจด้วยนะจ๊ะ";
+							mes "แต่ข้าย้อมผมให้เจ้าไม่ได้";
+							mes "หากเจ้าไม่ได้นำ";
+							mes "Lemon Dyestuffs มาด้วย...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 2) && (countitem(981) == 0)) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจด้วยนะจ๊ะ";
+							mes "แต่ข้าย้อมผมให้เจ้าไม่ได้";
+							mes "หากเจ้าไม่ได้นำ";
+							mes "Violet Dyestuffs มาด้วย...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 3) && (countitem(980) == 0)) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจด้วยนะจ๊ะ";
+							mes "แต่ข้าย้อมผมให้เจ้าไม่ได้";
+							mes "หากเจ้าไม่ได้นำ";
+							mes "Orange Dyestuffs มาด้วย...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 4) && (countitem(979) == 0)) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจด้วยนะจ๊ะ";
+							mes "แต่ข้าย้อมผมให้เจ้าไม่ได้";
+							mes "หากเจ้าไม่ได้นำ";
+							mes "Darkgreen Dyestuffs";
+							mes "ติดตัวมาด้วย เจ้าจะกลับมา";
+							mes "อีกครั้งหลังจากหามาได้แล้วไหมจ๊ะ?";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 5) && (countitem(978) == 0)) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจด้วยนะจ๊ะ";
+							mes "แต่ข้าย้อมผมให้เจ้าไม่ได้";
+							mes "หากเจ้าไม่ได้นำ";
+							mes "Cobaltblue Dyestuffs";
+							mes "ติดตัวมาด้วย เจ้าจะกลับมา";
+							mes "อีกครั้งหลังจากหามาได้แล้วไหมจ๊ะ?";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 6) && (countitem(982) == 0)) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจด้วยนะจ๊ะ";
+							mes "แต่ข้าย้อมผมให้เจ้าไม่ได้";
+							mes "หากเจ้าไม่ได้นำ";
+							mes "White Dyestuffs มาด้วย...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						else if ((.@headpalette == 7) && (countitem(983) == 0)) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจด้วยนะจ๊ะ";
+							mes "แต่ข้าย้อมผมให้เจ้าไม่ได้";
+							mes "หากเจ้าไม่ได้นำ";
+							mes "Black Dyestuffs มาด้วย...";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						if (Zeny < 1000) {
+							mes "[Rossa]";
+							mes "โอ้ ข้าเสียใจจริงๆ นะจ๊ะ";
+							mes "แต่ค่าบริการของข้าน่ะ";
+							mes "อยู่ที่ 1,000 zeny นะ เจ้าลืม";
+							mes "นำเงินติดตัวมาด้วยหรือเปล่า?";
+							close2;
+							set .@choose_success,2;
+							break;
+						}
+						if (.@headpalette == 8) delitem 975,1; //Scarlet_Dyestuffs
+						else if (.@headpalette == 1) delitem 976,1; //Lemon_Dyestuffs
+						else if (.@headpalette == 2) delitem 981,1; //Violet_Dyestuffs
+						else if (.@headpalette == 3) delitem 980,1; //Orange_Dyestuffs
+						else if (.@headpalette == 4) delitem 979,1; //Darkgreen_Dyestuffs
+						else if (.@headpalette == 5) delitem 978,1; //Cobaltblue_Dyestuffs
+						else if (.@headpalette == 6) delitem 982,1; //White_Dyestuffs
+						else if (.@headpalette == 7) delitem 983,1; //Black_Dyestuffs
+						set Zeny, Zeny-1000;
+						setlook VAR_HEADPALETTE,.@headpalette;
+						set .@choose_success,1;
+						break;
+					}
+				}
+			}
+			break;
+		case 2:
+			mes "[Rossa]";
+			mes "เมื่อใดที่เจ้ารู้สึก";
+			mes "เศร้าใจ, เมื่อใดที่เจ้าเพียงอยาก";
+			mes "ดูดีเพื่อคนที่เจ้ารัก,";
+			mes "หรือเมื่อเจ้าเพียงแค่ต้องการ";
+			mes "รูปลักษณ์ที่ต่างไปจากเดิม ทำไม";
+			mes "เจ้าถึงไม่ลองย้อมสีผมดูล่ะ?";
+			next;
+			mes "[Rossa]";
+			mes "สิ่งเดียวที่เจ้าต้องการคือไอเทม";
+			mes "Dyestuffs หนึ่งขวดตาม";
+			mes "สีที่เจ้าต้องการย้อม";
+			mes "รวมไปถึงค่าบริการ";
+			mes "จำนวน 1,000 zeny เท่านั้นจ้ะ";
+			mes "ข้าอยู่ที่นี่เพื่อความงามของเจ้าเสมอ~";
+			break;
+		case 3:
+			mes "[Rossa]";
+			mes "เจ้ารู้ไหม เมื่อเจ้า";
+			mes "ใส่ใจกับรูปลักษณ์";
+			mes "ของตัวเองสักหน่อย เจ้าจะ";
+			mes "ไม่เพียงแค่ดูดีขึ้นนะ แต่";
+			mes "เจ้าจะรู้สึกดีกับตัวเอง";
+			mes "มากขึ้นด้วย มันฟังดูเข้าท่าใช่ไหมล่ะ?";
+			close;
+		}
+	}
+	close;
+}

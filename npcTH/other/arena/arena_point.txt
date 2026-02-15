@@ -1,0 +1,183 @@
+//===== rAthena Script =======================================
+//= Point Exchanger
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Point exchanger: Turbo track points -> Arena Points
+//===== Additional Comments: =================================
+//= 1.0 First version. [L0ne_W0lf]
+//============================================================
+
+prt_are_in,103,11,3	script	Arena Point Manager	732,{
+	mes "[Arena Point Manager]";
+	mes "ฉันหวังว่าคุณจะได้รับช่วงเวลา";
+	mes "ที่ดีใน Arena หากคุณได้รับ";
+	mes "แต้ม Turbo Track จาก";
+	mes "Turbo Track ของ Al De Baran ฉันสามารถ";
+	mes "เปลี่ยนมันให้เป็นแต้ม Arena ได้นะ";
+	next;
+	switch(select("ตรวจสอบแต้ม:เปลี่ยนแต้ม:^660000ข้อมูลการแลกเปลี่ยน^000000")) {
+	case 1:
+		mes "[Arena Point Manager]";
+		mes "คุณ " + strcharinfo(0) + ",";
+		mes "ในตอนนี้คุณมี";
+		mes "" + arena_point + " Arena Points";
+		mes "และ " + tt_point + " Turbo Track Points";
+		close;
+	case 2:
+		mes "[Arena Point Manager]";
+		mes "คุณ " + strcharinfo(0) + ",";
+		mes "ในตอนนี้คุณมี";
+		mes "" + arena_point + " Arena Points";
+		mes "และ " + tt_point + " Turbo Track Points";
+		next;
+		mes "[Arena Point Manager]";
+		mes "โปรดเลือกรูปแบบการเปลี่ยน";
+		mes "แต้ม Track เป็นแต้ม Arena";
+		mes "พึงระลึกไว้ว่า เมื่อคุณต้องการเปลี่ยน";
+		mes "แต้ม Track มากกว่า 10 แต้มในครั้งเดียว";
+		mes "คุณจะสามารถเปลี่ยนได้ในจำนวนที่ ^4D4DFFหารด้วย 10 ลงตัวเท่านั้น^000000";
+		next;
+		switch(select("2 TP -> 1 AP:4 TP -> 2 AP:6 TP -> 3 AP:8 TP -> 4 AP:10 TP หรือมากกว่า:ยกเลิก")) {
+		case 1:
+			callsub S_ExchangePoints,28999,2,1;
+		case 2:
+			callsub S_ExchangePoints,28998,4,2;
+		case 3:
+			callsub S_ExchangePoints,28997,6,2;
+		case 4:
+			callsub S_ExchangePoints,28996,8,4;
+		case 5:
+			mes "[Arena Point Manager]";
+			mes "โปรดระบุจำนวนครั้ง";
+			mes "ที่คุณต้องการจะเปลี่ยน";
+			mes "10 Turbo Track Points ให้เป็น";
+			mes "Arena Points โดยค่าที่มากที่สุด";
+			mes "ที่คุณกรอกได้คือ 20";
+			mes "หากต้องการยกเลิก ให้กรอก ''^3355FF0^000000''";
+			next;
+			input .@input;
+			if (.@input <= 0) {
+				mes "[Arena Point Manager]";
+				mes "คุณได้";
+				mes "ยกเลิก";
+				mes "การใช้บริการนี้";
+				close;
+			}
+			else if (.@input > 20) {
+				mes "[Arena Point Manager]";
+				mes "คำขอของคุณเกิน";
+				mes "ขีดจำกัดสูงสุด โปรดกรอก";
+				mes "ค่าที่ไม่เกิน 20 เท่านั้น";
+				close;
+			}
+			else {
+				set .@want_point1,10 * .@input;
+				set .@want_point,5 * .@input;
+				set .@my_arena_all,arena_point + .@want_point;
+				set .@my_turbo_all,tt_point - .@want_point1;
+				if (.@my_arena_all > 28999) {
+					mes "[Arena Point Manager]";
+					mes "คุณจะมีแต้มเกิน";
+					mes "จำนวนสูงสุดของ";
+					mes "Arena Points หากเราดำเนินการ";
+					mes "เปลี่ยนแต้ม Turbo Track";
+					mes "ของคุณในตอนนี้ คุณไม่สามารถมี";
+					mes "Arena Points เกิน 29,000 แต้มได้";
+					next;
+					mes "[Arena Point Manager]";
+					mes "โปรดใช้แต้ม Arena ของคุณ";
+					mes "ออกไปบ้าง ก่อนที่จะกลับมา";
+					mes "ใช้บริการนี้อีกครั้ง";
+					mes "ขอบคุณที่มาใช้บริการ";
+					close;
+				}
+				if (.@my_turbo_all < 0) {
+					mes "[Arena Point Manager]";
+					mes "ฉันเสียใจด้วย แต่";
+					mes "คุณมีแต้ม Turbo Track";
+					mes "ไม่เพียงพอที่จะทำการ";
+					mes "เปลี่ยนแต้ม Arena";
+					mes "ในครั้งนี้";
+					close;
+				}
+				else {
+					mes "[Arena Point Manager]";
+					mes "คุณได้ทำการเปลี่ยน";
+					mes "10 Turbo Track Points";
+					mes "เป็น 5 Arena Points จำนวน " + .@input + " ครั้ง";
+					mes "รวมแต้ม Turbo Track ทั้งหมด " + .@want_point1 + " แต้ม ถูกเปลี่ยนเป็น";
+					mes "" + .@want_point +" Arena Points";
+					set tt_point, .@my_turbo_all;
+					set arena_point, .@my_arena_all;
+					next;
+					mes "[Arena Point Manager]";
+					mes "คุณ " + strcharinfo(0) + ",";
+					mes "ในตอนนี้คุณมี";
+					mes "^4682B4" + arena_point + "^000000 Arena Points";
+					mes "และ ^00688B" + tt_point + "^000000 Turbo Track Points";
+					mes "ขอบคุณที่มาใช้บริการ";
+					close;
+				}
+			}
+		case 6:
+			mes "[Arena Point Manager]";
+			mes "คุณได้";
+			mes "ยกเลิก";
+			mes "การใช้บริการนี้";
+			close;
+		}
+	case 3:
+		// Again. no dialog for this option.
+		close;
+	}
+	close;
+
+S_ExchangePoints:
+	if (arena_point > getarg(0) ) {
+		mes "[Arena Point Manager]";
+		mes "คุณจะมีแต้มเกิน";
+		mes "จำนวนสูงสุดของ";
+		mes "Arena Points หากเราดำเนินการ";
+		mes "เปลี่ยนแต้ม Turbo Track";
+		mes "ของคุณในตอนนี้ คุณไม่สามารถมี";
+		mes "Arena Points เกิน 29,000 แต้มได้";
+		next;
+		mes "[Arena Point Manager]";
+		mes "โปรดใช้แต้ม Arena ของคุณ";
+		mes "ออกไปบ้าง ก่อนที่จะกลับมา";
+		mes "ใช้บริการนี้อีกครั้ง";
+		mes "ขอบคุณที่มาใช้บริการ";
+		close;
+	}
+	.@track_point = getarg(1);
+	if (tt_point >= .@track_point) {
+		.@arena_point = getarg(2);
+		mes "[Arena Point Manager]";
+		mes "คุณ " + strcharinfo(0) + ",";
+		mes "คุณได้เปลี่ยน " + .@track_point + " Track";
+		mes "Points เป็น " + .@arena_point + " Arena Point";
+		tt_point = tt_point - .@track_point;
+		arena_point = arena_point + .@arena_point;
+		next;
+		mes "[Arena Point Manager]";
+		mes "คุณ " + strcharinfo(0) + ",";
+		mes "ในตอนนี้คุณมี";
+		mes "^4682B4" + arena_point + "^000000 Arena Points";
+		mes "และ ^00688B" + tt_point + "^000000 Turbo Track Points";
+		mes "ขอบคุณที่มาใช้บริการ";
+		close;
+	}
+	else {
+		mes "[Arena Point Manager]";
+		mes "ฉันเสียใจด้วย แต่คุณมีแต้ม";
+		mes "Turbo Track ไม่เพียงพอ";
+		mes "คุณต้องมีอย่างน้อย 2 Turbo Track Points สำหรับบริการแลกเปลี่ยนนี้";
+		close;
+	}
+}
