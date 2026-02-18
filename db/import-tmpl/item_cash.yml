@@ -32,7 +32,7 @@ Header:
   Type: ITEM_CASH_DB
   Version: 1
 
-#Body:
+Body:
 #  - Tab: New
 #    Items:
 #      - Item: Apple
@@ -136,10 +136,22 @@ Header:
 #      - Item: F_Red_Glasses_Box
 #        Price: 300
 #
-#  - Tab: Scrolls
-#    Items:
+  - Tab: Scrolls
+    Items:
 #      - Item: Blue_Potion_Box
 #        Price: 5
+      - Item: Blessing_10_Scroll_Box
+        Price: 40
+      - Item: Inc_Agi_10_Scroll_Box
+        Price: 40
+      - Item: Neuralizer_Box
+        Price: 400
+      - Item: Spark_Candy_Box10
+        Price: 50
+      - Item: Convex_Mirror_Box
+        Price: 50
+      - Item: Convex_Mirror_Box
+        Price: 50
 #      - Item: F_Neuralizer_Box
 #        Price: 400
 #      - Item: FPr_Reset_Stone_Box
@@ -191,12 +203,18 @@ Header:
 #      - Item: F_Pet_Egg_Scroll9
 #        Price: 1500
 #
-#  - Tab: Consumables
-#    Items:
+  - Tab: Consumables
+    Items:
 #      - Item: Vending_Scroll2_Box10
 #        Price: 25
-#      - Item: Job_Manual50_Box
-#        Price: 400
+      - Item: Job_Manual50
+        Price: 40
+      - Item: Job_Manual50_Box
+        Price: 400
+      - Item: Elunium_Box
+        Price: 100
+      - Item: Oridecon_Box
+        Price: 100
 #      - Item: HD_Elu_Box10
 #        Price: 100
 #      - Item: HD_Ori_Box10
@@ -221,12 +239,16 @@ Header:
 #        Price: 30
 #      - Item: Enriched_Oridecon
 #        Price: 30
-#      - Item: Battle_Manual
-#        Price: 40
+      - Item: Battle_Manual
+        Price: 40
+      - Item: Battle_Manual_Box
+        Price: 400
 #      - Item: F_Battle_Manual_Box
 #        Price: 400
-#      - Item: Bubble_Gum
-#        Price: 40
+      - Item: Bubble_Gum
+        Price: 40
+      - Item: Bubble_Gum_Box
+        Price: 400
 #      - Item: F_Bubble_Gum_Box
 #        Price: 400
 #      - Item: F_WOB_Rune_Box10
@@ -249,19 +271,35 @@ Header:
 #        Price: 100
 #      - Item: F_Insurance_Package
 #        Price: 100
+      - Item: Insurance_Package
+        Price: 100
 #      - Item: F_Siegfried_Box
 #        Price: 100
+      - Item: Token_Of_Siegfried_Box
+        Price: 100
 #      - Item: Speed_Up_Potion_Box10
 #        Price: 100
-#      - Item: Premium_Box_1d
-#        Price: 100
-#      - Item: Premium_Box_5d7
-#        Price: 500
-#      - Item: Premium_Box
-#        Price: 1000
-#
-#  - Tab: Other
-#    Items:
+      - Item: Premium_Box_1d
+        Price: 100
+      - Item: Premium_Box_5d7
+        Price: 500
+      - Item: Premium_Box
+        Price: 1000
+      - Item: Vigorgra_Package1
+        Price: 100
+      - Item: Vigorgra_Package2
+        Price: 100
+      - Item: Vigorgra_Package3
+        Price: 100
+      - Item: Vigorgra_Package4
+        Price: 100
+      - Item: Vigorgra_Package5
+        Price: 100
+      - Item: Vigorgra_Package6
+        Price: 100
+
+  - Tab: Other
+    Items:
 #      - Item: World_Tour_Ticket
 #        Price: 1
 #      - Item: Silvervine
@@ -272,8 +310,8 @@ Header:
 #        Price: 100
 #      - Item: Silvervine_Box500
 #        Price: 500
-#      - Item: Megaphone_Box
-#        Price: 45
+      - Item: Megaphone_Box
+        Price: 45
 #      - Item: F_Clothing_Dye_Coupon
 #        Price: 150
 #      - Item: Inventory_Ex
