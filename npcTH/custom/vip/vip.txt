@@ -1,0 +1,157 @@
+// ======================================================
+// rAthena VIP Tier (1-10) + Official VIP Integration
+// Fixed Syntax: specialeffect2 & vip_status(2)
+// ======================================================
+
+-	script	VIP_Main_System	-1,{
+
+OnInit:
+    // --- ตั้งค่าราคา (CashPoints) ต่อ 30 วัน ---
+    setarray .VIP_Price[1], 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000;
+    
+    // --- ตั้งค่าโบนัส EXP เพิ่มเติม (On Top) ---
+    setarray .Tier_ExpBonus[1], 5, 10, 15, 20, 25, 30, 35, 40, 45, 50;
+
+    // --- ตั้งค่าไอเทมรางวัลรายวัน (Item ID, Amount) ตาม Tier ---
+    setarray .Reward_ItemID[1], 501, 502, 503, 504, 601, 602, 12214, 12215, 12216, 671; 
+    setarray .Reward_Amount[1], 10, 15, 20, 25, 5, 10, 1, 2, 3, 1;
+    end;
+
+OnPCLoginEvent:
+    .@lvl = callfunc("SyncVIPStatus");
+    
+    if (.@lvl > 0) {
+        dispbottom "ยินดีต้อนรับสมาชิก VIP Tier " + .@lvl;
+        dispbottom "เวลาที่เหลือ: " + callfunc("Time2Str", vip_status(2));
+        
+        // มอบบัฟ EXP ตามระดับ Tier โดยใช้ SC_EXPBOOST และ SC_JEXPBOOST จาก Enum ของคุณ
+        sc_start SC_EXPBOOST, 86400000, getvariableofnpc(.Tier_ExpBonus[.@lvl], "VIP_Main_System");
+        sc_start SC_JEXPBOOST, 86400000, getvariableofnpc(.Tier_ExpBonus[.@lvl], "VIP_Main_System");
+        
+        if (.@lvl >= 8) {
+            specialeffect2 EF_SKYGAZER; 
+            announce "VVIP [" + strcharinfo(0) + "] ได้เข้าสู่เซิร์ฟเวอร์แล้ว!", bc_blue|bc_self;
+        }
+
+        if (#VIP_CLAIM_DAY != gettime(DT_YYYYMMDD)) {
+            dispbottom "ท่านมีสิทธิ์รับของรางวัล VIP รายวัน กรุณาคุยกับ NPC VIP Manager";
+        }
+    }
+    end;
+}
+
+// ฟังก์ชันตรวจสอบและ Sync สถานะ
+function	script	SyncVIPStatus	{
+    // vip_status(1) คือสถานะ Active (1 = เป็น VIP / 0 = ไม่ใช่)
+    if (vip_status(1) == 0) { 
+        #VIP_LEVEL = 0; 
+        return 0;
+    }
+    // กันพลาด: ถ้าสถานะ VIP หลักมี แต่ Tier เป็น 0 ให้เริ่มที่ Tier 1
+    if (#VIP_LEVEL == 0) #VIP_LEVEL = 1; 
+    return #VIP_LEVEL;
+}
+
+// ฟังก์ชันแปลงเวลา (ใช้ได้กับ vip_status(2))
+function	script	TimeVIP2Str	{
+	set .@Time_Left, getarg(0) - gettimetick(2);
+	
+    if (.@Time_Left <= 0) return "หมดอายุ";
+
+	set .@Days, .@Time_Left / 86400;
+	set .@Time_Left, .@Time_Left - (.@Days * 86400);
+	set .@Hours, .@Time_Left / 3600;
+	set .@Time_Left, .@Time_Left - (.@Hours * 3600);
+	set .@Minutes, .@Time_Left / 60;
+	set .@Time_Left, .@Time_Left - (.@Minutes * 60);
+	
+	set .@Time$, "";
+	if( .@Days > 0 ) set .@Time$, .@Time$ + .@Days + " วัน ";
+	if( .@Hours > 0 ) set .@Time$, .@Time$ + .@Hours + " ชม. ";
+	if( .@Minutes > 0 ) set .@Time$, .@Time$ + .@Minutes + " นาที ";
+    
+    // แสดงวินาทีเฉพาะช่วง 1 ชั่วโมงสุดท้าย
+    if (.@Days == 0 && .@Hours == 0) set .@Time$, .@Time$ + .@Time_Left + " วินาที";
+	
+	return .@Time$;
+}
+
+// --- NPC จัดการระบบ ---
+prontera,144,177,4	script	VIP Manager	833,{
+    .@myLvl = callfunc("SyncVIPStatus");
+    
+    mes "[VIP Manager]";
+    if (.@myLvl > 0) {
+        mes "ระดับของคุณ: ^00FF00Tier " + .@myLvl + "^000000";
+        mes "เหลือเวลา: ^0000FF" + callfunc("TimeVIP2Str", vip_status(2)) + "^000000";
+    } else {
+        mes "สวัสดี! สนใจสนับสนุนเซิร์ฟเวอร์ด้วยระบบ VIP ไหม?";
+    }
+    next;
+
+    .@menu$ = "ซื้อ/อัปเกรด VIP:สิทธิประโยชน์แต่ละระดับ:";
+    if (.@myLvl > 0) .@menu$ += "รับของรางวัลรายวัน:";
+    .@menu$ += "ยกเลิก";
+
+    switch(select(.@menu$)) {
+        case 1:
+            mes "[เลือก Tier ที่ต้องการ]";
+            .@opt$ = "";
+            for (.@i = 1; .@i <= 10; .@i++) {
+                .@opt$ += "Tier " + .@i + " (" + getvariableofnpc(.VIP_Price[.@i], "VIP_Main_System") + " CP):";
+            }
+            .@sel = select(.@opt$);
+            .@price = getvariableofnpc(.VIP_Price[.@sel], "VIP_Main_System");
+
+            mes "ยืนยันการสมัคร ^FF0000Tier " + .@sel + "^000000";
+            mes "ราคา " + .@price + " CashPoints (ใช้งานได้ 30 วัน)";
+            if (select("ชำระเงิน:เปลี่ยนใจ") == 2) close;
+
+            if (#CASHPOINTS < .@price) {
+                mes "ขออภัย แต้ม CashPoint ของคุณไม่เพียงพอ";
+                close;
+            }
+
+            #CASHPOINTS -= .@price;
+            #VIP_LEVEL = .@sel;
+            
+            // 43200 นาที = 30 วัน
+            vip_time 43200, getcharid(3); 
+            
+            mes "ดำเนินการสำเร็จ! ขอบคุณมากครับ";
+            specialeffect2 EF_ANGEL; 
+            doevent "VIP_Main_System::OnPCLoginEvent"; // อัปเดตบัฟทันที
+            close;
+
+        case 2:
+            mes "--- รายละเอียดโบนัส EXP ---";
+            for (.@j = 1; .@j <= 10; .@j++) {
+                mes "Tier " + .@j + " : ได้รับโบนัสเพิ่ม " + getvariableofnpc(.Tier_ExpBonus[.@j], "VIP_Main_System") + "%";
+            }
+            close;
+
+        case 3: // รับของรางวัล
+            if (.@myLvl == 0) close;
+            if (#VIP_CLAIM_DAY == gettime(DT_YYYYMMDD)) {
+                mes "วันนี้คุณรับของรางวัลไปแล้ว กลับมาใหม่พรุ่งนี้นะ!";
+                close;
+            }
+
+            .@it_id = getvariableofnpc(.Reward_ItemID[.@myLvl], "VIP_Main_System");
+            .@it_am = getvariableofnpc(.Reward_Amount[.@myLvl], "VIP_Main_System");
+
+            if (checkweight(.@it_id, .@it_am) == 0) {
+                mes "ช่องเก็บของไม่พอ หรือน้ำหนักเกิน";
+                close;
+            }
+
+            #VIP_CLAIM_DAY = gettime(DT_YYYYMMDD);
+            getitem .@it_id, .@it_am;
+            mes "รับไอเทมเรียบร้อย! ขอบคุณที่เป็นสมาชิกระดับ Tier " + .@myLvl;
+            specialeffect2 EF_COIN;
+            close;
+
+        case 4:
+            close;
+    }
+}
